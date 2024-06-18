@@ -99,10 +99,10 @@ we now have a typesafe'ish to interact with the database.
 
 ```dart
   Books.table_name // "books"
-  await supabase.from(Books.table_name).select().execute();
+  await supabase.from(Books.table_name).select();
 ```
 
-### Fecthing
+### Fetch Data
 
 ```dart
 // fetchedBooks is a List<Books>
@@ -112,7 +112,7 @@ final fetchedBooks = await supabase
       .withConverter((data) => data.map(Books.fromJson).toList());
 ```
 
-### Inserting Data
+### Insert Data
 
 ```dart
 final data = Books.insert(
@@ -120,10 +120,10 @@ final data = Books.insert(
   book_description: 'Description',
   price: 2,
 );
-await supabase.from(Books.table_name).insert(data).execute();
+await supabase.from(Books.table_name).insert(data);
 ```
 
-### Inserting Many
+### Inset Many Data
 
 ```dart
 final many_data = [
@@ -138,10 +138,10 @@ final many_data = [
     price: 2,
   ),
 ];
-await supabase.from(Books.table_name).insert(many_data).execute();
+await supabase.from(Books.table_name).insert(many_data);
 ```
 
-### Updating Data
+### Update Data
 
 ```dart
 final newData = Books.update(
@@ -152,13 +152,12 @@ await supabase
     .from(Books.table_name)
     .update(newData)
     .eq('id', 1)
-    .execute();
 ```
 
-### Deleting Data
+### Delete Data
 
 ```dart
-await supabase.from(Books.table_name).delete().eq('id', 1).execute();
+await supabase.from(Books.table_name).delete().eq('id', 1);
 ```
 
 ---
