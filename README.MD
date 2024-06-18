@@ -5,7 +5,7 @@ Generate Dart classes from your Supabase schema.
 
 ## Usage
 
-#### 1. Assuming the following table schema
+### 1. Assuming the following table schema
 
 ```sql
 create table
@@ -21,7 +21,7 @@ create table
   ) tablespace pg_default;
 ```
 
-#### 2. Go to the [website](https://www.json2dart.com/) and input your `SUPABASE_URL` and `SUPABASE_ANON_KEY` to generate the model class.
+### 2. Go to the [website](https://www.json2dart.com/) and input your `SUPABASE_URL` and `SUPABASE_ANON_KEY` to generate the model class.
 
 ```dart
 class Books {
@@ -80,18 +80,18 @@ class Books {
 }
 ```
 
-#### 3. Using the generated class
+### 3. Using the generated class
 
 we now have a typesafe'ish to interact with the database.
 
-##### Getting Table Name
+#### Getting Table Name
 
 ```dart
   Books.table_name // "books"
   await supabase.from(Books.table_name).select().execute();
 ```
 
-##### Inserting Data
+### Inserting Data
 
 ```dart
   final data = Books.insert(
@@ -102,7 +102,7 @@ we now have a typesafe'ish to interact with the database.
   await supabase.from(Books.table_name).insert(data).execute();
 ```
 
-##### Inserting Many
+### Inserting Many
 
 ```dart
   final many_data = [
@@ -121,7 +121,7 @@ we now have a typesafe'ish to interact with the database.
 
 ```
 
-##### Updating Data
+### Updating Data
 
 ```dart
   final newData = Books.update(
@@ -136,7 +136,7 @@ we now have a typesafe'ish to interact with the database.
 
 ```
 
-##### Deleting Data
+### Deleting Data
 
 ```dart
   await supabase.from(Books.table_name).delete().eq('id', 1).execute();
