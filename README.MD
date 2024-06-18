@@ -3,6 +3,8 @@
 Generate Dart classes from your Supabase schema.
 [Web App](https://mmvergara.github.io/supabase-schema-dart-class-generator/)
 
+I'm pretty sure we could make this better by making a CLI or adding it to the existing one. But here it is for now.
+
 ## Usage
 
 ### 1. Assuming the following table schema
@@ -168,4 +170,4 @@ await supabase.from(Books.table_name).delete().eq('id', 1);
 
 There are still things to do, the converter is not perfect, but it's a start.
 
-I am not quite confident with the tool especially the generation of data types, so please if you find any issue in the `SupabaseDartClassGenerator.ts` file, feel free to open an issue or a PR.
+I am not quite confident with the tool especially the generation of data types since there are so many postgres datatype, so please if you find any issue in the `SupabaseDartClassGenerator.ts` file, feel free to open an issue or a PR.
