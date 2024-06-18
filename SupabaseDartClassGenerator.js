@@ -28,6 +28,7 @@ const generateDartClassess = (definitions) => {
     // Helper functions
     dartCode += generateInsertMethod(table.properties, table.required);
     dartCode += generateUpdateMethod(table.properties);
+    dartCode += generateFromJsonMethod(className, table.properties);
     dartCode += "}\n\n";
   }
   return dartCode;
@@ -104,6 +105,16 @@ const generateUpdateMethod = (properties) => {
     code += `if (${propertyName} != null) '${propertyName}': ${propertyName},\n`;
   }
   code += `};\n`;
+  code += `}\n\n`;
+  return code;
+};
+const generateFromJsonMethod = (className, properties) => {
+  let code = `static ${className} fromJson(Map<String, dynamic> json) {\n`;
+  code += `return ${className}(\n`;
+  for (const propertyName in properties) {
+    code += `${propertyName}: json['${propertyName}'],\n`;
+  }
+  code += `);\n`;
   code += `}\n\n`;
   return code;
 };

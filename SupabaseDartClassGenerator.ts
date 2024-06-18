@@ -59,6 +59,7 @@ const generateDartClassess = (definitions: Definitions) => {
     // Helper functions
     dartCode += generateInsertMethod(table.properties, table.required);
     dartCode += generateUpdateMethod(table.properties);
+    dartCode += generateFromJsonMethod(className, table.properties);
 
     dartCode += "}\n\n";
   }
@@ -133,3 +134,56 @@ const generateUpdateMethod = (properties: Definition["properties"]) => {
   code += `}\n\n`;
   return code;
 };
+
+const generateFromJsonMethod = (
+  className: string,
+  properties: Definition["properties"]
+) => {
+  let code = `static ${className} fromJson(Map<String, dynamic> json) {\n`;
+  code += `return ${className}(\n`;
+  for (const propertyName in properties) {
+    code += `${propertyName}: json['${propertyName}'],\n`;
+  }
+  code += `);\n`;
+  code += `}\n\n`;
+  return code;
+};
+
+// const definitions: Definitions = {
+//   books: {
+//     required: ["id", "book_name", "created_at", "sold", "price"],
+//     properties: {
+//       id: {
+//         description: "Note:\nThis is a Primary Key.<pk/>",
+//         format: "bigint",
+//         type: "integer",
+//       },
+//       book_name: {
+//         format: "text",
+//         type: "string",
+//       },
+//       created_at: {
+//         default: "now()",
+//         format: "timestamp with time zone",
+//         type: "string",
+//       },
+//       book_description: {
+//         format: "text",
+//         type: "string",
+//       },
+//       sold: {
+//         default: false,
+//         format: "boolean",
+//         type: "boolean",
+//       },
+//       price: {
+//         format: "double precision",
+//         type: "number",
+//       },
+//     },
+//     type: "object",
+//   },
+// };
+
+// const dartCode = generateDartClassess(definitions);
+// console.log(dartCode);

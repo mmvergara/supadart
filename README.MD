@@ -91,6 +91,16 @@ we now have a typesafe'ish to interact with the database.
   await supabase.from(Books.table_name).select().execute();
 ```
 
+### Fecthing
+
+```dart
+ // fetchedBooks is a List<Books>
+  final fetchedBooks = await supabase
+      .from(Books.table_name)
+      .select("*")
+      .withConverter((data) => data.map(Books.fromJson).toList());
+```
+
 ### Inserting Data
 
 ```dart
