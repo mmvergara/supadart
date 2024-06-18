@@ -1,4 +1,4 @@
-## Supabase Schema to Dart Classes
+## Supabase Schema to Dart Classes (WIP)
 
 Generate Dart classes from your Supabase schema.
 [Web App](https://mmvergara.github.io/supabase-schema-dart-class-generator/)
