@@ -51,4 +51,15 @@ class Books {
       if (price != null) 'price': price,
     };
   }
+
+  static Books fromJson(Map<String, dynamic> json) {
+    return Books(
+      id: json['id'],
+      book_name: json['book_name'],
+      created_at: json['created_at'],
+      book_description: json['book_description'],
+      sold: json['sold'],
+      price: json['price'],
+    );
+  }
 }

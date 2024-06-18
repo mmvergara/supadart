@@ -77,6 +77,17 @@ class Books {
       if (price != null) 'price': price,
     };
   }
+
+  static Books fromJson(Map<String, dynamic> json) {
+    return Books(
+      id: json['id'],
+      book_name: json['book_name'],
+      created_at: json['created_at'],
+      book_description: json['book_description'],
+      sold: json['sold'],
+      price: json['price'],
+    );
+  }
 }
 ```
 
@@ -94,8 +105,8 @@ we now have a typesafe'ish to interact with the database.
 ### Fecthing
 
 ```dart
- // fetchedBooks is a List<Books>
-  final fetchedBooks = await supabase
+// fetchedBooks is a List<Books>
+final fetchedBooks = await supabase
       .from(Books.table_name)
       .select("*")
       .withConverter((data) => data.map(Books.fromJson).toList());
@@ -104,52 +115,50 @@ we now have a typesafe'ish to interact with the database.
 ### Inserting Data
 
 ```dart
-  final data = Books.insert(
-    book_name: 'Book Name',
-    book_description: 'Description',
-    price: 2,
-  );
-  await supabase.from(Books.table_name).insert(data).execute();
+final data = Books.insert(
+  book_name: 'Book Name',
+  book_description: 'Description',
+  price: 2,
+);
+await supabase.from(Books.table_name).insert(data).execute();
 ```
 
 ### Inserting Many
 
 ```dart
-  final many_data = [
-    Books.insert(
-      book_name: 'Book Name',
-      book_description: 'Description',
-      price: 2,
-    ),
-    Books.insert(
-      book_name: 'Book Name 2',
-      created_at: DateTime.now().toString(),
-      price: 2,
-    ),
-  ];
-  await supabase.from(Books.table_name).insert(many_data).execute();
-
+final many_data = [
+  Books.insert(
+    book_name: 'Book Name',
+    book_description: 'Description',
+    price: 2,
+  ),
+  Books.insert(
+    book_name: 'Book Name 2',
+    created_at: DateTime.now().toString(),
+    price: 2,
+  ),
+];
+await supabase.from(Books.table_name).insert(many_data).execute();
 ```
 
 ### Updating Data
 
 ```dart
-  final newData = Books.update(
-    book_name: 'New Book Name',
-    // we can update any field we want
-  );
-  await supabase
-      .from(Books.table_name)
-      .update(newData)
-      .eq('id', 1)
-      .execute();
-
+final newData = Books.update(
+  book_name: 'New Book Name',
+  // we can update any field we want
+);
+await supabase
+    .from(Books.table_name)
+    .update(newData)
+    .eq('id', 1)
+    .execute();
 ```
 
 ### Deleting Data
 
 ```dart
-  await supabase.from(Books.table_name).delete().eq('id', 1).execute();
+await supabase.from(Books.table_name).delete().eq('id', 1).execute();
 ```
 
 ---
