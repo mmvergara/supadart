@@ -84,7 +84,7 @@ class Books {
 
 we now have a typesafe'ish to interact with the database.
 
-#### Getting Table Name
+### Getting Table Name
 
 ```dart
   Books.table_name // "books"
