@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Supabase Go Tables</title>
+    <title>Supabase Schema to Dart Classes</title>
   </head>
 
   <style>
@@ -96,6 +96,7 @@
   </body>
   <script type="text/javascript" src="SupabaseDartClassGenerator.js"></script>
   <script>
+    // this is a reuse code from my other project Supabase-Go-Tabels
     const SUPABASE_URL_INPUT = document.getElementById("SUPABASE_URL_INPUT");
     const SUPABASE_ANON_KEY_INPUT = document.getElementById(
       "SUPABASE_ANON_KEY_INPUT"
@@ -103,7 +104,7 @@
     const codeOutput = document.getElementById("code-output");
     let errorMessage = "";
 
-    const constructSupabaseGolangTables = async (
+    const constructSupabaseDartClasses = async (
       SUPABASE_URL,
       SUPABASE_ANON_KEY
     ) => {
@@ -120,13 +121,6 @@
           ) {
             const data = await res.json();
 
-            // type TableFormat struct {
-            //   Profiles string
-            // }
-
-            // var Tables = TableFormat{
-            //   Profiles: "profiles",
-            // }
             if (data.definitions) {
               const classes = generateDartClassess(data.definitions);
               codeOutput.innerText = classes.trim();
@@ -148,8 +142,8 @@
 
     const generateButton = document.getElementById("generate");
     generateButton.addEventListener("click", () => {
-      document.getElementById("code-output").innerText = "";
-      constructSupabaseGolangTables(
+      document.getElementById("code-output").innerText = "Loading...";
+      constructSupabaseDartClasses(
         SUPABASE_URL_INPUT.value,
         SUPABASE_ANON_KEY_INPUT.value
       );
