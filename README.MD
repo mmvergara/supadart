@@ -1,7 +1,7 @@
 ## Supabase Schema to Dart Classes
 
 Generate Dart classes from your Supabase schema.
-[Web App](https://www.json2dart.com/)
+[Web App](https://mmvergara.github.io/supabase-schema-dart-class-generator/)
 
 ## Usage
 
@@ -21,7 +21,7 @@ create table
   ) tablespace pg_default;
 ```
 
-### 2. Go to the [website](https://www.json2dart.com/) and input your `SUPABASE_URL` and `SUPABASE_ANON_KEY` to generate the model class.
+### 2. Go to the [website](https://mmvergara.github.io/supabase-schema-dart-class-generator/) and input your `SUPABASE_URL` and `SUPABASE_ANON_KEY` to generate the model class.
 
 ```dart
 class Books {
