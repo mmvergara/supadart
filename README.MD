@@ -23,6 +23,8 @@ create table
 
 ### 2. Go to the [website](https://mmvergara.github.io/supabase-schema-dart-class-generator/) and input your `SUPABASE_URL` and `SUPABASE_ANON_KEY` to generate the model class.
 
+> Example generated class
+
 ```dart
 class Books {
   int id;
@@ -105,7 +107,7 @@ we now have a typesafe'ish to interact with the database.
 ### Fetch Data
 
 ```dart
-// fetchedBooks is a List<Books>
+// fetchedBooks is a typeof List<Books>
 final fetchedBooks = await supabase
       .from(Books.table_name)
       .select("*")
