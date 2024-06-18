@@ -34,7 +34,7 @@ const generateDartClassess = (definitions) => {
 };
 // Helper function to map JSON types to Dart types
 // Need Help Here
-function getDartType(type) {
+const getDartType = (type) => {
   switch (type) {
     case "integer":
     case "number":
@@ -44,7 +44,7 @@ function getDartType(type) {
     case "boolean":
       return "bool";
   }
-}
+};
 // Helper function to generate the insert method
 const generateInsertMethod = (properties, requiredFields) => {
   var _a, _b, _c, _d, _e, _f;
@@ -107,63 +107,3 @@ const generateUpdateMethod = (properties) => {
   code += `}\n\n`;
   return code;
 };
-const schema = {
-  books: {
-    required: ["id", "book_name", "created_at", "sold", "price"],
-    properties: {
-      id: {
-        description: "Note:\nThis is a Primary Key.<pk/>",
-        format: "bigint",
-        type: "integer",
-      },
-      book_name: {
-        format: "text",
-        type: "string",
-      },
-      created_at: {
-        default: "now()",
-        format: "timestamp with time zone",
-        type: "string",
-      },
-      book_description: {
-        format: "text",
-        type: "string",
-      },
-      sold: {
-        default: false,
-        format: "boolean",
-        type: "boolean",
-      },
-      price: {
-        format: "double precision",
-        type: "number",
-      },
-    },
-    type: "object",
-  },
-  countries: {
-    required: ["id", "name", "country_id", "created_at"],
-    properties: {
-      id: {
-        description: "Note:\nThis is a Primary Key.<pk/>",
-        format: "bigint",
-        type: "integer",
-      },
-      name: {
-        format: "text",
-        type: "string",
-      },
-      country_id: {
-        format: "bigint",
-        type: "integer",
-      },
-      created_at: {
-        default: "now()",
-        format: "timestamp with time zone",
-        type: "string",
-      },
-    },
-    type: "object",
-  },
-};
-console.log(generateDartClassess(schema));
