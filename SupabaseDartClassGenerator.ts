@@ -22,7 +22,7 @@ export type Format =
   | "boolean"
   | "double precision";
 
-const generateDartClassess = (definitions: Definitions) => {
+const generateDartClasses = (definitions: Definitions) => {
   let dartCode = "";
 
   for (const tableName in definitions) {
@@ -146,6 +146,19 @@ const generateFromJsonMethod = (
   }
   code += `);\n`;
   code += `}\n\n`;
+  return code;
+};
+
+
+const generateTypeSafeTable = (definitions: Definitions) => {
+  let code = `extension TypeSafeTable on SupabaseClient {\n`;
+  for (let tableName in definitions) {
+    tableName = tableName.toLowerCase();
+    code += `SupabaseQueryBuilder get ${tableName} {\n`;
+    code += `return from('${tableName}');\n`;
+    code += `}\n`;
+  }
+  code += `}\n`;
   return code;
 };
 

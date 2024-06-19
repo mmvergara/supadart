@@ -1,4 +1,4 @@
-const generateDartClassess = (definitions) => {
+const generateDartClasses = (definitions) => {
   let dartCode = "";
   for (const tableName in definitions) {
     const table = definitions[tableName];
@@ -118,3 +118,51 @@ const generateFromJsonMethod = (className, properties) => {
   code += `}\n\n`;
   return code;
 };
+const generateTypeSafeTable = (definitions) => {
+  let code = `extension TypeSafeTable on SupabaseClient {\n`;
+  for (let tableName in definitions) {
+    tableName = tableName.toLowerCase();
+    code += `SupabaseQueryBuilder get ${tableName} {\n`;
+    code += `return from('${tableName}');\n`;
+    code += `}\n`;
+  }
+  code += `}\n`;
+  return code;
+};
+// const definitions: Definitions = {
+//   books: {
+//     required: ["id", "book_name", "created_at", "sold", "price"],
+//     properties: {
+//       id: {
+//         description: "Note:\nThis is a Primary Key.<pk/>",
+//         format: "bigint",
+//         type: "integer",
+//       },
+//       book_name: {
+//         format: "text",
+//         type: "string",
+//       },
+//       created_at: {
+//         default: "now()",
+//         format: "timestamp with time zone",
+//         type: "string",
+//       },
+//       book_description: {
+//         format: "text",
+//         type: "string",
+//       },
+//       sold: {
+//         default: false,
+//         format: "boolean",
+//         type: "boolean",
+//       },
+//       price: {
+//         format: "double precision",
+//         type: "number",
+//       },
+//     },
+//     type: "object",
+//   },
+// };
+// const dartCode = generateDartClassess(definitions);
+// console.log(dartCode);
