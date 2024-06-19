@@ -131,7 +131,8 @@ or we can use the extension
 
 ```dart
 // fetchedBooks is a typeof List<Books>
-final books = await supabase.books
+final books = await supabase
+      .books
       .select("*")
       .withConverter((data) => data.map(Books.fromJson).toList());
 ```
