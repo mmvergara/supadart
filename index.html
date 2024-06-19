@@ -112,7 +112,7 @@
         const res = await fetch(
           `${SUPABASE_URL}/rest/v1/?apikey=${SUPABASE_ANON_KEY}`
         );
-
+        console.log(res.ok);
         if (res.ok) {
           const contentType = res.headers.get("content-type");
           if (
@@ -122,7 +122,10 @@
             const data = await res.json();
 
             if (data.definitions) {
-              const classes = generateDartClassess(data.definitions);
+              const classes =
+                generateDartClasses(data.definitions) +
+                "\n\n" +
+                generateTypeSafeTable(data.definitions);
               codeOutput.innerText = classes.trim();
             }
           } else {
@@ -132,6 +135,7 @@
           errorMessage = "Error fetching data";
         }
       } catch (e) {
+        console.log(e);
         errorMessage = "Error fetching data";
       }
 
