@@ -63,3 +63,9 @@ class Books {
     );
   }
 }
+
+extension TypeSafeTable on SupabaseClient {
+  SupabaseQueryBuilder get books {
+    return from('books');
+  }
+}
