@@ -1,7 +1,7 @@
 # Supabase Schema to Dart Classes (WIP)
 
 Generate Dart classes from your Supabase schema.
-[Web App](https://mmvergara.github.io/supabase-schema-dart-class-generator/)
+[Web App](https://supabase-schema-dart-class-generator.vercel.app/)
 
 I'm pretty sure we could make this better by making a CLI or adding it to the existing one. But here it is for now. Please feel free to open an issue or a PR 🙏 if you have any ideas or suggestions. I really want to make this better cause i use flutter a lot.
 
