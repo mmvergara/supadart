@@ -28,6 +28,8 @@ create table
 > Example generated class
 
 ```dart
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 class Books {
   int id;
   String book_name;
@@ -93,6 +95,13 @@ class Books {
     );
   }
 }
+
+extension TypeSafeTable on SupabaseClient {
+  SupabaseQueryBuilder get books {
+    return from('books');
+  }
+}
+
 ```
 
 ### 3. Using the generated class
@@ -110,8 +119,17 @@ we now have a typesafe'ish to interact with the database.
 
 ```dart
 // fetchedBooks is a typeof List<Books>
-final fetchedBooks = await supabase
+final books = await supabase
       .from(Books.table_name)
+      .select("*")
+      .withConverter((data) => data.map(Books.fromJson).toList());
+```
+
+or we can use the extension
+
+```dart
+// fetchedBooks is a typeof List<Books>
+final books = await supabase.books
       .select("*")
       .withConverter((data) => data.map(Books.fromJson).toList());
 ```
