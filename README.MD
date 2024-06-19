@@ -144,7 +144,7 @@ final data = Books.insert(
   book_description: 'Description',
   price: 2,
 );
-await supabase.from(Books.table_name).insert(data);
+await supabase.books.insert(data);
 ```
 
 ### Inset Many Data
@@ -162,7 +162,7 @@ final many_data = [
     price: 2,
   ),
 ];
-await supabase.from(Books.table_name).insert(many_data);
+await supabase.books.insert(many_data);
 ```
 
 ### Update Data
@@ -173,7 +173,7 @@ final newData = Books.update(
   // we can update any field we want
 );
 await supabase
-    .from(Books.table_name)
+    .books
     .update(newData)
     .eq('id', 1)
 ```
@@ -181,7 +181,7 @@ await supabase
 ### Delete Data
 
 ```dart
-await supabase.from(Books.table_name).delete().eq('id', 1);
+await supabase.books.delete().eq('id', 1);
 ```
 
 ---
