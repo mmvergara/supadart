@@ -1,37 +1,53 @@
-import { Definition, getDartType } from "./utils";
+import { DartType, Definition, getDartTypeByFormat } from "./utils";
 
 export const generateInsertMethod = (
   properties: Definition["properties"],
   requiredFields: Definition["required"]
 ) => {
   let code = `static Map<String, dynamic> insert({\n`;
+
+  // Generate parameters
   for (const propertyName in properties) {
     // Check if the field has a default value
-    const isOptional = !!(
-      properties[propertyName]?.hasOwnProperty("default") ||
-      !requiredFields.includes(propertyName) ||
-      properties[propertyName]?.description?.includes("<pk/>")
-    );
 
-    code += `${isOptional ? "" : "required"} ${getDartType(
-      properties[propertyName].type
-    )}${isOptional ? "?" : ""} ${propertyName},\n`;
+    const isPrimaryKey =
+      properties[propertyName].description?.includes("<pk/>");
+    const isRequiredField = requiredFields.includes(propertyName);
+    const hasDefaultValue = properties[propertyName].default;
+    const isRequired = isRequiredField && !hasDefaultValue && !isPrimaryKey;
+
+    code += `${isRequired ? "required" : ""} ${getDartTypeByFormat(
+      properties[propertyName].format
+    )}${isRequired ? "" : "?"} ${propertyName},\n`;
   }
   code += `}) {\n`;
   code += `return {\n`;
+
+  // Generate key-value pairs
   for (const propertyName in properties) {
-    const isOptional = !!(
-      properties[propertyName]?.hasOwnProperty("default") ||
-      !requiredFields.includes(propertyName) ||
-      properties[propertyName]?.description?.includes("<pk/>")
-    );
-    if (isOptional) {
-      code += `if (${propertyName} != null) '${propertyName}': ${propertyName},\n`;
+    const isPrimaryKey =
+      properties[propertyName].description?.includes("<pk/>");
+    const isRequiredField = requiredFields.includes(propertyName);
+    const hasDefaultValue = properties[propertyName].default;
+    const isRequired = isRequiredField && !hasDefaultValue && !isPrimaryKey;
+
+    const dartDataType = getDartTypeByFormat(properties[propertyName].format);
+    if (isRequired) {
+      code += `'${propertyName}': ${wrapIfDate(dartDataType, propertyName)},\n`;
     } else {
-      code += `'${propertyName}': ${propertyName},\n`;
+      code += `if (${propertyName} != null) '${propertyName}': ${wrapIfDate(
+        dartDataType,
+        propertyName
+      )},\n`;
     }
   }
   code += `};\n`;
   code += `}\n\n`;
   return code;
 };
+function wrapIfDate(dartType: DartType, propertyName: string) {
+  if (dartType === "DateTime") {
+    return `${propertyName}.toIso8601String()`;
+  }
+  return propertyName;
+}

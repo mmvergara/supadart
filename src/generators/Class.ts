@@ -1,10 +1,11 @@
 import { generateFromJsonMethod } from "./ClassFromJson";
 import { generateInsertMethod } from "./ClassInsert";
 import { generateUpdateMethod } from "./ClassUpdate";
-import { Definitions, getDartType } from "./utils";
+import { Definitions, getDartTypeByFormat } from "./utils";
 
 export const generateDartClasses = (definitions: Definitions) => {
-  let dartCode = "";
+  let dartCode =
+    "import 'package:supabase_flutter/supabase_flutter.dart'; \n\n";
 
   for (const tableName in definitions) {
     const table = definitions[tableName];
@@ -17,7 +18,7 @@ export const generateDartClasses = (definitions: Definitions) => {
     // Attributes
     for (const propertyName in table.properties) {
       const property = table.properties[propertyName];
-      const dartType = getDartType(property.type);
+      const dartType = getDartTypeByFormat(property.format);
 
       // Add question mark for optional fields (not in "required")
       const isOptional = !table.required.includes(propertyName);
@@ -40,7 +41,11 @@ export const generateDartClasses = (definitions: Definitions) => {
     // Helper functions
     dartCode += generateInsertMethod(table.properties, table.required);
     dartCode += generateUpdateMethod(table.properties);
-    dartCode += generateFromJsonMethod(className, table.properties);
+    dartCode += generateFromJsonMethod(
+      className,
+      table.properties,
+      table.required
+    );
 
     dartCode += "}\n\n";
   }
