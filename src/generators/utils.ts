@@ -20,8 +20,8 @@ export type DartType =
   | "num"
   | "Map<String, dynamic>"
   | "bool"
-  | "DateTime";
-
+  | "DateTime"
+  | "Converter Doesn't Support This Type";
 // https://supabase.com/docs/guides/database/tables#data-types
 // All postgres data types are supported but the following are the only the subset that are supported by Supabase Table Editor.
 export type Format =
@@ -34,7 +34,6 @@ export type Format =
   | "character varying"
   | "uuid"
   | "date"
-  | "time without time zone"
   | "timestamp without time zone"
   | "timestamp with time zone"
   | "boolean";
@@ -64,21 +63,21 @@ export const getDartTypeByFormat = (format: Format): DartType => {
       return "String";
 
     // Date and Time
-    // I've decided to just use string for date, time, timestamp, and timestamptz
-    // because these different timezone types are very complex to handle in Dart.
-    // This can be changed in the future if there's a better way to handle these types.
-    // I tried, but i keep getting errors. its too complex for me.
+    // making the "time without time zone" is very tricky
+
+    // case "time without time zone":
+    //   return "DateTime";
     case "date":
-      return "DateTime";
-    case "time without time zone":
       return "DateTime";
     case "timestamp without time zone":
       return "DateTime";
     case "timestamp with time zone":
       return "DateTime";
-
     case "boolean":
       return "bool";
+
+    default:
+      return "Converter Doesn't Support This Type";
   }
 };
 
