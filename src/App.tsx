@@ -6,15 +6,18 @@ import { generateClientExtension } from "./generators/ClientExtension";
 function App() {
   const [supabaseUrl, setSupabaseUrl] = useState("");
   const [supabaseAnonKey, setSupabaseAnonKey] = useState("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [copyStatus, setCopyStatus] = useState("Copy to Clipboard");
-  const [output, setOutput] = useState("");
+  const [output, setOutput] = useState("Output");
 
   const handleGenerate = async () => {
     try {
+      setIsLoading(true);
       const res = await fetch(
         `${supabaseUrl}/rest/v1/?apikey=${supabaseAnonKey}`
       );
+      setIsLoading(false);
       if (!res.ok) {
         setOutput("Error fetching data");
         return;
@@ -66,15 +69,16 @@ function App() {
           width: "100%",
         }}
       >
-        <span> Supabase </span> Schema to Dart Classes |
+        Supabase Schema to Dart Classes
         <a
           href="https://github.com/mmvergara/supabase-schema-dart-class-generator"
           style={{
             color: "#4493d1",
+            marginLeft: "10px",
           }}
           target="_blank"
         >
-          Github Repo
+          Github
         </a>
       </h1>
       <p>This tool will generate Dart classes from your Supabase schema.</p>
@@ -97,8 +101,8 @@ function App() {
         }}
         value={supabaseAnonKey}
       />
-      <button onClick={handleGenerate} id="generate">
-        Generate
+      <button onClick={handleGenerate} disabled={isLoading} id="generate">
+        {isLoading ? "Generating..." : "Generate"}
       </button>
       <button onClick={handleCopyToClipboard} id="copy">
         {copyStatus}
