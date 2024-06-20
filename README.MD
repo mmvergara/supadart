@@ -35,10 +35,10 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class Books {
   int id;
   String book_name;
-  String created_at;
+  DateTime created_at;
   String? book_description;
   bool sold;
-  int price;
+  double price;
 
   Books({
     required this.id,
@@ -53,17 +53,17 @@ class Books {
   static Map<String, dynamic> insert({
     int? id,
     required String book_name,
-    String? created_at,
+    DateTime? created_at,
     String? book_description,
-    bool? sold,
-    required int price,
+    required bool sold,
+    required double price,
   }) {
     return {
       if (id != null) 'id': id,
       'book_name': book_name,
-      if (created_at != null) 'created_at': created_at,
+      if (created_at != null) 'created_at': created_at.toIso8601String(),
       if (book_description != null) 'book_description': book_description,
-      if (sold != null) 'sold': sold,
+      'sold': sold,
       'price': price,
     };
   }
@@ -71,10 +71,10 @@ class Books {
   static Map<String, dynamic> update({
     int? id,
     String? book_name,
-    String? created_at,
+    DateTime? created_at,
     String? book_description,
     bool? sold,
-    int? price,
+    double? price,
   }) {
     return {
       if (id != null) 'id': id,
@@ -86,14 +86,14 @@ class Books {
     };
   }
 
-  static Books fromJson(Map<String, dynamic> json) {
+  factory Books.fromJson(Map<String, dynamic> json) {
     return Books(
       id: json['id'],
       book_name: json['book_name'],
-      created_at: json['created_at'],
+      created_at: DateTime.parse(json['created_at']),
       book_description: json['book_description'],
       sold: json['sold'],
-      price: json['price'],
+      price: double.parse(json['price'].toString()),
     );
   }
 }
