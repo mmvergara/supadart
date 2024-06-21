@@ -35,13 +35,9 @@ Future<void> performTimestamptzTest(SupabaseClient supabase) async {
 
     // Compare the UTC timestamps
     expect(storedTimestampUtc.year, updatedTimestamptzUtc.year);
-    print("Done comparing year");
     expect(storedTimestampUtc.month, updatedTimestamptzUtc.month);
-    print("Done comparing month");
     expect(storedTimestampUtc.day, updatedTimestamptzUtc.day);
-    print("Done comparing day");
     expect(storedTimestampUtc.hour, updatedTimestamptzUtc.hour);
-    print("Done comparing hour");
     expect(storedTimestampUtc.minute, updatedTimestamptzUtc.minute);
     expect(storedTimestampUtc.second, updatedTimestamptzUtc.second);
     expect(storedTimestampUtc.millisecond, updatedTimestamptzUtc.millisecond);
