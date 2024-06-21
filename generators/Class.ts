@@ -1,7 +1,8 @@
 import { generateFromJsonMethod } from "./ClassFromJson";
 import { generateInsertMethod } from "./ClassInsert";
 import { generateUpdateMethod } from "./ClassUpdate";
-import { Definitions, getDartTypeByFormat } from "./utils";
+import { Definitions } from "./types";
+import { getDartTypeByFormat } from "./utils";
 
 export const generateDartClasses = (definitions: Definitions) => {
   let dartCode =

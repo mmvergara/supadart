@@ -1,4 +1,4 @@
-import { Definitions } from "./utils";
+import { Definitions } from "./types";
 
 export const exampleDefinitions: Definitions = {
   books: {

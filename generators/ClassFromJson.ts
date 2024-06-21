@@ -1,4 +1,5 @@
-import { DartType, Definition, getDartTypeByFormat } from "./utils";
+import { DartType, Definition } from "./types";
+import { getDartTypeByFormat } from "./utils";
 
 export const generateFromJsonMethod = (
   className: string,
