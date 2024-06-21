@@ -1,3 +1,7 @@
+## 1.0.5
+
+- Readme Installation Update
+
 ## 1.0.4
 
 - Success Log Feedback

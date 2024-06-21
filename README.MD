@@ -1,11 +1,34 @@
 # Supabase Schema to Dart Classes (WIP)
 
 Generate Dart classes from your Supabase schema.
-[Web App](https://supabase-schema-dart-class-generator.vercel.app/)
 
 I'm pretty sure we could make this better by making a CLI or adding it to the existing one. But here it is for now. Please feel free to open an issue or a PR 🙏 if you have any ideas or suggestions. I really want to make this better cause i use flutter a lot.
 
 Generator Logic in `/generators`
+
+---
+
+## Generate Dart Classes
+
+### Using the [Web App](https://supabase-schema-dart-class-generator.vercel.app/)
+
+### Using the Dart CLI
+
+```bash
+# 🎯 Active from pub.dev
+dart pub global activate supadart
+
+# Make sure SUPABASE_URL and SUPABASE_ANON_KEY are set in your .env
+
+# 🚀 Generate using
+supadart
+# or
+dart pub global run supadart
+# the following command will generate a `lib/generated-classes.dart`
+# file in the current directory.
+```
+
+---
 
 ## Example Usage
 
@@ -25,9 +48,11 @@ create table
   ) tablespace pg_default;
 ```
 
-### 2. Go to the [website](https://mmvergara.github.io/supabase-schema-dart-class-generator/) and input your `SUPABASE_URL` and `SUPABASE_ANON_KEY` to generate the model class.
+### 2. Use the CLI or the Web App to generate the class ⬆️⬆️
 
 > Example generated class
+
+````dart
 
 ```dart
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -104,7 +129,7 @@ extension TypeSafeTable on SupabaseClient {
   }
 }
 
-```
+````
 
 ### 3. Using the generated class
 
