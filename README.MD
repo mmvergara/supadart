@@ -6,6 +6,9 @@ I'm pretty sure we could make this better by making a CLI or adding it to the ex
 
 Generator Logic in `/generators`
 
+- [Generate Dart Classes](#generate-dart-classes)
+- [Example Usage](#example-usage)
+
 ---
 
 ## Generate Dart Classes
@@ -48,7 +51,7 @@ create table
   ) tablespace pg_default;
 ```
 
-### 2. Use the CLI or the Web App to generate the class ⬆️⬆️
+### 2. Use the CLI or the Web App to [generate dart classes](#generate-dart-classes)
 
 > Example generated class
 
@@ -211,9 +214,3 @@ await supabase.books.delete().eq('id', 1);
 ```
 
 ---
-
-## Note
-
-There are still things to do, the converter is not perfect, but it's a start.
-
-I am not quite confident with the tool especially the generation of data types since there are so many postgres datatype, so please if you find any issue in the `./src/generators`, feel free to open an issue or a PR.
