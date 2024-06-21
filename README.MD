@@ -125,70 +125,66 @@ create table
 ````dart
 
 ```dart
-import 'package:supabase_flutter/supabase_flutter.dart';
-
 class Books {
-  int id;
-  String book_name;
+  BigInt id;
+  String name;
+  String? description;
+  int price;
   DateTime created_at;
-  String? book_description;
-  bool sold;
-  double price;
 
   Books({
     required this.id,
-    required this.book_name,
-    required this.created_at,
-    this.book_description,
-    required this.sold,
+    required this.name,
+    this.description,
     required this.price,
+    required this.created_at,
   });
 
   static String get table_name => 'books';
+  static String get c_id => 'id';
+  static String get c_name => 'name';
+  static String get c_description => 'description';
+  static String get c_price => 'price';
+  static String get c_created_at => 'created_at';
   static Map<String, dynamic> insert({
-    int? id,
-    required String book_name,
+    BigInt? id,
+    required String name,
+    String? description,
+    required int price,
     DateTime? created_at,
-    String? book_description,
-    required bool sold,
-    required double price,
   }) {
     return {
-      if (id != null) 'id': id,
-      'book_name': book_name,
-      if (created_at != null) 'created_at': created_at.toIso8601String(),
-      if (book_description != null) 'book_description': book_description,
-      'sold': sold,
-      'price': price,
+      if (id != null) 'id': id.toString(),
+      'name': name.toString(),
+      if (description != null) 'description': description.toString(),
+      'price': price.toString(),
+      if (created_at != null) 'created_at': created_at.toUtc().toString(),
     };
   }
 
   static Map<String, dynamic> update({
-    int? id,
-    String? book_name,
+    BigInt? id,
+    String? name,
+    String? description,
+    int? price,
     DateTime? created_at,
-    String? book_description,
-    bool? sold,
-    double? price,
   }) {
     return {
-      if (id != null) 'id': id,
-      if (book_name != null) 'book_name': book_name,
-      if (created_at != null) 'created_at': created_at,
-      if (book_description != null) 'book_description': book_description,
-      if (sold != null) 'sold': sold,
-      if (price != null) 'price': price,
+      if (id != null) 'id': id.toString(),
+      if (name != null) 'name': name.toString(),
+      if (description != null) 'description': description.toString(),
+      if (price != null) 'price': price.toString(),
+      if (created_at != null) 'created_at': created_at.toUtc().toString(),
     };
   }
 
   factory Books.fromJson(Map<String, dynamic> json) {
     return Books(
-      id: json['id'],
-      book_name: json['book_name'],
+      id: BigInt.parse(json['id'].toString()),
+      name: json['name'],
+      description: json['description'],
+      price: json['price'],
       created_at: DateTime.parse(json['created_at']),
-      book_description: json['book_description'],
-      sold: json['sold'],
-      price: double.parse(json['price'].toString()),
     );
   }
 }
@@ -198,7 +194,6 @@ extension TypeSafeTable on SupabaseClient {
     return from('books');
   }
 }
-
 ````
 
 ### 3. Using the generated class
@@ -209,20 +204,9 @@ we now have a typesafe'ish to interact with the database.
 
 ```dart
   Books.table_name // "books"
-  await supabase.from(Books.table_name).select();
 ```
 
 ### Fetch Data
-
-```dart
-// fetchedBooks is a typeof List<Books>
-final books = await supabase
-      .from(Books.table_name)
-      .select("*")
-      .withConverter((data) => data.map(Books.fromJson).toList());
-```
-
-or we can use the extension
 
 ```dart
 // fetchedBooks is a typeof List<Books>
@@ -236,8 +220,8 @@ final books = await supabase
 
 ```dart
 final data = Books.insert(
-  book_name: 'Book Name',
-  book_description: 'Description',
+  name: 'Learn Flutter',
+  description: 'Endless brackets and braces',
   price: 2,
 );
 await supabase.books.insert(data);
@@ -248,13 +232,13 @@ await supabase.books.insert(data);
 ```dart
 final many_data = [
   Books.insert(
-    book_name: 'Book Name',
-    book_description: 'Description',
+    name: 'Learn Minecraft',
+    description: 'Endless blocks and bricks',
     price: 2,
   ),
   Books.insert(
-    book_name: 'Book Name 2',
-    created_at: DateTime.now().toString(),
+    name: 'Description is optional',
+    created_at: DateTime.now(),
     price: 2,
   ),
 ];
@@ -265,17 +249,13 @@ await supabase.books.insert(many_data);
 
 ```dart
 final newData = Books.update(
-  book_name: 'New Book Name',
-  // we can update any field we want
+  name: 'New Book Name',
 );
-await supabase
-    .books
-    .update(newData)
-    .eq('id', 1)
+await supabase.books.update(newData).eq(Books.c_id, 1);
 ```
 
 ### Delete Data
 
 ```dart
-await supabase.books.delete().eq('id', 1);
+await supabase.books.delete().eq(Books.c_id, 1);
 ```
