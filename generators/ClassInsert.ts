@@ -43,11 +43,13 @@ export const generateInsertMethod = (
     if (isRequired) {
       code += `'${propertyName}': ${toJsonEncodable(
         dartDataType,
+        properties[propertyName].format,
         propertyName
       )},\n`;
     } else {
       code += `if (${propertyName} != null) '${propertyName}': ${toJsonEncodable(
         dartDataType,
+        properties[propertyName].format,
         propertyName
       )},\n`;
     }
