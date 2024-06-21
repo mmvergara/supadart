@@ -6,7 +6,7 @@ Future<Object?> createBigInt(SupabaseClient supabase) async {
     BigInt value = BigInt.from(4221312931259329921);
     await supabase.all_types.insert(All_types.insert(
       bigintx: value,
-      bigserialx: value,
+      // bigserialx: value,
       smallserialx: 0,
       serialx: 0,
     ));

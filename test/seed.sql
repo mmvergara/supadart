@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS all_types;
+
 CREATE TABLE all_types (
     bigintx BIGINT PRIMARY KEY,
     bigserialx BIGSERIAL,
@@ -43,6 +45,13 @@ CREATE TABLE all_types (
     uuidx UUID,
     xmlx XML
 );
+
+-- We need to add this for serial types otherwise the serial columns will not be recognized as nullable
+-- and the insert method will always ask for a value
+COMMENT ON COLUMN all_types.bigserialx IS 'serial';
+COMMENT ON COLUMN all_types.smallserialx IS 'serial';
+COMMENT ON COLUMN all_types.serialx IS 'serial';
+
 
 INSERT INTO all_types (
     bigintx,

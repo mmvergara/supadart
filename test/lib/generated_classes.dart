@@ -95,7 +95,7 @@ class All_types {
   static String get table_name => 'all_types';
   static Map<String, dynamic> insert({
     BigInt? bigintx,
-    required BigInt bigserialx,
+     BigInt? bigserialx,
     String? bitx,
     String? bitvaryingx,
     bool? booleanx,
@@ -140,7 +140,7 @@ class All_types {
   }) {
     return {
       if (bigintx != null) 'bigintx': bigintx.toString(),
-      'bigserialx': bigserialx.toString(),
+      if (bigserialx !=null )'bigserialx': bigserialx,
       if (bitx != null) 'bitx': bitx.toString(),
       if (bitvaryingx != null) 'bitvaryingx': bitvaryingx.toString(),
       if (booleanx != null) 'booleanx': booleanx.toString(),
