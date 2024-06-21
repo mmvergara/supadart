@@ -80,9 +80,19 @@ export const getDartTypeByFormat = (format: Format): DartType => {
       return "dynamic"; // For unsupported types, use dynamic as a fallback
   }
 };
-export const toJsonEncodable = (dartType: DartType, propertyName: string) => {
+export const toJsonEncodable = (
+  dartType: DartType,
+  format: Format,
+  propertyName: string
+) => {
   switch (dartType) {
     case "DateTime":
+      if (format === "time without time zone") {
+        return `DateFormat('HH:mm:ss.SSS').format(${propertyName})`;
+      }
+      if (format === "time with time zone") {
+        return `DateFormat('HH:mm:ss zzzz').format(${propertyName})`;
+      }
       return `${propertyName}.toIso8601String()`;
     case "Map<String, dynamic>":
       return `${propertyName}`;
