@@ -2,7 +2,7 @@
 
 Generate Dart 🎯 classes from your Supabase schema.
 
-- [Generate Dart Classes](#generate-dart-classes)
+- [Generate Dart Classes](#generating-dart-classes)
 - [Example Usage](#example-usage)
 
 ## Conversion Table
@@ -22,7 +22,7 @@ Generate Dart 🎯 classes from your Supabase schema.
 | T uuid              | uuid                        | string    | String               | ✅             |
 | 🗓️ date             | date                        | string    | DateTime             | ✅             |
 | 🗓️ time             | time without time zone      | string    | DateTime             | ✅             |
-| 🗓️timetz            | time with time zone         | string    | DateTime             | ✅             |
+| 🗓️ timetz           | time with time zone         | string    | DateTime             | ✅             |
 | 🗓️ timestamp        | timestamp without time zone | string    | DateTime             | ✅             |
 | 🗓️ timestamptz      | timestamp with time zone    | string    | DateTime             | ✅             |
 | 💡 bool             | boolean                     | boolean   | bool                 | ✅             |
@@ -33,7 +33,7 @@ Generate Dart 🎯 classes from your Supabase schema.
 
 ## 1. Pre-requisites
 
-if you have serial types you need to add a comment to the column like this
+#### if you have serial types you need to add a comment to the column like this,
 
 ```sql
 COMMENT ON COLUMN test_table.bigserialx IS 'serial';
@@ -41,8 +41,9 @@ COMMENT ON COLUMN test_table.smallserialx IS 'serial';
 COMMENT ON COLUMN test_table.serialx IS 'serial';
 -- otherwise the insert method will always ask for a value
 ```
-
-Install intl/intl.dart
+ > [Why?](https://gist.github.com/mmvergara/5e3d42d73dd316f8ff809fb940163c1f)
+ 
+#### Install `Internationalization` package
 
 ```bash
 # This is an official package from dart and is used for parsing dates
