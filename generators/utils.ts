@@ -53,7 +53,7 @@ export const getDartTypeByFormat = (format: Format): DartType => {
 
     // Binary data type
     case "bytea":
-      return "Uint8List";
+      return "String";
 
     // JSON types
     case "json":
