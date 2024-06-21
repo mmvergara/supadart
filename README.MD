@@ -41,7 +41,7 @@ COMMENT ON COLUMN test_table.smallserialx IS 'serial';
 COMMENT ON COLUMN test_table.serialx IS 'serial';
 -- otherwise the insert method will always ask for a value
 ```
- > [Why?](https://gist.github.com/mmvergara/5e3d42d73dd316f8ff809fb940163c1f)
+[Why do we need this?](https://gist.github.com/mmvergara/5e3d42d73dd316f8ff809fb940163c1f)
  
 #### Install `Internationalization` package
 
