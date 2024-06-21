@@ -1,5 +1,6 @@
 import { generateFromJsonMethod } from "./ClassFromJson";
 import { generateInsertMethod } from "./ClassInsert";
+import { generateStaticColumnNames } from "./CLassStaticProperties";
 import { generateUpdateMethod } from "./ClassUpdate";
 import { Definitions } from "./types";
 import { getDartTypeByFormat } from "./utils";
@@ -38,6 +39,10 @@ export const generateDartClasses = (definitions: Definitions) => {
 
     // Table name
     dartCode += `static String get table_name => '${tableName}';\n`;
+    console.log("Generating static column names");
+    console.log("Generating static column names");
+    console.log("Generating static column names");
+    dartCode += generateStaticColumnNames(definitions[tableName].properties);
 
     // Helper functions
     dartCode += generateInsertMethod(table.properties, table.required);
