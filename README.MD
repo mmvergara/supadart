@@ -5,9 +5,53 @@ Generate Dart 🎯 classes from your Supabase schema.
 - [Generate Dart Classes](#generate-dart-classes)
 - [Example Usage](#example-usage)
 
+## Conversion Table
+
+| Supabase Identifier | Format                      | JSON Type | Dart Type            | Runtime Tested |
+| ------------------- | --------------------------- | --------- | -------------------- | -------------- |
+| # int2              | smallint                    | integer   | int                  | ✅             |
+| # int4              | integer                     | integer   | int                  | ✅             |
+| # int8              | bigint                      | integer   | BigInt               | ✅             |
+| # float4            | real                        | number    | double               | ✅             |
+| # float8            | double precision            | number    | double               | ✅             |
+| # numeric           | numeric                     | number    | num                  | ✅             |
+| {} json             | json                        | -         | Map<String, dynamic> | ✅             |
+| {} jsonb            | jsonb                       | -         | Map<String, dynamic> | ✅             |
+| T text              | text                        | string    | String               | ✅             |
+| T varchar           | character varying           | string    | String               | ✅             |
+| T uuid              | uuid                        | string    | String               | ✅             |
+| 🗓️ date             | date                        | string    | DateTime             | ✅             |
+| 🗓️ time             | time without time zone      | string    | DateTime             | ✅             |
+| 🗓️timetz            | time with time zone         | string    | DateTime             | ✅             |
+| 🗓️ timestamp        | timestamp without time zone | string    | DateTime             | ✅             |
+| 🗓️ timestamptz      | timestamp with time zone    | string    | DateTime             | ✅             |
+| 💡 bool             | boolean                     | boolean   | bool                 | ✅             |
+
 ---
 
-## Generate Dart Classes
+# Generating Dart Classes
+
+## 1. Pre-requisites
+
+if you have serial types you need to add a comment to the column like this
+
+```sql
+COMMENT ON COLUMN test_table.bigserialx IS 'serial';
+COMMENT ON COLUMN test_table.smallserialx IS 'serial';
+COMMENT ON COLUMN test_table.serialx IS 'serial';
+-- otherwise the insert method will always ask for a value
+```
+
+Install intl/intl.dart
+
+```bash
+# This is an official package from dart and is used for parsing dates
+flutter pub add intl
+# or
+dart pub add intl
+```
+
+## 2. Generate Dart Classes
 
 ### Using the [Web App](https://supabase-schema-dart-class-generator.vercel.app/)
 
@@ -29,7 +73,7 @@ dart pub global run supadart
 
 ---
 
-## Example Usage
+# Example Usage
 
 ### 1. Assuming the following table schema
 

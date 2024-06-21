@@ -1,4 +1,5 @@
-import { Definition, getDartTypeByFormat } from "./utils";
+import { Definition } from "./types";
+import { getDartTypeByFormat, toJsonEncodable } from "./utils";
 
 export const generateUpdateMethod = (properties: Definition["properties"]) => {
   let code = `static Map<String, dynamic> update({\n`;
@@ -10,7 +11,12 @@ export const generateUpdateMethod = (properties: Definition["properties"]) => {
   code += `}) {\n`;
   code += `return {\n`;
   for (const propertyName in properties) {
-    code += `if (${propertyName} != null) '${propertyName}': ${propertyName},\n`;
+    const dartDataType = getDartTypeByFormat(properties[propertyName].format);
+    code += `if (${propertyName} != null) '${propertyName}': ${toJsonEncodable(
+      dartDataType,
+      properties[propertyName].format,
+      propertyName
+    )},\n`;
   }
   code += `};\n`;
   code += `}\n\n`;

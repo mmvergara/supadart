@@ -1,4 +1,4 @@
-import { Definitions } from "./utils";
+import { Definitions } from "./types";
 
 export const generateClientExtension = (definitions: Definitions) => {
   let code = `extension TypeSafeTable on SupabaseClient {\n`;

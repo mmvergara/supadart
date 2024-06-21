@@ -1,11 +1,16 @@
 import { generateFromJsonMethod } from "./ClassFromJson";
 import { generateInsertMethod } from "./ClassInsert";
+import { generateStaticColumnNames } from "./ClassStaticColumnNames";
 import { generateUpdateMethod } from "./ClassUpdate";
-import { Definitions, getDartTypeByFormat } from "./utils";
+import { Definitions } from "./types";
+import { getDartTypeByFormat } from "./utils";
 
 export const generateDartClasses = (definitions: Definitions) => {
-  let dartCode =
-    "import 'package:supabase_flutter/supabase_flutter.dart'; \n\n";
+  let dartCode = `import 'package:supabase/supabase.dart';
+    import 'dart:typed_data';\n
+    import 'dart:convert';\n
+    import 'package:intl/intl.dart';\n
+    `;
 
   for (const tableName in definitions) {
     const table = definitions[tableName];
@@ -37,6 +42,10 @@ export const generateDartClasses = (definitions: Definitions) => {
 
     // Table name
     dartCode += `static String get table_name => '${tableName}';\n`;
+    console.log("Generating static column names");
+    console.log("Generating static column names");
+    console.log("Generating static column names");
+    dartCode += generateStaticColumnNames(definitions[tableName].properties);
 
     // Helper functions
     dartCode += generateInsertMethod(table.properties, table.required);

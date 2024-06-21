@@ -1,6 +1,6 @@
 import { generateDartClasses } from "./Class";
 import { generateClientExtension } from "./ClientExtension";
-import { Definitions } from "./utils";
+import { Definitions } from "./types";
 
 export const generateClassesAndClient = async (definitions: Definitions) => {
   const dartClasses = generateDartClasses(definitions);
