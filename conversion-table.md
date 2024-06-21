@@ -11,8 +11,8 @@
 | text                | text                        | string           | String                                                      | ✅             |
 | varchar             | character varying           | string           | String                                                      | ✅             |
 | uuid                | uuid                        | string           | String                                                      | ✅             |
-| date                | date                        | stri ng          | DateTime                                                    | ✅             |
-| time                | time without time zone      | string           | DateTime                                                    |                |
+| date                | date                        | string           | DateTime                                                    | ✅             |
+| time                | time without time zone      | string           | DateTime                                                    | ✅             |
 | timetz              | time with time zone         | string           | DateTime                                                    |                |
 | timestamp           | timestamp without time zone | string           | DateTime                                                    |                |
 | timestamptz         | timestamp with time zone    | string           | DateTime                                                    |                |
