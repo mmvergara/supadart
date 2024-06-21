@@ -14,6 +14,7 @@ export const generateUpdateMethod = (properties: Definition["properties"]) => {
     const dartDataType = getDartTypeByFormat(properties[propertyName].format);
     code += `if (${propertyName} != null) '${propertyName}': ${toJsonEncodable(
       dartDataType,
+      properties[propertyName].format,
       propertyName
     )},\n`;
   }
