@@ -23,7 +23,6 @@ export type DartType =
   | "String"
   | "DateTime"
   | "Duration"
-  | "Uint8List"
   | "Map<String, dynamic>"
   | "dynamic"
   | "We don't support this type please open an issue on it";
