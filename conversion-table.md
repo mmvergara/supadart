@@ -3,9 +3,9 @@
 | int2                | smallint                    | integer   | int                                                         | ✅             |
 | int4                | integer                     | integer   | int                                                         | ✅             |
 | int8                | bigint                      | integer   | BigInt                                                      | ✅             |
-| float4              | real                        | number    | double                                                      |                |
-| float8              | double precision            | number    | double                                                      |                |
-| numeric             | numeric                     | number    | double                                                      |                |
+| float4              | real                        | number    | double                                                      | ✅             |
+| float8              | double precision            | number    | double                                                      | ✅             |
+| numeric             | numeric                     | number    | BigInt                                                      |                |
 | json                | json                        | -         | Map<String, dynamic>                                        |                |
 | jsonb               | jsonb                       | -         | Map<String, dynamic>                                        |                |
 | text                | text                        | string    | String                                                      | ✅             |
