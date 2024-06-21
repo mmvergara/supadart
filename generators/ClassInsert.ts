@@ -15,7 +15,10 @@ export const generateInsertMethod = (
       properties[propertyName].description?.includes("<pk/>");
     const isRequiredField = requiredFields.includes(propertyName);
     const hasDefaultValue = properties[propertyName].default;
-    const isRequired = isRequiredField && !hasDefaultValue && !isPrimaryKey;
+    const isSerialType =
+      properties[propertyName].description?.includes("serial");
+    const isRequired =
+      isRequiredField && !hasDefaultValue && !isPrimaryKey && !isSerialType;
 
     code += `${isRequired ? "required" : ""} ${getDartTypeByFormat(
       properties[propertyName].format

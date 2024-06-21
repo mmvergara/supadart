@@ -12,7 +12,6 @@ export const generateFromJsonMethod = (
     const isRequired = requiredFields.includes(propertyName);
 
     const dartType = getDartTypeByFormat(properties[propertyName].format);
-    console.log(dartType, propertyName);
     code += `${propertyName}: ${parseWrapper(
       dartType,
       `json['${propertyName}']`,
