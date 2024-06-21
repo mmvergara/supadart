@@ -1,6 +1,6 @@
 import 'package:dotenv/dotenv.dart';
 import 'package:supabase/supabase.dart';
-import 'datatypes/big_int.dart';
+import 'datatypes/editor-supported/int8_big_int.dart';
 
 import 'datatypes/big_serial.dart';
 import 'datatypes/bit.dart';
@@ -9,9 +9,12 @@ import 'datatypes/box.dart';
 import 'datatypes/bytea.dart';
 import 'datatypes/character.dart';
 import 'datatypes/character_varying.dart';
-import 'datatypes/int.dart';
-import 'datatypes/real.dart';
-import 'datatypes/small_int.dart';
+import 'datatypes/editor-supported/bool.dart';
+import 'datatypes/editor-supported/int4_int.dart';
+import 'datatypes/editor-supported/float4_real.dart';
+import 'datatypes/editor-supported/int2_small_int.dart';
+import 'datatypes/editor-supported/float8_double_precision.dart';
+import 'datatypes/editor-supported/numeric.dart';
 import 'datatypes/text.dart';
 
 void main() async {
@@ -29,7 +32,13 @@ void main() async {
   // await performSmallintTest(supabase);
   // await performIntegerTest(supabase);
   // await performBigIntTest(supabase);
-  await performRealTest(supabase);
+  // await performRealTest(supabase);
+  // await performDoublePrecisionTest(supabase);
+  // await performNumericTest(supabase);
+  
+
+  // await performBooleanTest(supabase);
+
   // await performCharacterVaryingTest(supabase);
   // await performCharacterTest(supabase);
   // await performTextTest(supabase);
