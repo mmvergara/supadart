@@ -1,16 +1,13 @@
-// Functions for boolean
 import 'package:supabase/supabase.dart';
 import 'package:supadart_test/generated_classes.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
-import '../cleanup.dart';
+import '../../cleanup.dart';
 
 Future<void> performBooleanTest(SupabaseClient supabase) async {
-// Test values for boolean
   bool insertBoolean = true;
   bool updatedBoolean = false;
 
-// Tests for boolean
   test('Testing Boolean Create', () async {
     await cleanup(supabase);
     var createResult = await createBoolean(supabase, insertBoolean);

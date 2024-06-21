@@ -2,7 +2,7 @@ import 'package:supabase/supabase.dart';
 import 'package:supadart_test/generated_classes.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
-import '../cleanup.dart'; // Assuming this contains your cleanup function
+import '../../cleanup.dart'; // Assuming this contains your cleanup function
 
 Future<void> performSmallintTest(SupabaseClient supabase) async {
   // int2

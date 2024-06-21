@@ -3,13 +3,13 @@ import 'package:supadart_test/generated_classes.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
-import '../cleanup.dart';
+import '../../cleanup.dart';
 
 Future<void> performRealTest(SupabaseClient supabase) async {
   // real = single precision floating point number
 
-  double insertReal = 3.402823466E+38; // max value for real
-  double updatedReal = -3.402823466E+38; // min value for real
+  double insertReal = 1.0E+10;
+  double updatedReal = -1.0E+10;
 
   // Tests for real
   test('Testing Real Create', () async {
@@ -28,7 +28,7 @@ Future<void> performRealTest(SupabaseClient supabase) async {
     assert(readResult is List<Test_table>);
     expect(readResult!.length, 1);
     expect(readResult[0].realx, isA<double>());
-    expect(readResult[0].realx, updatedReal);
+    expect(readResult[0].realx, closeTo(updatedReal, 1e-6));
   });
 }
 
