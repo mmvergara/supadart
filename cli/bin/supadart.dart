@@ -32,7 +32,7 @@ void main(List<String> arguments) async {
 Future<String?> getGeneratedClasses(
     String supabaseUrl, String supabaseAnonKey) async {
   String url =
-      "http://https://supabase-schema-dart-class-generator.vercel.app/api/generate?SUPABASE_URL=$supabaseUrl&SUPABASE_ANON_KEY=$supabaseAnonKey";
+      "https://supabase-schema-dart-class-generator.vercel.app/api/generate?SUPABASE_URL=$supabaseUrl&SUPABASE_ANON_KEY=$supabaseAnonKey";
   try {
     var response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
