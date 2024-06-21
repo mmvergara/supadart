@@ -360,7 +360,9 @@ class Test_table {
       macaddrx: json['macaddrx'],
       macaddr8x: json['macaddr8x'],
       moneyx: json['moneyx'],
-      numericx: json['numericx'],
+      numericx: json['numericx'] != null
+          ? num.tryParse(json['numericx'].toString())
+          : null,
       pathx: json['pathx'],
       pg_lsnx: json['pg_lsnx'],
       pg_snapshotx: json['pg_snapshotx'],
@@ -393,8 +395,224 @@ class Test_table {
   }
 }
 
+class Named {
+  BigInt id;
+
+  Named({
+    required this.id,
+  });
+
+  static String get table_name => 'named';
+  static String get c_id => 'id';
+  static Map<String, dynamic> insert({
+    required BigInt id,
+  }) {
+    return {
+      'id': id.toString(),
+    };
+  }
+
+  static Map<String, dynamic> update({
+    BigInt? id,
+  }) {
+    return {
+      if (id != null) 'id': id.toString(),
+    };
+  }
+
+  factory Named.fromJson(Map<String, dynamic> json) {
+    return Named(
+      id: BigInt.parse(json['id'].toString()),
+    );
+  }
+}
+
+class Supported_in_table {
+  BigInt id;
+  DateTime created_at;
+  int? a;
+  int? b;
+  BigInt? c;
+  double? d;
+  double? e;
+  num? f;
+  Map<String, dynamic>? g;
+  Map<String, dynamic>? h;
+  String? i;
+  String? j;
+  String? k;
+  DateTime? l;
+  DateTime? m;
+  DateTime? n;
+  DateTime? o;
+  DateTime? p;
+  bool? q;
+
+  Supported_in_table({
+    required this.id,
+    required this.created_at,
+    this.a,
+    this.b,
+    this.c,
+    this.d,
+    this.e,
+    this.f,
+    this.g,
+    this.h,
+    this.i,
+    this.j,
+    this.k,
+    this.l,
+    this.m,
+    this.n,
+    this.o,
+    this.p,
+    this.q,
+  });
+
+  static String get table_name => 'supported_in_table';
+  static String get c_id => 'id';
+  static String get c_created_at => 'created_at';
+  static String get c_a => 'a';
+  static String get c_b => 'b';
+  static String get c_c => 'c';
+  static String get c_d => 'd';
+  static String get c_e => 'e';
+  static String get c_f => 'f';
+  static String get c_g => 'g';
+  static String get c_h => 'h';
+  static String get c_i => 'i';
+  static String get c_j => 'j';
+  static String get c_k => 'k';
+  static String get c_l => 'l';
+  static String get c_m => 'm';
+  static String get c_n => 'n';
+  static String get c_o => 'o';
+  static String get c_p => 'p';
+  static String get c_q => 'q';
+  static Map<String, dynamic> insert({
+    BigInt? id,
+    DateTime? created_at,
+    int? a,
+    int? b,
+    BigInt? c,
+    double? d,
+    double? e,
+    num? f,
+    Map<String, dynamic>? g,
+    Map<String, dynamic>? h,
+    String? i,
+    String? j,
+    String? k,
+    DateTime? l,
+    DateTime? m,
+    DateTime? n,
+    DateTime? o,
+    DateTime? p,
+    bool? q,
+  }) {
+    return {
+      if (id != null) 'id': id.toString(),
+      if (created_at != null) 'created_at': created_at.toIso8601String(),
+      if (a != null) 'a': a.toString(),
+      if (b != null) 'b': b.toString(),
+      if (c != null) 'c': c.toString(),
+      if (d != null) 'd': d.toString(),
+      if (e != null) 'e': e.toString(),
+      if (f != null) 'f': f.toString(),
+      if (g != null) 'g': g.toString(),
+      if (h != null) 'h': h.toString(),
+      if (i != null) 'i': i.toString(),
+      if (j != null) 'j': j.toString(),
+      if (k != null) 'k': k.toString(),
+      if (l != null) 'l': l.toIso8601String(),
+      if (m != null) 'm': m.toIso8601String(),
+      if (n != null) 'n': n.toIso8601String(),
+      if (o != null) 'o': o.toIso8601String(),
+      if (p != null) 'p': p.toIso8601String(),
+      if (q != null) 'q': q.toString(),
+    };
+  }
+
+  static Map<String, dynamic> update({
+    BigInt? id,
+    DateTime? created_at,
+    int? a,
+    int? b,
+    BigInt? c,
+    double? d,
+    double? e,
+    num? f,
+    Map<String, dynamic>? g,
+    Map<String, dynamic>? h,
+    String? i,
+    String? j,
+    String? k,
+    DateTime? l,
+    DateTime? m,
+    DateTime? n,
+    DateTime? o,
+    DateTime? p,
+    bool? q,
+  }) {
+    return {
+      if (id != null) 'id': id.toString(),
+      if (created_at != null) 'created_at': created_at.toIso8601String(),
+      if (a != null) 'a': a.toString(),
+      if (b != null) 'b': b.toString(),
+      if (c != null) 'c': c.toString(),
+      if (d != null) 'd': d.toString(),
+      if (e != null) 'e': e.toString(),
+      if (f != null) 'f': f.toString(),
+      if (g != null) 'g': g.toString(),
+      if (h != null) 'h': h.toString(),
+      if (i != null) 'i': i.toString(),
+      if (j != null) 'j': j.toString(),
+      if (k != null) 'k': k.toString(),
+      if (l != null) 'l': l.toIso8601String(),
+      if (m != null) 'm': m.toIso8601String(),
+      if (n != null) 'n': n.toIso8601String(),
+      if (o != null) 'o': o.toIso8601String(),
+      if (p != null) 'p': p.toIso8601String(),
+      if (q != null) 'q': q.toString(),
+    };
+  }
+
+  factory Supported_in_table.fromJson(Map<String, dynamic> json) {
+    return Supported_in_table(
+      id: BigInt.parse(json['id'].toString()),
+      created_at: DateTime.parse(json['created_at']),
+      a: json['a'],
+      b: json['b'],
+      c: json['c'] != null ? BigInt.tryParse(json['c'].toString()) : null,
+      d: json['d'] != null ? double.tryParse(json['d'].toString()) : null,
+      e: json['e'] != null ? double.tryParse(json['e'].toString()) : null,
+      f: json['f'] != null ? num.tryParse(json['f'].toString()) : null,
+      g: json['g'],
+      h: json['h'],
+      i: json['i'],
+      j: json['j'],
+      k: json['k'],
+      l: json['l'] != null ? DateTime.tryParse(json['l']) : null,
+      m: json['m'] != null ? DateTime.tryParse(json['m']) : null,
+      n: json['n'] != null ? DateTime.tryParse(json['n']) : null,
+      o: json['o'] != null ? DateTime.tryParse(json['o']) : null,
+      p: json['p'] != null ? DateTime.tryParse(json['p']) : null,
+      q: json['q'],
+    );
+  }
+}
+
 extension TypeSafeTable on SupabaseClient {
   SupabaseQueryBuilder get test_table {
     return from('test_table');
+  }
+
+  SupabaseQueryBuilder get named {
+    return from('named');
+  }
+
+  SupabaseQueryBuilder get supported_in_table {
+    return from('supported_in_table');
   }
 }
