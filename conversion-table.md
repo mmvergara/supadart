@@ -5,13 +5,13 @@
 | int8                | bigint                      | integer   | BigInt                                                      | ✅             |
 | float4              | real                        | number    | double                                                      | ✅             |
 | float8              | double precision            | number    | double                                                      | ✅             |
-| numeric             | numeric                     | number    | BigInt                                                      |                |
-| json                | json                        | -         | Map<String, dynamic>                                        |                |
+| numeric             | numeric                     | number    | BigInt                                                      | ✅             |
+| json                | json                        | -         | Map<String, dynamic>                                        | ✅             |
 | jsonb               | jsonb                       | -         | Map<String, dynamic>                                        |                |
 | text                | text                        | string    | String                                                      | ✅             |
 | varchar             | character varying           | string    | String                                                      | ✅             |
 | uuid                | uuid                        | string    | String                                                      |                |
-| l date              | date                        | string    | DateTime                                                    |                |
+| date                | date                        | string    | DateTime                                                    |                |
 | time                | time without time zone      | string    | DateTime                                                    |                |
 | timetz              | time with time zone         | string    | DateTime                                                    |                |
 | timestamp           | timestamp without time zone | string    | DateTime                                                    |                |
