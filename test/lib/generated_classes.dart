@@ -1,6 +1,8 @@
 import 'package:supabase/supabase.dart';
 import 'dart:typed_data';
 
+import 'dart:convert';
+
 class Test_table {
   BigInt bigintx;
   BigInt bigserialx;
@@ -203,8 +205,8 @@ class Test_table {
       if (inetx != null) 'inetx': inetx.toString(),
       if (integerx != null) 'integerx': integerx.toString(),
       if (intervalx != null) 'intervalx': intervalx.toString(),
-      if (jsonx != null) 'jsonx': jsonx.toString(),
-      if (jsonbx != null) 'jsonbx': jsonbx.toString(),
+      if (jsonx != null) 'jsonx': jsonx,
+      if (jsonbx != null) 'jsonbx': jsonbx,
       if (linex != null) 'linex': linex.toString(),
       if (lsegx != null) 'lsegx': lsegx.toString(),
       if (macaddrx != null) 'macaddrx': macaddrx.toString(),
@@ -300,8 +302,8 @@ class Test_table {
       if (inetx != null) 'inetx': inetx.toString(),
       if (integerx != null) 'integerx': integerx.toString(),
       if (intervalx != null) 'intervalx': intervalx.toString(),
-      if (jsonx != null) 'jsonx': jsonx.toString(),
-      if (jsonbx != null) 'jsonbx': jsonbx.toString(),
+      if (jsonx != null) 'jsonx': jsonx,
+      if (jsonbx != null) 'jsonbx': jsonbx,
       if (linex != null) 'linex': linex.toString(),
       if (lsegx != null) 'lsegx': lsegx.toString(),
       if (macaddrx != null) 'macaddrx': macaddrx.toString(),
@@ -391,38 +393,6 @@ class Test_table {
       uuidx: json['uuidx'],
       xmlx: json['xmlx'],
       cleanup: json['cleanup'],
-    );
-  }
-}
-
-class Named {
-  BigInt id;
-
-  Named({
-    required this.id,
-  });
-
-  static String get table_name => 'named';
-  static String get c_id => 'id';
-  static Map<String, dynamic> insert({
-    required BigInt id,
-  }) {
-    return {
-      'id': id.toString(),
-    };
-  }
-
-  static Map<String, dynamic> update({
-    BigInt? id,
-  }) {
-    return {
-      if (id != null) 'id': id.toString(),
-    };
-  }
-
-  factory Named.fromJson(Map<String, dynamic> json) {
-    return Named(
-      id: BigInt.parse(json['id'].toString()),
     );
   }
 }
@@ -520,8 +490,8 @@ class Supported_in_table {
       if (d != null) 'd': d.toString(),
       if (e != null) 'e': e.toString(),
       if (f != null) 'f': f.toString(),
-      if (g != null) 'g': g.toString(),
-      if (h != null) 'h': h.toString(),
+      if (g != null) 'g': g,
+      if (h != null) 'h': h,
       if (i != null) 'i': i.toString(),
       if (j != null) 'j': j.toString(),
       if (k != null) 'k': k.toString(),
@@ -564,8 +534,8 @@ class Supported_in_table {
       if (d != null) 'd': d.toString(),
       if (e != null) 'e': e.toString(),
       if (f != null) 'f': f.toString(),
-      if (g != null) 'g': g.toString(),
-      if (h != null) 'h': h.toString(),
+      if (g != null) 'g': g,
+      if (h != null) 'h': h,
       if (i != null) 'i': i.toString(),
       if (j != null) 'j': j.toString(),
       if (k != null) 'k': k.toString(),
@@ -606,10 +576,6 @@ class Supported_in_table {
 extension TypeSafeTable on SupabaseClient {
   SupabaseQueryBuilder get test_table {
     return from('test_table');
-  }
-
-  SupabaseQueryBuilder get named {
-    return from('named');
   }
 
   SupabaseQueryBuilder get supported_in_table {
