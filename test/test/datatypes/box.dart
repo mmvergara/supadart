@@ -23,7 +23,7 @@ Future<void> performBoxTest(SupabaseClient supabase) async {
 
   test('Testing Box Read', () async {
     var readResult = await readBox(supabase);
-    assert(readResult is List<All_types>);
+    assert(readResult is List<Test_table>);
     expect(readResult!.length, 1);
     expect(readResult[0].boxx, updatedBox);
   });
@@ -31,7 +31,7 @@ Future<void> performBoxTest(SupabaseClient supabase) async {
 
 Future<Object?> createBox(SupabaseClient supabase, String insertVal) async {
   try {
-    await supabase.all_types.insert(All_types.insert(
+    await supabase.test_table.insert(Test_table.insert(
       boxx: insertVal,
     ));
     return null;
@@ -43,9 +43,9 @@ Future<Object?> createBox(SupabaseClient supabase, String insertVal) async {
 Future<Object?> updateBox(
     SupabaseClient supabase, String oldValue, String value) async {
   try {
-    await supabase.all_types
-        .update(All_types.update(boxx: value))
-        .eq(All_types.c_boxx, oldValue);
+    await supabase.test_table
+        .update(Test_table.update(boxx: value))
+        .eq(Test_table.c_boxx, oldValue);
     return null;
   } catch (error) {
     print("updateBox error");
@@ -54,11 +54,11 @@ Future<Object?> updateBox(
   }
 }
 
-Future<List<All_types>?> readBox(SupabaseClient supabase) async {
+Future<List<Test_table>?> readBox(SupabaseClient supabase) async {
   try {
-    var res = await supabase.all_types
+    var res = await supabase.test_table
         .select()
-        .withConverter((data) => data.map(All_types.fromJson).toList());
+        .withConverter((data) => data.map(Test_table.fromJson).toList());
     return res;
   } catch (error) {
     print("readBox error");

@@ -21,7 +21,7 @@ Future<void> performBitVaryingTest(SupabaseClient supabase) async {
 
   test('Testing Bit Varying Read', () async {
     var readResult = await readBitVarying(supabase);
-    assert(readResult is List<All_types>);
+    assert(readResult is List<Test_table>);
     expect(readResult!.length, 1);
     expect(readResult[0].bitvaryingx, updatedBitVarying);
   });
@@ -30,7 +30,7 @@ Future<void> performBitVaryingTest(SupabaseClient supabase) async {
 Future<Object?> createBitVarying(
     SupabaseClient supabase, String insertVal) async {
   try {
-    await supabase.all_types.insert(All_types.insert(
+    await supabase.test_table.insert(Test_table.insert(
       bitvaryingx: insertVal,
     ));
     return null;
@@ -42,9 +42,9 @@ Future<Object?> createBitVarying(
 Future<Object?> updateBitVarying(
     SupabaseClient supabase, String oldValue, String value) async {
   try {
-    await supabase.all_types
-        .update(All_types.update(bitvaryingx: value))
-        .eq(All_types.c_bitvaryingx, oldValue);
+    await supabase.test_table
+        .update(Test_table.update(bitvaryingx: value))
+        .eq(Test_table.c_bitvaryingx, oldValue);
     return null;
   } catch (error) {
     print("updateBitVarying error");
@@ -53,11 +53,11 @@ Future<Object?> updateBitVarying(
   }
 }
 
-Future<List<All_types>?> readBitVarying(SupabaseClient supabase) async {
+Future<List<Test_table>?> readBitVarying(SupabaseClient supabase) async {
   try {
-    var res = await supabase.all_types
+    var res = await supabase.test_table
         .select()
-        .withConverter((data) => data.map(All_types.fromJson).toList());
+        .withConverter((data) => data.map(Test_table.fromJson).toList());
     return res;
   } catch (error) {
     print("readBitVarying error");

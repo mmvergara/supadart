@@ -21,7 +21,7 @@ Future<void> performBitTest(SupabaseClient supabase) async {
 
   test('Testing Bit Read', () async {
     var readResult = await readBit(supabase);
-    assert(readResult is List<All_types>);
+    assert(readResult is List<Test_table>);
     expect(readResult!.length, 1);
     expect(readResult[0].bitx, updatedBit);
   });
@@ -29,7 +29,7 @@ Future<void> performBitTest(SupabaseClient supabase) async {
 
 Future<Object?> createBit(SupabaseClient supabase, String insertVal) async {
   try {
-    await supabase.all_types.insert(All_types.insert(
+    await supabase.test_table.insert(Test_table.insert(
       bitx: insertVal,
     ));
     return null;
@@ -38,11 +38,11 @@ Future<Object?> createBit(SupabaseClient supabase, String insertVal) async {
   }
 }
 
-Future<List<All_types>?> readBit(SupabaseClient supabase) async {
+Future<List<Test_table>?> readBit(SupabaseClient supabase) async {
   try {
-    var res = await supabase.all_types
+    var res = await supabase.test_table
         .select()
-        .withConverter((data) => data.map(All_types.fromJson).toList());
+        .withConverter((data) => data.map(Test_table.fromJson).toList());
     return res;
   } catch (error) {
     print("readBit error");
@@ -54,9 +54,9 @@ Future<List<All_types>?> readBit(SupabaseClient supabase) async {
 Future<Object?> updateBit(
     SupabaseClient supabase, String oldValue, String value) async {
   try {
-    await supabase.all_types
-        .update(All_types.update(bitx: value))
-        .eq(All_types.c_bitx, oldValue);
+    await supabase.test_table
+        .update(Test_table.update(bitx: value))
+        .eq(Test_table.c_bitx, oldValue);
     return null;
   } catch (error) {
     print("updateBit error");

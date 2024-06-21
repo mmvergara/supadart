@@ -1,7 +1,7 @@
 import 'package:supabase/supabase.dart';
 import 'dart:typed_data';
 
-class All_types {
+class Test_table {
   BigInt bigintx;
   BigInt bigserialx;
   String? bitx;
@@ -47,7 +47,7 @@ class All_types {
   String? xmlx;
   int? cleanup;
 
-  All_types({
+  Test_table({
     required this.bigintx,
     required this.bigserialx,
     this.bitx,
@@ -94,7 +94,7 @@ class All_types {
     this.cleanup,
   });
 
-  static String get table_name => 'all_types';
+  static String get table_name => 'test_table';
   static String get c_bigintx => 'bigintx';
   static String get c_bigserialx => 'bigserialx';
   static String get c_bitx => 'bitx';
@@ -333,8 +333,8 @@ class All_types {
     };
   }
 
-  factory All_types.fromJson(Map<String, dynamic> json) {
-    return All_types(
+  factory Test_table.fromJson(Map<String, dynamic> json) {
+    return Test_table(
       bigintx: BigInt.parse(json['bigintx'].toString()),
       bigserialx: BigInt.parse(json['bigserialx'].toString()),
       bitx: json['bitx'],
@@ -394,7 +394,7 @@ class All_types {
 }
 
 extension TypeSafeTable on SupabaseClient {
-  SupabaseQueryBuilder get all_types {
-    return from('all_types');
+  SupabaseQueryBuilder get test_table {
+    return from('test_table');
   }
 }

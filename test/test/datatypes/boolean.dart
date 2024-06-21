@@ -25,7 +25,7 @@ Future<void> performBooleanTest(SupabaseClient supabase) async {
 
   test('Testing Boolean Read', () async {
     var readResult = await readBoolean(supabase);
-    assert(readResult is List<All_types>);
+    assert(readResult is List<Test_table>);
     expect(readResult!.length, 1);
     expect(readResult[0].booleanx, updatedBoolean);
   });
@@ -33,7 +33,7 @@ Future<void> performBooleanTest(SupabaseClient supabase) async {
 
 Future<Object?> createBoolean(SupabaseClient supabase, bool insertVal) async {
   try {
-    await supabase.all_types.insert(All_types.insert(
+    await supabase.test_table.insert(Test_table.insert(
       booleanx: insertVal,
     ));
     return null;
@@ -45,9 +45,9 @@ Future<Object?> createBoolean(SupabaseClient supabase, bool insertVal) async {
 Future<Object?> updateBoolean(
     SupabaseClient supabase, bool oldValue, bool value) async {
   try {
-    await supabase.all_types
-        .update(All_types.update(booleanx: value))
-        .eq(All_types.c_booleanx, oldValue);
+    await supabase.test_table
+        .update(Test_table.update(booleanx: value))
+        .eq(Test_table.c_booleanx, oldValue);
     return null;
   } catch (error) {
     print("updateBoolean error");
@@ -56,11 +56,11 @@ Future<Object?> updateBoolean(
   }
 }
 
-Future<List<All_types>?> readBoolean(SupabaseClient supabase) async {
+Future<List<Test_table>?> readBoolean(SupabaseClient supabase) async {
   try {
-    var res = await supabase.all_types
+    var res = await supabase.test_table
         .select()
-        .withConverter((data) => data.map(All_types.fromJson).toList());
+        .withConverter((data) => data.map(Test_table.fromJson).toList());
     return res;
   } catch (error) {
     print("readBoolean error");
