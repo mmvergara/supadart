@@ -93,6 +93,9 @@ export const toJsonEncodable = (
       if (format === "time with time zone") {
         return `DateFormat('HH:mm:ss zzzz').format(${propertyName})`;
       }
+      if (format === "timestamp with time zone") {
+        return `${propertyName}.toUtc().toString()`;
+      }
       return `${propertyName}.toIso8601String()`;
     case "Map<String, dynamic>":
       return `${propertyName}`;
