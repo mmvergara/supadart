@@ -1,16 +1,54 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:args/args.dart';
 import 'package:dotenv/dotenv.dart';
 import 'package:http/http.dart' as http;
 
 void main(List<String> arguments) async {
-  var env = DotEnv(includePlatformEnvironment: true)..load();
+  final parser = ArgParser()
+    ..addFlag('help',
+        abbr: 'h', negatable: false, help: 'Show usage information')
+    ..addOption('env-path',
+        abbr: "e", help: 'Path to the .env file -- (default: .env)')
+    ..addOption('url',
+        abbr: "u",
+        help: 'Supabase URL          -- (default: .env SUPABASE_URL)')
+    ..addOption('key',
+        abbr: "k",
+        help: 'Supabase ANON KEY     -- (default: .env SUPABASE_ANON_KEY)')
+    ..addOption('output',
+        abbr: 'o',
+        help: 'Output file path      -- (default: lib/generated_classes.dart)');
 
-  String? url = env['SUPABASE_URL'];
-  String? anonKey = env['SUPABASE_ANON_KEY'];
+  final results = parser.parse(arguments);
+
+  if (results['help']) {
+    print('Usage: dart script.dart [options]');
+    print(parser.usage);
+    exit(0);
+  }
+
+  String? url;
+  String? anonKey;
+
+  if (results['url'] != null && results['key'] != null) {
+    url = results['url'];
+    anonKey = results['key'];
+  } else {
+    var envPath = results['env-path'] ?? '.env';
+    var env = DotEnv(includePlatformEnvironment: true)..load([envPath]);
+
+    url = env['SUPABASE_URL'];
+    anonKey = env['SUPABASE_ANON_KEY'];
+  }
 
   if (url == null || anonKey == null) {
-    print('Please provide SUPABASE_URL and SUPABASE_ANON_KEY in .env file');
+    print(
+        "Please provide --url and --key or Set SUPABASE_URL and SUPABASE_ANON_KEY in .env file");
+
+    //print help
+    print('use -h or --help for help');
+
     exit(1);
   }
 
@@ -20,12 +58,12 @@ void main(List<String> arguments) async {
     exit(1);
   }
 
-  // output to /lib/generated_classes.dart
-  File file = File('lib/generated_classes.dart');
+  String outputPath = results['output'] ?? 'lib/generated_classes.dart';
+  File file = File(outputPath);
   file.writeAsStringSync(codeOutput);
 
   print("*** Classes generated successfully ***");
-  print("Output: lib/generated_classes.dart");
+  print("*** Output: $outputPath ***");
 }
 
 Future<String?> getGeneratedClasses(

@@ -1,3 +1,7 @@
+## 1.1.0
+
+- Added cmd options
+
 ## 1.0.5
 
 - Readme Installation Update

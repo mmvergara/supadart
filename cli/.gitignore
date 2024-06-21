@@ -3,4 +3,6 @@
 .dart_tool/
 
 cli.exe
+supadart.exe
 .env
+.env.env
