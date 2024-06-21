@@ -1,10 +1,6 @@
-# Supabase Schema to Dart Classes (WIP)
+# Supabase Schema to Dart Classes 🎯
 
-Generate Dart classes from your Supabase schema.
-
-I'm pretty sure we could make this better by making a CLI or adding it to the existing one. But here it is for now. Please feel free to open an issue or a PR 🙏 if you have any ideas or suggestions. I really want to make this better cause i use flutter a lot.
-
-Generator Logic in `/generators`
+Generate Dart 🎯 classes from your Supabase schema.
 
 - [Generate Dart Classes](#generate-dart-classes)
 - [Example Usage](#example-usage)
@@ -212,5 +208,3 @@ await supabase
 ```dart
 await supabase.books.delete().eq('id', 1);
 ```
-
----
