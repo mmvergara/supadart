@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
-import { generateDartClasses } from "@/generators/Class";
-import { generateClientExtension } from "@/generators/ClientExtension";
+import { generateClassesAndClient } from "@/generators";
 
 const App = () => {
   const [supabaseUrl, setSupabaseUrl] = useState("");
@@ -38,12 +37,8 @@ const App = () => {
         return;
       }
 
-      const dartClasses = generateDartClasses(data.definitions);
-      const clientExtension = generateClientExtension(data.definitions);
-
-      const outputCode = `${dartClasses}\n\n${clientExtension}`;
-
-      setOutput(outputCode.trim());
+      const outputCode = await generateClassesAndClient(data.definitions);
+      setOutput(outputCode);
     } catch (e) {
       console.log(e);
       setOutput("Error fetching data");
