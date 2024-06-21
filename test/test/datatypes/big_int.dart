@@ -6,8 +6,11 @@ import 'package:test/scaffolding.dart';
 import '../cleanup.dart';
 
 Future<void> performBigIntTest(SupabaseClient supabase) async {
-  BigInt insertBigInt = BigInt.parse("9223372036854775807");
-  BigInt updatedBigInt = BigInt.parse("-9223372036854775808");
+  // int8
+  BigInt insertBigInt =
+      BigInt.parse("9223372036854775807"); // max value for int8
+  BigInt updatedBigInt =
+      BigInt.parse("-9223372036854775808"); // min value for int8
 
   test('Testing BigInt Create', () async {
     await cleanup(supabase);
