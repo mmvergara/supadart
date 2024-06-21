@@ -4,6 +4,7 @@ export const getDartTypeByFormat = (format: Format): DartType => {
   switch (format) {
     // Integer types
     case "bigint":
+      return "BigInt";
     case "integer":
     case "smallint":
       return "int";
@@ -77,6 +78,14 @@ export const getDartTypeByFormat = (format: Format): DartType => {
 
     default:
       return "dynamic"; // For unsupported types, use dynamic as a fallback
+  }
+};
+export const toJsonEncodable = (dartType: DartType, propertyName: string) => {
+  switch (dartType) {
+    case "DateTime":
+      return `${propertyName}.toIso8601String()`;
+    default:
+      return `${propertyName}.toString()`;
   }
 };
 

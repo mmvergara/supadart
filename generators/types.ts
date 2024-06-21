@@ -15,6 +15,7 @@ export type Definition = {
 export type Type = "string" | "integer" | "boolean" | "number";
 export type DartType =
   | "int"
+  | "BigInt"
   | "double"
   | "num"
   | "bool"

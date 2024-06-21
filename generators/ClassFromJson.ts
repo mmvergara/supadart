@@ -31,6 +31,8 @@ export const parseWrapper = (
 ): string => {
   if (required) {
     switch (dartType) {
+      case "BigInt":
+        return `BigInt.parse(${jsonValue}.toString())`;
       case "double":
         return `double.parse(${jsonValue}.toString())`;
       case "DateTime":
@@ -41,6 +43,8 @@ export const parseWrapper = (
   }
 
   switch (dartType) {
+    case "BigInt":
+      return `${jsonValue} != null ? BigInt.tryParse(${jsonValue}.toString()) : null`;
     case "double":
       return `${jsonValue} != null ? double.tryParse(${jsonValue}.toString()) : null`;
     case "DateTime":

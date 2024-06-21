@@ -1,5 +1,5 @@
 import { DartType, Definition } from "./types";
-import { getDartTypeByFormat } from "./utils";
+import { getDartTypeByFormat, toJsonEncodable } from "./utils";
 
 export const generateInsertMethod = (
   properties: Definition["properties"],
@@ -30,13 +30,20 @@ export const generateInsertMethod = (
       properties[propertyName].description?.includes("<pk/>");
     const isRequiredField = requiredFields.includes(propertyName);
     const hasDefaultValue = properties[propertyName].default;
-    const isRequired = isRequiredField && !hasDefaultValue && !isPrimaryKey;
+    const isSerialType =
+      properties[propertyName].description?.includes("serial");
+
+    const isRequired =
+      isRequiredField && !hasDefaultValue && !isPrimaryKey && !isSerialType;
 
     const dartDataType = getDartTypeByFormat(properties[propertyName].format);
     if (isRequired) {
-      code += `'${propertyName}': ${wrapIfDate(dartDataType, propertyName)},\n`;
+      code += `'${propertyName}': ${toJsonEncodable(
+        dartDataType,
+        propertyName
+      )},\n`;
     } else {
-      code += `if (${propertyName} != null) '${propertyName}': ${wrapIfDate(
+      code += `if (${propertyName} != null) '${propertyName}': ${toJsonEncodable(
         dartDataType,
         propertyName
       )},\n`;
@@ -46,9 +53,3 @@ export const generateInsertMethod = (
   code += `}\n\n`;
   return code;
 };
-function wrapIfDate(dartType: DartType, propertyName: string) {
-  if (dartType === "DateTime") {
-    return `${propertyName}.toIso8601String()`;
-  }
-  return propertyName;
-}
