@@ -23,6 +23,7 @@ Future<void> performBitVaryingTest(SupabaseClient supabase) async {
     var readResult = await readBitVarying(supabase);
     assert(readResult is List<Test_table>);
     expect(readResult!.length, 1);
+    expect(readResult[0].bitvaryingx, isA<String>());
     expect(readResult[0].bitvaryingx, updatedBitVarying);
   });
 }
