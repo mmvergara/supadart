@@ -27,6 +27,7 @@ Future<void> performBooleanTest(SupabaseClient supabase) async {
     var readResult = await readBoolean(supabase);
     assert(readResult is List<Test_table>);
     expect(readResult!.length, 1);
+    expect(readResult[0].booleanx, isA<bool>());
     expect(readResult[0].booleanx, updatedBoolean);
   });
 }
