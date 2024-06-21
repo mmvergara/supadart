@@ -1,14 +1,37 @@
 import 'package:supabase/supabase.dart';
 import 'package:supadart_test/generated_classes.dart';
+import 'package:test/expect.dart';
+import 'package:test/scaffolding.dart';
 
-Future<Object?> createBigInt(SupabaseClient supabase) async {
+import '../cleanup.dart';
+
+Future<void> performBigIntTest(SupabaseClient supabase) async {
+  BigInt insertBigInt = BigInt.from(4221312931259329921);
+  BigInt updatedBigInt = BigInt.from(4221312931259329821);
+  test('Testing BigInt Create', () async {
+    await cleanup(supabase);
+    var createResult = await createBigInt(supabase, insertBigInt);
+    expect(createResult, null);
+  });
+
+  test('Testing BigInt Update', () async {
+    var updateResult =
+        await updateBigInt(supabase, insertBigInt, updatedBigInt);
+    expect(updateResult, null);
+  });
+
+  test('Testing BigInt Read', () async {
+    var readResult = await readBigInt(supabase);
+    assert(readResult is List<All_types>);
+    expect(readResult!.length, 1);
+    expect(readResult[0].bigintx, updatedBigInt);
+  });
+}
+
+Future<Object?> createBigInt(SupabaseClient supabase, BigInt insertVal) async {
   try {
-    BigInt value = BigInt.from(4221312931259329921);
     await supabase.all_types.insert(All_types.insert(
-      bigintx: value,
-      // bigserialx: value,
-      smallserialx: 0,
-      serialx: 0,
+      bigintx: insertVal,
     ));
     return null;
   } catch (error) {
@@ -34,7 +57,7 @@ Future<Object?> updateBigInt(
   try {
     await supabase.all_types
         .update(All_types.update(bigintx: value))
-        .eq("bigintx", oldValue);
+        .eq(All_types.c_bigintx, oldValue);
     return null;
   } catch (error) {
     print("updateBigInt error");
