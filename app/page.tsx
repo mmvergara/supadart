@@ -1,9 +1,9 @@
+"use client";
 import { useState } from "react";
-import "./App.css";
-import { generateDartClasses } from "./generators/Class";
-import { generateClientExtension } from "./generators/ClientExtension";
+import { generateDartClasses } from "@/generators/Class";
+import { generateClientExtension } from "@/generators/ClientExtension";
 
-function App() {
+const App = () => {
   const [supabaseUrl, setSupabaseUrl] = useState("");
   const [supabaseAnonKey, setSupabaseAnonKey] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -112,6 +112,6 @@ function App() {
       </pre>
     </div>
   );
-}
+};
 
 export default App;
