@@ -1,0 +1,22 @@
+name: supadart
+description: Generate Dart classes from your Supabase schema.
+version: 1.0.0
+
+repository: https://github.com/mmvergara/supabase-schema-dart-class-generator
+homepage: https://github.com/mmvergara/supabase-schema-dart-class-generator
+issue_tracker: https://github.com/mmvergara/supabase-schema-dart-class-generator/issues
+documentation: https://github.com/mmvergara/supabase-schema-dart-class-generator
+topics: [cli, generator, supabase, schema, class]
+
+environment:
+  sdk: ^3.3.0
+
+# Add regular dependencies here.
+dependencies:
+  dotenv: ^4.2.0
+  http: ^1.2.1
+  # path: ^1.8.0
+
+dev_dependencies:
+  lints: ^3.0.0
+  test: ^1.24.0
