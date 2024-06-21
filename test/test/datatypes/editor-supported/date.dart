@@ -26,9 +26,9 @@ Future<void> performDateTest(SupabaseClient supabase) async {
     var readResult = await readDate(supabase);
     assert(readResult is List<Test_table>);
     expect(readResult!.length, 1);
-    expect(readResult[0].datex?.year, updatedDate.toUtc().year);
-    expect(readResult[0].datex?.month, updatedDate.toUtc().month);
-    expect(readResult[0].datex?.day, updatedDate.toUtc().day);
+    expect(readResult[0].datex?.year, updatedDate.year);
+    expect(readResult[0].datex?.month, updatedDate.month);
+    expect(readResult[0].datex?.day, updatedDate.day);
     expect(readResult[0].datex, isA<DateTime>());
   });
 }

@@ -229,7 +229,7 @@ class Test_table {
       if (timetzx != null)
         'timetzx': DateFormat('HH:mm:ss zzzz').format(timetzx),
       if (timestampx != null) 'timestampx': timestampx.toIso8601String(),
-      if (timestamptzx != null) 'timestamptzx': timestamptzx.toIso8601String(),
+      if (timestamptzx != null) 'timestamptzx': timestamptzx.toUtc().toString(),
       if (tsqueryx != null) 'tsqueryx': tsqueryx.toString(),
       if (tsvectorx != null) 'tsvectorx': tsvectorx.toString(),
       if (txid_snapshotx != null) 'txid_snapshotx': txid_snapshotx.toString(),
@@ -325,7 +325,7 @@ class Test_table {
       if (timetzx != null)
         'timetzx': DateFormat('HH:mm:ss zzzz').format(timetzx),
       if (timestampx != null) 'timestampx': timestampx.toIso8601String(),
-      if (timestamptzx != null) 'timestamptzx': timestamptzx.toIso8601String(),
+      if (timestamptzx != null) 'timestamptzx': timestamptzx.toUtc().toString(),
       if (tsqueryx != null) 'tsqueryx': tsqueryx.toString(),
       if (tsvectorx != null) 'tsvectorx': tsvectorx.toString(),
       if (txid_snapshotx != null) 'txid_snapshotx': txid_snapshotx.toString(),
@@ -485,7 +485,7 @@ class Supported_in_table {
   }) {
     return {
       if (id != null) 'id': id.toString(),
-      if (created_at != null) 'created_at': created_at.toIso8601String(),
+      if (created_at != null) 'created_at': created_at.toUtc().toString(),
       if (a != null) 'a': a.toString(),
       if (b != null) 'b': b.toString(),
       if (c != null) 'c': c.toString(),
@@ -501,7 +501,7 @@ class Supported_in_table {
       if (m != null) 'm': DateFormat('HH:mm:ss.SSS').format(m),
       if (n != null) 'n': DateFormat('HH:mm:ss zzzz').format(n),
       if (o != null) 'o': o.toIso8601String(),
-      if (p != null) 'p': p.toIso8601String(),
+      if (p != null) 'p': p.toUtc().toString(),
       if (q != null) 'q': q.toString(),
     };
   }
@@ -529,7 +529,7 @@ class Supported_in_table {
   }) {
     return {
       if (id != null) 'id': id.toString(),
-      if (created_at != null) 'created_at': created_at.toIso8601String(),
+      if (created_at != null) 'created_at': created_at.toUtc().toString(),
       if (a != null) 'a': a.toString(),
       if (b != null) 'b': b.toString(),
       if (c != null) 'c': c.toString(),
@@ -545,7 +545,7 @@ class Supported_in_table {
       if (m != null) 'm': DateFormat('HH:mm:ss.SSS').format(m),
       if (n != null) 'n': DateFormat('HH:mm:ss zzzz').format(n),
       if (o != null) 'o': o.toIso8601String(),
-      if (p != null) 'p': p.toIso8601String(),
+      if (p != null) 'p': p.toUtc().toString(),
       if (q != null) 'q': q.toString(),
     };
   }

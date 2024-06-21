@@ -19,6 +19,8 @@ import 'datatypes/editor-supported/json.dart';
 import 'datatypes/editor-supported/jsonb.dart';
 import 'datatypes/editor-supported/numeric.dart';
 import 'datatypes/editor-supported/time.dart';
+import 'datatypes/editor-supported/timestamp.dart';
+import 'datatypes/editor-supported/timestamptz.dart';
 import 'datatypes/editor-supported/timetz.dart';
 import 'datatypes/editor-supported/uuid.dart';
 import 'datatypes/text.dart';
@@ -43,18 +45,19 @@ void main() async {
   // await performNumericTest(supabase);
   // await performJsonTest(supabase);
   // await performJsonbTest(supabase);
+  await performTextTest(supabase);
+  await performCharacterVaryingTest(supabase);
   // await performUuidTest(supabase);
   // await performDateTest(supabase);
-  await performTimeTest(supabase);
-  await performTimeTzTest(supabase);
-
+  // await performTimeTest(supabase);
+  // await performTimeTzTest(supabase);
+  // await performTimestampTest(supabase);
+  // await performTimestamptzTest(supabase);
   // await performBooleanTest(supabase);
 
-  // await performCharacterVaryingTest(supabase);
-  // await performCharacterTest(supabase);
-  // await performTextTest(supabase);
-  // await performBigSerialTests(supabase);
-  // await performBitTest(supabase);
+  await performCharacterTest(supabase);
+  await performBigSerialTests(supabase);
+  await performBitTest(supabase);
 
   // Bit Varying = no "isA" test
   // await performBitVaryingTest(supabase);

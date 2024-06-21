@@ -27,7 +27,7 @@ Future<void> performTimeTzTest(SupabaseClient supabase) async {
     var readResult = await readTimeTz(supabase);
     assert(readResult is List<Test_table>);
     expect(readResult!.length, 1);
-  // Compare time with timezone
+    // Compare time with timezone
 
     expect(readResult[0].timetzx?.hour, updatedTimeTz.hour);
     expect(readResult[0].timetzx?.minute, updatedTimeTz.minute);
