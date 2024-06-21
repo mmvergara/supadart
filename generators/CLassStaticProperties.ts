@@ -1,4 +1,4 @@
-import { Definitions, Properties } from "./types";
+import { Properties } from "./types";
 
 export const generateStaticColumnNames = (properties: Properties) => {
   let code = "";
