@@ -23,6 +23,7 @@ Future<void> performBigSerialTests(SupabaseClient supabase) async {
     var readResult = await readBigSerial(supabase);
     assert(readResult is List<Test_table>);
     expect(readResult!.length, 1);
+    expect(readResult[0].bigserialx, isA<BigInt>());
     expect(readResult[0].bigserialx, updatedBigSerial);
   });
 }
