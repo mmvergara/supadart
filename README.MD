@@ -29,6 +29,8 @@ Generate Dart 🎯 classes from your Supabase schema.
 
 ---
 
+> [Other Types](https://github.com/mmvergara/supabase-schema-dart-class-generator/blob/main/other-types.md)
+
 # Generating Dart Classes
 
 ## 1. Pre-requisites
