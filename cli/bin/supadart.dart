@@ -4,7 +4,6 @@ import 'package:dotenv/dotenv.dart';
 import 'package:http/http.dart' as http;
 
 void main(List<String> arguments) async {
-  // Load the .env file
   var env = DotEnv(includePlatformEnvironment: true)..load();
 
   String? url = env['SUPABASE_URL'];
@@ -25,8 +24,8 @@ void main(List<String> arguments) async {
   File file = File('lib/generated_classes.dart');
   file.writeAsStringSync(codeOutput);
 
-  print('URL: $url');
-  print('Anon Key: $anonKey');
+  print("*** Classes generated successfully ***");
+  print("Output: lib/generated_classes.dart");
 }
 
 Future<String?> getGeneratedClasses(
@@ -37,7 +36,6 @@ Future<String?> getGeneratedClasses(
     var response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body);
-      // jsonResponse is {data:"string"|null, error:"string"|null}
       if (jsonResponse['error'] != null) {
         print('An error occurred: ${jsonResponse['error']}');
         return null;
