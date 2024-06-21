@@ -3,6 +3,8 @@ import 'dart:typed_data';
 
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
+
 class Test_table {
   BigInt bigintx;
   BigInt bigserialx;
@@ -39,9 +41,9 @@ class Test_table {
   int serialx;
   String? textx;
   DateTime? timex;
-  DateTime? timewithouttimezone;
+  DateTime? timetzx;
   DateTime? timestampx;
-  DateTime? timestampwithouttimezone;
+  DateTime? timestamptzx;
   String? tsqueryx;
   String? tsvectorx;
   String? txid_snapshotx;
@@ -85,9 +87,9 @@ class Test_table {
     required this.serialx,
     this.textx,
     this.timex,
-    this.timewithouttimezone,
+    this.timetzx,
     this.timestampx,
-    this.timestampwithouttimezone,
+    this.timestamptzx,
     this.tsqueryx,
     this.tsvectorx,
     this.txid_snapshotx,
@@ -132,9 +134,9 @@ class Test_table {
   static String get c_serialx => 'serialx';
   static String get c_textx => 'textx';
   static String get c_timex => 'timex';
-  static String get c_timewithouttimezone => 'timewithouttimezone';
+  static String get c_timetzx => 'timetzx';
   static String get c_timestampx => 'timestampx';
-  static String get c_timestampwithouttimezone => 'timestampwithouttimezone';
+  static String get c_timestamptzx => 'timestamptzx';
   static String get c_tsqueryx => 'tsqueryx';
   static String get c_tsvectorx => 'tsvectorx';
   static String get c_txid_snapshotx => 'txid_snapshotx';
@@ -177,9 +179,9 @@ class Test_table {
     int? serialx,
     String? textx,
     DateTime? timex,
-    DateTime? timewithouttimezone,
+    DateTime? timetzx,
     DateTime? timestampx,
-    DateTime? timestampwithouttimezone,
+    DateTime? timestamptzx,
     String? tsqueryx,
     String? tsvectorx,
     String? txid_snapshotx,
@@ -223,12 +225,11 @@ class Test_table {
       if (smallserialx != null) 'smallserialx': smallserialx.toString(),
       if (serialx != null) 'serialx': serialx.toString(),
       if (textx != null) 'textx': textx.toString(),
-      if (timex != null) 'timex': timex.toIso8601String(),
-      if (timewithouttimezone != null)
-        'timewithouttimezone': timewithouttimezone.toIso8601String(),
+      if (timex != null) 'timex': DateFormat('HH:mm:ss.SSS').format(timex),
+      if (timetzx != null)
+        'timetzx': DateFormat('HH:mm:ss zzzz').format(timetzx),
       if (timestampx != null) 'timestampx': timestampx.toIso8601String(),
-      if (timestampwithouttimezone != null)
-        'timestampwithouttimezone': timestampwithouttimezone.toIso8601String(),
+      if (timestamptzx != null) 'timestamptzx': timestamptzx.toIso8601String(),
       if (tsqueryx != null) 'tsqueryx': tsqueryx.toString(),
       if (tsvectorx != null) 'tsvectorx': tsvectorx.toString(),
       if (txid_snapshotx != null) 'txid_snapshotx': txid_snapshotx.toString(),
@@ -274,9 +275,9 @@ class Test_table {
     int? serialx,
     String? textx,
     DateTime? timex,
-    DateTime? timewithouttimezone,
+    DateTime? timetzx,
     DateTime? timestampx,
-    DateTime? timestampwithouttimezone,
+    DateTime? timestamptzx,
     String? tsqueryx,
     String? tsvectorx,
     String? txid_snapshotx,
@@ -320,12 +321,11 @@ class Test_table {
       if (smallserialx != null) 'smallserialx': smallserialx.toString(),
       if (serialx != null) 'serialx': serialx.toString(),
       if (textx != null) 'textx': textx.toString(),
-      if (timex != null) 'timex': timex.toIso8601String(),
-      if (timewithouttimezone != null)
-        'timewithouttimezone': timewithouttimezone.toIso8601String(),
+      if (timex != null) 'timex': DateFormat('HH:mm:ss.SSS').format(timex),
+      if (timetzx != null)
+        'timetzx': DateFormat('HH:mm:ss zzzz').format(timetzx),
       if (timestampx != null) 'timestampx': timestampx.toIso8601String(),
-      if (timestampwithouttimezone != null)
-        'timestampwithouttimezone': timestampwithouttimezone.toIso8601String(),
+      if (timestamptzx != null) 'timestamptzx': timestamptzx.toIso8601String(),
       if (tsqueryx != null) 'tsqueryx': tsqueryx.toString(),
       if (tsvectorx != null) 'tsvectorx': tsvectorx.toString(),
       if (txid_snapshotx != null) 'txid_snapshotx': txid_snapshotx.toString(),
@@ -377,15 +377,17 @@ class Test_table {
       smallserialx: json['smallserialx'],
       serialx: json['serialx'],
       textx: json['textx'],
-      timex: json['timex'] != null ? DateTime.tryParse(json['timex']) : null,
-      timewithouttimezone: json['timewithouttimezone'] != null
-          ? DateTime.tryParse(json['timewithouttimezone'])
+      timex: json['timex'] != null
+          ? DateTime.tryParse("1970-01-01T${json['timex']}")
+          : null,
+      timetzx: json['timetzx'] != null
+          ? DateTime.tryParse("1970-01-01T${json['timetzx']}")
           : null,
       timestampx: json['timestampx'] != null
           ? DateTime.tryParse(json['timestampx'])
           : null,
-      timestampwithouttimezone: json['timestampwithouttimezone'] != null
-          ? DateTime.tryParse(json['timestampwithouttimezone'])
+      timestamptzx: json['timestamptzx'] != null
+          ? DateTime.tryParse(json['timestamptzx'])
           : null,
       tsqueryx: json['tsqueryx'],
       tsvectorx: json['tsvectorx'],
@@ -496,8 +498,8 @@ class Supported_in_table {
       if (j != null) 'j': j.toString(),
       if (k != null) 'k': k.toString(),
       if (l != null) 'l': l.toIso8601String(),
-      if (m != null) 'm': m.toIso8601String(),
-      if (n != null) 'n': n.toIso8601String(),
+      if (m != null) 'm': DateFormat('HH:mm:ss.SSS').format(m),
+      if (n != null) 'n': DateFormat('HH:mm:ss zzzz').format(n),
       if (o != null) 'o': o.toIso8601String(),
       if (p != null) 'p': p.toIso8601String(),
       if (q != null) 'q': q.toString(),
@@ -540,8 +542,8 @@ class Supported_in_table {
       if (j != null) 'j': j.toString(),
       if (k != null) 'k': k.toString(),
       if (l != null) 'l': l.toIso8601String(),
-      if (m != null) 'm': m.toIso8601String(),
-      if (n != null) 'n': n.toIso8601String(),
+      if (m != null) 'm': DateFormat('HH:mm:ss.SSS').format(m),
+      if (n != null) 'n': DateFormat('HH:mm:ss zzzz').format(n),
       if (o != null) 'o': o.toIso8601String(),
       if (p != null) 'p': p.toIso8601String(),
       if (q != null) 'q': q.toString(),
@@ -564,8 +566,12 @@ class Supported_in_table {
       j: json['j'],
       k: json['k'],
       l: json['l'] != null ? DateTime.tryParse(json['l']) : null,
-      m: json['m'] != null ? DateTime.tryParse(json['m']) : null,
-      n: json['n'] != null ? DateTime.tryParse(json['n']) : null,
+      m: json['m'] != null
+          ? DateTime.tryParse("1970-01-01T${json['m']}")
+          : null,
+      n: json['n'] != null
+          ? DateTime.tryParse("1970-01-01T${json['n']}")
+          : null,
       o: json['o'] != null ? DateTime.tryParse(json['o']) : null,
       p: json['p'] != null ? DateTime.tryParse(json['p']) : null,
       q: json['q'],
