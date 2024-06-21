@@ -13,7 +13,7 @@
 | uuid                | uuid                        | string           | String                                                      | ✅             |
 | date                | date                        | string           | DateTime                                                    | ✅             |
 | time                | time without time zone      | string           | DateTime                                                    | ✅             |
-| timetz              | time with time zone         | string           | DateTime                                                    |                |
+| timetz              | time with time zone         | string           | DateTime                                                    | ✅             |
 | timestamp           | timestamp without time zone | string           | DateTime                                                    |                |
 | timestamptz         | timestamp with time zone    | string           | DateTime                                                    |                |
 | bool                | boolean                     | boolean          | bool                                                        | ✅             |
