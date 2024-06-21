@@ -9,6 +9,7 @@ environment:
 # Add regular dependencies here.
 dependencies:
   dotenv: ^4.2.0
+  intl: ^0.19.0
   supabase: ^2.2.2
   # path: ^1.8.0
 
