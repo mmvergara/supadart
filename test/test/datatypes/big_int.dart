@@ -6,8 +6,9 @@ import 'package:test/scaffolding.dart';
 import '../cleanup.dart';
 
 Future<void> performBigIntTest(SupabaseClient supabase) async {
-  BigInt insertBigInt = BigInt.from(4221312931259329921);
-  BigInt updatedBigInt = BigInt.from(4221312931259329821);
+  BigInt insertBigInt = BigInt.parse("9223372036854775807");
+  BigInt updatedBigInt = BigInt.parse("-9223372036854775808");
+
   test('Testing BigInt Create', () async {
     await cleanup(supabase);
     var createResult = await createBigInt(supabase, insertBigInt);
@@ -25,6 +26,7 @@ Future<void> performBigIntTest(SupabaseClient supabase) async {
     assert(readResult is List<Test_table>);
     expect(readResult!.length, 1);
     expect(readResult[0].bigintx, updatedBigInt);
+    expect(readResult[0].bigintx, isA<BigInt>());
   });
 }
 
