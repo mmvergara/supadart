@@ -6,6 +6,12 @@ import 'datatypes/big_serial.dart';
 import 'datatypes/bit.dart';
 import 'datatypes/bit_varying.dart';
 import 'datatypes/box.dart';
+import 'datatypes/bytea.dart';
+import 'datatypes/character.dart';
+import 'datatypes/character_varying.dart';
+import 'datatypes/int.dart';
+import 'datatypes/small_int.dart';
+import 'datatypes/text.dart';
 
 void main() async {
   var env = DotEnv(includePlatformEnvironment: true)..load();
@@ -19,10 +25,21 @@ void main() async {
   }
 
   final supabase = SupabaseClient(url, anonKey);
-
-  // await performBigIntTest(supabase);
+  await performSmallintTest(supabase);
+  await performIntegerTest(supabase);
+  await performBigIntTest(supabase);
+  // await performCharacterVaryingTest(supabase);
+  // await performCharacterTest(supabase);
+  // await performTextTest(supabase);
   // await performBigSerialTests(supabase);
   // await performBitTest(supabase);
+
+  // Bit Varying = no "isA" test
   // await performBitVaryingTest(supabase);
-  await performBoxTest(supabase);
+
+  // Box = no "isA" test
+  // await performBoxTest(supabase);
+
+  // Not Supported Yet
+  // await performByteaTest(supabase);
 }
