@@ -1,5 +1,6 @@
 import 'package:dotenv/dotenv.dart';
 import 'package:supabase/supabase.dart';
+import 'datatypes/editor-supported/date.dart';
 import 'datatypes/editor-supported/int8_big_int.dart';
 
 import 'datatypes/big_serial.dart';
@@ -17,6 +18,9 @@ import 'datatypes/editor-supported/float8_double_precision.dart';
 import 'datatypes/editor-supported/json.dart';
 import 'datatypes/editor-supported/jsonb.dart';
 import 'datatypes/editor-supported/numeric.dart';
+import 'datatypes/editor-supported/time.dart';
+import 'datatypes/editor-supported/timetz.dart';
+import 'datatypes/editor-supported/uuid.dart';
 import 'datatypes/text.dart';
 
 void main() async {
@@ -39,6 +43,10 @@ void main() async {
   // await performNumericTest(supabase);
   // await performJsonTest(supabase);
   // await performJsonbTest(supabase);
+  // await performUuidTest(supabase);
+  // await performDateTest(supabase);
+  await performTimeTest(supabase);
+  await performTimeTzTest(supabase);
 
   // await performBooleanTest(supabase);
 
