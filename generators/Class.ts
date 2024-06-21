@@ -1,6 +1,6 @@
 import { generateFromJsonMethod } from "./ClassFromJson";
 import { generateInsertMethod } from "./ClassInsert";
-import { generateStaticColumnNames } from "./CLassStaticProperties";
+import { generateStaticColumnNames } from "./ClassStaticProperties";
 import { generateUpdateMethod } from "./ClassUpdate";
 import { Definitions } from "./types";
 import { getDartTypeByFormat } from "./utils";
