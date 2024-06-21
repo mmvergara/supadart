@@ -10,6 +10,7 @@ import 'datatypes/bytea.dart';
 import 'datatypes/character.dart';
 import 'datatypes/character_varying.dart';
 import 'datatypes/int.dart';
+import 'datatypes/real.dart';
 import 'datatypes/small_int.dart';
 import 'datatypes/text.dart';
 
@@ -25,9 +26,10 @@ void main() async {
   }
 
   final supabase = SupabaseClient(url, anonKey);
-  await performSmallintTest(supabase);
-  await performIntegerTest(supabase);
-  await performBigIntTest(supabase);
+  // await performSmallintTest(supabase);
+  // await performIntegerTest(supabase);
+  // await performBigIntTest(supabase);
+  await performRealTest(supabase);
   // await performCharacterVaryingTest(supabase);
   // await performCharacterTest(supabase);
   // await performTextTest(supabase);

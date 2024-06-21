@@ -1,6 +1,5 @@
 import 'package:supabase/supabase.dart';
 import 'package:test/test.dart';
-import 'dart:typed_data';
 import '../cleanup.dart';
 import 'package:supadart_test/generated_classes.dart'; // Adjust the path as needed
 
