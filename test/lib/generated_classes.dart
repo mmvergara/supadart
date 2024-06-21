@@ -8,7 +8,7 @@ class Test_table {
   String? bitvaryingx;
   bool? booleanx;
   String? boxx;
-  Uint8List? byteax;
+  String? byteax;
   String? characterx;
   String? charactervaryingx;
   String? cidrx;
@@ -146,7 +146,7 @@ class Test_table {
     String? bitvaryingx,
     bool? booleanx,
     String? boxx,
-    Uint8List? byteax,
+    String? byteax,
     String? characterx,
     String? charactervaryingx,
     String? cidrx,
@@ -243,7 +243,7 @@ class Test_table {
     String? bitvaryingx,
     bool? booleanx,
     String? boxx,
-    Uint8List? byteax,
+    String? byteax,
     String? characterx,
     String? charactervaryingx,
     String? cidrx,
