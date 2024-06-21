@@ -1,17 +1,18 @@
 export type Definitions = Record<string, Definition>;
 export type Definition = {
   required: string[];
-  properties: {
-    [key: string]: {
-      type?: Type;
-      format: Format;
-      default?: string | number | boolean;
-      description?: string;
-    };
-  };
+  properties: Properties;
   type: "object";
 };
 
+export type Properties = {
+  [key: string]: {
+    type?: Type;
+    format: Format;
+    default?: string | number | boolean;
+    description?: string;
+  };
+};
 export type Type = "string" | "integer" | "boolean" | "number";
 export type DartType =
   | "int"
