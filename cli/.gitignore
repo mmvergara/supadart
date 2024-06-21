@@ -6,3 +6,6 @@ cli.exe
 supadart.exe
 .env
 .env.env
+generated_classes.dart
+
+lib
