@@ -84,6 +84,8 @@ export const toJsonEncodable = (dartType: DartType, propertyName: string) => {
   switch (dartType) {
     case "DateTime":
       return `${propertyName}.toIso8601String()`;
+    case "Map<String, dynamic>":
+      return `${propertyName}`;
     default:
       return `${propertyName}.toString()`;
   }
