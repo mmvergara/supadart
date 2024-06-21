@@ -5,10 +5,9 @@ import 'package:test/scaffolding.dart';
 import '../cleanup.dart';
 
 Future<void> performIntegerTest(SupabaseClient supabase) async {
-  // Test values for integer
   // int4 = four-byte signed integer
-  int insertInt4 = 2147483647;
-  int updatedInt4 = 100;
+  int insertInt4 = 2147483647; // max value for int4
+  int updatedInt4 = -2147483648; // min value for int4
 
   // Tests for integer
   test('Testing Integer Create', () async {

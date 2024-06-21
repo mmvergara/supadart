@@ -5,9 +5,9 @@ import 'package:test/scaffolding.dart';
 import '../cleanup.dart'; // Assuming this contains your cleanup function
 
 Future<void> performSmallintTest(SupabaseClient supabase) async {
-  // int2 signed two-byte integer
-  int insertSmallint = 32767; // Maximum value for smallint
-  int updatedSmallint = -32768; // Minimum value for smallint
+  // int2
+  int insertSmallint = 32767; // max value for smallint
+  int updatedSmallint = -32768; // min value for smallint
 
   // Tests for smallint
   test('Testing Smallint Create', () async {
