@@ -14,6 +14,8 @@ import 'datatypes/editor-supported/int4_int.dart';
 import 'datatypes/editor-supported/float4_real.dart';
 import 'datatypes/editor-supported/int2_small_int.dart';
 import 'datatypes/editor-supported/float8_double_precision.dart';
+import 'datatypes/editor-supported/json.dart';
+import 'datatypes/editor-supported/jsonb.dart';
 import 'datatypes/editor-supported/numeric.dart';
 import 'datatypes/text.dart';
 
@@ -35,7 +37,8 @@ void main() async {
   // await performRealTest(supabase);
   // await performDoublePrecisionTest(supabase);
   // await performNumericTest(supabase);
-  
+  // await performJsonTest(supabase);
+  // await performJsonbTest(supabase);
 
   // await performBooleanTest(supabase);
 
