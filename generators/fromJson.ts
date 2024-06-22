@@ -40,12 +40,12 @@ export const parseWrapper = (
         return `double.parse(${jsonValue}.toString())`;
       case "DateTime":
         if (format === "time without time zone") {
-          return `DateTime.parse("1970-01-01T\${${jsonValue}}")`;
+          return `DateTime.parse("1970-01-01T\${${jsonValue}.toString()}")`;
         }
         if (format === "time with time zone") {
-          return `DateTime.parse("1970-01-01T\${${jsonValue}}")`;
+          return `DateTime.parse("1970-01-01T\${${jsonValue}.toString()}")`;
         }
-        return `DateTime.parse(${jsonValue})`;
+        return `DateTime.parse(${jsonValue}.toString())`;
       default:
         return `${jsonValue} as ${dartType}`;
     }
@@ -60,12 +60,12 @@ export const parseWrapper = (
       return `${jsonValue} != null ? double.tryParse(${jsonValue}.toString()) : null`;
     case "DateTime":
       if (format === "time without time zone") {
-        return `${jsonValue} != null ? DateTime.tryParse("1970-01-01T\${${jsonValue}}") : null`;
+        return `${jsonValue} != null ? DateTime.tryParse("1970-01-01T\${${jsonValue}.toString()}") : null`;
       }
       if (format === "time with time zone") {
-        return `${jsonValue} != null ? DateTime.tryParse("1970-01-01T\${${jsonValue}}") : null`;
+        return `${jsonValue} != null ? DateTime.tryParse("1970-01-01T\${${jsonValue}.toString()}") : null`;
       }
-      return `${jsonValue} != null ? DateTime.tryParse(${jsonValue}) : null`;
+      return `${jsonValue} != null ? DateTime.tryParse(${jsonValue}.toString()) : null`;
     default:
       return `${jsonValue} != null ? ${jsonValue} as ${dartType} : null`;
   }
