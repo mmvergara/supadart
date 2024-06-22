@@ -6,7 +6,9 @@ export const generateClassesAndClient = async (
   definitions: Definitions,
   isDart: boolean
 ) => {
-  let outputCode = "";
+  let outputCode =
+    "// ignore_for_file: non_constant_identifier_names, camel_case_types\n";
+
   const imports = [
     isDart
       ? "import 'package:supabase/supabase.dart';"
