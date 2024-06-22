@@ -14,6 +14,15 @@ export type Properties = {
     maxLength?: number;
   };
 };
+
+export type DartClass = {
+  className: string;
+  classCode: string;
+};
+export type Imports = string[];
+export type SupabaseSDKImport = string;
+export type ClientExtension = string;
+
 export type Type = "string" | "integer" | "boolean" | "number";
 export type DartType =
   | "int"

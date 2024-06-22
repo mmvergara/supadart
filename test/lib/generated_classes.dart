@@ -1,6 +1,16 @@
 // ignore_for_file: non_constant_identifier_names, camel_case_types
-import 'package:supabase/supabase.dart';
 import 'package:intl/intl.dart';
+import 'package:supabase/supabase.dart';
+
+extension TypeSafeTable on SupabaseClient {
+  SupabaseQueryBuilder get books {
+    return from('books');
+  }
+
+  SupabaseQueryBuilder get test_table {
+    return from('test_table');
+  }
+}
 
 class Books {
   final BigInt id;
@@ -479,15 +489,5 @@ class Test_table {
       cleanup: json['cleanup'] != null ? json['cleanup'] as int : null,
       text_arr: json['text_arr'] != null ? json['text_arr'] as dynamic : null,
     );
-  }
-}
-
-extension TypeSafeTable on SupabaseClient {
-  SupabaseQueryBuilder get books {
-    return from('books');
-  }
-
-  SupabaseQueryBuilder get test_table {
-    return from('test_table');
   }
 }

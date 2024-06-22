@@ -4,9 +4,10 @@ import 'package:args/args.dart';
 import 'package:dotenv/dotenv.dart';
 import 'package:http/http.dart' as http;
 
+const String version = 'v1.3.2';
+const String baseUrl =
+    'https://supabase-schema-dart-class-generator.vercel.app/api/generate/';
 void main(List<String> arguments) async {
-  const String version = 'v1.2.1';
-
   final parser = ArgParser()
     ..addFlag('help',
         abbr: 'h', negatable: false, help: 'Show usage information')
@@ -20,11 +21,16 @@ void main(List<String> arguments) async {
         help: 'Supabase ANON KEY     -- (default: .env SUPABASE_ANON_KEY)')
     ..addOption('output',
         abbr: 'o',
-        help: 'Output file path      -- (default: lib/generated_classes.dart)')
+        help:
+            'Output file path      -- (default: "lib/generated_classes.dart" or "lib/models/" if --seperated is enabled)')
     ..addFlag('dart',
         abbr: 'd',
         negatable: false,
         help: 'Enable if you are not using Flutter, just normal Dart project')
+    ..addFlag('seperated',
+        negatable: false,
+        abbr: 's',
+        help: 'Generate Seperate files for each classes')
     ..addFlag('version', abbr: 'v', negatable: false, help: version);
 
   final results = parser.parse(arguments);
@@ -41,6 +47,7 @@ void main(List<String> arguments) async {
   }
 
   bool isDart = results['dart'] ?? false;
+  bool isSeperated = results['seperated'] ?? false;
 
   String? url;
   String? anonKey;
@@ -66,47 +73,59 @@ void main(List<String> arguments) async {
     exit(1);
   }
 
-  String? codeOutput = await getGeneratedClasses(url, anonKey, isDart);
-  if (codeOutput == null) {
-    print('Failed to generate classes');
-    exit(1);
+  final requestUrl = Uri.parse(baseUrl).replace(queryParameters: {
+    'SUPABASE_URL': url,
+    'SUPABASE_ANON_KEY': anonKey,
+    if (isDart) 'dart': 'true',
+    if (isSeperated) 'seperated': 'true',
+  });
+
+  final jsonResponse = await fetchGeneratedClasses(requestUrl);
+
+  if (isSeperated) {
+    Map<String, dynamic>? codeOutput =
+        jsonResponse['data'] as Map<String, dynamic>?;
+    if (codeOutput == null) {
+      print('Failed to generate classes');
+      exit(1);
+    }
+
+    String outputPath = results['output'] ?? 'lib/models/';
+    codeOutput.forEach((className, classCode) {
+      // Create if not exists
+      File file = File('$outputPath$className.dart');
+      file.createSync(recursive: true);
+      file.writeAsStringSync(classCode.toString());
+
+      print("*** Generated $outputPath$className.dart ***");
+    });
+  } else {
+    String? codeOutput = jsonResponse['data'] as String?;
+    if (codeOutput == null) {
+      print('Failed to generate classes');
+      exit(1);
+    }
+
+    String outputPath = results['output'] ?? 'lib/generated_classes.dart';
+    // Create if not exists
+    File file = File(outputPath);
+    file.createSync(recursive: true);
+    file.writeAsStringSync(codeOutput);
+
+    print("*** Classes generated successfully ***");
+    print("*** Output: $outputPath ***");
   }
-
-  String outputPath = results['output'] ?? 'lib/generated_classes.dart';
-
-  // Create if not exists
-  File file = File(outputPath);
-  file.createSync(recursive: true);
-  file.writeAsStringSync(codeOutput);
-
-  print("*** Classes generated successfully ***");
-  print("*** Output: $outputPath ***");
 }
 
-Future<String?> getGeneratedClasses(
-    String supabaseUrl, String supabaseAnonKey, bool isDart) async {
-  String url =
-      "https://supabase-schema-dart-class-generator.vercel.app/api/generate?SUPABASE_URL=$supabaseUrl&SUPABASE_ANON_KEY=$supabaseAnonKey";
-
-  if (isDart) {
-    url += "&dart=true";
-  }
-
-  try {
-    var response = await http.get(Uri.parse(url));
+Future<dynamic> fetchGeneratedClasses(
+  Uri requestUrl,
+) {
+  return http.get(requestUrl).then((response) {
     if (response.statusCode == 200) {
-      var jsonResponse = jsonDecode(response.body);
-      if (jsonResponse['error'] != null) {
-        print('An error occurred: ${jsonResponse['error']}');
-        return null;
-      }
-      return jsonResponse['data'];
+      return jsonDecode(response.body);
     } else {
-      print('HTTP request failed with status: ${response.statusCode}.');
+      print("Error fetching data from API");
       return null;
     }
-  } catch (e) {
-    print('An error occurred: $e');
-    return null;
-  }
+  });
 }

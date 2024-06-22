@@ -1,4 +1,8 @@
-import { generateClassesAndClient } from "@/generators";
+import {
+  generateClassesAndClient,
+  generateDartModelFile,
+  generateDartModelFilesSeperated,
+} from "@/generators";
 import { Definitions } from "@/generators/types";
 import { NextResponse } from "next/server";
 
@@ -8,6 +12,7 @@ export const GET = async (req: Request): Promise<NextResponse> => {
   const supabaseUrl = searchParams.get("SUPABASE_URL");
   const supabaseAnonKey = searchParams.get("SUPABASE_ANON_KEY");
   const isDart = !!searchParams.get("dart");
+  const isSeperated = !!searchParams.get("seperated");
 
   if (!supabaseUrl || !supabaseAnonKey) {
     return NextResponse.json({
@@ -48,7 +53,12 @@ export const GET = async (req: Request): Promise<NextResponse> => {
       return NextResponse.json({ data: null, error: "No definitions found" });
     }
 
-    const outputCode = await generateClassesAndClient(definitions, isDart);
+    let outputCode: string | Record<string, string> = "";
+    if (isSeperated) {
+      outputCode = generateDartModelFilesSeperated(definitions, isDart);
+    } else {
+      outputCode = generateDartModelFile(definitions, isDart);
+    }
     return NextResponse.json(
       { data: outputCode, error: null },
       { status: 200 }

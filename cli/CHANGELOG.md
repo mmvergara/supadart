@@ -1,4 +1,17 @@
+## 1.3.2
+
+- refactor -o --output help text
+
+## 1.3.1
+
+- fix api link
+
+## 1.3.0
+
+- Added support for seperated class files generation
+
 ## 1.2.1
+
 - Add recursive file generation
 
 ## 1.2.0

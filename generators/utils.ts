@@ -103,3 +103,12 @@ export const toJsonEncodable = (
       return `${propertyName}.toString()`;
   }
 };
+export const generateDartFileName = (tableName: string): string => {
+  // Remove any non-alphanumeric characters and replace them with an empty string
+  let fileName = tableName.replace(/[^a-zA-Z0-9]/g, "");
+
+  // Convert the file name to lowercase
+  fileName = fileName.toLowerCase();
+
+  return fileName;
+};
