@@ -14,7 +14,7 @@ export const generateClassesAndClient = (
   isDart: boolean
 ) => {
   const imports: Imports = [
-    "// ignore_for_file: non_constant_identifier_names, camel_case_types",
+    "// ignore_for_file: non_constant_identifier_names, camel_case_types, file_names",
     "import 'package:intl/intl.dart';",
   ];
 
@@ -62,7 +62,11 @@ export const generateDartModelFilesSeperated = (
     output[generateDartFileName(className)] = importString + classCode;
   });
 
-  output["clientExtension"] = supabaseSdkImport + "\n" + clientExtension;
+  output["clientExtension"] =
+    "// ignore_for_file: non_constant_identifier_names, camel_case_types, file_names" +
+    supabaseSdkImport +
+    "\n" +
+    clientExtension;
 
   return output;
 };
