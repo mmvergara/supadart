@@ -1,4 +1,4 @@
-export type Definitions = { definitions: Definition };
+export type Definitions = Record<string, Definition>;
 export type Definition = {
   required: string[];
   properties: Properties;
