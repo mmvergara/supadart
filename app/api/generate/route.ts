@@ -42,12 +42,12 @@ export const GET = async (req: Request): Promise<NextResponse> => {
         }
       );
     }
-    const data = (await res.json()) as Definitions;
+    const data = await res.json();
     if (!data.definitions) {
       return NextResponse.json({ data: null, error: "No definitions found" });
     }
 
-    const outputCode = await generateClassesAndClient(data, isDart);
+    const outputCode = await generateClassesAndClient(data.definitions, isDart);
     return NextResponse.json(
       { data: outputCode, error: null },
       { status: 200 }
