@@ -32,15 +32,17 @@ export const generateDartClasses = (definitions: Definitions): DartClass[] => {
     // Constructor
     dartCode += `\n const ${className}({\n`;
     for (const propertyName in properties) {
-      const isOptional = required.includes(propertyName);
+      const isRequired = required.includes(propertyName);
       dartCode += `${
-        isOptional ? "this." : "required this."
+        isRequired ? "required this." : "this."
       }${propertyName},\n`;
     }
     dartCode += `});\n\n`;
 
     // Table name
     dartCode += `static String get table_name => '${tableName}';\n`;
+
+    // Static column names
     dartCode += generateStaticColumnNames(properties);
 
     // Helper functions
