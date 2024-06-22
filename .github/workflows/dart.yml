@@ -1,0 +1,43 @@
+name: Dart Class Runtime Tests
+
+on:
+  push:
+    branches:
+      - "*"
+  pull_request:
+    branches:
+      - "*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Install dependencies
+        run: dart pub get
+        working-directory: ./test
+
+      - name: Install Supadart
+        run: dart pub global activate supadart
+        working-directory: ./test
+
+      # Generate Classes via Supadart
+      - name: Generate Classes
+        run: supadart -u $SUPABASE_URL -k $SUPABASE_ANON_KEY
+        working-directory: ./test
+
+      - name: Run tests
+        run: dart run test
+        working-directory: ./test
