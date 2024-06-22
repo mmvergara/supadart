@@ -1,3 +1,7 @@
+## 1.3.2
+
+- refactor -o --output help text
+
 ## 1.3.1
 
 - fix api link

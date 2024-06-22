@@ -4,10 +4,9 @@ import 'package:args/args.dart';
 import 'package:dotenv/dotenv.dart';
 import 'package:http/http.dart' as http;
 
-const String version = 'v1.3.1';
+const String version = 'v1.3.2';
 const String baseUrl =
     'https://supabase-schema-dart-class-generator.vercel.app/api/generate/';
-
 void main(List<String> arguments) async {
   final parser = ArgParser()
     ..addFlag('help',
@@ -23,7 +22,7 @@ void main(List<String> arguments) async {
     ..addOption('output',
         abbr: 'o',
         help:
-            'Output file path      -- (default: lib/generated_classes.dart or lib/models/*classname.dart if --seperated is enabled)')
+            'Output file path      -- (default: "lib/generated_classes.dart" or "lib/models/" if --seperated is enabled)')
     ..addFlag('dart',
         abbr: 'd',
         negatable: false,
