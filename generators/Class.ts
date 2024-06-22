@@ -6,11 +6,7 @@ import { Definitions } from "./types";
 import { getDartTypeByFormat } from "./utils";
 
 export const generateDartClasses = (definitions: Definitions) => {
-  let dartCode = `import 'package:supabase_flutter/supabase_flutter.dart';
-    import 'dart:typed_data';\n
-    import 'dart:convert';\n
-    import 'package:intl/intl.dart';\n
-    `;
+  let dartCode = "";
 
   for (const tableName in definitions) {
     const table = definitions[tableName];

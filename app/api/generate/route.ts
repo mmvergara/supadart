@@ -6,6 +6,7 @@ export const GET = async (req: Request): Promise<NextResponse> => {
   const { searchParams } = new URL(req.url);
   const supabaseUrl = searchParams.get("SUPABASE_URL");
   const supabaseAnonKey = searchParams.get("SUPABASE_ANON_KEY");
+  const isDart = !!searchParams.get("isDart");
 
   if (!supabaseUrl || !supabaseAnonKey) {
     return NextResponse.json({
@@ -46,7 +47,7 @@ export const GET = async (req: Request): Promise<NextResponse> => {
       return NextResponse.json({ data: null, error: "No definitions found" });
     }
 
-    const outputCode = await generateClassesAndClient(data.definitions);
+    const outputCode = await generateClassesAndClient(data.definition, isDart);
     return NextResponse.json(
       { data: outputCode, error: null },
       { status: 200 }
