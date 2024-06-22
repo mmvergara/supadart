@@ -1,6 +1,6 @@
 import 'package:supabase/supabase.dart';
 import 'package:test/test.dart';
-import '../cleanup.dart';
+import '../utils.dart';
 import 'package:supadart_test/generated_classes.dart'; // Adjust the path as needed
 
 Future<void> performByteaTest(SupabaseClient supabase) async {

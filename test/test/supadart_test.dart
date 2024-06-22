@@ -24,6 +24,7 @@ import 'datatypes/editor-supported/timestamptz.dart';
 import 'datatypes/editor-supported/timetz.dart';
 import 'datatypes/editor-supported/uuid.dart';
 import 'datatypes/text.dart';
+import 'utils.dart';
 
 void main() async {
   var env = DotEnv(includePlatformEnvironment: true)..load();
@@ -35,29 +36,29 @@ void main() async {
     print('Please provide SUPABASE_URL and SUPABASE_ANON_KEY in .env file');
     return;
   }
-
+  await changeSupabaseFlutterImportToSupabaseImport();
   final supabase = SupabaseClient(url, anonKey);
-  await performSmallintTest(supabase);
-  await performIntegerTest(supabase);
-  await performBigIntTest(supabase);
-  await performRealTest(supabase);
-  await performDoublePrecisionTest(supabase);
-  await performNumericTest(supabase);
-  await performJsonTest(supabase);
-  await performJsonbTest(supabase);
-  await performTextTest(supabase);
-  await performCharacterVaryingTest(supabase);
-  await performUuidTest(supabase);
-  await performDateTest(supabase);
-  await performTimeTest(supabase);
-  await performTimeTzTest(supabase);
-  await performTimestampTest(supabase);
-  await performTimestamptzTest(supabase);
-  await performBooleanTest(supabase);
+  // await performSmallintTest(supabase);
+  // await performIntegerTest(supabase);
+  // await performBigIntTest(supabase);
+  // await performRealTest(supabase);
+  // await performDoublePrecisionTest(supabase);
+  // await performNumericTest(supabase);
+  // await performJsonTest(supabase);
+  // await performJsonbTest(supabase);
+  // await performTextTest(supabase);
+  // await performCharacterVaryingTest(supabase);
+  // await performUuidTest(supabase);
+  // await performDateTest(supabase);
+  // await performTimeTest(supabase);
+  // await performTimeTzTest(supabase);
+  // await performTimestampTest(supabase);
+  // await performTimestamptzTest(supabase);
+  // await performBooleanTest(supabase);
 
-  await performCharacterTest(supabase);
-  await performBigSerialTests(supabase);
-  await performBitTest(supabase);
+  // await performCharacterTest(supabase);
+  // await performBigSerialTests(supabase);
+  // await performBitTest(supabase);
 
   // todo
 

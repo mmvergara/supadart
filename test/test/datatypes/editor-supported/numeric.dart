@@ -2,7 +2,7 @@ import 'package:supabase/supabase.dart';
 import 'package:supadart_test/generated_classes.dart';
 import 'package:test/test.dart';
 
-import '../../cleanup.dart';
+import '../../utils.dart';
 
 // https://dart.dev/guides/language/numbers
 // For other cases where precision matters, consider other numeric types. The BigInt type provides arbitrary-precision integers on both native and web. The fixnum package provides strict 64-bit signed numbers, even on the web. Use these types with care, though: they often result in significantly bigger and slower code.

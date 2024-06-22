@@ -3,7 +3,7 @@ import 'package:supadart_test/generated_classes.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
-import '../../cleanup.dart';
+import '../../utils.dart';
 
 Future<void> performRealTest(SupabaseClient supabase) async {
   // real = single precision floating point number

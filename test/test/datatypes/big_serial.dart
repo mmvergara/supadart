@@ -2,7 +2,7 @@ import 'package:supabase/supabase.dart';
 import 'package:supadart_test/generated_classes.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
-import '../cleanup.dart';
+import '../utils.dart';
 
 Future<void> performBigSerialTests(SupabaseClient supabase) async {
   BigInt insertBigSerial = BigInt.from(4221312931259329921);

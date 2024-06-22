@@ -3,7 +3,7 @@ import 'package:supadart_test/generated_classes.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
-import '../cleanup.dart';
+import '../utils.dart';
 
 Future<void> performBitTest(SupabaseClient supabase) async {
   String insertBit = "0";
