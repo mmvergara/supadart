@@ -37,7 +37,10 @@ const App = () => {
         return;
       }
 
-      const outputCode = await generateClassesAndClient(data.definitions);
+      const outputCode = await generateClassesAndClient(
+        data.definitions,
+        false
+      );
       setOutput(outputCode);
     } catch (e) {
       console.log(e);
