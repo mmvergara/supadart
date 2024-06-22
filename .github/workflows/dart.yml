@@ -35,7 +35,7 @@ jobs:
 
       # Generate Classes via Supadart
       - name: Generate Classes
-        run: dart run supadart -u $SUPABASE_URL -k $SUPABASE_ANON_KEY
+        run: supadart -u $SUPABASE_URL -k $SUPABASE_ANON_KEY
         working-directory: ./test
 
       - name: Run tests
