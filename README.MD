@@ -27,8 +27,6 @@ Generate Dart 🎯 classes from your Supabase schema.
 | 🗓️ timestamptz      | timestamp with time zone    | string    | DateTime             | ✅             |
 | 💡 bool             | boolean                     | boolean   | bool                 | ✅             |
 
----
-
 > [Other Types](https://github.com/mmvergara/supabase-schema-dart-class-generator/blob/main/other-types.md)
 
 # Generating Dart Classes
@@ -118,8 +116,7 @@ create table
 
 ### 2. Use the CLI or the Web App to [generate dart classes](#generate-dart-classes)
 
-
-````dart
+```dart
 class Books {
   BigInt id;
   String name;
@@ -184,7 +181,7 @@ class Books {
     );
   }
 }
-````
+```
 
 ### 3. Using the generated class
 
