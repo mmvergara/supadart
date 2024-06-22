@@ -118,11 +118,8 @@ create table
 
 ### 2. Use the CLI or the Web App to [generate dart classes](#generate-dart-classes)
 
-> Example generated class
 
 ````dart
-
-```dart
 class Books {
   BigInt id;
   String name;
@@ -179,17 +176,12 @@ class Books {
   factory Books.fromJson(Map<String, dynamic> json) {
     return Books(
       id: BigInt.parse(json['id'].toString()),
-      name: json['name'],
-      description: json['description'],
-      price: json['price'],
+      name: json['name'] as String,
+      description:
+          json['description'] != null ? json['description'] as String : null,
+      price: json['price'] as int,
       created_at: DateTime.parse(json['created_at']),
     );
-  }
-}
-
-extension TypeSafeTable on SupabaseClient {
-  SupabaseQueryBuilder get books {
-    return from('books');
   }
 }
 ````
@@ -198,13 +190,13 @@ extension TypeSafeTable on SupabaseClient {
 
 we now have a typesafe'ish to interact with the database.
 
-### Getting Table Name
+#### Getting Table Name
 
 ```dart
   Books.table_name // "books"
 ```
 
-### Fetch Data
+#### Fetch Data
 
 ```dart
 // fetchedBooks is a typeof List<Books>
@@ -214,7 +206,7 @@ final books = await supabase
       .withConverter((data) => data.map(Books.fromJson).toList());
 ```
 
-### Insert Data
+#### Insert Data
 
 ```dart
 final data = Books.insert(
@@ -225,7 +217,7 @@ final data = Books.insert(
 await supabase.books.insert(data);
 ```
 
-### Inset Many Data
+#### Inset Many Data
 
 ```dart
 final many_data = [
@@ -243,7 +235,7 @@ final many_data = [
 await supabase.books.insert(many_data);
 ```
 
-### Update Data
+#### Update Data
 
 ```dart
 final newData = Books.update(
@@ -252,7 +244,7 @@ final newData = Books.update(
 await supabase.books.update(newData).eq(Books.c_id, 1);
 ```
 
-### Delete Data
+#### Delete Data
 
 ```dart
 await supabase.books.delete().eq(Books.c_id, 1);
