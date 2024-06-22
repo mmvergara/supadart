@@ -5,7 +5,7 @@ import 'package:dotenv/dotenv.dart';
 import 'package:http/http.dart' as http;
 
 void main(List<String> arguments) async {
-  const String version = 'v1.2.0';
+  const String version = 'v1.2.1';
 
   final parser = ArgParser()
     ..addFlag('help',
@@ -73,7 +73,10 @@ void main(List<String> arguments) async {
   }
 
   String outputPath = results['output'] ?? 'lib/generated_classes.dart';
+
+  // Create if not exists
   File file = File(outputPath);
+  file.createSync(recursive: true);
   file.writeAsStringSync(codeOutput);
 
   print("*** Classes generated successfully ***");

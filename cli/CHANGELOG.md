@@ -1,3 +1,6 @@
+## 1.2.1
+- Add recursive file generation
+
 ## 1.2.0
 
 - Added `--version` option and -d for dart class version only instead of flutter version
