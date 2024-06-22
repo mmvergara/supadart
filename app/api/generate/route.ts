@@ -6,7 +6,7 @@ export const GET = async (req: Request): Promise<NextResponse> => {
   const { searchParams } = new URL(req.url);
   const supabaseUrl = searchParams.get("SUPABASE_URL");
   const supabaseAnonKey = searchParams.get("SUPABASE_ANON_KEY");
-  const isDart = !!searchParams.get("isDart");
+  const isDart = !!searchParams.get("dart");
 
   if (!supabaseUrl || !supabaseAnonKey) {
     return NextResponse.json({
