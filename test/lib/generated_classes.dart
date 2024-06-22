@@ -61,9 +61,10 @@ class Books {
   factory Books.fromJson(Map<String, dynamic> json) {
     return Books(
       id: BigInt.parse(json['id'].toString()),
-      name: json['name'],
-      description: json['description'],
-      price: json['price'],
+      name: json['name'] as String,
+      description:
+          json['description'] != null ? json['description'] as String : null,
+      price: json['price'] as int,
       created_at: DateTime.parse(json['created_at']),
     );
   }
@@ -403,44 +404,53 @@ class Test_table {
     return Test_table(
       bigintx: BigInt.parse(json['bigintx'].toString()),
       bigserialx: BigInt.parse(json['bigserialx'].toString()),
-      bitx: json['bitx'],
-      bitvaryingx: json['bitvaryingx'],
-      booleanx: json['booleanx'],
-      boxx: json['boxx'],
-      byteax: json['byteax'],
-      characterx: json['characterx'],
-      charactervaryingx: json['charactervaryingx'],
-      cidrx: json['cidrx'],
-      circlex: json['circlex'],
+      bitx: json['bitx'] != null ? json['bitx'] as String : null,
+      bitvaryingx:
+          json['bitvaryingx'] != null ? json['bitvaryingx'] as String : null,
+      booleanx: json['booleanx'] != null ? json['booleanx'] as bool : null,
+      boxx: json['boxx'] != null ? json['boxx'] as String : null,
+      byteax: json['byteax'] != null ? json['byteax'] as String : null,
+      characterx:
+          json['characterx'] != null ? json['characterx'] as String : null,
+      charactervaryingx: json['charactervaryingx'] != null
+          ? json['charactervaryingx'] as String
+          : null,
+      cidrx: json['cidrx'] != null ? json['cidrx'] as String : null,
+      circlex: json['circlex'] != null ? json['circlex'] as String : null,
       datex: json['datex'] != null ? DateTime.tryParse(json['datex']) : null,
       doublex: json['doublex'] != null
           ? double.tryParse(json['doublex'].toString())
           : null,
-      inetx: json['inetx'],
-      integerx: json['integerx'],
-      intervalx: json['intervalx'],
-      jsonx: json['jsonx'],
-      jsonbx: json['jsonbx'],
-      linex: json['linex'],
-      lsegx: json['lsegx'],
-      macaddrx: json['macaddrx'],
-      macaddr8x: json['macaddr8x'],
-      moneyx: json['moneyx'],
+      inetx: json['inetx'] != null ? json['inetx'] as String : null,
+      integerx: json['integerx'] != null ? json['integerx'] as int : null,
+      intervalx:
+          json['intervalx'] != null ? json['intervalx'] as Duration : null,
+      jsonx:
+          json['jsonx'] != null ? json['jsonx'] as Map<String, dynamic> : null,
+      jsonbx: json['jsonbx'] != null
+          ? json['jsonbx'] as Map<String, dynamic>
+          : null,
+      linex: json['linex'] != null ? json['linex'] as String : null,
+      lsegx: json['lsegx'] != null ? json['lsegx'] as String : null,
+      macaddrx: json['macaddrx'] != null ? json['macaddrx'] as String : null,
+      macaddr8x: json['macaddr8x'] != null ? json['macaddr8x'] as String : null,
+      moneyx: json['moneyx'] != null ? json['moneyx'] as String : null,
       numericx: json['numericx'] != null
           ? num.tryParse(json['numericx'].toString())
           : null,
-      pathx: json['pathx'],
-      pg_lsnx: json['pg_lsnx'],
-      pg_snapshotx: json['pg_snapshotx'],
-      pointx: json['pointx'],
-      polygonx: json['polygonx'],
+      pathx: json['pathx'] != null ? json['pathx'] as String : null,
+      pg_lsnx: json['pg_lsnx'] != null ? json['pg_lsnx'] as String : null,
+      pg_snapshotx:
+          json['pg_snapshotx'] != null ? json['pg_snapshotx'] as String : null,
+      pointx: json['pointx'] != null ? json['pointx'] as String : null,
+      polygonx: json['polygonx'] != null ? json['polygonx'] as String : null,
       realx: json['realx'] != null
           ? double.tryParse(json['realx'].toString())
           : null,
-      smallintx: json['smallintx'],
-      smallserialx: json['smallserialx'],
-      serialx: json['serialx'],
-      textx: json['textx'],
+      smallintx: json['smallintx'] != null ? json['smallintx'] as int : null,
+      smallserialx: json['smallserialx'] as int,
+      serialx: json['serialx'] as int,
+      textx: json['textx'] != null ? json['textx'] as String : null,
       timex: json['timex'] != null
           ? DateTime.tryParse("1970-01-01T${json['timex']}")
           : null,
@@ -453,12 +463,14 @@ class Test_table {
       timestamptzx: json['timestamptzx'] != null
           ? DateTime.tryParse(json['timestamptzx'])
           : null,
-      tsqueryx: json['tsqueryx'],
-      tsvectorx: json['tsvectorx'],
-      txid_snapshotx: json['txid_snapshotx'],
-      uuidx: json['uuidx'],
-      xmlx: json['xmlx'],
-      cleanup: json['cleanup'],
+      tsqueryx: json['tsqueryx'] != null ? json['tsqueryx'] as String : null,
+      tsvectorx: json['tsvectorx'] != null ? json['tsvectorx'] as String : null,
+      txid_snapshotx: json['txid_snapshotx'] != null
+          ? json['txid_snapshotx'] as String
+          : null,
+      uuidx: json['uuidx'] != null ? json['uuidx'] as String : null,
+      xmlx: json['xmlx'] != null ? json['xmlx'] as String : null,
+      cleanup: json['cleanup'] != null ? json['cleanup'] as int : null,
     );
   }
 }

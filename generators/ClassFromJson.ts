@@ -47,7 +47,7 @@ export const parseWrapper = (
         }
         return `DateTime.parse(${jsonValue})`;
       default:
-        return jsonValue;
+        return `${jsonValue} as ${dartType}`;
     }
   }
 
@@ -67,6 +67,6 @@ export const parseWrapper = (
       }
       return `${jsonValue} != null ? DateTime.tryParse(${jsonValue}) : null`;
     default:
-      return jsonValue;
+      return `${jsonValue} != null ? ${jsonValue} as ${dartType} : null`;
   }
 };
