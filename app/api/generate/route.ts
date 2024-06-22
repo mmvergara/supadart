@@ -1,4 +1,5 @@
 import { generateClassesAndClient } from "@/generators";
+import { Definitions } from "@/generators/types";
 import { NextResponse } from "next/server";
 
 export const GET = async (req: Request): Promise<NextResponse> => {
@@ -41,13 +42,12 @@ export const GET = async (req: Request): Promise<NextResponse> => {
         }
       );
     }
-
-    const data = await res.json();
+    const data = (await res.json()) as Definitions;
     if (!data.definitions) {
       return NextResponse.json({ data: null, error: "No definitions found" });
     }
 
-    const outputCode = await generateClassesAndClient(data.definition, isDart);
+    const outputCode = await generateClassesAndClient(data, isDart);
     return NextResponse.json(
       { data: outputCode, error: null },
       { status: 200 }
