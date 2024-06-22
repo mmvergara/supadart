@@ -11,6 +11,7 @@ export type Properties = {
     format: Format;
     default?: string | number | boolean;
     description?: string;
+    maxLength?: number;
   };
 };
 export type Type = "string" | "integer" | "boolean" | "number";
