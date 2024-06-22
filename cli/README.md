@@ -34,11 +34,12 @@ supadart -u <your-supabase-url> -k <your-supabase-anon-key>
 ## Options
 
 ```bash
--h, --help        Show usage information
--e, --env-path    Path to the .env file -- (default: .env)
--u, --url         Supabase URL          -- (default: .env SUPABASE_URL)
--k, --key         Supabase ANON KEY     -- (default: .env SUPABASE_ANON_KEY)
--o, --output      Output file path      -- (default: lib/generated_classes.dart)
--d, --dart        Enable if you are not using Flutter, just normal Dart project
--v, --version     v1.2.0
+-h, --help         Show usage information
+-e, --env-path     Path to the .env file -- (default: .env)
+-u, --url          Supabase URL          -- (default: .env SUPABASE_URL)
+-k, --key          Supabase ANON KEY     -- (default: .env SUPABASE_ANON_KEY)
+-o, --output       Output file path      -- (default: lib/generated_classes.dart or lib/models/*classname.dart if --seperated is enabled)
+-d, --dart         Enable if you are not using Flutter, just normal Dart project
+-s, --seperated    Generate Seperate files for each classes
+-v, --version      v1.2.1
 ```

@@ -1,4 +1,9 @@
+## 1.3.1
+
+- Added support for seperated class files generation
+
 ## 1.2.1
+
 - Add recursive file generation
 
 ## 1.2.0
