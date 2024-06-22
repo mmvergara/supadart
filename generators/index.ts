@@ -1,25 +1,68 @@
 import { generateDartClasses } from "./Class";
 import { generateClientExtension } from "./ClientExtension";
-import { Definitions } from "./types";
+import {
+  ClientExtension,
+  DartClass,
+  Definitions,
+  Imports,
+  SupabaseSDKImport,
+} from "./types";
+import { generateDartFileName } from "./utils";
 
-export const generateClassesAndClient = async (
+export const generateClassesAndClient = (
   definitions: Definitions,
   isDart: boolean
 ) => {
-  let outputCode =
-    "// ignore_for_file: non_constant_identifier_names, camel_case_types\n";
-
-  const imports = [
-    isDart
-      ? "import 'package:supabase/supabase.dart';"
-      : "import 'package:supabase_flutter/supabase_flutter.dart';",
+  const imports: Imports = [
+    "// ignore_for_file: non_constant_identifier_names, camel_case_types",
     "import 'package:intl/intl.dart';",
   ];
 
-  outputCode += imports.join("\n") + "\n\n";
+  const supabaseSdkImport: SupabaseSDKImport = isDart
+    ? "import 'package:supabase/supabase.dart';"
+    : "import 'package:supabase_flutter/supabase_flutter.dart';";
 
-  outputCode += generateDartClasses(definitions);
-  outputCode += "\n\n";
-  outputCode += generateClientExtension(definitions);
-  return outputCode.trim();
+  const dartClasses: DartClass[] = generateDartClasses(definitions);
+  const clientExtension: ClientExtension = generateClientExtension(definitions);
+  return {
+    imports,
+    supabaseSdkImport,
+    dartClasses,
+    clientExtension,
+  };
+};
+
+export const generateDartModelFile = (
+  definitions: Definitions,
+  isDart: boolean
+) => {
+  const { clientExtension, dartClasses, imports, supabaseSdkImport } =
+    generateClassesAndClient(definitions, isDart);
+
+  let code = "";
+  imports.forEach((i) => (code += i + "\n"));
+  code += supabaseSdkImport + "\n\n";
+  code += clientExtension + "\n\n";
+  code += dartClasses.map((c) => c.classCode).join("\n");
+
+  return code;
+};
+
+export const generateDartModelFilesSeperated = (
+  definitions: Definitions,
+  isDart: boolean
+): Record<string, string> => {
+  const { clientExtension, dartClasses, imports, supabaseSdkImport } =
+    generateClassesAndClient(definitions, isDart);
+
+  const importString = imports.join("\n") + "\n";
+  const output: Record<string, string> = {};
+
+  dartClasses.forEach(({ classCode, className }) => {
+    output[generateDartFileName(className)] = importString + classCode;
+  });
+
+  output["clientExtension"] = supabaseSdkImport + "\n" + clientExtension;
+
+  return output;
 };
