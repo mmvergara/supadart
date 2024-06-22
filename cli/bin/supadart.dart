@@ -4,7 +4,7 @@ import 'package:args/args.dart';
 import 'package:dotenv/dotenv.dart';
 import 'package:http/http.dart' as http;
 
-const String version = 'v1.3.1';
+const String version = 'v1.3.0';
 // const String baseUrl =
 // 'https://supabase-schema-dart-class-generator.vercel.app/api/generate/';
 
