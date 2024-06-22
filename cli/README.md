@@ -37,4 +37,6 @@ supadart -u <your-supabase-url> -k <your-supabase-anon-key>
 -u, --url         Supabase URL          -- (default: .env SUPABASE_URL)
 -k, --key         Supabase ANON KEY     -- (default: .env SUPABASE_ANON_KEY)
 -o, --output      Output file path      -- (default: lib/generated_classes.dart)
+-d, --dart        Enable if you are not using Flutter, just normal Dart project
+-v, --version     v1.2.0
 ```
