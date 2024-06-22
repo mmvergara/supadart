@@ -1,6 +1,5 @@
 # Supabase Schema to Dart Classes 🎯
-
-Generate Dart 🎯 classes from your Supabase schema.
+Generate Flutter / Dart 🎯 classes from your Supabase schema.
 
 - [Generate Dart Classes](#generating-dart-classes)
 - [Example Usage](#example-usage)
