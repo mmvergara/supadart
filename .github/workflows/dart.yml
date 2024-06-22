@@ -1,16 +1,12 @@
 name: Dart Class Runtime Tests
 
 on:
-  push:
-    branches:
-      - "*"
-  pull_request:
-    branches:
-      - "*"
+  deployment_status:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'Production'
 
     env:
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
