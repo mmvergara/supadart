@@ -29,6 +29,8 @@ supadart -e path/to/.env
 supadart -u <your-supabase-url> -k <your-supabase-anon-key>
 ```
 
+> Note: If you are not using Flutter, just normal Dart project, add `-d` option
+
 ## Options
 
 ```bash
