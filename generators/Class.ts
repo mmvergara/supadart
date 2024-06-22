@@ -2,23 +2,24 @@ import { generateFromJsonMethod } from "./fromJson";
 import { generateInsertMethod } from "./insertMethod";
 import { generateStaticColumnNames } from "./staticColumnNames";
 import { generateUpdateMethod } from "./updateMethod";
-import { Definitions } from "./types";
+import { DartClass, Definitions } from "./types";
 import { getDartTypeByFormat } from "./utils";
 
-export const generateDartClasses = (definitions: Definitions) => {
-  let dartCode = "";
+export const generateDartClasses = (definitions: Definitions): DartClass[] => {
+  const generatedClasses: DartClass[] = [];
 
-  for (const tableName in definitions) {
-    const table = definitions[tableName];
+  // Object entries
+  for (const [tableName, table] of Object.entries(definitions)) {
+    let dartCode = "";
+    const { properties, required } = table;
     const className = tableName.charAt(0).toUpperCase() + tableName.slice(1);
-    // const primaryKey = table.required[0];
 
     // Class definition
     dartCode += `class ${className} {\n`;
 
     // Attributes
-    for (const propertyName in table.properties) {
-      const property = table.properties[propertyName];
+    for (const propertyName in properties) {
+      const property = properties[propertyName];
       const dartType = getDartTypeByFormat(property.format);
 
       // Add question mark for optional fields (not in "required")
@@ -30,8 +31,8 @@ export const generateDartClasses = (definitions: Definitions) => {
 
     // Constructor
     dartCode += `\n const ${className}({\n`;
-    for (const propertyName in table.properties) {
-      const isOptional = !table.required.includes(propertyName);
+    for (const propertyName in properties) {
+      const isOptional = required.includes(propertyName);
       dartCode += `${
         isOptional ? "this." : "required this."
       }${propertyName},\n`;
@@ -40,19 +41,19 @@ export const generateDartClasses = (definitions: Definitions) => {
 
     // Table name
     dartCode += `static String get table_name => '${tableName}';\n`;
-    dartCode += generateStaticColumnNames(definitions[tableName].properties);
+    dartCode += generateStaticColumnNames(properties);
 
     // Helper functions
-    dartCode += generateInsertMethod(table.properties, table.required);
-    dartCode += generateUpdateMethod(table.properties);
-    dartCode += generateFromJsonMethod(
-      className,
-      table.properties,
-      table.required
-    );
+    dartCode += generateInsertMethod(properties, required);
+    dartCode += generateUpdateMethod(properties);
+    dartCode += generateFromJsonMethod(className, properties, required);
 
     dartCode += "}\n\n";
+    generatedClasses.push({
+      className,
+      classCode: dartCode,
+    });
   }
 
-  return dartCode;
+  return generatedClasses;
 };
