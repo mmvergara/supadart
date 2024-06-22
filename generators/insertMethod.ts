@@ -1,4 +1,4 @@
-import { DartType, Definition } from "./types";
+import { Definition } from "./types";
 import { getDartTypeByFormat, toJsonEncodable } from "./utils";
 
 export const generateInsertMethod = (
