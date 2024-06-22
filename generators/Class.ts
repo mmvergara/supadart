@@ -23,11 +23,13 @@ export const generateDartClasses = (definitions: Definitions) => {
 
       // Add question mark for optional fields (not in "required")
       const isOptional = !table.required.includes(propertyName);
-      dartCode += `${dartType}${isOptional ? "?" : ""} ${propertyName};\n`;
+      dartCode += `final ${dartType}${
+        isOptional ? "?" : ""
+      } ${propertyName};\n`;
     }
 
     // Constructor
-    dartCode += `\n  ${className}({\n`;
+    dartCode += `\n const ${className}({\n`;
     for (const propertyName in table.properties) {
       const isOptional = !table.required.includes(propertyName);
       dartCode += `${

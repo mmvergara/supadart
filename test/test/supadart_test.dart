@@ -24,7 +24,6 @@ import 'datatypes/editor-supported/timestamptz.dart';
 import 'datatypes/editor-supported/timetz.dart';
 import 'datatypes/editor-supported/uuid.dart';
 import 'datatypes/text.dart';
-import 'utils.dart';
 
 void main() async {
   var env = DotEnv(includePlatformEnvironment: true)..load();
@@ -36,7 +35,7 @@ void main() async {
     print('Please provide SUPABASE_URL and SUPABASE_ANON_KEY in .env file');
     return;
   }
-  await changeSupabaseFlutterImportToSupabaseImport();
+
   final supabase = SupabaseClient(url, anonKey);
   await performSmallintTest(supabase);
   await performIntegerTest(supabase);

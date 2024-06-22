@@ -13,8 +13,6 @@ export const generateClassesAndClient = async (
     isDart
       ? "import 'package:supabase/supabase.dart';"
       : "import 'package:supabase_flutter/supabase_flutter.dart';",
-    "import 'dart:typed_data';",
-    "import 'dart:convert';",
     "import 'package:intl/intl.dart';",
   ];
 
