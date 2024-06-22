@@ -44,7 +44,7 @@ export const GET = async (req: Request): Promise<NextResponse> => {
     }
     const data = await res.json();
     const definitions = data.definitions as Definitions;
-    if (definitions) {
+    if (!definitions) {
       return NextResponse.json({ data: null, error: "No definitions found" });
     }
 
