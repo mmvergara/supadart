@@ -1,3 +1,7 @@
+## 1.3.1
+
+- fix api link
+
 ## 1.3.0
 
 - Added support for seperated class files generation

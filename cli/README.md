@@ -41,5 +41,5 @@ supadart -u <your-supabase-url> -k <your-supabase-anon-key>
 -o, --output       Output file path      -- (default: lib/generated_classes.dart or lib/models/*classname.dart if --seperated is enabled)
 -d, --dart         Enable if you are not using Flutter, just normal Dart project
 -s, --seperated    Generate Seperate files for each classes
--v, --version      v1.2.1
+-v, --version      v1.3.1
 ```

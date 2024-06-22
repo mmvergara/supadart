@@ -4,11 +4,10 @@ import 'package:args/args.dart';
 import 'package:dotenv/dotenv.dart';
 import 'package:http/http.dart' as http;
 
-const String version = 'v1.3.0';
-// const String baseUrl =
-// 'https://supabase-schema-dart-class-generator.vercel.app/api/generate/';
+const String version = 'v1.3.1';
+const String baseUrl =
+    'https://supabase-schema-dart-class-generator.vercel.app/api/generate/';
 
-const String baseUrl = 'http://localhost:3000/api/generate/';
 void main(List<String> arguments) async {
   final parser = ArgParser()
     ..addFlag('help',
