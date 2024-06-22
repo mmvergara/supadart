@@ -29,6 +29,15 @@ jobs:
         run: dart pub get
         working-directory: ./test
 
+      - name: Install Supadart
+        run: dart pub global activate supadart
+        working-directory: ./test
+
+      # Generate Classes via Supadart
+      - name: Generate Classes
+        run: dart run supadart -u $SUPABASE_URL -k $SUPABASE_ANON_KEY
+        working-directory: ./test
+
       - name: Run tests
         run: dart run test
         working-directory: ./test
