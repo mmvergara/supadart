@@ -1,5 +1,5 @@
 # Supabase Schema to Dart Classes 🎯
-Typesafe queries in Supabase Flutter!
+Typesafe queries in Supabase Flutter! <br/>
 Generate Flutter / Dart 🎯 classes from your Supabase schema.
 
 - [Generate Dart Classes](#generating-dart-classes)
