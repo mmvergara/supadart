@@ -1,4 +1,5 @@
 # Supabase Schema to Dart Classes 🎯
+
 Typesafe queries in Supabase Flutter! <br/>
 Generate Flutter / Dart 🎯 classes from your Supabase schema.
 
@@ -34,6 +35,8 @@ Generate Flutter / Dart 🎯 classes from your Supabase schema.
 ## 1. Pre-requisites
 
 #### if you have serial types you need to add a comment to the column like this,
+
+serial types in general are not available in supabase table editor afaik, so if you did not add them manually via sql editor you probably dont have them.
 
 ```sql
 COMMENT ON COLUMN test_table.bigserialx IS 'serial';
