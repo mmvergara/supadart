@@ -123,13 +123,13 @@ create table
 
 ```dart
 class Books {
-  BigInt id;
-  String name;
-  String? description;
-  int price;
-  DateTime created_at;
+  final BigInt id;
+  final String name;
+  final String? description;
+  final int price;
+  final DateTime created_at;
 
-  Books({
+  const Books({
     required this.id,
     required this.name,
     this.description,
@@ -182,7 +182,7 @@ class Books {
       description:
           json['description'] != null ? json['description'] as String : null,
       price: json['price'] as int,
-      created_at: DateTime.parse(json['created_at']),
+      created_at: DateTime.parse(json['created_at'].toString()),
     );
   }
 }
