@@ -21,6 +21,10 @@ CREATE TABLE public.numeric_types (
     test_numeric_array NUMERIC[] NULL
 );
 
+COMMENT ON COLUMN public.numeric_types.test_bigserial IS 'serial';
+COMMENT ON COLUMN public.numeric_types.test_smallserial IS 'serial';
+COMMENT ON COLUMN public.numeric_types.test_serial IS 'serial';
+
 -- String Types Table
 CREATE TABLE public.string_types (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
