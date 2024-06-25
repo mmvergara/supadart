@@ -2,7 +2,7 @@ import 'package:supabase/supabase.dart';
 import 'package:supadart_test/generated_classes.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
-import '../utils.dart';
+import '../../utils.dart';
 
 Future<void> performCharacterVaryingTest(SupabaseClient supabase) async {
   // Test values for character varying
@@ -11,7 +11,7 @@ Future<void> performCharacterVaryingTest(SupabaseClient supabase) async {
 
   // Tests for character varying
   test('Testing Character Varying Create', () async {
-    await cleanup(supabase);
+    await cleanup(supabase, supabase.string_types);
     var createResult = await createCharVar(supabase, insertCharVar);
     expect(createResult, null);
   });
@@ -24,17 +24,17 @@ Future<void> performCharacterVaryingTest(SupabaseClient supabase) async {
 
   test('Testing Character Varying Read', () async {
     var readResult = await readCharVar(supabase);
-    assert(readResult is List<Test_table>);
+    assert(readResult is List<String_types>);
     expect(readResult!.length, 1);
-    expect(readResult[0].charactervaryingx, isA<String>());
-    expect(readResult[0].charactervaryingx, updatedCharVar);
+    expect(readResult[0].col_charactervarying, isA<String>());
+    expect(readResult[0].col_charactervarying, updatedCharVar);
   });
 }
 
 Future<Object?> createCharVar(SupabaseClient supabase, String insertVal) async {
   try {
-    await supabase.test_table.insert(Test_table.insert(
-      charactervaryingx: insertVal,
+    await supabase.string_types.insert(String_types.insert(
+      col_charactervarying: insertVal,
     ));
     return null;
   } catch (error) {
@@ -45,9 +45,9 @@ Future<Object?> createCharVar(SupabaseClient supabase, String insertVal) async {
 Future<Object?> updateCharVar(
     SupabaseClient supabase, String oldValue, String value) async {
   try {
-    await supabase.test_table
-        .update(Test_table.update(charactervaryingx: value))
-        .eq(Test_table.c_charactervaryingx, oldValue);
+    await supabase.string_types
+        .update(String_types.update(col_charactervarying: value))
+        .eq(String_types.c_col_charactervarying, oldValue);
     return null;
   } catch (error) {
     print("updateCharVar error");
@@ -56,11 +56,11 @@ Future<Object?> updateCharVar(
   }
 }
 
-Future<List<Test_table>?> readCharVar(SupabaseClient supabase) async {
+Future<List<String_types>?> readCharVar(SupabaseClient supabase) async {
   try {
-    var res = await supabase.test_table
+    var res = await supabase.string_types
         .select()
-        .withConverter((data) => data.map(Test_table.fromJson).toList());
+        .withConverter((data) => data.map(String_types.fromJson).toList());
     return res;
   } catch (error) {
     print("readCharVar error");

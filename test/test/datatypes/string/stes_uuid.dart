@@ -7,11 +7,11 @@ import '../../utils.dart';
 
 Future<void> performUuidTest(SupabaseClient supabase) async {
   // json
-  String insertUuid = "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11";
-  String updatedUuid = "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12";
+  String insertUuid = uuidx;
+  String updatedUuid = uuidy;
 
   test('Testing UUID Create', () async {
-    await cleanup(supabase);
+    await cleanup(supabase, supabase.string_types);
     var createResult = await createUuid(supabase, insertUuid);
     expect(createResult, null);
   });
@@ -23,17 +23,17 @@ Future<void> performUuidTest(SupabaseClient supabase) async {
 
   test('Testing UUID Read', () async {
     var readResult = await readUuid(supabase);
-    assert(readResult is List<Test_table>);
+    assert(readResult is List<String_types>);
     expect(readResult!.length, 1);
-    expect(readResult[0].uuidx, updatedUuid);
-    expect(readResult[0].uuidx, isA<String>());
+    expect(readResult[0].col_uuid, updatedUuid);
+    expect(readResult[0].col_uuid, isA<String>());
   });
 }
 
 Future<Object?> createUuid(SupabaseClient supabase, String insertVal) async {
   try {
-    await supabase.test_table.insert(Test_table.insert(
-      uuidx: insertVal,
+    await supabase.string_types.insert(String_types.insert(
+      col_uuid: insertVal,
     ));
     return null;
   } catch (error) {
@@ -41,11 +41,11 @@ Future<Object?> createUuid(SupabaseClient supabase, String insertVal) async {
   }
 }
 
-Future<List<Test_table>?> readUuid(SupabaseClient supabase) async {
+Future<List<String_types>?> readUuid(SupabaseClient supabase) async {
   try {
-    var res = await supabase.test_table
+    var res = await supabase.string_types
         .select()
-        .withConverter((data) => data.map(Test_table.fromJson).toList());
+        .withConverter((data) => data.map(String_types.fromJson).toList());
     return res;
   } catch (error) {
     print("readUuid error");
@@ -57,9 +57,9 @@ Future<List<Test_table>?> readUuid(SupabaseClient supabase) async {
 Future<Object?> updateUuid(
     SupabaseClient supabase, String oldValue, String value) async {
   try {
-    await supabase.test_table
-        .update(Test_table.update(uuidx: value))
-        .eq(Test_table.c_uuidx, oldValue);
+    await supabase.string_types
+        .update(String_types.update(col_uuid: value))
+        .eq(String_types.c_col_uuid, oldValue);
     return null;
   } catch (error) {
     print("updateUuid error");
@@ -67,4 +67,3 @@ Future<Object?> updateUuid(
     return error;
   }
 }
-

@@ -20,7 +20,7 @@ Future<void> performJsonTest(SupabaseClient supabase) async {
   };
 
   test('Testing Json Create', () async {
-    await cleanup(supabase);
+    await cleanup(supabase, supabase.json_types);
     var createResult = await createJson(supabase, insertJson);
     expect(createResult, null);
   });
@@ -32,19 +32,19 @@ Future<void> performJsonTest(SupabaseClient supabase) async {
 
   test('Testing Json Read', () async {
     var readResult = await readJson(supabase);
-    assert(readResult is List<Test_table>);
+    assert(readResult is List<Json_types>);
     expect(readResult!.length, 1);
-    expect(readResult[0].jsonx, updatedJson);
-    expect(readResult[0].jsonx, isA<Map<String, dynamic>>());
+    expect(readResult[0].col_json, updatedJson);
+    expect(readResult[0].col_json, isA<Map<String, dynamic>>());
   });
 }
 
 Future<Object?> createJson(
     SupabaseClient supabase, Map<String, dynamic> insertVal) async {
   try {
-    await supabase.test_table.insert(Test_table.insert(
-      integerx: 360360,
-      jsonx: insertVal,
+    await supabase.json_types.insert(Json_types.insert(
+      id: uuidx,
+      col_json: insertVal,
     ));
     return null;
   } catch (error) {
@@ -52,11 +52,11 @@ Future<Object?> createJson(
   }
 }
 
-Future<List<Test_table>?> readJson(SupabaseClient supabase) async {
+Future<List<Json_types>?> readJson(SupabaseClient supabase) async {
   try {
-    var res = await supabase.test_table
+    var res = await supabase.json_types
         .select()
-        .withConverter((data) => data.map(Test_table.fromJson).toList());
+        .withConverter((data) => data.map(Json_types.fromJson).toList());
     return res;
   } catch (error) {
     print("readJson error");
@@ -68,9 +68,9 @@ Future<List<Test_table>?> readJson(SupabaseClient supabase) async {
 Future<Object?> updateJson(SupabaseClient supabase,
     Map<String, dynamic> oldValue, Map<String, dynamic> value) async {
   try {
-    await supabase.test_table
-        .update(Test_table.update(jsonx: value))
-        .eq(Test_table.c_integerx, 360360);
+    await supabase.json_types
+        .update(Json_types.update(col_json: value))
+        .eq(Json_types.c_id, uuidx);
     return null;
   } catch (error) {
     print("updateJson error");

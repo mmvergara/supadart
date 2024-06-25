@@ -11,7 +11,7 @@ Future<void> performIntegerTest(SupabaseClient supabase) async {
 
   // Tests for integer
   test('Testing Integer Create', () async {
-    await cleanup(supabase);
+    await cleanup(supabase, supabase.numeric_types);
     var createResult = await createInteger(supabase, insertInt4);
     expect(createResult, null);
   });
@@ -23,17 +23,17 @@ Future<void> performIntegerTest(SupabaseClient supabase) async {
 
   test('Testing Integer Read', () async {
     var readResult = await readInteger(supabase);
-    assert(readResult is List<Test_table>);
+    assert(readResult is List<Numeric_types>);
     expect(readResult!.length, 1);
-    expect(readResult[0].integerx, isA<int>());
-    expect(readResult[0].integerx, updatedInt4);
+    expect(readResult[0].col_integer, isA<int>());
+    expect(readResult[0].col_integer, updatedInt4);
   });
 }
 
 Future<Object?> createInteger(SupabaseClient supabase, int insertVal) async {
   try {
-    await supabase.test_table.insert(Test_table.insert(
-      integerx: insertVal,
+    await supabase.numeric_types.insert(Numeric_types.insert(
+      col_integer: insertVal,
     ));
     return null;
   } catch (error) {
@@ -44,9 +44,9 @@ Future<Object?> createInteger(SupabaseClient supabase, int insertVal) async {
 Future<Object?> updateInteger(
     SupabaseClient supabase, int oldValue, int value) async {
   try {
-    await supabase.test_table
-        .update(Test_table.update(integerx: value))
-        .eq(Test_table.c_integerx, oldValue);
+    await supabase.numeric_types
+        .update(Numeric_types.update(col_integer: value))
+        .eq(Numeric_types.c_col_integer, oldValue);
     return null;
   } catch (error) {
     print("updateInteger error");
@@ -55,11 +55,11 @@ Future<Object?> updateInteger(
   }
 }
 
-Future<List<Test_table>?> readInteger(SupabaseClient supabase) async {
+Future<List<Numeric_types>?> readInteger(SupabaseClient supabase) async {
   try {
-    var res = await supabase.test_table
+    var res = await supabase.numeric_types
         .select()
-        .withConverter((data) => data.map(Test_table.fromJson).toList());
+        .withConverter((data) => data.map(Numeric_types.fromJson).toList());
     return res;
   } catch (error) {
     print("readInteger error");

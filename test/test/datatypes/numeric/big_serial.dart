@@ -2,13 +2,13 @@ import 'package:supabase/supabase.dart';
 import 'package:supadart_test/generated_classes.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
-import '../utils.dart';
+import '../../utils.dart';
 
 Future<void> performBigSerialTests(SupabaseClient supabase) async {
   BigInt insertBigSerial = BigInt.from(4221312931259329921);
   BigInt updatedBigSerial = BigInt.from(4221312931259329821);
   test('Testing BigSerial Create', () async {
-    await cleanup(supabase);
+    await cleanup(supabase, supabase.numeric_types);
     var createResult = await createBigSerial(supabase, insertBigSerial);
     expect(createResult, null);
   });
@@ -21,18 +21,18 @@ Future<void> performBigSerialTests(SupabaseClient supabase) async {
 
   test('Testing BigSerial Read', () async {
     var readResult = await readBigSerial(supabase);
-    assert(readResult is List<Test_table>);
+    assert(readResult is List<Numeric_types>);
     expect(readResult!.length, 1);
-    expect(readResult[0].bigserialx, isA<BigInt>());
-    expect(readResult[0].bigserialx, updatedBigSerial);
+    expect(readResult[0].col_bigserial, isA<BigInt>());
+    expect(readResult[0].col_bigserial, updatedBigSerial);
   });
 }
 
 Future<Object?> createBigSerial(
     SupabaseClient supabase, BigInt insertVal) async {
   try {
-    await supabase.test_table.insert(Test_table.insert(
-      bigserialx: insertVal,
+    await supabase.numeric_types.insert(Numeric_types.insert(
+      col_bigserial: insertVal,
     ));
     return null;
   } catch (error) {
@@ -40,11 +40,11 @@ Future<Object?> createBigSerial(
   }
 }
 
-Future<List<Test_table>?> readBigSerial(SupabaseClient supabase) async {
+Future<List<Numeric_types>?> readBigSerial(SupabaseClient supabase) async {
   try {
-    var res = await supabase.test_table
+    var res = await supabase.numeric_types
         .select()
-        .withConverter((data) => data.map(Test_table.fromJson).toList());
+        .withConverter((data) => data.map(Numeric_types.fromJson).toList());
     return res;
   } catch (error) {
     print("readBigSerial error");
@@ -56,9 +56,9 @@ Future<List<Test_table>?> readBigSerial(SupabaseClient supabase) async {
 Future<Object?> updateBigSerial(
     SupabaseClient supabase, BigInt oldValue, BigInt value) async {
   try {
-    await supabase.test_table
-        .update(Test_table.update(bigserialx: value))
-        .eq(Test_table.c_bigserialx, oldValue);
+    await supabase.numeric_types
+        .update(Numeric_types.update(col_bigserial: value))
+        .eq(Numeric_types.c_col_bigserial, oldValue);
     return null;
   } catch (error) {
     print("updateBigSerial error");

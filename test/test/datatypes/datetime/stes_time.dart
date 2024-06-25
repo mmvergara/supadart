@@ -12,7 +12,7 @@ Future<void> performTimeTest(SupabaseClient supabase) async {
   DateTime updatedTime = DateTime.now();
 
   test('Testing Time Create', () async {
-    await cleanup(supabase);
+    await cleanup(supabase, supabase.datetime_types);
     var createResult = await createTime(supabase, insertTime);
     expect(createResult, null);
   });
@@ -24,19 +24,19 @@ Future<void> performTimeTest(SupabaseClient supabase) async {
 
   test('Testing Time Read', () async {
     var readResult = await readTime(supabase);
-    assert(readResult is List<Test_table>);
+    assert(readResult is List<Datetime_types>);
     expect(readResult!.length, 1);
-    expect(readResult[0].timex?.hour, updatedTime.hour);
-    expect(readResult[0].timex?.minute, updatedTime.minute);
-    expect(readResult[0].timex?.second, updatedTime.second);
-    expect(readResult[0].timex, isA<DateTime>());
+    expect(readResult[0].col_time?.hour, updatedTime.hour);
+    expect(readResult[0].col_time?.minute, updatedTime.minute);
+    expect(readResult[0].col_time?.second, updatedTime.second);
+    expect(readResult[0].col_time, isA<DateTime>());
   });
 }
 
 Future<Object?> createTime(SupabaseClient supabase, DateTime insertVal) async {
   try {
-    await supabase.test_table.insert(Test_table.insert(
-      timex: insertVal,
+    await supabase.datetime_types.insert(Datetime_types.insert(
+      col_time: insertVal,
     ));
     return null;
   } catch (error) {
@@ -44,11 +44,11 @@ Future<Object?> createTime(SupabaseClient supabase, DateTime insertVal) async {
   }
 }
 
-Future<List<Test_table>?> readTime(SupabaseClient supabase) async {
+Future<List<Datetime_types>?> readTime(SupabaseClient supabase) async {
   try {
-    var res = await supabase.test_table
+    var res = await supabase.datetime_types
         .select()
-        .withConverter((data) => data.map(Test_table.fromJson).toList());
+        .withConverter((data) => data.map(Datetime_types.fromJson).toList());
     return res;
   } catch (error) {
     print("readTime error");
@@ -60,9 +60,9 @@ Future<List<Test_table>?> readTime(SupabaseClient supabase) async {
 Future<Object?> updateTime(
     SupabaseClient supabase, DateTime oldValue, DateTime value) async {
   try {
-    await supabase.test_table
-        .update(Test_table.update(timex: value))
-        .eq(Test_table.c_timex, oldValue);
+    await supabase.datetime_types
+        .update(Datetime_types.update(col_time: value))
+        .eq(Datetime_types.c_col_time, oldValue);
     return null;
   } catch (error) {
     print("updateTime error");

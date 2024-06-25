@@ -11,7 +11,10 @@ Future<void> performSmallintTest(SupabaseClient supabase) async {
 
   // Tests for smallint
   test('Testing Smallint Create', () async {
-    await cleanup(supabase); // Assuming cleanup function clears existing data
+    await cleanup(
+        supabase,
+        supabase
+            .numeric_types); // Assuming cleanup function clears existing data
     var createResult = await createSmallint(supabase, insertSmallint);
     expect(createResult, null);
   });
@@ -24,16 +27,16 @@ Future<void> performSmallintTest(SupabaseClient supabase) async {
 
   test('Testing Smallint Read', () async {
     var readResult = await readSmallint(supabase);
-    assert(readResult is List<Test_table>);
+    assert(readResult is List<Numeric_types>);
     expect(readResult!.length, 1); // Assuming only one row is inserted
-    expect(readResult[0].smallintx, updatedSmallint);
+    expect(readResult[0].col_smallint, updatedSmallint);
   });
 }
 
 Future<Object?> createSmallint(SupabaseClient supabase, int insertVal) async {
   try {
-    await supabase.test_table.insert(Test_table.insert(
-      smallintx: insertVal,
+    await supabase.numeric_types.insert(Numeric_types.insert(
+      col_smallint: insertVal,
     ));
     return null;
   } catch (error) {
@@ -44,9 +47,9 @@ Future<Object?> createSmallint(SupabaseClient supabase, int insertVal) async {
 Future<Object?> updateSmallint(
     SupabaseClient supabase, int oldValue, int value) async {
   try {
-    await supabase.test_table
-        .update(Test_table.update(smallintx: value))
-        .eq(Test_table.c_smallintx, oldValue);
+    await supabase.numeric_types
+        .update(Numeric_types.update(col_smallint: value))
+        .eq(Numeric_types.c_col_smallint, oldValue);
     return null;
   } catch (error) {
     print("updateSmallint error");
@@ -55,11 +58,11 @@ Future<Object?> updateSmallint(
   }
 }
 
-Future<List<Test_table>?> readSmallint(SupabaseClient supabase) async {
+Future<List<Numeric_types>?> readSmallint(SupabaseClient supabase) async {
   try {
-    var res = await supabase.test_table
+    var res = await supabase.numeric_types
         .select()
-        .withConverter((data) => data.map(Test_table.fromJson).toList());
+        .withConverter((data) => data.map(Numeric_types.fromJson).toList());
     return res;
   } catch (error) {
     print("readSmallint error");
