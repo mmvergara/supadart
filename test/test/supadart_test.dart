@@ -63,19 +63,21 @@ void main() async {
   await performBooleanTest(supabase);
 
   // ========================================
-  // Not STES
-  await performCharacterTest(supabase);
+  // Not STES - see on repositoryroot/other-types.md
+
+  // Numeric Types
   await performBigSerialTests(supabase);
-  // await performBitTest(supabase);
 
-  // todo
+  // String Types
+  await performCharacterTest(supabase);
 
-  // Bit Varying = no "isA" test
-  // await performBitVaryingTest(supabase);
+  // Boolean Bit Types
 
-  // Box = no "isA" test
-  // await performBoxTest(supabase);
+  // Geometry Types
 
-  // Not Supported Yet
-  // await performByteaTest(supabase);
+  // Network Address Types
+
+  // Binary Data and XML Types
+
+  // Misc Types
 }
