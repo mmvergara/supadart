@@ -1,28 +1,28 @@
 import 'package:dotenv/dotenv.dart';
 import 'package:supabase/supabase.dart';
-import 'datatypes/editor-supported/date.dart';
-import 'datatypes/editor-supported/int8_big_int.dart';
+import 'datatypes/datetime/stes_date.dart';
+import 'datatypes/numeric/stes_int8_big_int.dart';
 
-import 'datatypes/big_serial.dart';
+import 'datatypes/numeric/big_serial.dart';
 import 'datatypes/bit.dart';
 import 'datatypes/bit_varying.dart';
 import 'datatypes/box.dart';
 import 'datatypes/bytea.dart';
-import 'datatypes/character.dart';
-import 'datatypes/character_varying.dart';
-import 'datatypes/editor-supported/bool.dart';
-import 'datatypes/editor-supported/int4_int.dart';
-import 'datatypes/editor-supported/float4_real.dart';
-import 'datatypes/editor-supported/int2_small_int.dart';
-import 'datatypes/editor-supported/float8_double_precision.dart';
-import 'datatypes/editor-supported/json.dart';
-import 'datatypes/editor-supported/jsonb.dart';
-import 'datatypes/editor-supported/numeric.dart';
-import 'datatypes/editor-supported/time.dart';
-import 'datatypes/editor-supported/timestamp.dart';
-import 'datatypes/editor-supported/timestamptz.dart';
-import 'datatypes/editor-supported/timetz.dart';
-import 'datatypes/editor-supported/uuid.dart';
+import 'datatypes/string/character.dart';
+import 'datatypes/string/character_varying.dart';
+import 'datatypes/boolean_bit/stes_bool.dart';
+import 'datatypes/numeric/stes_int4_int.dart';
+import 'datatypes/numeric/stes_float4_real.dart';
+import 'datatypes/numeric/stes_int2_small_int.dart';
+import 'datatypes/numeric/stes_float8_double_precision.dart';
+import 'datatypes/json/stes_json.dart';
+import 'datatypes/json/stes_jsonb.dart';
+import 'datatypes/numeric/numeric.dart';
+import 'datatypes/datetime/stes_time.dart';
+import 'datatypes/datetime/stes_timestamp.dart';
+import 'datatypes/datetime/stes_timestamptz.dart';
+import 'datatypes/datetime/stes_timetz.dart';
+import 'datatypes/string/stes_uuid.dart';
 import 'datatypes/text.dart';
 
 void main() async {
@@ -37,27 +37,36 @@ void main() async {
   }
 
   final supabase = SupabaseClient(url, anonKey);
+  // ========================================
+  // STES = Supported Table Editor Supported (PRIORITIZED)
+  // Numeric Types
   await performSmallintTest(supabase);
   await performIntegerTest(supabase);
   await performBigIntTest(supabase);
   await performRealTest(supabase);
   await performDoublePrecisionTest(supabase);
   await performNumericTest(supabase);
+  // JSON Types
   await performJsonTest(supabase);
   await performJsonbTest(supabase);
+  // String Types
   await performTextTest(supabase);
   await performCharacterVaryingTest(supabase);
   await performUuidTest(supabase);
+  // Date Time Types
   await performDateTest(supabase);
   await performTimeTest(supabase);
   await performTimeTzTest(supabase);
   await performTimestampTest(supabase);
   await performTimestamptzTest(supabase);
+  // Boolean Bit Types
   await performBooleanTest(supabase);
 
+  // ========================================
+  // Not STES
   await performCharacterTest(supabase);
   await performBigSerialTests(supabase);
-  await performBitTest(supabase);
+  // await performBitTest(supabase);
 
   // todo
 

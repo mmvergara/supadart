@@ -13,7 +13,7 @@ Future<void> performTextTest(SupabaseClient supabase) async {
 
   // Tests for text
   test('Testing Text Create', () async {
-    await cleanup(supabase);
+    await cleanup(supabase, supabase.string_types);
     var createResult = await createText(supabase, insertText);
     expect(createResult, null);
   });
@@ -25,17 +25,17 @@ Future<void> performTextTest(SupabaseClient supabase) async {
 
   test('Testing Text Read', () async {
     var readResult = await readText(supabase);
-    assert(readResult is List<Test_table>);
+    assert(readResult is List<String_types>);
     expect(readResult!.length, 1);
-    expect(readResult[0].textx, isA<String>());
-    expect(readResult[0].textx, updatedText);
+    expect(readResult[0].col_text, isA<String>());
+    expect(readResult[0].col_text, updatedText);
   });
 }
 
 Future<Object?> createText(SupabaseClient supabase, String insertVal) async {
   try {
-    await supabase.test_table.insert(Test_table.insert(
-      textx: insertVal,
+    await supabase.string_types.insert(String_types.insert(
+      col_text: insertVal,
     ));
     return null;
   } catch (error) {
@@ -46,9 +46,9 @@ Future<Object?> createText(SupabaseClient supabase, String insertVal) async {
 Future<Object?> updateText(
     SupabaseClient supabase, String oldValue, String value) async {
   try {
-    await supabase.test_table
-        .update(Test_table.update(textx: value))
-        .eq(Test_table.c_textx, oldValue);
+    await supabase.string_types
+        .update(String_types.update(col_text: value))
+        .eq(String_types.c_col_text, oldValue);
     return null;
   } catch (error) {
     print("updateText error");
@@ -57,11 +57,11 @@ Future<Object?> updateText(
   }
 }
 
-Future<List<Test_table>?> readText(SupabaseClient supabase) async {
+Future<List<String_types>?> readText(SupabaseClient supabase) async {
   try {
-    var res = await supabase.test_table
+    var res = await supabase.string_types
         .select()
-        .withConverter((data) => data.map(Test_table.fromJson).toList());
+        .withConverter((data) => data.map(String_types.fromJson).toList());
     return res;
   } catch (error) {
     print("readText error");

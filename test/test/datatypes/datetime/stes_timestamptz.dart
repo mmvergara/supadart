@@ -11,7 +11,7 @@ Future<void> performTimestamptzTest(SupabaseClient supabase) async {
   DateTime updatedTimestamptz = DateTime.now();
 
   test('Testing Timestamptz Create', () async {
-    await cleanup(supabase);
+    await cleanup(supabase, supabase.datetime_types);
     var createResult = await createTimestamptz(supabase, insertTimestamptz);
     expect(createResult, null);
   });
@@ -23,10 +23,10 @@ Future<void> performTimestamptzTest(SupabaseClient supabase) async {
   });
   test('Testing Timestamptz Read', () async {
     var readResult = await readTimestamptz(supabase);
-    assert(readResult is List<Test_table>);
+    assert(readResult is List<Datetime_types>);
     expect(readResult!.length, 1);
 
-    var storedTimestamp = readResult[0].timestamptzx;
+    var storedTimestamp = readResult[0].col_timestamptz;
     expect(storedTimestamp, isA<DateTime>());
 
     // Convert both timestamps to UTC for comparison
@@ -54,9 +54,9 @@ Future<void> performTimestamptzTest(SupabaseClient supabase) async {
 Future<Object?> createTimestamptz(
     SupabaseClient supabase, DateTime insertVal) async {
   try {
-    await supabase.test_table.insert(Test_table.insert(
-      timestamptzx: insertVal,
-      integerx: 361361,
+    await supabase.datetime_types.insert(Datetime_types.insert(
+      id: uuidx,
+      col_timestamptz: insertVal,
     ));
     return null;
   } catch (error) {
@@ -64,11 +64,11 @@ Future<Object?> createTimestamptz(
   }
 }
 
-Future<List<Test_table>?> readTimestamptz(SupabaseClient supabase) async {
+Future<List<Datetime_types>?> readTimestamptz(SupabaseClient supabase) async {
   try {
-    var res = await supabase.test_table
+    var res = await supabase.datetime_types
         .select()
-        .withConverter((data) => data.map(Test_table.fromJson).toList());
+        .withConverter((data) => data.map(Datetime_types.fromJson).toList());
     return res;
   } catch (error) {
     print("readTimestamptz error");
@@ -80,9 +80,9 @@ Future<List<Test_table>?> readTimestamptz(SupabaseClient supabase) async {
 Future<Object?> updateTimestamptz(
     SupabaseClient supabase, DateTime oldValue, DateTime value) async {
   try {
-    await supabase.test_table
-        .update(Test_table.update(timestamptzx: value))
-        .eq(Test_table.c_integerx, 361361);
+    await supabase.datetime_types
+        .update(Datetime_types.update(col_timestamptz: value))
+        .eq(Datetime_types.c_id, uuidx);
     return null;
   } catch (error) {
     print("updateTimestamptz error");

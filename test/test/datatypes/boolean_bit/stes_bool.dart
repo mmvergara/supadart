@@ -9,7 +9,7 @@ Future<void> performBooleanTest(SupabaseClient supabase) async {
   bool updatedBoolean = false;
 
   test('Testing Boolean Create', () async {
-    await cleanup(supabase);
+    await cleanup(supabase, supabase.boolean_bit_types);
     var createResult = await createBoolean(supabase, insertBoolean);
     expect(createResult, null);
   });
@@ -22,17 +22,17 @@ Future<void> performBooleanTest(SupabaseClient supabase) async {
 
   test('Testing Boolean Read', () async {
     var readResult = await readBoolean(supabase);
-    assert(readResult is List<Test_table>);
+    assert(readResult is List<Boolean_bit_types>);
     expect(readResult!.length, 1);
-    expect(readResult[0].booleanx, isA<bool>());
-    expect(readResult[0].booleanx, updatedBoolean);
+    expect(readResult[0].col_boolean, isA<bool>());
+    expect(readResult[0].col_boolean, updatedBoolean);
   });
 }
 
 Future<Object?> createBoolean(SupabaseClient supabase, bool insertVal) async {
   try {
-    await supabase.test_table.insert(Test_table.insert(
-      booleanx: insertVal,
+    await supabase.boolean_bit_types.insert(Boolean_bit_types.insert(
+      col_boolean: insertVal,
     ));
     return null;
   } catch (error) {
@@ -43,9 +43,11 @@ Future<Object?> createBoolean(SupabaseClient supabase, bool insertVal) async {
 Future<Object?> updateBoolean(
     SupabaseClient supabase, bool oldValue, bool value) async {
   try {
-    await supabase.test_table
-        .update(Test_table.update(booleanx: value))
-        .eq(Test_table.c_booleanx, oldValue);
+    await supabase.boolean_bit_types
+        .update(Boolean_bit_types.update(
+          col_boolean: value,
+        ))
+        .eq(Boolean_bit_types.c_col_boolean, oldValue);
     return null;
   } catch (error) {
     print("updateBoolean error");
@@ -54,12 +56,11 @@ Future<Object?> updateBoolean(
   }
 }
 
-Future<List<Test_table>?> readBoolean(SupabaseClient supabase) async {
+Future<List<Boolean_bit_types>?> readBoolean(SupabaseClient supabase) async {
   try {
-    var res = await supabase.test_table
+    return await supabase.boolean_bit_types
         .select()
-        .withConverter((data) => data.map(Test_table.fromJson).toList());
-    return res;
+        .withConverter((data) => data.map(Boolean_bit_types.fromJson).toList());
   } catch (error) {
     print("readBoolean error");
     print(error);

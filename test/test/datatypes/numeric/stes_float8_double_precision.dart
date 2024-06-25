@@ -12,7 +12,7 @@ Future<void> performDoublePrecisionTest(SupabaseClient supabase) async {
 
   // Tests for double precision
   test('Testing Double Precision Create', () async {
-    await cleanup(supabase);
+    await cleanup(supabase, supabase.numeric_types);
     var createResult =
         await createDoublePrecision(supabase, insertDoublePrecision);
     expect(createResult, null);
@@ -26,18 +26,18 @@ Future<void> performDoublePrecisionTest(SupabaseClient supabase) async {
 
   test('Testing Double Precision Read', () async {
     var readResult = await readDoublePrecision(supabase);
-    assert(readResult is List<Test_table>);
+    assert(readResult is List<Numeric_types>);
     expect(readResult!.length, 1);
-    expect(readResult[0].doublex, isA<double>());
-    expect(readResult[0].doublex, updatedDoublePrecision);
+    expect(readResult[0].col_double, isA<double>());
+    expect(readResult[0].col_double, updatedDoublePrecision);
   });
 }
 
 Future<Object?> createDoublePrecision(
     SupabaseClient supabase, double insertVal) async {
   try {
-    await supabase.test_table.insert(Test_table.insert(
-      doublex: insertVal,
+    await supabase.numeric_types.insert(Numeric_types.insert(
+      col_double: insertVal,
     ));
     return null;
   } catch (error) {
@@ -48,9 +48,9 @@ Future<Object?> createDoublePrecision(
 Future<Object?> updateDoublePrecision(
     SupabaseClient supabase, double oldValue, double value) async {
   try {
-    await supabase.test_table
-        .update(Test_table.update(doublex: value))
-        .eq(Test_table.c_doublex, oldValue);
+    await supabase.numeric_types
+        .update(Numeric_types.update(col_double: value))
+        .eq(Numeric_types.c_col_double, oldValue);
     return null;
   } catch (error) {
     print("updateDoublePrecision error");
@@ -59,15 +59,15 @@ Future<Object?> updateDoublePrecision(
   }
 }
 
-Future<List<Test_table>?> readDoublePrecision(SupabaseClient supabase) async {
+Future<List<Numeric_types>?> readDoublePrecision(
+    SupabaseClient supabase) async {
   try {
-    return await supabase.test_table
+    return await supabase.numeric_types
         .select()
-        .withConverter((data) => data.map(Test_table.fromJson).toList());
+        .withConverter((data) => data.map(Numeric_types.fromJson).toList());
   } catch (error) {
     print("readDoublePrecision error");
     print(error);
     return null;
   }
 }
-
