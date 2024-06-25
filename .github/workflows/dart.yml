@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'Production'
+    # if: github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'Production'
 
     env:
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
