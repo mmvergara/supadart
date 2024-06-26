@@ -112,3 +112,10 @@ export const generateDartFileName = (tableName: string): string => {
 
   return fileName;
 };
+
+export const snakeCasingToPascaleCasing = (name: string): string => {
+  return name
+    .split("_")
+    .map((word) => word[0].toUpperCase() + word.slice(1))
+    .join("");
+};
