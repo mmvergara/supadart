@@ -25,7 +25,7 @@ Future<void> performTimestampTest(SupabaseClient supabase) async {
 
   test('Testing Timestamp Read', () async {
     var readResult = await readTimestamp(supabase);
-    assert(readResult is List<Datetime_types>);
+    assert(readResult is List<DatetimeTypes>);
     expect(readResult!.length, 1);
     expect(readResult[0].col_timestamp?.year, updatedTimestamp.year);
     expect(readResult[0].col_timestamp?.month, updatedTimestamp.month);
@@ -42,7 +42,7 @@ Future<void> performTimestampTest(SupabaseClient supabase) async {
 Future<Object?> createTimestamp(
     SupabaseClient supabase, DateTime insertVal) async {
   try {
-    await supabase.datetime_types.insert(Datetime_types.insert(
+    await supabase.datetime_types.insert(DatetimeTypes.insert(
       col_timestamp: insertVal,
     ));
     return null;
@@ -51,11 +51,11 @@ Future<Object?> createTimestamp(
   }
 }
 
-Future<List<Datetime_types>?> readTimestamp(SupabaseClient supabase) async {
+Future<List<DatetimeTypes>?> readTimestamp(SupabaseClient supabase) async {
   try {
     var res = await supabase.datetime_types
         .select()
-        .withConverter((data) => data.map(Datetime_types.fromJson).toList());
+        .withConverter((data) => data.map(DatetimeTypes.fromJson).toList());
     return res;
   } catch (error) {
     print("readTimestamp error");
@@ -68,8 +68,8 @@ Future<Object?> updateTimestamp(
     SupabaseClient supabase, DateTime oldValue, DateTime value) async {
   try {
     await supabase.datetime_types
-        .update(Datetime_types.update(col_timestamp: value))
-        .eq(Datetime_types.c_col_timestamp, oldValue);
+        .update(DatetimeTypes.update(col_timestamp: value))
+        .eq(DatetimeTypes.c_col_timestamp, oldValue);
     return null;
   } catch (error) {
     print("updateTimestamp error");
