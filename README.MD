@@ -81,7 +81,7 @@ dart pub global run supadart
 #### Generate Classes
 
 ```bash
-# If you have a .env file in the root of your project
+# If you have a .env file with SUPABASE_URL and SUPABASE_ANON_KEY in the root of your project
 supadart
 
 # If you have a .env file in a different location
