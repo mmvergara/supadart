@@ -4,11 +4,13 @@ Typesafe queries in Supabase Flutter! <br/>
 Generate Flutter / Dart 🎯 classes from your Supabase schema.
 
 - [Generate Dart Classes](#generating-dart-classes)
+  - [CLI](#using-the-dart-cli)
+  - [Web App](https://supabase-schema-dart-class-generator.vercel.app/)
 - [Example Usage](#example-usage)
 
 ## Conversion Table
 
-| Supabase Identifier | Format                      | JSON Type | Dart Type            | Runtime Tested |
+| Supabase Identifier | PostgreSQL Format           | JSON Type | Dart Type            | Runtime Tested |
 | ------------------- | --------------------------- | --------- | -------------------- | -------------- |
 | # int2              | smallint                    | integer   | int                  | ✅             |
 | # int4              | integer                     | integer   | int                  | ✅             |
@@ -108,7 +110,7 @@ supadart -u <your-supabase-url> -k <your-supabase-anon-key>
 
 # Example Usage
 
-### 1. Assuming the following table schema
+Assuming the following table schema
 
 ```sql
 create table
@@ -122,7 +124,7 @@ create table
   ) tablespace pg_default;
 ```
 
-### 2. Use the CLI or the Web App to [generate dart classes](#generating-dart-classes)
+### 1. Use the CLI or the Web App to [generate dart classes](#generating-dart-classes)
 
 ```dart
 class Books {
@@ -191,7 +193,7 @@ class Books {
 }
 ```
 
-### 3. Using the generated class
+### 2. Using the generated class
 
 we now have a typesafe'ish to interact with the database.
 
