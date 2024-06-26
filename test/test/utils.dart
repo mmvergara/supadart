@@ -1,16 +1,4 @@
 import 'package:supabase/supabase.dart';
-import 'package:supadart_test/generated_classes.dart';
-import 'dart:math';
-
-// DROP TABLE IF EXISTS public.numeric_types;
-// DROP TABLE IF EXISTS public.string_types;
-// DROP TABLE IF EXISTS public.datetime_types;
-// DROP TABLE IF EXISTS public.boolean_bit_types;
-// DROP TABLE IF EXISTS public.geometric_types;
-// DROP TABLE IF EXISTS public.network_types;
-// DROP TABLE IF EXISTS public.json_types;
-// DROP TABLE IF EXISTS public.binary_xml_types;
-// DROP TABLE IF EXISTS public.misc_types;
 
 Future<void> cleanup(
     SupabaseClient supabase, SupabaseQueryBuilder supabaseTable) async {
