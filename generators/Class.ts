@@ -3,7 +3,7 @@ import { generateInsertMethod } from "./insertMethod";
 import { generateStaticColumnNames } from "./staticColumnNames";
 import { generateUpdateMethod } from "./updateMethod";
 import { DartClass, Definitions } from "./types";
-import { getDartTypeByFormat } from "./utils";
+import { getDartTypeByFormat, snakeCasingToPascaleCasing } from "./utils";
 
 export const generateDartClasses = (definitions: Definitions): DartClass[] => {
   const generatedClasses: DartClass[] = [];
@@ -12,7 +12,7 @@ export const generateDartClasses = (definitions: Definitions): DartClass[] => {
   for (const [tableName, table] of Object.entries(definitions)) {
     let dartCode = "";
     const { properties, required } = table;
-    const className = tableName.charAt(0).toUpperCase() + tableName.slice(1);
+    const className = snakeCasingToPascaleCasing(tableName);
 
     // Class definition
     dartCode += `class ${className} {\n`;
