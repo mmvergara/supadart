@@ -27,7 +27,7 @@ Future<void> performSmallintTest(SupabaseClient supabase) async {
 
   test('Testing Smallint Read', () async {
     var readResult = await readSmallint(supabase);
-    assert(readResult is List<Numeric_types>);
+    assert(readResult is List<NumericTypes>);
     expect(readResult!.length, 1); // Assuming only one row is inserted
     expect(readResult[0].col_smallint, updatedSmallint);
   });
@@ -35,7 +35,7 @@ Future<void> performSmallintTest(SupabaseClient supabase) async {
 
 Future<Object?> createSmallint(SupabaseClient supabase, int insertVal) async {
   try {
-    await supabase.numeric_types.insert(Numeric_types.insert(
+    await supabase.numeric_types.insert(NumericTypes.insert(
       col_smallint: insertVal,
     ));
     return null;
@@ -48,8 +48,8 @@ Future<Object?> updateSmallint(
     SupabaseClient supabase, int oldValue, int value) async {
   try {
     await supabase.numeric_types
-        .update(Numeric_types.update(col_smallint: value))
-        .eq(Numeric_types.c_col_smallint, oldValue);
+        .update(NumericTypes.update(col_smallint: value))
+        .eq(NumericTypes.c_col_smallint, oldValue);
     return null;
   } catch (error) {
     print("updateSmallint error");
@@ -58,11 +58,11 @@ Future<Object?> updateSmallint(
   }
 }
 
-Future<List<Numeric_types>?> readSmallint(SupabaseClient supabase) async {
+Future<List<NumericTypes>?> readSmallint(SupabaseClient supabase) async {
   try {
     var res = await supabase.numeric_types
         .select()
-        .withConverter((data) => data.map(Numeric_types.fromJson).toList());
+        .withConverter((data) => data.map(NumericTypes.fromJson).toList());
     return res;
   } catch (error) {
     print("readSmallint error");

@@ -24,7 +24,7 @@ Future<void> performCharacterTest(SupabaseClient supabase) async {
 
   test('Testing Character Read', () async {
     var readResult = await readCharacter(supabase);
-    assert(readResult is List<String_types>);
+    assert(readResult is List<StringTypes>);
     expect(readResult!.length, 1);
     expect(readResult[0].col_character, isA<String>());
     expect(readResult[0].col_character, updatedCharacter);
@@ -34,7 +34,7 @@ Future<void> performCharacterTest(SupabaseClient supabase) async {
 Future<Object?> createCharacter(
     SupabaseClient supabase, String insertVal) async {
   try {
-    await supabase.string_types.insert(String_types.insert(
+    await supabase.string_types.insert(StringTypes.insert(
       col_character: insertVal,
     ));
     return null;
@@ -47,8 +47,8 @@ Future<Object?> updateCharacter(
     SupabaseClient supabase, String oldValue, String value) async {
   try {
     await supabase.string_types
-        .update(String_types.update(col_character: value))
-        .eq(String_types.c_col_character, oldValue);
+        .update(StringTypes.update(col_character: value))
+        .eq(StringTypes.c_col_character, oldValue);
     return null;
   } catch (error) {
     print("updateCharacter error");
@@ -57,11 +57,11 @@ Future<Object?> updateCharacter(
   }
 }
 
-Future<List<String_types>?> readCharacter(SupabaseClient supabase) async {
+Future<List<StringTypes>?> readCharacter(SupabaseClient supabase) async {
   try {
     var res = await supabase.string_types
         .select()
-        .withConverter((data) => data.map(String_types.fromJson).toList());
+        .withConverter((data) => data.map(StringTypes.fromJson).toList());
     return res;
   } catch (error) {
     print("readCharacter error");

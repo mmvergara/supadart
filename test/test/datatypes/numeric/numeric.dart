@@ -26,7 +26,7 @@ Future<void> performNumericTest(SupabaseClient supabase) async {
 
   test('Testing Numeric Read', () async {
     var readResult = await readNumeric(supabase);
-    assert(readResult is List<Numeric_types>);
+    assert(readResult is List<NumericTypes>);
     expect(readResult!.length, 1);
     expect(readResult[0].col_numeric, isA<num>());
     expect(readResult[0].col_numeric, updatedNumeric);
@@ -35,7 +35,7 @@ Future<void> performNumericTest(SupabaseClient supabase) async {
 
 Future<Object?> createNumeric(SupabaseClient supabase, num insertVal) async {
   try {
-    await supabase.numeric_types.insert(Numeric_types.insert(
+    await supabase.numeric_types.insert(NumericTypes.insert(
       col_numeric: insertVal,
     ));
     return null;
@@ -48,8 +48,8 @@ Future<Object?> updateNumeric(
     SupabaseClient supabase, num oldValue, num value) async {
   try {
     await supabase.numeric_types
-        .update(Numeric_types.update(col_numeric: value))
-        .eq(Numeric_types.c_col_numeric, oldValue);
+        .update(NumericTypes.update(col_numeric: value))
+        .eq(NumericTypes.c_col_numeric, oldValue);
     return null;
   } catch (error) {
     print("updateNumeric error");
@@ -58,11 +58,11 @@ Future<Object?> updateNumeric(
   }
 }
 
-Future<List<Numeric_types>?> readNumeric(SupabaseClient supabase) async {
+Future<List<NumericTypes>?> readNumeric(SupabaseClient supabase) async {
   try {
     return await supabase.numeric_types
         .select()
-        .withConverter((data) => data.map(Numeric_types.fromJson).toList());
+        .withConverter((data) => data.map(NumericTypes.fromJson).toList());
   } catch (error) {
     print("readNumeric error");
     print(error);

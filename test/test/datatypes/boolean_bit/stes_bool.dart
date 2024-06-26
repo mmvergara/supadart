@@ -22,7 +22,7 @@ Future<void> performBooleanTest(SupabaseClient supabase) async {
 
   test('Testing Boolean Read', () async {
     var readResult = await readBoolean(supabase);
-    assert(readResult is List<Boolean_bit_types>);
+    assert(readResult is List<BooleanBitTypes>);
     expect(readResult!.length, 1);
     expect(readResult[0].col_boolean, isA<bool>());
     expect(readResult[0].col_boolean, updatedBoolean);
@@ -31,7 +31,7 @@ Future<void> performBooleanTest(SupabaseClient supabase) async {
 
 Future<Object?> createBoolean(SupabaseClient supabase, bool insertVal) async {
   try {
-    await supabase.boolean_bit_types.insert(Boolean_bit_types.insert(
+    await supabase.boolean_bit_types.insert(BooleanBitTypes.insert(
       col_boolean: insertVal,
     ));
     return null;
@@ -44,10 +44,10 @@ Future<Object?> updateBoolean(
     SupabaseClient supabase, bool oldValue, bool value) async {
   try {
     await supabase.boolean_bit_types
-        .update(Boolean_bit_types.update(
+        .update(BooleanBitTypes.update(
           col_boolean: value,
         ))
-        .eq(Boolean_bit_types.c_col_boolean, oldValue);
+        .eq(BooleanBitTypes.c_col_boolean, oldValue);
     return null;
   } catch (error) {
     print("updateBoolean error");
@@ -56,11 +56,11 @@ Future<Object?> updateBoolean(
   }
 }
 
-Future<List<Boolean_bit_types>?> readBoolean(SupabaseClient supabase) async {
+Future<List<BooleanBitTypes>?> readBoolean(SupabaseClient supabase) async {
   try {
     return await supabase.boolean_bit_types
         .select()
-        .withConverter((data) => data.map(Boolean_bit_types.fromJson).toList());
+        .withConverter((data) => data.map(BooleanBitTypes.fromJson).toList());
   } catch (error) {
     print("readBoolean error");
     print(error);

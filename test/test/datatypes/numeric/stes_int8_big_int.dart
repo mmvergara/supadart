@@ -26,7 +26,7 @@ Future<void> performBigIntTest(SupabaseClient supabase) async {
 
   test('Testing BigInt Read', () async {
     var readResult = await readBigInt(supabase);
-    assert(readResult is List<Numeric_types>);
+    assert(readResult is List<NumericTypes>);
     expect(readResult!.length, 1);
     expect(readResult[0].col_bigint, updatedBigInt);
     expect(readResult[0].col_bigint, isA<BigInt>());
@@ -35,7 +35,7 @@ Future<void> performBigIntTest(SupabaseClient supabase) async {
 
 Future<Object?> createBigInt(SupabaseClient supabase, BigInt insertVal) async {
   try {
-    await supabase.numeric_types.insert(Numeric_types.insert(
+    await supabase.numeric_types.insert(NumericTypes.insert(
       col_bigint: insertVal,
     ));
     return null;
@@ -44,11 +44,11 @@ Future<Object?> createBigInt(SupabaseClient supabase, BigInt insertVal) async {
   }
 }
 
-Future<List<Numeric_types>?> readBigInt(SupabaseClient supabase) async {
+Future<List<NumericTypes>?> readBigInt(SupabaseClient supabase) async {
   try {
     var res = await supabase.numeric_types
         .select()
-        .withConverter((data) => data.map(Numeric_types.fromJson).toList());
+        .withConverter((data) => data.map(NumericTypes.fromJson).toList());
     return res;
   } catch (error) {
     print("readBigInt error");
@@ -61,8 +61,8 @@ Future<Object?> updateBigInt(
     SupabaseClient supabase, BigInt oldValue, BigInt value) async {
   try {
     await supabase.numeric_types
-        .update(Numeric_types.update(col_bigint: value))
-        .eq(Numeric_types.c_col_bigint, oldValue);
+        .update(NumericTypes.update(col_bigint: value))
+        .eq(NumericTypes.c_col_bigint, oldValue);
     return null;
   } catch (error) {
     print("updateBigInt error");

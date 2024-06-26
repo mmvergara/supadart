@@ -26,7 +26,7 @@ Future<void> performDoublePrecisionTest(SupabaseClient supabase) async {
 
   test('Testing Double Precision Read', () async {
     var readResult = await readDoublePrecision(supabase);
-    assert(readResult is List<Numeric_types>);
+    assert(readResult is List<NumericTypes>);
     expect(readResult!.length, 1);
     expect(readResult[0].col_double, isA<double>());
     expect(readResult[0].col_double, updatedDoublePrecision);
@@ -36,7 +36,7 @@ Future<void> performDoublePrecisionTest(SupabaseClient supabase) async {
 Future<Object?> createDoublePrecision(
     SupabaseClient supabase, double insertVal) async {
   try {
-    await supabase.numeric_types.insert(Numeric_types.insert(
+    await supabase.numeric_types.insert(NumericTypes.insert(
       col_double: insertVal,
     ));
     return null;
@@ -49,8 +49,8 @@ Future<Object?> updateDoublePrecision(
     SupabaseClient supabase, double oldValue, double value) async {
   try {
     await supabase.numeric_types
-        .update(Numeric_types.update(col_double: value))
-        .eq(Numeric_types.c_col_double, oldValue);
+        .update(NumericTypes.update(col_double: value))
+        .eq(NumericTypes.c_col_double, oldValue);
     return null;
   } catch (error) {
     print("updateDoublePrecision error");
@@ -59,12 +59,11 @@ Future<Object?> updateDoublePrecision(
   }
 }
 
-Future<List<Numeric_types>?> readDoublePrecision(
-    SupabaseClient supabase) async {
+Future<List<NumericTypes>?> readDoublePrecision(SupabaseClient supabase) async {
   try {
     return await supabase.numeric_types
         .select()
-        .withConverter((data) => data.map(Numeric_types.fromJson).toList());
+        .withConverter((data) => data.map(NumericTypes.fromJson).toList());
   } catch (error) {
     print("readDoublePrecision error");
     print(error);
