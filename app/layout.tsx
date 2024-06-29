@@ -7,6 +7,41 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Supabase Schema to Dart Classes",
   description: "Generate Dart classes from your Supabase schema.",
+  abstract: "Generate Dart classes from your Supabase schema.",
+  keywords: [
+    "Supabase",
+    "Dart",
+    "Schema",
+    "Flutter",
+    "Flutter SDK",
+    "Flutter Dart",
+    "Flutter Types",
+    "Flutter Models",
+    "Flutter Classes",
+  ],
+
+  applicationName: "Supabase Schema to Dart Classes | Supadart",
+  appLinks: {
+    web: {
+      url: "https://supabase-schema-dart-class-generator.vercel.app/",
+    },
+  },
+  archives: [
+    "https://github.com/mmvergara/supabase-schema-dart-class-generator",
+  ],
+  authors: [
+    {
+      name: "mmvergara",
+      url: "https://github.com/mmvergara",
+    },
+  ],
+  openGraph: {
+    type: "website",
+    title: "Supabase Schema to Dart Classes",
+    description:
+      "Typesafe Supabase Flutter Queries, Generate Dart classes from your Supabase schema.",
+    url: "https://supabase-schema-dart-class-generator.vercel.app/",
+  },
 };
 
 export default function RootLayout({
