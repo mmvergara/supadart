@@ -1,4 +1,4 @@
-name: Dart Class Runtime Tests
+name: Runtime Test
 
 on:
   deployment_status:
