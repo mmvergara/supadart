@@ -10,7 +10,6 @@ export const generateFromJsonMethod = (
   code += `return ${className}(\n`;
   for (const propertyName in properties) {
     const isRequired = requiredFields.includes(propertyName);
-
     const dartType = getDartTypeByFormat(properties[propertyName].format);
     code += `${propertyName}: ${parseWrapper(
       dartType,
@@ -28,45 +27,62 @@ export const parseWrapper = (
   dartType: DartType,
   format: Format,
   jsonValue: string,
-  required: boolean
+  isRequired: boolean
 ): string => {
-  if (required) {
-    switch (dartType) {
-      case "num":
-        return `num.parse(${jsonValue}.toString())`;
-      case "BigInt":
-        return `BigInt.parse(${jsonValue}.toString())`;
-      case "double":
-        return `double.parse(${jsonValue}.toString())`;
-      case "DateTime":
-        if (format === "time without time zone") {
-          return `DateTime.parse("1970-01-01T\${${jsonValue}.toString()}")`;
-        }
-        if (format === "time with time zone") {
-          return `DateTime.parse("1970-01-01T\${${jsonValue}.toString()}")`;
-        }
-        return `DateTime.parse(${jsonValue}.toString())`;
-      default:
-        return `${jsonValue} as ${dartType}`;
-    }
+  const isArray = format.includes("[]");
+  if (isArray) {
+    format = format.replace("[]", "") as Format;
   }
-
+  let parseValue = "";
   switch (dartType) {
     case "num":
-      return `${jsonValue} != null ? num.tryParse(${jsonValue}.toString()) : null`;
+      parseValue = `num.tryParse(${jsonValue}.toString())`;
+      break;
     case "BigInt":
-      return `${jsonValue} != null ? BigInt.tryParse(${jsonValue}.toString()) : null`;
+      parseValue = `BigInt.tryParse(${jsonValue}.toString())`;
+      break;
     case "double":
-      return `${jsonValue} != null ? double.tryParse(${jsonValue}.toString()) : null`;
+      parseValue = `double.tryParse(${jsonValue}.toString())`;
+      break;
     case "DateTime":
       if (format === "time without time zone") {
-        return `${jsonValue} != null ? DateTime.tryParse("1970-01-01T\${${jsonValue}.toString()}") : null`;
+        parseValue = `DateTime.tryParse("1970-01-01T\${${jsonValue}.toString()}")`;
+        break;
       }
       if (format === "time with time zone") {
-        return `${jsonValue} != null ? DateTime.tryParse("1970-01-01T\${${jsonValue}.toString()}") : null`;
+        parseValue = `DateTime.tryParse("1970-01-01T\${${jsonValue}.toString()}")`;
+        break;
       }
-      return `${jsonValue} != null ? DateTime.tryParse(${jsonValue}.toString()) : null`;
+      parseValue = `DateTime.tryParse(${jsonValue}.toString())`;
+      break;
     default:
-      return `${jsonValue} != null ? ${jsonValue} as ${dartType} : null`;
+      parseValue = `${jsonValue}`;
   }
+
+  // Check if the field is required
+
+  let output = "";
+  console.log(jsonValue, isArray);
+  if (isRequired) {
+    if (isArray) {
+      output = `(${parseValue} as List<dynamic>).map((v) => v as ${removeListBrackets(
+        dartType
+      )}).toList()`;
+    } else {
+      output = `${parseValue} as ${dartType}`;
+    }
+  } else {
+    if (isArray) {
+      output = `${jsonValue} != null ? (${parseValue} as List<dynamic>).map((v) => v as ${removeListBrackets(
+        dartType
+      )}).toList() : null`;
+    } else {
+      output = `${jsonValue} != null ? ${parseValue} as ${dartType} : null`;
+    }
+  }
+  return output;
+};
+
+const removeListBrackets = (value: string) => {
+  return value.replace("List<", "").replace(">", "");
 };
