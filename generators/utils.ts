@@ -180,16 +180,20 @@ export const toJsonEncodable = (
         if (isArray) {
           parseValue = `${propertyName}.map((e) => DateFormat('HH:mm:ss zzzz').format(e)).toList()`;
         }
+        break;
       }
       if (format === "timestamp with time zone") {
         parseValue = `${propertyName}.toUtc().toString()`;
         if (isArray) {
           parseValue = `${propertyName}.map((e) => e.toUtc().toString()).toList()`;
         }
+        break;
       }
       parseValue = `${propertyName}.toIso8601String()`;
+      break;
     case "Map<String, dynamic>":
       parseValue = `${propertyName}`;
+      break;
     default:
       parseValue = `${propertyName}.toString()`;
   }
