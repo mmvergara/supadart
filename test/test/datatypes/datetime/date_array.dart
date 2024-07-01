@@ -8,8 +8,7 @@ import '../../utils.dart';
 Future<void> performDateArrayTest(SupabaseClient supabase) async {
   // json
   List<DateTime> insertDate = [DateTime(2021, 10, 10)];
-
-  List<DateTime> updatedDate = [DateTime.now()];
+  List<DateTime> updatedDate = [DateTime.now(), DateTime(2021, 10, 10)];
 
   test('Testing Date Array Create', () async {
     await cleanup(supabase, supabase.datetime_types);
@@ -26,10 +25,12 @@ Future<void> performDateArrayTest(SupabaseClient supabase) async {
     var readResult = await readDateArray(supabase);
     assert(readResult is List<DatetimeTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_date_array![0].year, updatedDate[0].year);
-    expect(readResult[0].col_date_array![0].month, updatedDate[0].month);
-    expect(readResult[0].col_date_array![0].day, updatedDate[0].day);
-    expect(readResult[0].col_date_array![0], isA<DateTime>());
+    expect(readResult[0].col_date_array, isA<List<DateTime>>());
+    for (int i = 0; i < insertDate.length; i++) {
+      expect(readResult[0].col_date_array![i].year, updatedDate[i].year);
+      expect(readResult[0].col_date_array![i].month, updatedDate[i].month);
+      expect(readResult[0].col_date_array![i].day, updatedDate[i].day);
+    }
   });
 }
 

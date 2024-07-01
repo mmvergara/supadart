@@ -26,10 +26,12 @@ Future<void> performTimeArrayTest(SupabaseClient supabase) async {
     var readResult = await readTimeArray(supabase);
     assert(readResult is List<DatetimeTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_time_array![0].hour, updatedTime[0].hour);
-    expect(readResult[0].col_time_array![0].minute, updatedTime[0].minute);
-    expect(readResult[0].col_time_array![0].second, updatedTime[0].second);
     expect(readResult[0].col_time_array, isA<List<DateTime>>());
+    for (int i = 0; i < insertTime.length; i++) {
+      expect(readResult[0].col_time_array![i].hour, updatedTime[i].hour);
+      expect(readResult[0].col_time_array![i].minute, updatedTime[i].minute);
+      expect(readResult[0].col_time_array![i].second, updatedTime[i].second);
+    }
   });
 }
 

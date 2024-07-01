@@ -28,10 +28,7 @@ Future<void> performRealArrayTest(SupabaseClient supabase) async {
     expect(readResult!.length, 1);
     expect(readResult[0].col_real_array, isA<List<double>>());
     expect(readResult[0].col_real_array!.length, updatedRealArray.length);
-    for (int i = 0; i < updatedRealArray.length; i++) {
-      expect(
-          readResult[0].col_real_array![i], closeTo(updatedRealArray[i], 1e-6));
-    }
+    expect(readResult[0].col_real_array, updatedRealArray);
   });
 }
 

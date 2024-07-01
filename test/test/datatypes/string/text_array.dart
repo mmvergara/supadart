@@ -8,12 +8,14 @@ import '../../utils.dart';
 Future<void> performTextArrayTest(SupabaseClient supabase) async {
   // Test values for text array
   List<String> insertTextArray = [
-    "Once upon a time in a distant land called Database Kingdom, there lived a brave little PostgreSQL.",
-    "This PostgreSQL was not like any other database; it could store vast amounts of data and perform complex queries with ease.",
+    "Once upon a time in a distant land called Database Kingdom there lived a brave little PostgreSQL.",
+    "This PostgreSQL was not like any other database it could store vast amounts of data and perform complex queries with ease.",
     "The villagers relied on PostgreSQL to keep their records safe and sound."
   ];
   List<String> updatedTextArray = [
-    "With his mighty powers he, could store vast amounts, of information and wield, complex queries effortlessly."
+    "With his mighty powers he could store vast amounts of information and wield complex queries effortlessly.",
+    "With his lol mighty powers he could store vast amounts of information and wield complex queries effortlessly.",
+    "With his lol xd mighty powers he could store vast amounts of information and wield complex queries effortlessly."
   ];
 
   // Tests for text array
@@ -34,9 +36,7 @@ Future<void> performTextArrayTest(SupabaseClient supabase) async {
     assert(readResult is List<StringTypes>);
     expect(readResult!.length, 1);
     expect(readResult[0].col_text_array, isA<List<String>>());
-    expect(readResult[0].col_text_array![0], updatedTextArray[0]);
-    expect(readResult[0].col_text_array![1], updatedTextArray[1]);
-    expect(readResult[0].col_text_array![2], updatedTextArray[2]);
+    expect(readResult[0].col_text_array, updatedTextArray);
   });
 }
 

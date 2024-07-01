@@ -2,27 +2,26 @@ import 'package:supabase/supabase.dart';
 import 'package:supadart_test/generated_classes.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
-
 import '../../utils.dart';
 
-Future<void> performUuidTest(SupabaseClient supabase) async {
+Future<void> performUUIDTest(SupabaseClient supabase) async {
   // json
   String insertUuid = uuidx;
   String updatedUuid = uuidy;
 
   test('Testing UUID Create', () async {
     await cleanup(supabase, supabase.string_types);
-    var createResult = await createUuid(supabase, insertUuid);
+    var createResult = await createUUID(supabase, insertUuid);
     expect(createResult, null);
   });
 
   test('Testing UUID Update', () async {
-    var updateResult = await updateUuid(supabase, insertUuid, updatedUuid);
+    var updateResult = await updateUUID(supabase, insertUuid, updatedUuid);
     expect(updateResult, null);
   });
 
   test('Testing UUID Read', () async {
-    var readResult = await readUuid(supabase);
+    var readResult = await readUUID(supabase);
     assert(readResult is List<StringTypes>);
     expect(readResult!.length, 1);
     expect(readResult[0].col_uuid, updatedUuid);
@@ -30,7 +29,7 @@ Future<void> performUuidTest(SupabaseClient supabase) async {
   });
 }
 
-Future<Object?> createUuid(SupabaseClient supabase, String insertVal) async {
+Future<Object?> createUUID(SupabaseClient supabase, String insertVal) async {
   try {
     await supabase.string_types.insert(StringTypes.insert(
       col_uuid: insertVal,
@@ -41,7 +40,7 @@ Future<Object?> createUuid(SupabaseClient supabase, String insertVal) async {
   }
 }
 
-Future<List<StringTypes>?> readUuid(SupabaseClient supabase) async {
+Future<List<StringTypes>?> readUUID(SupabaseClient supabase) async {
   try {
     var res = await supabase.string_types
         .select()
@@ -54,7 +53,7 @@ Future<List<StringTypes>?> readUuid(SupabaseClient supabase) async {
   }
 }
 
-Future<Object?> updateUuid(
+Future<Object?> updateUUID(
     SupabaseClient supabase, String oldValue, String value) async {
   try {
     await supabase.string_types
