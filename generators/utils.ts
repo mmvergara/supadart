@@ -169,23 +169,26 @@ export const toJsonEncodable = (
   switch (dartType) {
     case "DateTime":
       if (format === "time without time zone") {
-        parseValue = `DateFormat('HH:mm:ss.SSS').format(${propertyName})`;
         if (isArray) {
           parseValue = `${propertyName}.map((e) => DateFormat('HH:mm:ss.SSS').format(e)).toList()`;
+        } else {
+          parseValue = `DateFormat('HH:mm:ss.SSS').format(${propertyName})`;
         }
         break;
       }
       if (format === "time with time zone") {
-        parseValue = `DateFormat('HH:mm:ss zzzz').format(${propertyName})`;
         if (isArray) {
           parseValue = `${propertyName}.map((e) => DateFormat('HH:mm:ss zzzz').format(e)).toList()`;
+        } else {
+          parseValue = `DateFormat('HH:mm:ss zzzz').format(${propertyName})`;
         }
         break;
       }
       if (format === "timestamp with time zone") {
-        parseValue = `${propertyName}.toUtc().toString()`;
         if (isArray) {
           parseValue = `${propertyName}.map((e) => e.toUtc().toString()).toList()`;
+        } else {
+          parseValue = `${propertyName}.toUtc().toString()`;
         }
         break;
       }
