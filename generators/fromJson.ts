@@ -14,8 +14,7 @@ export const generateFromJsonMethod = (
     code += `${propertyName}: ${parseWrapper(
       dartType,
       properties[propertyName].format,
-      `json['${propertyName}']`,
-      isRequired
+      `json['${propertyName}']`
     )},\n`;
   }
   code += `);\n`;
@@ -26,8 +25,7 @@ export const generateFromJsonMethod = (
 export const parseWrapper = (
   dartType: DartType,
   format: Format,
-  jsonValue: string,
-  isRequired: boolean
+  jsonValue: string
 ): string => {
   const isArray = format.includes("[]");
   if (isArray) {
@@ -120,66 +118,10 @@ export const parseWrapper = (
       output += `Something went wrong, please open an issue on this`;
       break;
   }
-  // Add Null Default Value
+  // Add Null Default Value, This will enable the support for column selection
   output += ` : ${dartTypeDefaultNullValue(dartType)}`;
   return output;
-  // Check if the field is required
-
-  // let output = "";
-  // console.log(jsonValue, isArray);
-  // if (isRequired) {
-  //   if (isArray) {
-  //     output = `(${parseValue} as List<dynamic>).map((v) => ${getMapParseWrapper(
-  //       dartType,
-  //       format
-  //     )} as ${removeListBrackets(dartType)}).toList()`;
-  //   } else {
-  //     output = `${parseValue} as ${dartType}`;
-  //   }
-  // } else {
-  //   if (isArray) {
-  //     output = `${jsonValue} != null ? (${parseValue} as List<dynamic>).map((v) =>  ${getMapParseWrapper(
-  //       dartType,
-  //       format
-  //     )} as ${removeListBrackets(dartType)}).toList() : null`;
-  //   } else {
-  //     output = `${jsonValue} != null ? ${parseValue} as ${dartType} : null`;
-  //   }
-  // }
 };
-
-// const removeListBrackets = (value: string) => {
-//   return value.replace("List<", "").replace(">", "");
-// };
-
-// const getMapParseWrapper = (dartType: DartType, format: Format) => {
-//   let parseValue = "";
-//   switch (dartType) {
-//     case "num":
-//       parseValue = `num.tryParse(v.toString())`;
-//       break;
-//     case "BigInt":
-//       parseValue = `BigInt.tryParse(v.toString())`;
-//       break;
-//     case "double":
-//       parseValue = `double.tryParse(v.toString())`;
-//       break;
-//     case "DateTime":
-//       if (format === "time without time zone") {
-//         parseValue = `DateTime.tryParse("1970-01-01T\${v.toString()}")`;
-//         break;
-//       }
-//       if (format === "time with time zone") {
-//         parseValue = `DateTime.tryParse("1970-01-01T\${v.toString()}")`;
-//         break;
-//       }
-//       parseValue = `DateTime.tryParse(v.toString())`;
-//       break;
-//     default:
-//       parseValue = `v`;
-//   }
-//   return parseValue;
-// };
 
 const dartTypeDefaultNullValue = (dartType: DartType): string => {
   switch (dartType) {
