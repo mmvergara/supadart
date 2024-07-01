@@ -4,7 +4,7 @@ import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 import '../../utils.dart'; // Assuming this contains your cleanup function
 
-Future<void> performSmallintTest(SupabaseClient supabase) async {
+Future<void> performSmallIntTest(SupabaseClient supabase) async {
   // int2
   int insertSmallint = 32767; // max value for smallint
   int updatedSmallint = -32768; // min value for smallint
