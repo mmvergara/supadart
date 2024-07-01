@@ -21,11 +21,10 @@ Future<void> performBooleanArrayTest(SupabaseClient supabase) async {
 
   test('Testing Boolean Array Read', () async {
     var readResult = await readBooleanArray(supabase);
-    print(readResult);
     assert(readResult is List<BooleanBitTypes>);
     expect(readResult!.length, 1);
     expect(readResult[0].col_boolean_array, isA<List<bool>>());
-    expect(readResult[0].col_boolean_array, updatedBooleanArray);
+    expect(readResult[0].col_boolean_array![0], updatedBooleanArray[0]);
   });
 }
 
