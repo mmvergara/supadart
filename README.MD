@@ -19,7 +19,7 @@ Generate Flutter / Dart 🎯 classes from your Supabase schema.
   - [Web App](https://supabase-schema-dart-class-generator.vercel.app/)
 - [Example Usage](#example-usage)
 
-## Conversion Table
+### Conversion Table
 
 | Supabase Identifier | PostgreSQL Format           | JSON Type | Dart Type            | Runtime Tested <img src="https://github.com/mmvergara/supabase-schema-dart-class-generator/actions/workflows/dart.yml/badge.svg?branch=main%22"/> |
 | ------------------- | --------------------------- | --------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
