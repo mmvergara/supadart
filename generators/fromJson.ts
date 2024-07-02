@@ -136,27 +136,32 @@ const dartTypeDefaultNullValue = (dartType: DartType): string => {
     case "bool":
       return "false";
     case "String":
-      return "'0'";
+      return "''"; // Empty string as default
     case "DateTime":
       return "DateTime.fromMillisecondsSinceEpoch(0)"; // Using Unix epoch as default
     case "Duration":
       return "Duration()"; // Assuming duration in milliseconds
     case "Map<String, dynamic>":
-      return "{}";
-    case "dynamic":
-      return "null";
+      return "<String, dynamic>{}";
     case "List<int>":
+      return "<int>[]";
     case "List<BigInt>":
+      return "<BigInt>[]";
     case "List<double>":
+      return "<double>[]";
     case "List<num>":
+      return "<num>[]";
     case "List<bool>":
+      return "<bool>[]";
     case "List<String>":
+      return "<String>[]";
     case "List<DateTime>":
+      return "<DateTime>[]";
     case "List<Duration>":
+      return "<Duration>[]";
     case "List<Map<String, dynamic>>":
-    case "List<dynamic>":
-      return "[]";
+      return "<Map<String, dynamic>>[]";
     default:
-      return "null";
+      return "UNSUPPORTED DART TYPE: PLS OPEN AN ISSUE";
   }
 };
