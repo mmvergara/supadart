@@ -3,7 +3,17 @@
 Typesafe queries in Supabase Flutter! <br/>
 Generate Flutter / Dart 🎯 classes from your Supabase schema.
 
-- [Generate Dart Classes](#generating-dart-classes)
+### Features
+
+- ✅ Typesafe Queries (Create, Read, Equality)
+- ✅ Immutable Generated Classes
+- ✅ Supports all Supabase Major datatypes
+- ✅ Supports Defined as array types
+- ✅ Cli and Web App
+
+### Table of Contents
+
+- [Generate Dart Classes via](#generating-dart-classes)
   - [CLI](#using-the-dart-cli)
   - [Web App](https://supabase-schema-dart-class-generator.vercel.app/)
 - [Example Usage](#example-usage)
@@ -12,23 +22,23 @@ Generate Flutter / Dart 🎯 classes from your Supabase schema.
 
 | Supabase Identifier | PostgreSQL Format           | JSON Type | Dart Type            | Runtime Tested <img src="https://github.com/mmvergara/supabase-schema-dart-class-generator/actions/workflows/dart.yml/badge.svg?branch=main%22"/> |
 | ------------------- | --------------------------- | --------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| # int2              | smallint                    | integer   | int                  | ✅                                                                                                                                                |
-| # int4              | integer                     | integer   | int                  | ✅                                                                                                                                                |
-| # int8              | bigint                      | integer   | BigInt               | ✅                                                                                                                                                |
-| # float4            | real                        | number    | double               | ✅                                                                                                                                                |
-| # float8            | double precision            | number    | double               | ✅                                                                                                                                                |
-| # numeric           | numeric                     | number    | num                  | ✅                                                                                                                                                |
-| {} json             | json                        | -         | Map<String, dynamic> | ✅                                                                                                                                                |
-| {} jsonb            | jsonb                       | -         | Map<String, dynamic> | ✅                                                                                                                                                |
-| T text              | text                        | string    | String               | ✅                                                                                                                                                |
-| T varchar           | character varying           | string    | String               | ✅                                                                                                                                                |
-| T uuid              | uuid                        | string    | String               | ✅                                                                                                                                                |
-| 🗓️ date             | date                        | string    | DateTime             | ✅                                                                                                                                                |
-| 🗓️ time             | time without time zone      | string    | DateTime             | ✅                                                                                                                                                |
-| 🗓️ timetz           | time with time zone         | string    | DateTime             | ✅                                                                                                                                                |
-| 🗓️ timestamp        | timestamp without time zone | string    | DateTime             | ✅                                                                                                                                                |
-| 🗓️ timestamptz      | timestamp with time zone    | string    | DateTime             | ✅                                                                                                                                                |
-| 💡 bool             | boolean                     | boolean   | bool                 | ✅                                                                                                                                                |
+| # int2              | smallint                    | integer   | int                  | type ✅ type[]✅                                                                                                                                  |
+| # int4              | integer                     | integer   | int                  | type ✅ type[]✅                                                                                                                                  |
+| # int8              | bigint                      | integer   | BigInt               | type ✅ type[]✅                                                                                                                                  |
+| # float4            | real                        | number    | double               | type ✅ type[]✅                                                                                                                                  |
+| # float8            | double precision            | number    | double               | type ✅ type[]✅                                                                                                                                  |
+| # numeric           | numeric                     | number    | num                  | type ✅ type[]✅                                                                                                                                  |
+| {} json             | json                        | -         | Map<String, dynamic> | type ✅ type[]✅                                                                                                                                  |
+| {} jsonb            | jsonb                       | -         | Map<String, dynamic> | type ✅ type[]✅                                                                                                                                  |
+| T text              | text                        | string    | String               | type ✅ type[]✅                                                                                                                                  |
+| T varchar           | character varying           | string    | String               | type ✅ type[]✅                                                                                                                                  |
+| T uuid              | uuid                        | string    | String               | type ✅ type[]✅                                                                                                                                  |
+| 🗓️ date             | date                        | string    | DateTime             | type ✅ type[]✅                                                                                                                                  |
+| 🗓️ time             | time without time zone      | string    | DateTime             | type ✅ type[]✅                                                                                                                                  |
+| 🗓️ timetz           | time with time zone         | string    | DateTime             | type ✅ type[]✅                                                                                                                                  |
+| 🗓️ timestamp        | timestamp without time zone | string    | DateTime             | type ✅ type[]✅                                                                                                                                  |
+| 🗓️ timestamptz      | timestamp with time zone    | string    | DateTime             | type ✅ type[]✅                                                                                                                                  |
+| 💡 bool             | boolean                     | boolean   | bool                 | type ✅ type[]✅                                                                                                                                  |
 
 > [Other Types](https://github.com/mmvergara/supabase-schema-dart-class-generator/blob/main/other-types.md)
 
@@ -256,3 +266,5 @@ await supabase.books.update(newData).eq(Books.c_id, 1);
 ```dart
 await supabase.books.delete().eq(Books.c_id, 1);
 ```
+
+---
