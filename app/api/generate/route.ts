@@ -1,7 +1,6 @@
 import {
-  generateClassesAndClient,
-  generateDartModelFile,
   generateDartModelFilesSeperated,
+  generateDartModelSingleFile,
 } from "@/generators";
 import { Definitions } from "@/generators/types";
 import { NextResponse } from "next/server";
@@ -57,7 +56,7 @@ export const GET = async (req: Request): Promise<NextResponse> => {
     if (isSeperated) {
       outputCode = generateDartModelFilesSeperated(definitions, isDart);
     } else {
-      outputCode = generateDartModelFile(definitions, isDart);
+      outputCode = generateDartModelSingleFile(definitions, isDart);
     }
     return NextResponse.json(
       { data: outputCode, error: null },
