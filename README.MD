@@ -5,11 +5,12 @@ Generate Flutter / Dart 🎯 classes from your Supabase schema.
 
 ### Features
 
-- ✅ Typesafe Queries (Create, Read, Equality)
-- ✅ Immutable Generated Classes
-- ✅ Supports all Supabase Major datatypes
-- ✅ Supports Defined as array types
-- ✅ Cli and Web App
+- 🛠️ Typesafe Queries (Create, Read, Equality)
+- 🧱 Immutable Generated Classes
+- 📊 Supports Column Selection Queries
+- 🔢 Supports all Supabase Major datatypes
+- 🗂️ Supports Defined as array types
+- 🌐 Cli and Web App
 
 ### Table of Contents
 
