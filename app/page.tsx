@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { generateDartModelFile } from "@/generators";
+import { generateDartModelSingleFile } from "@/generators";
 
 const App = () => {
   const [supabaseUrl, setSupabaseUrl] = useState("");
@@ -37,7 +37,7 @@ const App = () => {
         return;
       }
 
-      const outputCode = generateDartModelFile(data.definitions, false);
+      const outputCode = generateDartModelSingleFile(data.definitions, false);
       setOutput(outputCode);
     } catch (e) {
       console.log(e);
