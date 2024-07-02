@@ -2,12 +2,12 @@ import 'package:supabase/supabase.dart';
 import 'package:supadart_test/generated_classes.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
-import '../utils.dart';
+import '../../utils.dart';
 
 Future<void> performTextTest(SupabaseClient supabase) async {
   // Test values for text
   String insertText =
-      'Once upon a time in a distant land called Database Kingdom, there lived a brave little PostgreSQL. This PostgreSQL was not like any other database; it could store vast amounts of data and perform complex queries with ease. The villagers relied on PostgreSQL to keep their records safe and sound.';
+      "Once upon a time in a dsistant land called Database Kingdom, there lived a brave little PostgreSQL. This PostgreSQL was not like any other database; it could store vast amounts of data and perform complex queries with ease. The villagers relied on PostgreSQL to keep their records safe and sound.";
   String updatedText =
       "The Saga of PostgreSQL the Great', 'In a realm known as the Land of Data, there was a powerful ruler named PostgreSQL the Great. With his mighty powers, he could store vast amounts of information and wield complex queries effortlessly.";
 

@@ -43,6 +43,7 @@ Future<Object?> createTimestamp(
     SupabaseClient supabase, DateTime insertVal) async {
   try {
     await supabase.datetime_types.insert(DatetimeTypes.insert(
+      id: uuidx,
       col_timestamp: insertVal,
     ));
     return null;
@@ -69,7 +70,7 @@ Future<Object?> updateTimestamp(
   try {
     await supabase.datetime_types
         .update(DatetimeTypes.update(col_timestamp: value))
-        .eq(DatetimeTypes.c_col_timestamp, oldValue);
+        .eq(DatetimeTypes.c_id, uuidx);
     return null;
   } catch (error) {
     print("updateTimestamp error");

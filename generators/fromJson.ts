@@ -10,13 +10,11 @@ export const generateFromJsonMethod = (
   code += `return ${className}(\n`;
   for (const propertyName in properties) {
     const isRequired = requiredFields.includes(propertyName);
-
     const dartType = getDartTypeByFormat(properties[propertyName].format);
     code += `${propertyName}: ${parseWrapper(
       dartType,
       properties[propertyName].format,
-      `json['${propertyName}']`,
-      isRequired
+      `json['${propertyName}']`
     )},\n`;
   }
   code += `);\n`;
@@ -27,46 +25,138 @@ export const generateFromJsonMethod = (
 export const parseWrapper = (
   dartType: DartType,
   format: Format,
-  jsonValue: string,
-  required: boolean
+  jsonValue: string
 ): string => {
-  if (required) {
-    switch (dartType) {
-      case "num":
-        return `num.parse(${jsonValue}.toString())`;
-      case "BigInt":
-        return `BigInt.parse(${jsonValue}.toString())`;
-      case "double":
-        return `double.parse(${jsonValue}.toString())`;
-      case "DateTime":
-        if (format === "time without time zone") {
-          return `DateTime.parse("1970-01-01T\${${jsonValue}.toString()}")`;
-        }
-        if (format === "time with time zone") {
-          return `DateTime.parse("1970-01-01T\${${jsonValue}.toString()}")`;
-        }
-        return `DateTime.parse(${jsonValue}.toString())`;
-      default:
-        return `${jsonValue} as ${dartType}`;
-    }
+  const isArray = format.includes("[]");
+  if (isArray) {
+    format = format.replace("[]", "") as Format;
   }
-
+  let output = `${jsonValue} != null ?`;
   switch (dartType) {
-    case "num":
-      return `${jsonValue} != null ? num.tryParse(${jsonValue}.toString()) : null`;
+    // ====================
+    case "int":
+      output += `${jsonValue} as int`;
+      break;
+    case "List<int>":
+      output += `(${jsonValue} as List<dynamic>).map((v) => v as int).toList()`;
+      break;
+    // ====================
     case "BigInt":
-      return `${jsonValue} != null ? BigInt.tryParse(${jsonValue}.toString()) : null`;
+      output += `BigInt.tryParse(${jsonValue}.toString()) as BigInt`;
+      break;
+    case "List<BigInt>":
+      output += `(${jsonValue} as List<dynamic>).map((v) => BigInt.tryParse(v.toString()) as BigInt).toList()`;
+      break;
+    // ====================
     case "double":
-      return `${jsonValue} != null ? double.tryParse(${jsonValue}.toString()) : null`;
+      output += `double.tryParse(${jsonValue}.toString())`;
+      break;
+    case "List<double>":
+      output += `(${jsonValue} as List<dynamic>).map((v) => double.tryParse(v.toString()) as double).toList()`;
+      break;
+    // ====================
+    case "num":
+      output += `num.tryParse(${jsonValue}.toString())`;
+      break;
+    case "List<num>":
+      output += `(${jsonValue} as List<dynamic>).map((v) => num.tryParse(v.toString()) as num).toList()`;
+      break;
+    // ====================
+    case "bool":
+      output += `${jsonValue} as bool`;
+      break;
+    case "List<bool>":
+      output += `(${jsonValue} as List<dynamic>).map((v) => v as bool).toList()`;
+      break;
+    // ====================
+    case "String":
+      output += `${jsonValue}.toString()`;
+      break;
+    case "List<String>":
+      output += `(${jsonValue} as List<dynamic>).map((v) => v as String).toList()`;
+      break;
+    // ====================
     case "DateTime":
       if (format === "time without time zone") {
-        return `${jsonValue} != null ? DateTime.tryParse("1970-01-01T\${${jsonValue}.toString()}") : null`;
+        output += `DateTime.tryParse("1970-01-01T\${${jsonValue}.toString()}") as DateTime`;
+        break;
       }
       if (format === "time with time zone") {
-        return `${jsonValue} != null ? DateTime.tryParse("1970-01-01T\${${jsonValue}.toString()}") : null`;
+        output += `DateTime.tryParse("1970-01-01T\${${jsonValue}.toString()}") as DateTime`;
+        break;
       }
-      return `${jsonValue} != null ? DateTime.tryParse(${jsonValue}.toString()) : null`;
+      output += `DateTime.tryParse(${jsonValue}.toString()) as DateTime`;
+      break;
+    case "List<DateTime>":
+      if (format === "time without time zone") {
+        output += `(${jsonValue} as List<dynamic>).map((v) => DateTime.tryParse("1970-01-01T\${v.toString()}") as DateTime).toList()`;
+        break;
+      }
+      if (format === "time with time zone") {
+        output += `(${jsonValue} as List<dynamic>).map((v) => DateTime.tryParse("1970-01-01T\${v.toString()}") as DateTime).toList()`;
+        break;
+      }
+      output += `(${jsonValue} as List<dynamic>).map((v) => DateTime.tryParse(v.toString()) as DateTime).toList()`;
+      break;
+    // ====================
+    case "Duration":
+      output += `${jsonValue} as Duration`;
+      break;
+    case "List<Duration>":
+      output += `(${jsonValue} as List<dynamic>).map((v) => v as Duration).toList()`;
+      break;
+    // ====================
+    case "Map<String, dynamic>":
+      output += `${jsonValue} as Map<String, dynamic>`;
+      break;
+    case "List<Map<String, dynamic>>":
+      output += `(${jsonValue} as List<dynamic>).map((v) => v as Map<String, dynamic>).toList()`;
+      break;
+    // ====================
     default:
-      return `${jsonValue} != null ? ${jsonValue} as ${dartType} : null`;
+      console.log(dartType);
+      output += `Something went wrong, please open an issue on this`;
+      break;
+  }
+  // Add Null Default Value, This will enable the support for column selection
+  output += ` : ${dartTypeDefaultNullValue(dartType)}`;
+  return output;
+};
+
+const dartTypeDefaultNullValue = (dartType: DartType): string => {
+  switch (dartType) {
+    case "int":
+      return "0";
+    case "BigInt":
+      return "BigInt.from(0)";
+    case "double":
+      return "0.0";
+    case "num":
+      return "0";
+    case "bool":
+      return "false";
+    case "String":
+      return "'0'";
+    case "DateTime":
+      return "DateTime.fromMillisecondsSinceEpoch(0)"; // Using Unix epoch as default
+    case "Duration":
+      return "Duration()"; // Assuming duration in milliseconds
+    case "Map<String, dynamic>":
+      return "{}";
+    case "dynamic":
+      return "null";
+    case "List<int>":
+    case "List<BigInt>":
+    case "List<double>":
+    case "List<num>":
+    case "List<bool>":
+    case "List<String>":
+    case "List<DateTime>":
+    case "List<Duration>":
+    case "List<Map<String, dynamic>>":
+    case "List<dynamic>":
+      return "[]";
+    default:
+      return "null";
   }
 };
