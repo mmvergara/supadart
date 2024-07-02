@@ -44,7 +44,27 @@ extension TypeSafeTable on SupabaseClient {
   }
 }
 
-class StringTypes {
+abstract class GeneratedClass<T> {
+  static String get table_name {
+    throw UnimplementedError();
+  }
+
+  static String get c_id => 'id';
+
+  static Map<String, dynamic> insert(Map<String, dynamic> data) {
+    throw UnimplementedError();
+  }
+
+  static Map<String, dynamic> update(Map<String, dynamic> data) {
+    throw UnimplementedError();
+  }
+
+  factory GeneratedClass.fromJson(Map<String, dynamic> json) {
+    throw UnimplementedError();
+  }
+}
+
+class StringTypes implements GeneratedClass<StringTypes> {
   final String id;
   final String? col_uuid;
   final List<String>? col_uuid_array;
@@ -154,40 +174,39 @@ class StringTypes {
 
   factory StringTypes.fromJson(Map<String, dynamic> json) {
     return StringTypes(
-      id: json['id'] != null ? json['id'].toString() : '0',
-      col_uuid: json['col_uuid'] != null ? json['col_uuid'].toString() : '0',
+      id: json['id'] != null ? json['id'].toString() : '',
+      col_uuid: json['col_uuid'] != null ? json['col_uuid'].toString() : '',
       col_uuid_array: json['col_uuid_array'] != null
           ? (json['col_uuid_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
-      col_character: json['col_character'] != null
-          ? json['col_character'].toString()
-          : '0',
+          : <String>[],
+      col_character:
+          json['col_character'] != null ? json['col_character'].toString() : '',
       col_character_array: json['col_character_array'] != null
           ? (json['col_character_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
+          : <String>[],
       col_charactervarying: json['col_charactervarying'] != null
           ? json['col_charactervarying'].toString()
-          : '0',
+          : '',
       col_charactervarying_array: json['col_charactervarying_array'] != null
           ? (json['col_charactervarying_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
-      col_text: json['col_text'] != null ? json['col_text'].toString() : '0',
+          : <String>[],
+      col_text: json['col_text'] != null ? json['col_text'].toString() : '',
       col_text_array: json['col_text_array'] != null
           ? (json['col_text_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
+          : <String>[],
     );
   }
 }
 
-class BooleanBitTypes {
+class BooleanBitTypes implements GeneratedClass<BooleanBitTypes> {
   final String id;
   final bool? col_boolean;
   final List<bool>? col_boolean_array;
@@ -276,33 +295,33 @@ class BooleanBitTypes {
 
   factory BooleanBitTypes.fromJson(Map<String, dynamic> json) {
     return BooleanBitTypes(
-      id: json['id'] != null ? json['id'].toString() : '0',
+      id: json['id'] != null ? json['id'].toString() : '',
       col_boolean:
           json['col_boolean'] != null ? json['col_boolean'] as bool : false,
       col_boolean_array: json['col_boolean_array'] != null
           ? (json['col_boolean_array'] as List<dynamic>)
               .map((v) => v as bool)
               .toList()
-          : [],
-      col_bit: json['col_bit'] != null ? json['col_bit'].toString() : '0',
+          : <bool>[],
+      col_bit: json['col_bit'] != null ? json['col_bit'].toString() : '',
       col_bit_array: json['col_bit_array'] != null
           ? (json['col_bit_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
+          : <String>[],
       col_bitvarying: json['col_bitvarying'] != null
           ? json['col_bitvarying'].toString()
-          : '0',
+          : '',
       col_bitvarying_array: json['col_bitvarying_array'] != null
           ? (json['col_bitvarying_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
+          : <String>[],
     );
   }
 }
 
-class MiscTypes {
+class MiscTypes implements GeneratedClass<MiscTypes> {
   final String id;
   final String? col_money;
   final List<String>? col_money_array;
@@ -465,55 +484,55 @@ class MiscTypes {
 
   factory MiscTypes.fromJson(Map<String, dynamic> json) {
     return MiscTypes(
-      id: json['id'] != null ? json['id'].toString() : '0',
-      col_money: json['col_money'] != null ? json['col_money'].toString() : '0',
+      id: json['id'] != null ? json['id'].toString() : '',
+      col_money: json['col_money'] != null ? json['col_money'].toString() : '',
       col_money_array: json['col_money_array'] != null
           ? (json['col_money_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
+          : <String>[],
       col_pg_lsn:
-          json['col_pg_lsn'] != null ? json['col_pg_lsn'].toString() : '0',
+          json['col_pg_lsn'] != null ? json['col_pg_lsn'].toString() : '',
       col_pg_lsn_array: json['col_pg_lsn_array'] != null
           ? (json['col_pg_lsn_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
+          : <String>[],
       col_pg_snapshot: json['col_pg_snapshot'] != null
           ? json['col_pg_snapshot'].toString()
-          : '0',
+          : '',
       col_pg_snapshot_array: json['col_pg_snapshot_array'] != null
           ? (json['col_pg_snapshot_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
+          : <String>[],
       col_tsquery:
-          json['col_tsquery'] != null ? json['col_tsquery'].toString() : '0',
+          json['col_tsquery'] != null ? json['col_tsquery'].toString() : '',
       col_tsquery_array: json['col_tsquery_array'] != null
           ? (json['col_tsquery_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
+          : <String>[],
       col_tsvector:
-          json['col_tsvector'] != null ? json['col_tsvector'].toString() : '0',
+          json['col_tsvector'] != null ? json['col_tsvector'].toString() : '',
       col_tsvector_array: json['col_tsvector_array'] != null
           ? (json['col_tsvector_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
+          : <String>[],
       col_txid_snapshot: json['col_txid_snapshot'] != null
           ? json['col_txid_snapshot'].toString()
-          : '0',
+          : '',
       col_txid_snapshot_array: json['col_txid_snapshot_array'] != null
           ? (json['col_txid_snapshot_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
+          : <String>[],
     );
   }
 }
 
-class Books {
+class Books implements GeneratedClass<Books> {
   final BigInt id;
   final String name;
   final String? description;
@@ -571,9 +590,9 @@ class Books {
       id: json['id'] != null
           ? BigInt.tryParse(json['id'].toString()) as BigInt
           : BigInt.from(0),
-      name: json['name'] != null ? json['name'].toString() : '0',
+      name: json['name'] != null ? json['name'].toString() : '',
       description:
-          json['description'] != null ? json['description'].toString() : '0',
+          json['description'] != null ? json['description'].toString() : '',
       price: json['price'] != null ? json['price'] as int : 0,
       created_at: json['created_at'] != null
           ? DateTime.tryParse(json['created_at'].toString()) as DateTime
@@ -582,7 +601,7 @@ class Books {
   }
 }
 
-class GeometricTypes {
+class GeometricTypes implements GeneratedClass<GeometricTypes> {
   final String id;
   final String? col_point;
   final List<String>? col_point_array;
@@ -747,56 +766,56 @@ class GeometricTypes {
 
   factory GeometricTypes.fromJson(Map<String, dynamic> json) {
     return GeometricTypes(
-      id: json['id'] != null ? json['id'].toString() : '0',
-      col_point: json['col_point'] != null ? json['col_point'].toString() : '0',
+      id: json['id'] != null ? json['id'].toString() : '',
+      col_point: json['col_point'] != null ? json['col_point'].toString() : '',
       col_point_array: json['col_point_array'] != null
           ? (json['col_point_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
-      col_line: json['col_line'] != null ? json['col_line'].toString() : '0',
+          : <String>[],
+      col_line: json['col_line'] != null ? json['col_line'].toString() : '',
       col_line_array: json['col_line_array'] != null
           ? (json['col_line_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
-      col_lseg: json['col_lseg'] != null ? json['col_lseg'].toString() : '0',
+          : <String>[],
+      col_lseg: json['col_lseg'] != null ? json['col_lseg'].toString() : '',
       col_lseg_array: json['col_lseg_array'] != null
           ? (json['col_lseg_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
-      col_box: json['col_box'] != null ? json['col_box'].toString() : '0',
+          : <String>[],
+      col_box: json['col_box'] != null ? json['col_box'].toString() : '',
       col_box_array: json['col_box_array'] != null
           ? (json['col_box_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
-      col_path: json['col_path'] != null ? json['col_path'].toString() : '0',
+          : <String>[],
+      col_path: json['col_path'] != null ? json['col_path'].toString() : '',
       col_path_array: json['col_path_array'] != null
           ? (json['col_path_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
+          : <String>[],
       col_polygon:
-          json['col_polygon'] != null ? json['col_polygon'].toString() : '0',
+          json['col_polygon'] != null ? json['col_polygon'].toString() : '',
       col_polygon_array: json['col_polygon_array'] != null
           ? (json['col_polygon_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
+          : <String>[],
       col_circle:
-          json['col_circle'] != null ? json['col_circle'].toString() : '0',
+          json['col_circle'] != null ? json['col_circle'].toString() : '',
       col_circle_array: json['col_circle_array'] != null
           ? (json['col_circle_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
+          : <String>[],
     );
   }
 }
 
-class JsonTypes {
+class JsonTypes implements GeneratedClass<JsonTypes> {
   final String id;
   final Map<String, dynamic>? col_json;
   final List<Map<String, dynamic>>? col_json_array;
@@ -863,28 +882,28 @@ class JsonTypes {
 
   factory JsonTypes.fromJson(Map<String, dynamic> json) {
     return JsonTypes(
-      id: json['id'] != null ? json['id'].toString() : '0',
+      id: json['id'] != null ? json['id'].toString() : '',
       col_json: json['col_json'] != null
           ? json['col_json'] as Map<String, dynamic>
-          : {},
+          : <String, dynamic>{},
       col_json_array: json['col_json_array'] != null
           ? (json['col_json_array'] as List<dynamic>)
               .map((v) => v as Map<String, dynamic>)
               .toList()
-          : [],
+          : <Map<String, dynamic>>[],
       col_jsonb: json['col_jsonb'] != null
           ? json['col_jsonb'] as Map<String, dynamic>
-          : {},
+          : <String, dynamic>{},
       col_jsonb_array: json['col_jsonb_array'] != null
           ? (json['col_jsonb_array'] as List<dynamic>)
               .map((v) => v as Map<String, dynamic>)
               .toList()
-          : [],
+          : <Map<String, dynamic>>[],
     );
   }
 }
 
-class BinaryXmlTypes {
+class BinaryXmlTypes implements GeneratedClass<BinaryXmlTypes> {
   final String id;
   final String? col_bytea;
   final List<String>? col_bytea_array;
@@ -951,24 +970,24 @@ class BinaryXmlTypes {
 
   factory BinaryXmlTypes.fromJson(Map<String, dynamic> json) {
     return BinaryXmlTypes(
-      id: json['id'] != null ? json['id'].toString() : '0',
-      col_bytea: json['col_bytea'] != null ? json['col_bytea'].toString() : '0',
+      id: json['id'] != null ? json['id'].toString() : '',
+      col_bytea: json['col_bytea'] != null ? json['col_bytea'].toString() : '',
       col_bytea_array: json['col_bytea_array'] != null
           ? (json['col_bytea_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
-      col_xml: json['col_xml'] != null ? json['col_xml'].toString() : '0',
+          : <String>[],
+      col_xml: json['col_xml'] != null ? json['col_xml'].toString() : '',
       col_xml_array: json['col_xml_array'] != null
           ? (json['col_xml_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
+          : <String>[],
     );
   }
 }
 
-class NetworkTypes {
+class NetworkTypes implements GeneratedClass<NetworkTypes> {
   final String id;
   final String? col_cidr;
   final List<String>? col_cidr_array;
@@ -1075,38 +1094,38 @@ class NetworkTypes {
 
   factory NetworkTypes.fromJson(Map<String, dynamic> json) {
     return NetworkTypes(
-      id: json['id'] != null ? json['id'].toString() : '0',
-      col_cidr: json['col_cidr'] != null ? json['col_cidr'].toString() : '0',
+      id: json['id'] != null ? json['id'].toString() : '',
+      col_cidr: json['col_cidr'] != null ? json['col_cidr'].toString() : '',
       col_cidr_array: json['col_cidr_array'] != null
           ? (json['col_cidr_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
-      col_inet: json['col_inet'] != null ? json['col_inet'].toString() : '0',
+          : <String>[],
+      col_inet: json['col_inet'] != null ? json['col_inet'].toString() : '',
       col_inet_array: json['col_inet_array'] != null
           ? (json['col_inet_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
+          : <String>[],
       col_macaddr:
-          json['col_macaddr'] != null ? json['col_macaddr'].toString() : '0',
+          json['col_macaddr'] != null ? json['col_macaddr'].toString() : '',
       col_macaddr_array: json['col_macaddr_array'] != null
           ? (json['col_macaddr_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
+          : <String>[],
       col_macaddr8:
-          json['col_macaddr8'] != null ? json['col_macaddr8'].toString() : '0',
+          json['col_macaddr8'] != null ? json['col_macaddr8'].toString() : '',
       col_macaddr8_array: json['col_macaddr8_array'] != null
           ? (json['col_macaddr8_array'] as List<dynamic>)
               .map((v) => v as String)
               .toList()
-          : [],
+          : <String>[],
     );
   }
 }
 
-class NumericTypes {
+class NumericTypes implements GeneratedClass<NumericTypes> {
   final String id;
   final BigInt? col_bigint;
   final List<BigInt>? col_bigint_array;
@@ -1329,7 +1348,7 @@ class NumericTypes {
 
   factory NumericTypes.fromJson(Map<String, dynamic> json) {
     return NumericTypes(
-      id: json['id'] != null ? json['id'].toString() : '0',
+      id: json['id'] != null ? json['id'].toString() : '',
       col_bigint: json['col_bigint'] != null
           ? BigInt.tryParse(json['col_bigint'].toString()) as BigInt
           : BigInt.from(0),
@@ -1337,7 +1356,7 @@ class NumericTypes {
           ? (json['col_bigint_array'] as List<dynamic>)
               .map((v) => BigInt.tryParse(v.toString()) as BigInt)
               .toList()
-          : [],
+          : <BigInt>[],
       col_bigserial: json['col_bigserial'] != null
           ? BigInt.tryParse(json['col_bigserial'].toString()) as BigInt
           : BigInt.from(0),
@@ -1345,33 +1364,33 @@ class NumericTypes {
           ? (json['col_bigserial_array'] as List<dynamic>)
               .map((v) => BigInt.tryParse(v.toString()) as BigInt)
               .toList()
-          : [],
+          : <BigInt>[],
       col_integer: json['col_integer'] != null ? json['col_integer'] as int : 0,
       col_integer_array: json['col_integer_array'] != null
           ? (json['col_integer_array'] as List<dynamic>)
               .map((v) => v as int)
               .toList()
-          : [],
+          : <int>[],
       col_smallint:
           json['col_smallint'] != null ? json['col_smallint'] as int : 0,
       col_smallint_array: json['col_smallint_array'] != null
           ? (json['col_smallint_array'] as List<dynamic>)
               .map((v) => v as int)
               .toList()
-          : [],
+          : <int>[],
       col_smallserial:
           json['col_smallserial'] != null ? json['col_smallserial'] as int : 0,
       col_smallserial_array: json['col_smallserial_array'] != null
           ? (json['col_smallserial_array'] as List<dynamic>)
               .map((v) => v as int)
               .toList()
-          : [],
+          : <int>[],
       col_serial: json['col_serial'] != null ? json['col_serial'] as int : 0,
       col_serial_array: json['col_serial_array'] != null
           ? (json['col_serial_array'] as List<dynamic>)
               .map((v) => v as int)
               .toList()
-          : [],
+          : <int>[],
       col_double: json['col_double'] != null
           ? double.tryParse(json['col_double'].toString())
           : 0.0,
@@ -1379,7 +1398,7 @@ class NumericTypes {
           ? (json['col_double_array'] as List<dynamic>)
               .map((v) => double.tryParse(v.toString()) as double)
               .toList()
-          : [],
+          : <double>[],
       col_real: json['col_real'] != null
           ? double.tryParse(json['col_real'].toString())
           : 0.0,
@@ -1387,7 +1406,7 @@ class NumericTypes {
           ? (json['col_real_array'] as List<dynamic>)
               .map((v) => double.tryParse(v.toString()) as double)
               .toList()
-          : [],
+          : <double>[],
       col_numeric: json['col_numeric'] != null
           ? num.tryParse(json['col_numeric'].toString())
           : 0,
@@ -1395,12 +1414,12 @@ class NumericTypes {
           ? (json['col_numeric_array'] as List<dynamic>)
               .map((v) => num.tryParse(v.toString()) as num)
               .toList()
-          : [],
+          : <num>[],
     );
   }
 }
 
-class DatetimeTypes {
+class DatetimeTypes implements GeneratedClass<DatetimeTypes> {
   final String id;
   final DateTime? col_date;
   final List<DateTime>? col_date_array;
@@ -1559,7 +1578,7 @@ class DatetimeTypes {
 
   factory DatetimeTypes.fromJson(Map<String, dynamic> json) {
     return DatetimeTypes(
-      id: json['id'] != null ? json['id'].toString() : '0',
+      id: json['id'] != null ? json['id'].toString() : '',
       col_date: json['col_date'] != null
           ? DateTime.tryParse(json['col_date'].toString()) as DateTime
           : DateTime.fromMillisecondsSinceEpoch(0),
@@ -1567,7 +1586,7 @@ class DatetimeTypes {
           ? (json['col_date_array'] as List<dynamic>)
               .map((v) => DateTime.tryParse(v.toString()) as DateTime)
               .toList()
-          : [],
+          : <DateTime>[],
       col_time: json['col_time'] != null
           ? DateTime.tryParse("1970-01-01T${json['col_time'].toString()}")
               as DateTime
@@ -1577,7 +1596,7 @@ class DatetimeTypes {
               .map((v) =>
                   DateTime.tryParse("1970-01-01T${v.toString()}") as DateTime)
               .toList()
-          : [],
+          : <DateTime>[],
       col_timetz: json['col_timetz'] != null
           ? DateTime.tryParse("1970-01-01T${json['col_timetz'].toString()}")
               as DateTime
@@ -1587,7 +1606,7 @@ class DatetimeTypes {
               .map((v) =>
                   DateTime.tryParse("1970-01-01T${v.toString()}") as DateTime)
               .toList()
-          : [],
+          : <DateTime>[],
       col_timestamp: json['col_timestamp'] != null
           ? DateTime.tryParse(json['col_timestamp'].toString()) as DateTime
           : DateTime.fromMillisecondsSinceEpoch(0),
@@ -1595,7 +1614,7 @@ class DatetimeTypes {
           ? (json['col_timestamp_array'] as List<dynamic>)
               .map((v) => DateTime.tryParse(v.toString()) as DateTime)
               .toList()
-          : [],
+          : <DateTime>[],
       col_timestamptz: json['col_timestamptz'] != null
           ? DateTime.tryParse(json['col_timestamptz'].toString()) as DateTime
           : DateTime.fromMillisecondsSinceEpoch(0),
@@ -1603,7 +1622,7 @@ class DatetimeTypes {
           ? (json['col_timestamptz_array'] as List<dynamic>)
               .map((v) => DateTime.tryParse(v.toString()) as DateTime)
               .toList()
-          : [],
+          : <DateTime>[],
       col_interval: json['col_interval'] != null
           ? json['col_interval'] as Duration
           : Duration(),
@@ -1611,7 +1630,7 @@ class DatetimeTypes {
           ? (json['col_interval_array'] as List<dynamic>)
               .map((v) => v as Duration)
               .toList()
-          : [],
+          : <Duration>[],
     );
   }
 }

@@ -15,7 +15,7 @@ export const generateDartClasses = (definitions: Definitions): DartClass[] => {
     const className = snakeCasingToPascaleCasing(tableName);
 
     // Class definition
-    dartCode += `class ${className} {\n`;
+    dartCode += `class ${className} implements GeneratedClass<${className}> {\n`;
 
     // Attributes
     for (const propertyName in properties) {

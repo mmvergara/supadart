@@ -1,5 +1,7 @@
 import 'package:dotenv/dotenv.dart';
 import 'package:supabase/supabase.dart';
+import 'package:supadart_test/generated_classes.dart';
+import 'default_values.dart';
 import 'datatypes/boolean_bit/bool_arr.dart';
 import 'datatypes/datetime/date.dart';
 import 'datatypes/datetime/date_array.dart';
@@ -128,4 +130,20 @@ void main() async {
   // Binary Data and XML Types
 
   // Misc Types
+
+  // Column Select
+  await performColumnDefaultValuesTest(
+      supabase, supabase.string_types, StringTypes.fromJson);
+
+  await performColumnDefaultValuesTest(
+      supabase, supabase.boolean_bit_types, BooleanBitTypes.fromJson);
+
+  await performColumnDefaultValuesTest(
+      supabase, supabase.numeric_types, NumericTypes.fromJson);
+
+  await performColumnDefaultValuesTest(
+      supabase, supabase.datetime_types, DatetimeTypes.fromJson);
+
+  await performColumnDefaultValuesTest(
+      supabase, supabase.json_types, JsonTypes.fromJson);
 }
