@@ -138,7 +138,7 @@ create table
 ### 1. Use the CLI or the Web App to [generate dart classes](#generating-dart-classes)
 
 ```dart
-class Books {
+class Books implements GeneratedClass<Books> {
   final BigInt id;
   final String name;
   final String? description;
@@ -193,12 +193,16 @@ class Books {
 
   factory Books.fromJson(Map<String, dynamic> json) {
     return Books(
-      id: BigInt.parse(json['id'].toString()),
-      name: json['name'] as String,
+      id: json['id'] != null
+          ? BigInt.tryParse(json['id'].toString()) as BigInt
+          : BigInt.from(0),
+      name: json['name'] != null ? json['name'].toString() : '',
       description:
-          json['description'] != null ? json['description'] as String : null,
-      price: json['price'] as int,
-      created_at: DateTime.parse(json['created_at'].toString()),
+          json['description'] != null ? json['description'].toString() : '',
+      price: json['price'] != null ? json['price'] as int : 0,
+      created_at: json['created_at'] != null
+          ? DateTime.tryParse(json['created_at'].toString()) as DateTime
+          : DateTime.fromMillisecondsSinceEpoch(0),
     );
   }
 }
