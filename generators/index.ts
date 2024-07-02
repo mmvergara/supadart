@@ -1,3 +1,4 @@
+import { AbstractGeneratedClass } from "./AbstractGeneratedClass";
 import { generateDartClasses } from "./Class";
 import { generateClientExtension } from "./ClientExtension";
 import {
@@ -29,20 +30,27 @@ export const generateClassesAndClient = (
     supabaseSdkImport,
     dartClasses,
     clientExtension,
+    AbstractGeneratedClass,
   };
 };
 
-export const generateDartModelFile = (
+export const generateDartModelSingleFile = (
   definitions: Definitions,
   isDart: boolean
 ) => {
-  const { clientExtension, dartClasses, imports, supabaseSdkImport } =
-    generateClassesAndClient(definitions, isDart);
+  const {
+    clientExtension,
+    dartClasses,
+    imports,
+    supabaseSdkImport,
+    AbstractGeneratedClass,
+  } = generateClassesAndClient(definitions, isDart);
 
   let code = "";
   imports.forEach((i) => (code += i + "\n"));
   code += supabaseSdkImport + "\n\n";
   code += clientExtension + "\n\n";
+  code += AbstractGeneratedClass + "\n\n";
   code += dartClasses.map((c) => c.classCode).join("\n");
 
   return code;
@@ -52,8 +60,13 @@ export const generateDartModelFilesSeperated = (
   definitions: Definitions,
   isDart: boolean
 ): Record<string, string> => {
-  const { clientExtension, dartClasses, imports, supabaseSdkImport } =
-    generateClassesAndClient(definitions, isDart);
+  const {
+    clientExtension,
+    dartClasses,
+    imports,
+    supabaseSdkImport,
+    AbstractGeneratedClass,
+  } = generateClassesAndClient(definitions, isDart);
 
   const importString = imports.join("\n") + "\n";
   const output: Record<string, string> = {};
@@ -62,12 +75,12 @@ export const generateDartModelFilesSeperated = (
     output[generateDartFileName(className)] = importString + classCode;
   });
 
-  output["clientExtension"] =
+  output["client_extension"] =
     "// ignore_for_file: non_constant_identifier_names, camel_case_types, file_namesimport, file_names" +
     "\n" +
     supabaseSdkImport +
     "\n" +
     clientExtension;
-
+  output["abstract_generated_class"] = AbstractGeneratedClass;
   return output;
 };
