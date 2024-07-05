@@ -1,3 +1,7 @@
+## 1.3.3
+
+- changed api base url to `https://supadart.vercel.app/api/generate/`
+
 ## 1.3.2
 
 - refactor -o --output help text

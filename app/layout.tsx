@@ -23,12 +23,10 @@ export const metadata: Metadata = {
   applicationName: "Supabase Schema to Dart Classes | Supadart",
   appLinks: {
     web: {
-      url: "https://supabase-schema-dart-class-generator.vercel.app/",
+      url: "https://supadart.vercel.app/",
     },
   },
-  archives: [
-    "https://github.com/mmvergara/supabase-schema-dart-class-generator",
-  ],
+  archives: ["https://github.com/mmvergara/supadart"],
   authors: [
     {
       name: "mmvergara",
@@ -40,7 +38,7 @@ export const metadata: Metadata = {
     title: "Supabase Schema to Dart Classes",
     description:
       "Typesafe Supabase Flutter Queries, Generate Dart classes from your Supabase schema.",
-    url: "https://supabase-schema-dart-class-generator.vercel.app/",
+    url: "https://supadart.vercel.app/",
   },
 };
 

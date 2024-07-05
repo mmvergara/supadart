@@ -1,6 +1,6 @@
-# Supabase Schema to Dart Classes 🎯
+# Supadart 🎯
 
-Typesafe queries in Supabase Flutter! <br/>
+Typesafe Supabase Flutter Queries <br/>
 Generate Flutter / Dart 🎯 classes from your Supabase schema.
 
 ### Features
@@ -16,32 +16,32 @@ Generate Flutter / Dart 🎯 classes from your Supabase schema.
 
 - [Generate Dart Classes via](#generating-dart-classes)
   - [CLI](#using-the-dart-cli)
-  - [Web App](https://supabase-schema-dart-class-generator.vercel.app/)
+  - [Web App](https://supadart.vercel.app/)
 - [Example Usage](#example-usage)
 
 ### Conversion Table
 
-| Supabase Identifier | PostgreSQL Format           | JSON Type | Dart Type            | Runtime Tested <img src="https://github.com/mmvergara/supabase-schema-dart-class-generator/actions/workflows/dart.yml/badge.svg?branch=main%22"/> |
-| ------------------- | --------------------------- | --------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| # int2              | smallint                    | integer   | int                  | type ✅ type[]✅                                                                                                                                  |
-| # int4              | integer                     | integer   | int                  | type ✅ type[]✅                                                                                                                                  |
-| # int8              | bigint                      | integer   | BigInt               | type ✅ type[]✅                                                                                                                                  |
-| # float4            | real                        | number    | double               | type ✅ type[]✅                                                                                                                                  |
-| # float8            | double precision            | number    | double               | type ✅ type[]✅                                                                                                                                  |
-| # numeric           | numeric                     | number    | num                  | type ✅ type[]✅                                                                                                                                  |
-| {} json             | json                        | -         | Map<String, dynamic> | type ✅ type[]✅                                                                                                                                  |
-| {} jsonb            | jsonb                       | -         | Map<String, dynamic> | type ✅ type[]✅                                                                                                                                  |
-| T text              | text                        | string    | String               | type ✅ type[]✅                                                                                                                                  |
-| T varchar           | character varying           | string    | String               | type ✅ type[]✅                                                                                                                                  |
-| T uuid              | uuid                        | string    | String               | type ✅ type[]✅                                                                                                                                  |
-| 🗓️ date             | date                        | string    | DateTime             | type ✅ type[]✅                                                                                                                                  |
-| 🗓️ time             | time without time zone      | string    | DateTime             | type ✅ type[]✅                                                                                                                                  |
-| 🗓️ timetz           | time with time zone         | string    | DateTime             | type ✅ type[]✅                                                                                                                                  |
-| 🗓️ timestamp        | timestamp without time zone | string    | DateTime             | type ✅ type[]✅                                                                                                                                  |
-| 🗓️ timestamptz      | timestamp with time zone    | string    | DateTime             | type ✅ type[]✅                                                                                                                                  |
-| 💡 bool             | boolean                     | boolean   | bool                 | type ✅ type[]✅                                                                                                                                  |
+| Supabase Identifier | PostgreSQL Format           | JSON Type | Dart Type            | Runtime Tested <img src="https://github.com/mmvergara/supadart/actions/workflows/dart.yml/badge.svg?branch=main%22"/> |
+| ------------------- | --------------------------- | --------- | -------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| # int2              | smallint                    | integer   | int                  | type ✅ type[]✅                                                                                                      |
+| # int4              | integer                     | integer   | int                  | type ✅ type[]✅                                                                                                      |
+| # int8              | bigint                      | integer   | BigInt               | type ✅ type[]✅                                                                                                      |
+| # float4            | real                        | number    | double               | type ✅ type[]✅                                                                                                      |
+| # float8            | double precision            | number    | double               | type ✅ type[]✅                                                                                                      |
+| # numeric           | numeric                     | number    | num                  | type ✅ type[]✅                                                                                                      |
+| {} json             | json                        | -         | Map<String, dynamic> | type ✅ type[]✅                                                                                                      |
+| {} jsonb            | jsonb                       | -         | Map<String, dynamic> | type ✅ type[]✅                                                                                                      |
+| T text              | text                        | string    | String               | type ✅ type[]✅                                                                                                      |
+| T varchar           | character varying           | string    | String               | type ✅ type[]✅                                                                                                      |
+| T uuid              | uuid                        | string    | String               | type ✅ type[]✅                                                                                                      |
+| 🗓️ date             | date                        | string    | DateTime             | type ✅ type[]✅                                                                                                      |
+| 🗓️ time             | time without time zone      | string    | DateTime             | type ✅ type[]✅                                                                                                      |
+| 🗓️ timetz           | time with time zone         | string    | DateTime             | type ✅ type[]✅                                                                                                      |
+| 🗓️ timestamp        | timestamp without time zone | string    | DateTime             | type ✅ type[]✅                                                                                                      |
+| 🗓️ timestamptz      | timestamp with time zone    | string    | DateTime             | type ✅ type[]✅                                                                                                      |
+| 💡 bool             | boolean                     | boolean   | bool                 | type ✅ type[]✅                                                                                                      |
 
-> [Other Types](https://github.com/mmvergara/supabase-schema-dart-class-generator/blob/main/other-types.md)
+> [Other Types](https://github.com/mmvergara/supadart/blob/main/other-types.md)
 
 # Generating Dart Classes
 
@@ -71,7 +71,7 @@ dart pub add intl
 
 ## 2. Generate Dart Classes
 
-### Using the [Web App](https://supabase-schema-dart-class-generator.vercel.app/)
+### Using the [Web App](https://supadart.vercel.app/)
 
 ### Using the Dart CLI
 
