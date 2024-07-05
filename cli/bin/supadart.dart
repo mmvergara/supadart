@@ -5,8 +5,7 @@ import 'package:dotenv/dotenv.dart';
 import 'package:http/http.dart' as http;
 
 const String version = 'v1.3.2';
-const String baseUrl =
-    'https://supabase-schema-dart-class-generator.vercel.app/api/generate/';
+const String baseUrl = 'https://supadart.vercel.app/api/generate/';
 void main(List<String> arguments) async {
   final parser = ArgParser()
     ..addFlag('help',

@@ -1,8 +1,8 @@
 {
-  "name": "supabase-schema-dart-class-generator",
-  "description": "Generate Dart classes from your Supabase schema.",
+  "name": "supadart",
+  "description": "Typesafe Supabase Flutter Queries by generating flutter dart classes from your supabase schema.",
   "author": "mmvergara",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",

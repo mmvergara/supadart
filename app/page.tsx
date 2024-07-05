@@ -40,7 +40,6 @@ const App = () => {
       const outputCode = generateDartModelSingleFile(data.definitions, false);
       setOutput(outputCode);
     } catch (e) {
-      console.log(e);
       setOutput("Error fetching data");
     }
   };
@@ -64,9 +63,9 @@ const App = () => {
           width: "100%",
         }}
       >
-        Supabase Schema to Dart Classes
+        Supadart
         <a
-          href="https://github.com/mmvergara/supabase-schema-dart-class-generator"
+          href="https://github.com/mmvergara/supadart"
           style={{
             color: "#4493d1",
             marginLeft: "10px",

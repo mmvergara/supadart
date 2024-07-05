@@ -114,7 +114,6 @@ export const parseWrapper = (
       break;
     // ====================
     default:
-      console.log(dartType);
       output += `Something went wrong, please open an issue on this`;
       break;
   }
