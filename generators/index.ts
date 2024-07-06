@@ -1,56 +1,37 @@
-import { AbstractGeneratedClass } from "./AbstractGeneratedClass";
 import { generateDartClasses } from "./Class";
 import { generateClientExtension } from "./ClientExtension";
-import {
-  ClientExtension,
-  DartClass,
-  Definitions,
-  Imports,
-  SupabaseSDKImport,
-} from "./types";
+import { SupadartAbstractClass } from "./SupadartAbstractClass";
+import { getImports } from "./imports";
+import { ClientExtension, DartClass, Definitions } from "./types";
 import { generateDartFileName } from "./utils";
 
-export const generateClassesAndClient = (
+export const generateBluePrint = (
   definitions: Definitions,
-  isDart: boolean
+  isFlutter: boolean
 ) => {
-  const imports: Imports = [
-    "// ignore_for_file: non_constant_identifier_names, camel_case_types, file_namesimport, file_names",
-    "import 'package:intl/intl.dart';",
-  ];
-
-  const supabaseSdkImport: SupabaseSDKImport = isDart
-    ? "import 'package:supabase/supabase.dart';"
-    : "import 'package:supabase_flutter/supabase_flutter.dart';";
-
   const dartClasses: DartClass[] = generateDartClasses(definitions);
+  const imports = getImports(dartClasses, isFlutter);
   const clientExtension: ClientExtension = generateClientExtension(definitions);
+
   return {
     imports,
-    supabaseSdkImport,
     dartClasses,
     clientExtension,
-    AbstractGeneratedClass,
+    SupadartAbstractClass,
   };
 };
 
-export const generateDartModelSingleFile = (
+export const generateClassesSingleFile = (
   definitions: Definitions,
-  isDart: boolean
+  isFlutter: boolean
 ) => {
-  const {
-    clientExtension,
-    dartClasses,
-    imports,
-    supabaseSdkImport,
-    AbstractGeneratedClass,
-  } = generateClassesAndClient(definitions, isDart);
+  const { clientExtension, dartClasses, imports, SupadartAbstractClass } =
+    generateBluePrint(definitions, isFlutter);
 
   let code = "";
   imports.forEach((i) => (code += i + "\n"));
-  code += supabaseSdkImport + "\n\n";
   code += clientExtension + "\n\n";
-  code += AbstractGeneratedClass + "\n\n";
+  code += SupadartAbstractClass + "\n\n";
   code += dartClasses.map((c) => c.classCode).join("\n");
 
   return code;
@@ -58,22 +39,36 @@ export const generateDartModelSingleFile = (
 
 export const generateDartModelFilesSeperated = (
   definitions: Definitions,
-  isDart: boolean
+  isFlutter: boolean
 ): Record<string, string> => {
-  const {
-    clientExtension,
-    dartClasses,
-    imports,
-    supabaseSdkImport,
-    AbstractGeneratedClass,
-  } = generateClassesAndClient(definitions, isDart);
+  const { clientExtension, dartClasses, SupadartAbstractClass } =
+    generateBluePrint(definitions, isFlutter);
 
-  const importString = imports.join("\n") + "\n";
+  // Per key is a class file and the value is the code
   const output: Record<string, string> = {};
 
   dartClasses.forEach(({ classCode, className }) => {
-    output[generateDartFileName(className)] = importString + classCode;
+    // this is per class file generation
+    let code = "";
+
+    const imports = getImports([{ classCode, className }], isFlutter);
+    // remove 2nd line of import (Supabase SDK Import)
+    imports.splice(1, 1);
+
+    code += imports.join("\n") + "\n\n";
+
+    code +=
+      "// You have to manually import SupadartClass if you are using seperated files option" +
+      "\n";
+    code += classCode;
+
+    output[generateDartFileName(className)] = code;
   });
+
+  // Generated client extension
+  const supabaseSdkImport = isFlutter
+    ? "import 'package:supabase_flutter/supabase_flutter.dart';"
+    : "import 'package:supabase/supabase.dart';";
 
   output["client_extension"] =
     "// ignore_for_file: non_constant_identifier_names, camel_case_types, file_namesimport, file_names" +
@@ -81,6 +76,8 @@ export const generateDartModelFilesSeperated = (
     supabaseSdkImport +
     "\n" +
     clientExtension;
-  output["abstract_generated_class"] = AbstractGeneratedClass;
+
+  // Generated abstract class
+  output["supadart_abstract_class"] = SupadartAbstractClass;
   return output;
 };

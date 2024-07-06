@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { generateDartModelSingleFile } from "@/generators";
+import { generateClassesSingleFile } from "@/generators";
 
 const App = () => {
   const [supabaseUrl, setSupabaseUrl] = useState("");
@@ -37,7 +37,7 @@ const App = () => {
         return;
       }
 
-      const outputCode = generateDartModelSingleFile(data.definitions, false);
+      const outputCode = generateClassesSingleFile(data.definitions, false);
       setOutput(outputCode);
     } catch (e) {
       setOutput("Error fetching data");
