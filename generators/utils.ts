@@ -194,13 +194,21 @@ export const toJsonEncodable = (
       }
       parseValue = `${propertyName}.toIso8601String()`;
       break;
-    case "Map<String, dynamic>":
-      parseValue = `${propertyName}`;
+    case "List<Map<String, dynamic>>":
+      console.log("List<Map<String, dynamic>>", propertyName);
+      parseValue = `jsonEncode(${propertyName})`;
       break;
     default:
       parseValue = `${propertyName}.toString()`;
   }
-  if (isArray) {
+
+  if (isArray && dartType === "List<Map<String, dynamic>>") {
+    parseValue += `.replaceAll('"', '\\\\\"')
+        .replaceAll("{", '"{')
+        .replaceAll("}", '}"')
+        .replaceAll("[", '{')
+        .replaceAll("]", '}')`;
+  } else if (isArray) {
     parseValue += '.replaceAll("[", "{").replaceAll("]", "}")';
   }
   return parseValue;
