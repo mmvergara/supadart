@@ -48,10 +48,6 @@ Future<void> performJsonArrayTest(SupabaseClient supabase) async {
 
   test('Testing Json Array Read', () async {
     var readResult = await readJsonArray(supabase);
-    print(readResult);
-    print(readResult);
-    print(readResult);
-    print(readResult);
     assert(readResult is List<JsonTypes>);
     expect(readResult!.length, 1);
     expect(readResult[0].col_json_array, updatedJsonArray);

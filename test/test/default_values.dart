@@ -5,6 +5,23 @@ import 'package:test/scaffolding.dart';
 import 'dart:mirrors';
 import 'utils.dart';
 
+Future<void> performDefaultValuesTest(SupabaseClient supabase) async {
+  await performTypeDefaultValuesTest(
+      supabase, supabase.string_types, StringTypes.fromJson);
+
+  await performTypeDefaultValuesTest(
+      supabase, supabase.boolean_bit_types, BooleanBitTypes.fromJson);
+
+  await performTypeDefaultValuesTest(
+      supabase, supabase.numeric_types, NumericTypes.fromJson);
+
+  await performTypeDefaultValuesTest(
+      supabase, supabase.datetime_types, DatetimeTypes.fromJson);
+
+  await performTypeDefaultValuesTest(
+      supabase, supabase.json_types, JsonTypes.fromJson);
+}
+
 Future<void> performTypeDefaultValuesTest<T extends SupadartClass<T>>(
   SupabaseClient supabase,
   SupabaseQueryBuilder supabaseQuery,
