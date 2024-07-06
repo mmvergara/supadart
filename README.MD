@@ -231,6 +231,7 @@ final books = await supabase
 #### Insert Data
 
 ```dart
+// Yes we know which one's are optional or required.
 final data = Books.insert(
   name: 'Learn Flutter',
   description: 'Endless brackets and braces',
