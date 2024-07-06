@@ -3,7 +3,7 @@ import { ClientExtension, Definitions } from "./types";
 export const generateClientExtension = (
   definitions: Definitions
 ): ClientExtension => {
-  let code = `extension TypeSafeTable on SupabaseClient {\n`;
+  let code = `extension SupadartClient on SupabaseClient {\n`;
   for (let tableName in definitions) {
     tableName = tableName.toLowerCase();
     code += `SupabaseQueryBuilder get ${tableName} {\n`;
