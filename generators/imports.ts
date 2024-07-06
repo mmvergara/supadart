@@ -15,6 +15,11 @@ export const getImports = (
     : "import 'package:supabase/supabase.dart';";
   imports.push(supabaseSdkImport);
 
+  const jsonEncoderImport = "import 'dart:convert';";
+  if (generatedClasses.includes("jsonEncode")) {
+    imports.push(jsonEncoderImport);
+  }
+
   const DateFormatterPackage = "import 'package:intl/intl.dart';";
   if (generatedClasses.includes("DateFormat")) {
     imports.push(DateFormatterPackage);
