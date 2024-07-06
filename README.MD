@@ -138,7 +138,7 @@ create table
 ### 1. Use the CLI or the Web App to [generate dart classes](#generating-dart-classes)
 
 ```dart
-class Books implements GeneratedClass<Books> {
+class Books implements SupadartClass<Books> {
   final BigInt id;
   final String name;
   final String? description;
