@@ -16,5 +16,5 @@ dart pub get
 ### Compile and Run
 
 ```bash
-dart compile exe bin/supadart.dart && ./bin/supadart
+dart compile exe bin/supadart.dart ; ./bin/supadart.exe
 ```
