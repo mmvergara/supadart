@@ -844,7 +844,7 @@ class JsonTypes implements SupadartClass<JsonTypes> {
   }) {
     return {
       if (id != null) 'id': id.toString(),
-      if (col_json != null) 'col_json': col_json.toString(),
+      if (col_json != null) 'col_json': col_json,
       if (col_json_array != null)
         'col_json_array': jsonEncode(col_json_array)
             .replaceAll('"', '\\"')
@@ -852,7 +852,7 @@ class JsonTypes implements SupadartClass<JsonTypes> {
             .replaceAll("}", '}"')
             .replaceAll("[", '{')
             .replaceAll("]", '}'),
-      if (col_jsonb != null) 'col_jsonb': col_jsonb.toString(),
+      if (col_jsonb != null) 'col_jsonb': col_jsonb,
       if (col_jsonb_array != null)
         'col_jsonb_array': jsonEncode(col_jsonb_array)
             .replaceAll('"', '\\"')
@@ -872,7 +872,7 @@ class JsonTypes implements SupadartClass<JsonTypes> {
   }) {
     return {
       if (id != null) 'id': id.toString(),
-      if (col_json != null) 'col_json': col_json.toString(),
+      if (col_json != null) 'col_json': col_json,
       if (col_json_array != null)
         'col_json_array': jsonEncode(col_json_array)
             .replaceAll('"', '\\"')
@@ -880,7 +880,7 @@ class JsonTypes implements SupadartClass<JsonTypes> {
             .replaceAll("}", '}"')
             .replaceAll("[", '{')
             .replaceAll("]", '}'),
-      if (col_jsonb != null) 'col_jsonb': col_jsonb.toString(),
+      if (col_jsonb != null) 'col_jsonb': col_jsonb,
       if (col_jsonb_array != null)
         'col_jsonb_array': jsonEncode(col_jsonb_array)
             .replaceAll('"', '\\"')
