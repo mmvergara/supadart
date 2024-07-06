@@ -1,6 +1,8 @@
 import 'package:dotenv/dotenv.dart';
 import 'package:supabase/supabase.dart';
 import 'package:supadart_test/generated_classes.dart';
+import 'datatypes/json/json_array.dart';
+import 'datatypes/json/jsonb_array.dart';
 import 'type_default_values.dart';
 import 'datatypes/boolean_bit/bool_arr.dart';
 import 'datatypes/datetime/date.dart';
@@ -58,7 +60,7 @@ void main() async {
   // ========================================
   // STES = Supported Table Editor Supported (PRIORITIZED)
 
-  // Numeric Types
+  // // Numeric Types
   await performSmallIntTest(supabase);
   await performSmallIntArrayTest(supabase);
 
@@ -79,10 +81,10 @@ void main() async {
 
   // JSON Types
   await performJsonTest(supabase);
-  // todo: performJsonArrayTest(supabase);
+  await performJsonArrayTest(supabase);
 
-  await performJsonbTest(supabase);
-  // todo: performJsonbArrayTest(supabase);
+  await performJsonBTest(supabase);
+  await performJsonBArrayTest(supabase);
 
   // String Types
   await performTextTest(supabase);
@@ -114,10 +116,10 @@ void main() async {
   await performBooleanTest(supabase);
   await performBooleanArrayTest(supabase);
 
-  // // ========================================
-  // // Not STES - see on repositoryroot/other-types.md
+  // ========================================
+  // Not STES - see on repositoryroot/other-types.md
 
-  // // String Types
+  // String Types
   await performCharacterTest(supabase);
   await performCharacterArrayTest(supabase);
 

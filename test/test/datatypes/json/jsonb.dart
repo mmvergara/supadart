@@ -5,7 +5,7 @@ import 'package:test/scaffolding.dart';
 
 import '../../utils.dart';
 
-Future<void> performJsonbTest(SupabaseClient supabase) async {
+Future<void> performJsonBTest(SupabaseClient supabase) async {
   // jsonb
   Map<String, dynamic> insertJsonb = {
     "key1": "value1",
@@ -21,17 +21,17 @@ Future<void> performJsonbTest(SupabaseClient supabase) async {
 
   test('Testing Jsonb Create', () async {
     await cleanup(supabase, supabase.json_types);
-    var createResult = await createJsonb(supabase, insertJsonb);
+    var createResult = await createJsonB(supabase, insertJsonb);
     expect(createResult, null);
   });
 
   test('Testing Jsonb Update', () async {
-    var updateResult = await updateJsonb(supabase, insertJsonb, updatedJsonb);
+    var updateResult = await updateJsonB(supabase, insertJsonb, updatedJsonb);
     expect(updateResult, null);
   });
 
   test('Testing Jsonb Read', () async {
-    var readResult = await readJsonb(supabase);
+    var readResult = await readJsonB(supabase);
     assert(readResult is List<JsonTypes>);
     expect(readResult!.length, 1);
     expect(readResult[0].col_jsonb, updatedJsonb);
@@ -39,7 +39,7 @@ Future<void> performJsonbTest(SupabaseClient supabase) async {
   });
 }
 
-Future<Object?> createJsonb(
+Future<Object?> createJsonB(
     SupabaseClient supabase, Map<String, dynamic> insertVal) async {
   try {
     await supabase.json_types.insert(JsonTypes.insert(
@@ -52,7 +52,7 @@ Future<Object?> createJsonb(
   }
 }
 
-Future<List<JsonTypes>?> readJsonb(SupabaseClient supabase) async {
+Future<List<JsonTypes>?> readJsonB(SupabaseClient supabase) async {
   try {
     var res = await supabase.json_types
         .select()
@@ -65,7 +65,7 @@ Future<List<JsonTypes>?> readJsonb(SupabaseClient supabase) async {
   }
 }
 
-Future<Object?> updateJsonb(SupabaseClient supabase,
+Future<Object?> updateJsonB(SupabaseClient supabase,
     Map<String, dynamic> oldValue, Map<String, dynamic> value) async {
   try {
     await supabase.json_types
