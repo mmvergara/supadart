@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names, camel_case_types, file_namesimport, file_names
 import 'package:supabase/supabase.dart';
+import 'dart:convert';
 import 'package:intl/intl.dart';
 // INTL is an official package from dart and is used for parsing dates
 // flutter pub add intl or dart pub add intl
@@ -843,16 +844,22 @@ class JsonTypes implements SupadartClass<JsonTypes> {
   }) {
     return {
       if (id != null) 'id': id.toString(),
-      if (col_json != null) 'col_json': col_json,
+      if (col_json != null) 'col_json': col_json.toString(),
       if (col_json_array != null)
-        'col_json_array':
-            col_json_array.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (col_jsonb != null) 'col_jsonb': col_jsonb,
+        'col_json_array': jsonEncode(col_json_array)
+            .replaceAll('"', '\\"')
+            .replaceAll("{", '"{')
+            .replaceAll("}", '}"')
+            .replaceAll("[", '{')
+            .replaceAll("]", '}'),
+      if (col_jsonb != null) 'col_jsonb': col_jsonb.toString(),
       if (col_jsonb_array != null)
-        'col_jsonb_array': col_jsonb_array
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
+        'col_jsonb_array': jsonEncode(col_jsonb_array)
+            .replaceAll('"', '\\"')
+            .replaceAll("{", '"{')
+            .replaceAll("}", '}"')
+            .replaceAll("[", '{')
+            .replaceAll("]", '}'),
     };
   }
 
@@ -865,16 +872,22 @@ class JsonTypes implements SupadartClass<JsonTypes> {
   }) {
     return {
       if (id != null) 'id': id.toString(),
-      if (col_json != null) 'col_json': col_json,
+      if (col_json != null) 'col_json': col_json.toString(),
       if (col_json_array != null)
-        'col_json_array':
-            col_json_array.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (col_jsonb != null) 'col_jsonb': col_jsonb,
+        'col_json_array': jsonEncode(col_json_array)
+            .replaceAll('"', '\\"')
+            .replaceAll("{", '"{')
+            .replaceAll("}", '}"')
+            .replaceAll("[", '{')
+            .replaceAll("]", '}'),
+      if (col_jsonb != null) 'col_jsonb': col_jsonb.toString(),
       if (col_jsonb_array != null)
-        'col_jsonb_array': col_jsonb_array
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
+        'col_jsonb_array': jsonEncode(col_jsonb_array)
+            .replaceAll('"', '\\"')
+            .replaceAll("{", '"{')
+            .replaceAll("}", '}"')
+            .replaceAll("[", '{')
+            .replaceAll("]", '}'),
     };
   }
 
