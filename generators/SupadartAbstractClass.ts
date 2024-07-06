@@ -1,5 +1,5 @@
-export const AbstractGeneratedClass = `
-abstract class GeneratedClass<T> {
+export const SupadartAbstractClass = `
+abstract class SupadartClass<T> {
   static Map<String, dynamic> insert(Map<String, dynamic> data) {
     throw UnimplementedError();
   }
@@ -8,7 +8,7 @@ abstract class GeneratedClass<T> {
     throw UnimplementedError();
   }
 
-  factory GeneratedClass.fromJson(Map<String, dynamic> json) {
+  factory SupadartClass.fromJson(Map<String, dynamic> json) {
     throw UnimplementedError();
   }
 }`;
