@@ -19,10 +19,13 @@ export const getImports = (
   if (generatedClasses.includes("DateFormat")) {
     imports.push(DateFormatterPackage);
     imports.push(
-      "// This is an official package from dart and is used for parsing dates"
+      "// INTL is an official package from dart and is used for parsing dates"
     );
     imports.push("// flutter pub add intl or dart pub add intl");
   }
+  imports.push("");
+  imports.push("// THIS FILE IS AUTO GENERATED. MODIFY WITH CAUTION");
+  imports.push("");
 
   return imports;
 };
