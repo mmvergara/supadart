@@ -1,8 +1,12 @@
 // ignore_for_file: non_constant_identifier_names, camel_case_types, file_namesimport, file_names
-import 'package:intl/intl.dart';
 import 'package:supabase/supabase.dart';
+import 'package:intl/intl.dart';
+// INTL is an official package from dart and is used for parsing dates
+// flutter pub add intl or dart pub add intl
 
-extension TypeSafeTable on SupabaseClient {
+// THIS FILE IS AUTO GENERATED. MODIFY WITH CAUTION
+
+extension SupadartClient on SupabaseClient {
   SupabaseQueryBuilder get string_types {
     return from('string_types');
   }
@@ -44,13 +48,7 @@ extension TypeSafeTable on SupabaseClient {
   }
 }
 
-abstract class GeneratedClass<T> {
-  static String get table_name {
-    throw UnimplementedError();
-  }
-
-  static String get c_id => 'id';
-
+abstract class SupadartClass<T> {
   static Map<String, dynamic> insert(Map<String, dynamic> data) {
     throw UnimplementedError();
   }
@@ -59,12 +57,12 @@ abstract class GeneratedClass<T> {
     throw UnimplementedError();
   }
 
-  factory GeneratedClass.fromJson(Map<String, dynamic> json) {
+  factory SupadartClass.fromJson(Map<String, dynamic> json) {
     throw UnimplementedError();
   }
 }
 
-class StringTypes implements GeneratedClass<StringTypes> {
+class StringTypes implements SupadartClass<StringTypes> {
   final String id;
   final String? col_uuid;
   final List<String>? col_uuid_array;
@@ -206,7 +204,7 @@ class StringTypes implements GeneratedClass<StringTypes> {
   }
 }
 
-class BooleanBitTypes implements GeneratedClass<BooleanBitTypes> {
+class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
   final String id;
   final bool? col_boolean;
   final List<bool>? col_boolean_array;
@@ -321,7 +319,7 @@ class BooleanBitTypes implements GeneratedClass<BooleanBitTypes> {
   }
 }
 
-class MiscTypes implements GeneratedClass<MiscTypes> {
+class MiscTypes implements SupadartClass<MiscTypes> {
   final String id;
   final String? col_money;
   final List<String>? col_money_array;
@@ -532,7 +530,7 @@ class MiscTypes implements GeneratedClass<MiscTypes> {
   }
 }
 
-class Books implements GeneratedClass<Books> {
+class Books implements SupadartClass<Books> {
   final BigInt id;
   final String name;
   final String? description;
@@ -601,7 +599,7 @@ class Books implements GeneratedClass<Books> {
   }
 }
 
-class GeometricTypes implements GeneratedClass<GeometricTypes> {
+class GeometricTypes implements SupadartClass<GeometricTypes> {
   final String id;
   final String? col_point;
   final List<String>? col_point_array;
@@ -815,7 +813,7 @@ class GeometricTypes implements GeneratedClass<GeometricTypes> {
   }
 }
 
-class JsonTypes implements GeneratedClass<JsonTypes> {
+class JsonTypes implements SupadartClass<JsonTypes> {
   final String id;
   final Map<String, dynamic>? col_json;
   final List<Map<String, dynamic>>? col_json_array;
@@ -903,7 +901,7 @@ class JsonTypes implements GeneratedClass<JsonTypes> {
   }
 }
 
-class BinaryXmlTypes implements GeneratedClass<BinaryXmlTypes> {
+class BinaryXmlTypes implements SupadartClass<BinaryXmlTypes> {
   final String id;
   final String? col_bytea;
   final List<String>? col_bytea_array;
@@ -987,7 +985,7 @@ class BinaryXmlTypes implements GeneratedClass<BinaryXmlTypes> {
   }
 }
 
-class NetworkTypes implements GeneratedClass<NetworkTypes> {
+class NetworkTypes implements SupadartClass<NetworkTypes> {
   final String id;
   final String? col_cidr;
   final List<String>? col_cidr_array;
@@ -1125,7 +1123,7 @@ class NetworkTypes implements GeneratedClass<NetworkTypes> {
   }
 }
 
-class NumericTypes implements GeneratedClass<NumericTypes> {
+class NumericTypes implements SupadartClass<NumericTypes> {
   final String id;
   final BigInt? col_bigint;
   final List<BigInt>? col_bigint_array;
@@ -1419,7 +1417,7 @@ class NumericTypes implements GeneratedClass<NumericTypes> {
   }
 }
 
-class DatetimeTypes implements GeneratedClass<DatetimeTypes> {
+class DatetimeTypes implements SupadartClass<DatetimeTypes> {
   final String id;
   final DateTime? col_date;
   final List<DateTime>? col_date_array;

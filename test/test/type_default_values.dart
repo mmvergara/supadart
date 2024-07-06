@@ -5,7 +5,7 @@ import 'package:test/scaffolding.dart';
 import 'dart:mirrors';
 import 'utils.dart';
 
-Future<void> performColumnDefaultValuesTest<T extends GeneratedClass<T>>(
+Future<void> performTypeDefaultValuesTest<T extends SupadartClass<T>>(
   SupabaseClient supabase,
   SupabaseQueryBuilder supabaseQuery,
   T Function(Map<String, dynamic> data) fromJson,
@@ -82,7 +82,7 @@ Future<Object?> createRow(SupabaseQueryBuilder supabaseQuery) async {
   }
 }
 
-Future<List<T>?> readRow<T extends GeneratedClass<T>>(
+Future<List<T>?> readRow<T extends SupadartClass<T>>(
   SupabaseQueryBuilder supabaseQuery,
   T Function(Map<String, dynamic> data) fromJson,
 ) async {
