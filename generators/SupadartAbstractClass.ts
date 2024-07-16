@@ -11,4 +11,8 @@ abstract class SupadartClass<T> {
   factory SupadartClass.fromJson(Map<String, dynamic> json) {
     throw UnimplementedError();
   }
+
+  static withConverter(List<Map<String, dynamic>> data) {
+    throw UnimplementedError();
+  }
 }`;
