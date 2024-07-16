@@ -59,7 +59,7 @@ Future<List<NumericTypes>?> readInteger(SupabaseClient supabase) async {
   try {
     var res = await supabase.numeric_types
         .select()
-        .withConverter((data) => data.map(NumericTypes.fromJson).toList());
+        .withConverter(NumericTypes.converter);
     return res;
   } catch (error) {
     print("readInteger error");

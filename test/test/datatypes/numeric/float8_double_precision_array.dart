@@ -72,7 +72,7 @@ Future<List<NumericTypes>?> readDoublePrecisionArray(
   try {
     return await supabase.numeric_types
         .select()
-        .withConverter((data) => data.map(NumericTypes.fromJson).toList());
+        .withConverter(NumericTypes.converter);
   } catch (error) {
     print("readDoublePrecisionArray error");
     print(error);

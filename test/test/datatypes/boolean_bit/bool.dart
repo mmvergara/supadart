@@ -60,7 +60,7 @@ Future<List<BooleanBitTypes>?> readBoolean(SupabaseClient supabase) async {
   try {
     return await supabase.boolean_bit_types
         .select()
-        .withConverter((data) => data.map(BooleanBitTypes.fromJson).toList());
+        .withConverter(BooleanBitTypes.converter);
   } catch (error) {
     print("readBoolean error");
     print(error);

@@ -70,9 +70,8 @@ Future<Object?> createJsonBArray(
 
 Future<List<JsonTypes>?> readJsonBArray(SupabaseClient supabase) async {
   try {
-    var res = await supabase.json_types
-        .select()
-        .withConverter((data) => data.map(JsonTypes.fromJson).toList());
+    var res =
+        await supabase.json_types.select().withConverter(JsonTypes.converter);
     return res;
   } catch (error) {
     print("readJsonArray error");

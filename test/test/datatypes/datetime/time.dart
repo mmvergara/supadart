@@ -48,7 +48,7 @@ Future<List<DatetimeTypes>?> readTime(SupabaseClient supabase) async {
   try {
     var res = await supabase.datetime_types
         .select()
-        .withConverter((data) => data.map(DatetimeTypes.fromJson).toList());
+        .withConverter(DatetimeTypes.converter);
     return res;
   } catch (error) {
     print("readTime error");
