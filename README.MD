@@ -3,6 +3,14 @@
 Typesafe Supabase Flutter Queries <br/>
 Generate Flutter / Dart 🎯 classes from your Supabase schema.
 
+```dart
+// fetchedBooks is a typeof List<Books>
+final books = await supabase
+      .books
+      .select("*")
+      .withConverter(books.converter);
+```
+
 ### Features
 
 - 🛠️ Typesafe Queries (Create, Read, Equality)
