@@ -4,8 +4,8 @@ Typesafe Supabase Flutter Queries <br/>
 Generate Flutter / Dart 🎯 classes from your Supabase schema.
 
 ```dart
-// fetchedBooks is a typeof List<Books>
-final books = await supabase
+// allBooks is a typeof List<Books>
+final allBooks = await supabase
       .books
       .select("*")
       .withConverter(books.converter);
