@@ -159,6 +159,11 @@ class Books implements SupadartClass<Books> {
   static String get c_description => 'description';
   static String get c_price => 'price';
   static String get c_created_at => 'created_at';
+
+  static List<Books>? converter(List<Map<String, dynamic>> data) {
+    return data.map((data) => Books.fromJson(data)).toList();
+  }
+
   static Map<String, dynamic> insert({
     BigInt? id,
     required String name,
@@ -225,7 +230,7 @@ we now have a typesafe'ish to interact with the database.
 final books = await supabase
       .books
       .select("*")
-      .withConverter((data) => data.map(Books.fromJson).toList());
+      .withConverter(books.converter);
 ```
 
 #### Insert Data
