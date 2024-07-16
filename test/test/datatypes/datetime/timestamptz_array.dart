@@ -85,7 +85,7 @@ Future<List<DatetimeTypes>?> readTimestamptzArray(
   try {
     var res = await supabase.datetime_types
         .select()
-        .withConverter((data) => data.map(DatetimeTypes.fromJson).toList());
+        .withConverter(DatetimeTypes.converter);
     return res;
   } catch (error) {
     print("readTimestamptzArr error");

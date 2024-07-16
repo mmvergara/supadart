@@ -54,9 +54,8 @@ Future<Object?> createJson(
 
 Future<List<JsonTypes>?> readJson(SupabaseClient supabase) async {
   try {
-    var res = await supabase.json_types
-        .select()
-        .withConverter((data) => data.map(JsonTypes.fromJson).toList());
+    var res =
+        await supabase.json_types.select().withConverter(JsonTypes.converter);
     return res;
   } catch (error) {
     print("readJson error");

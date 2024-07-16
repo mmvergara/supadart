@@ -63,7 +63,7 @@ Future<List<NumericTypes>?> readDoublePrecision(SupabaseClient supabase) async {
   try {
     return await supabase.numeric_types
         .select()
-        .withConverter((data) => data.map(NumericTypes.fromJson).toList());
+        .withConverter(NumericTypes.converter);
   } catch (error) {
     print("readDoublePrecision error");
     print(error);

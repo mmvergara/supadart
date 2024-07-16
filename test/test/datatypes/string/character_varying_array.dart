@@ -35,9 +35,12 @@ Future<void> performCharacterVaryingArrayTest(SupabaseClient supabase) async {
     assert(readResult is List<StringTypes>);
     expect(readResult!.length, 1);
     expect(readResult[0].col_charactervarying_array, isA<List<String>>());
-    expect(readResult[0].col_charactervarying_array![0], updatedCharVarArray[0]);
-    expect(readResult[0].col_charactervarying_array![1], updatedCharVarArray[1]);
-    expect(readResult[0].col_charactervarying_array![2], updatedCharVarArray[2]);
+    expect(
+        readResult[0].col_charactervarying_array![0], updatedCharVarArray[0]);
+    expect(
+        readResult[0].col_charactervarying_array![1], updatedCharVarArray[1]);
+    expect(
+        readResult[0].col_charactervarying_array![2], updatedCharVarArray[2]);
   });
 }
 
@@ -72,7 +75,7 @@ Future<List<StringTypes>?> readCharVarArray(SupabaseClient supabase) async {
   try {
     var res = await supabase.string_types
         .select()
-        .withConverter((data) => data.map(StringTypes.fromJson).toList());
+        .withConverter(StringTypes.converter);
     return res;
   } catch (error) {
     print("readCharVarArray error");

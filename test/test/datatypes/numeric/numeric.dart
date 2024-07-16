@@ -62,7 +62,7 @@ Future<List<NumericTypes>?> readNumeric(SupabaseClient supabase) async {
   try {
     return await supabase.numeric_types
         .select()
-        .withConverter((data) => data.map(NumericTypes.fromJson).toList());
+        .withConverter(NumericTypes.converter);
   } catch (error) {
     print("readNumeric error");
     print(error);

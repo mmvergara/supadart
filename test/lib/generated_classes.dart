@@ -33,7 +33,7 @@ abstract class SupadartClass<T> {
     throw UnimplementedError();
   }
 
-  static withConverter(List<Map<String, dynamic>> data) {
+  static converter(List<Map<String, dynamic>> data) {
     throw UnimplementedError();
   }
 }
@@ -72,7 +72,7 @@ class StringTypes implements SupadartClass<StringTypes> {
       'col_charactervarying_array';
   static String get c_col_text => 'col_text';
   static String get c_col_text_array => 'col_text_array';
-  static List<StringTypes>? withConverter(List<Map<String, dynamic>> data) {
+  static List<StringTypes>? converter(List<Map<String, dynamic>> data) {
     return data.map((data) => StringTypes.fromJson(data)).toList();
   }
 
@@ -211,7 +211,7 @@ class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
   static String get c_col_bit_array => 'col_bit_array';
   static String get c_col_bitvarying => 'col_bitvarying';
   static String get c_col_bitvarying_array => 'col_bitvarying_array';
-  static List<BooleanBitTypes>? withConverter(List<Map<String, dynamic>> data) {
+  static List<BooleanBitTypes>? converter(List<Map<String, dynamic>> data) {
     return data.map((data) => BooleanBitTypes.fromJson(data)).toList();
   }
 
@@ -348,7 +348,7 @@ class MiscTypes implements SupadartClass<MiscTypes> {
   static String get c_col_tsvector_array => 'col_tsvector_array';
   static String get c_col_txid_snapshot => 'col_txid_snapshot';
   static String get c_col_txid_snapshot_array => 'col_txid_snapshot_array';
-  static List<MiscTypes>? withConverter(List<Map<String, dynamic>> data) {
+  static List<MiscTypes>? converter(List<Map<String, dynamic>> data) {
     return data.map((data) => MiscTypes.fromJson(data)).toList();
   }
 
@@ -539,7 +539,7 @@ class Books implements SupadartClass<Books> {
   static String get c_description => 'description';
   static String get c_price => 'price';
   static String get c_created_at => 'created_at';
-  static List<Books>? withConverter(List<Map<String, dynamic>> data) {
+  static List<Books>? converter(List<Map<String, dynamic>> data) {
     return data.map((data) => Books.fromJson(data)).toList();
   }
 
@@ -642,7 +642,7 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
   static String get c_col_polygon_array => 'col_polygon_array';
   static String get c_col_circle => 'col_circle';
   static String get c_col_circle_array => 'col_circle_array';
-  static List<GeometricTypes>? withConverter(List<Map<String, dynamic>> data) {
+  static List<GeometricTypes>? converter(List<Map<String, dynamic>> data) {
     return data.map((data) => GeometricTypes.fromJson(data)).toList();
   }
 
@@ -830,7 +830,7 @@ class JsonTypes implements SupadartClass<JsonTypes> {
   static String get c_col_json_array => 'col_json_array';
   static String get c_col_jsonb => 'col_jsonb';
   static String get c_col_jsonb_array => 'col_jsonb_array';
-  static List<JsonTypes>? withConverter(List<Map<String, dynamic>> data) {
+  static List<JsonTypes>? converter(List<Map<String, dynamic>> data) {
     return data.map((data) => JsonTypes.fromJson(data)).toList();
   }
 
@@ -934,7 +934,7 @@ class BinaryXmlTypes implements SupadartClass<BinaryXmlTypes> {
   static String get c_col_bytea_array => 'col_bytea_array';
   static String get c_col_xml => 'col_xml';
   static String get c_col_xml_array => 'col_xml_array';
-  static List<BinaryXmlTypes>? withConverter(List<Map<String, dynamic>> data) {
+  static List<BinaryXmlTypes>? converter(List<Map<String, dynamic>> data) {
     return data.map((data) => BinaryXmlTypes.fromJson(data)).toList();
   }
 
@@ -1034,7 +1034,7 @@ class NetworkTypes implements SupadartClass<NetworkTypes> {
   static String get c_col_macaddr_array => 'col_macaddr_array';
   static String get c_col_macaddr8 => 'col_macaddr8';
   static String get c_col_macaddr8_array => 'col_macaddr8_array';
-  static List<NetworkTypes>? withConverter(List<Map<String, dynamic>> data) {
+  static List<NetworkTypes>? converter(List<Map<String, dynamic>> data) {
     return data.map((data) => NetworkTypes.fromJson(data)).toList();
   }
 
@@ -1206,7 +1206,7 @@ class NumericTypes implements SupadartClass<NumericTypes> {
   static String get c_col_real_array => 'col_real_array';
   static String get c_col_numeric => 'col_numeric';
   static String get c_col_numeric_array => 'col_numeric_array';
-  static List<NumericTypes>? withConverter(List<Map<String, dynamic>> data) {
+  static List<NumericTypes>? converter(List<Map<String, dynamic>> data) {
     return data.map((data) => NumericTypes.fromJson(data)).toList();
   }
 
@@ -1486,7 +1486,7 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
   static String get c_col_timestamptz_array => 'col_timestamptz_array';
   static String get c_col_interval => 'col_interval';
   static String get c_col_interval_array => 'col_interval_array';
-  static List<DatetimeTypes>? withConverter(List<Map<String, dynamic>> data) {
+  static List<DatetimeTypes>? converter(List<Map<String, dynamic>> data) {
     return data.map((data) => DatetimeTypes.fromJson(data)).toList();
   }
 

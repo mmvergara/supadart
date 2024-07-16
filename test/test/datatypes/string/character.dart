@@ -61,7 +61,7 @@ Future<List<StringTypes>?> readCharacter(SupabaseClient supabase) async {
   try {
     var res = await supabase.string_types
         .select()
-        .withConverter((data) => data.map(StringTypes.fromJson).toList());
+        .withConverter(StringTypes.converter);
     return res;
   } catch (error) {
     print("readCharacter error");
