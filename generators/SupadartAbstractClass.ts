@@ -12,7 +12,7 @@ abstract class SupadartClass<T> {
     throw UnimplementedError();
   }
 
-  static withConverter(List<Map<String, dynamic>> data) {
+  static converter(List<Map<String, dynamic>> data) {
     throw UnimplementedError();
   }
 }`;
