@@ -8,45 +8,16 @@ import 'package:intl/intl.dart';
 // THIS FILE IS AUTO GENERATED. MODIFY WITH CAUTION
 
 extension SupadartClient on SupabaseClient {
-  SupabaseQueryBuilder get string_types {
-    return from('string_types');
-  }
-
-  SupabaseQueryBuilder get boolean_bit_types {
-    return from('boolean_bit_types');
-  }
-
-  SupabaseQueryBuilder get misc_types {
-    return from('misc_types');
-  }
-
-  SupabaseQueryBuilder get books {
-    return from('books');
-  }
-
-  SupabaseQueryBuilder get geometric_types {
-    return from('geometric_types');
-  }
-
-  SupabaseQueryBuilder get json_types {
-    return from('json_types');
-  }
-
-  SupabaseQueryBuilder get binary_xml_types {
-    return from('binary_xml_types');
-  }
-
-  SupabaseQueryBuilder get network_types {
-    return from('network_types');
-  }
-
-  SupabaseQueryBuilder get numeric_types {
-    return from('numeric_types');
-  }
-
-  SupabaseQueryBuilder get datetime_types {
-    return from('datetime_types');
-  }
+  SupabaseQueryBuilder get string_types => from('string_types');
+  SupabaseQueryBuilder get boolean_bit_types => from('boolean_bit_types');
+  SupabaseQueryBuilder get misc_types => from('misc_types');
+  SupabaseQueryBuilder get books => from('books');
+  SupabaseQueryBuilder get geometric_types => from('geometric_types');
+  SupabaseQueryBuilder get json_types => from('json_types');
+  SupabaseQueryBuilder get binary_xml_types => from('binary_xml_types');
+  SupabaseQueryBuilder get network_types => from('network_types');
+  SupabaseQueryBuilder get numeric_types => from('numeric_types');
+  SupabaseQueryBuilder get datetime_types => from('datetime_types');
 }
 
 abstract class SupadartClass<T> {
@@ -59,6 +30,10 @@ abstract class SupadartClass<T> {
   }
 
   factory SupadartClass.fromJson(Map<String, dynamic> json) {
+    throw UnimplementedError();
+  }
+
+  static withConverter(List<Map<String, dynamic>> data) {
     throw UnimplementedError();
   }
 }
@@ -97,6 +72,10 @@ class StringTypes implements SupadartClass<StringTypes> {
       'col_charactervarying_array';
   static String get c_col_text => 'col_text';
   static String get c_col_text_array => 'col_text_array';
+  static List<StringTypes>? withConverter(List<Map<String, dynamic>> data) {
+    return data.map((data) => StringTypes.fromJson(data)).toList();
+  }
+
   static Map<String, dynamic> insert({
     String? id,
     String? col_uuid,
@@ -232,6 +211,10 @@ class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
   static String get c_col_bit_array => 'col_bit_array';
   static String get c_col_bitvarying => 'col_bitvarying';
   static String get c_col_bitvarying_array => 'col_bitvarying_array';
+  static List<BooleanBitTypes>? withConverter(List<Map<String, dynamic>> data) {
+    return data.map((data) => BooleanBitTypes.fromJson(data)).toList();
+  }
+
   static Map<String, dynamic> insert({
     String? id,
     bool? col_boolean,
@@ -365,6 +348,10 @@ class MiscTypes implements SupadartClass<MiscTypes> {
   static String get c_col_tsvector_array => 'col_tsvector_array';
   static String get c_col_txid_snapshot => 'col_txid_snapshot';
   static String get c_col_txid_snapshot_array => 'col_txid_snapshot_array';
+  static List<MiscTypes>? withConverter(List<Map<String, dynamic>> data) {
+    return data.map((data) => MiscTypes.fromJson(data)).toList();
+  }
+
   static Map<String, dynamic> insert({
     String? id,
     String? col_money,
@@ -552,6 +539,10 @@ class Books implements SupadartClass<Books> {
   static String get c_description => 'description';
   static String get c_price => 'price';
   static String get c_created_at => 'created_at';
+  static List<Books>? withConverter(List<Map<String, dynamic>> data) {
+    return data.map((data) => Books.fromJson(data)).toList();
+  }
+
   static Map<String, dynamic> insert({
     BigInt? id,
     required String name,
@@ -651,6 +642,10 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
   static String get c_col_polygon_array => 'col_polygon_array';
   static String get c_col_circle => 'col_circle';
   static String get c_col_circle_array => 'col_circle_array';
+  static List<GeometricTypes>? withConverter(List<Map<String, dynamic>> data) {
+    return data.map((data) => GeometricTypes.fromJson(data)).toList();
+  }
+
   static Map<String, dynamic> insert({
     String? id,
     String? col_point,
@@ -835,6 +830,10 @@ class JsonTypes implements SupadartClass<JsonTypes> {
   static String get c_col_json_array => 'col_json_array';
   static String get c_col_jsonb => 'col_jsonb';
   static String get c_col_jsonb_array => 'col_jsonb_array';
+  static List<JsonTypes>? withConverter(List<Map<String, dynamic>> data) {
+    return data.map((data) => JsonTypes.fromJson(data)).toList();
+  }
+
   static Map<String, dynamic> insert({
     String? id,
     Map<String, dynamic>? col_json,
@@ -935,6 +934,10 @@ class BinaryXmlTypes implements SupadartClass<BinaryXmlTypes> {
   static String get c_col_bytea_array => 'col_bytea_array';
   static String get c_col_xml => 'col_xml';
   static String get c_col_xml_array => 'col_xml_array';
+  static List<BinaryXmlTypes>? withConverter(List<Map<String, dynamic>> data) {
+    return data.map((data) => BinaryXmlTypes.fromJson(data)).toList();
+  }
+
   static Map<String, dynamic> insert({
     String? id,
     String? col_bytea,
@@ -1031,6 +1034,10 @@ class NetworkTypes implements SupadartClass<NetworkTypes> {
   static String get c_col_macaddr_array => 'col_macaddr_array';
   static String get c_col_macaddr8 => 'col_macaddr8';
   static String get c_col_macaddr8_array => 'col_macaddr8_array';
+  static List<NetworkTypes>? withConverter(List<Map<String, dynamic>> data) {
+    return data.map((data) => NetworkTypes.fromJson(data)).toList();
+  }
+
   static Map<String, dynamic> insert({
     String? id,
     String? col_cidr,
@@ -1199,6 +1206,10 @@ class NumericTypes implements SupadartClass<NumericTypes> {
   static String get c_col_real_array => 'col_real_array';
   static String get c_col_numeric => 'col_numeric';
   static String get c_col_numeric_array => 'col_numeric_array';
+  static List<NumericTypes>? withConverter(List<Map<String, dynamic>> data) {
+    return data.map((data) => NumericTypes.fromJson(data)).toList();
+  }
+
   static Map<String, dynamic> insert({
     String? id,
     BigInt? col_bigint,
@@ -1475,6 +1486,10 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
   static String get c_col_timestamptz_array => 'col_timestamptz_array';
   static String get c_col_interval => 'col_interval';
   static String get c_col_interval_array => 'col_interval_array';
+  static List<DatetimeTypes>? withConverter(List<Map<String, dynamic>> data) {
+    return data.map((data) => DatetimeTypes.fromJson(data)).toList();
+  }
+
   static Map<String, dynamic> insert({
     String? id,
     DateTime? col_date,
