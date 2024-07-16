@@ -8,7 +8,7 @@ Generate Flutter / Dart 🎯 classes from your Supabase schema.
 final allBooks = await supabase
       .books
       .select("*")
-      .withConverter(books.converter);
+      .withConverter(Books.converter);
 ```
 
 ### Features
@@ -234,11 +234,11 @@ we now have a typesafe'ish to interact with the database.
 #### Fetch Data
 
 ```dart
-// fetchedBooks is a typeof List<Books>
-final books = await supabase
+// allBooks is a typeof List<Books>
+final allBooks = await supabase
       .books
       .select("*")
-      .withConverter(books.converter);
+      .withConverter(Books.converter);
 ```
 
 #### Insert Data
