@@ -21,6 +21,7 @@ final allBooks = await supabase
   - [**Insert Many Data**](#inset-many-data)
   - [**Update Data**](#update-data)
   - [**Delete Data**](#delete-data)
+  - [**Fetch Single Data**](#fetch-single-data)
 
 ### Features 🚀
 
