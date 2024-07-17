@@ -4,7 +4,10 @@ import { generateStaticColumnNames } from "./staticColumnNames";
 import { generateUpdateMethod } from "./updateMethod";
 import { DartClass, Definitions } from "./types";
 import { getDartTypeByFormat, snakeCasingToPascaleCasing } from "./utils";
-import { generateConverterMethod } from "./withConverterMethod";
+import {
+  generateConverterMethod,
+  generateConverterSingleMethod,
+} from "./converterMethods";
 
 export const generateDartClasses = (definitions: Definitions): DartClass[] => {
   const generatedClasses: DartClass[] = [];
@@ -46,8 +49,9 @@ export const generateDartClasses = (definitions: Definitions): DartClass[] => {
     // Static column names
     dartCode += generateStaticColumnNames(properties);
 
-    // Helper functions
+    //  Methods
     dartCode += generateConverterMethod(className);
+    dartCode += generateConverterSingleMethod(className);
     dartCode += generateInsertMethod(properties, required);
     dartCode += generateUpdateMethod(properties);
     dartCode += generateFromJsonMethod(className, properties, required);
