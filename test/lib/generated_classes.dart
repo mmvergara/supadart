@@ -36,6 +36,10 @@ abstract class SupadartClass<T> {
   static converter(List<Map<String, dynamic>> data) {
     throw UnimplementedError();
   }
+
+  static converterSingle(Map<String, dynamic> data) {
+    throw UnimplementedError();
+  }
 }
 
 class StringTypes implements SupadartClass<StringTypes> {
@@ -72,8 +76,13 @@ class StringTypes implements SupadartClass<StringTypes> {
       'col_charactervarying_array';
   static String get c_col_text => 'col_text';
   static String get c_col_text_array => 'col_text_array';
-  static List<StringTypes>? converter(List<Map<String, dynamic>> data) {
-    return data.map((data) => StringTypes.fromJson(data)).toList();
+
+  static List<StringTypes> converter(List<Map<String, dynamic>> data) {
+    return data.map(StringTypes.fromJson).toList();
+  }
+
+  static StringTypes converterSingle(Map<String, dynamic> data) {
+    return StringTypes.fromJson(data);
   }
 
   static Map<String, dynamic> insert({
@@ -211,8 +220,13 @@ class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
   static String get c_col_bit_array => 'col_bit_array';
   static String get c_col_bitvarying => 'col_bitvarying';
   static String get c_col_bitvarying_array => 'col_bitvarying_array';
-  static List<BooleanBitTypes>? converter(List<Map<String, dynamic>> data) {
-    return data.map((data) => BooleanBitTypes.fromJson(data)).toList();
+
+  static List<BooleanBitTypes> converter(List<Map<String, dynamic>> data) {
+    return data.map(BooleanBitTypes.fromJson).toList();
+  }
+
+  static BooleanBitTypes converterSingle(Map<String, dynamic> data) {
+    return BooleanBitTypes.fromJson(data);
   }
 
   static Map<String, dynamic> insert({
@@ -348,8 +362,13 @@ class MiscTypes implements SupadartClass<MiscTypes> {
   static String get c_col_tsvector_array => 'col_tsvector_array';
   static String get c_col_txid_snapshot => 'col_txid_snapshot';
   static String get c_col_txid_snapshot_array => 'col_txid_snapshot_array';
-  static List<MiscTypes>? converter(List<Map<String, dynamic>> data) {
-    return data.map((data) => MiscTypes.fromJson(data)).toList();
+
+  static List<MiscTypes> converter(List<Map<String, dynamic>> data) {
+    return data.map(MiscTypes.fromJson).toList();
+  }
+
+  static MiscTypes converterSingle(Map<String, dynamic> data) {
+    return MiscTypes.fromJson(data);
   }
 
   static Map<String, dynamic> insert({
@@ -539,8 +558,13 @@ class Books implements SupadartClass<Books> {
   static String get c_description => 'description';
   static String get c_price => 'price';
   static String get c_created_at => 'created_at';
-  static List<Books>? converter(List<Map<String, dynamic>> data) {
-    return data.map((data) => Books.fromJson(data)).toList();
+
+  static List<Books> converter(List<Map<String, dynamic>> data) {
+    return data.map(Books.fromJson).toList();
+  }
+
+  static Books converterSingle(Map<String, dynamic> data) {
+    return Books.fromJson(data);
   }
 
   static Map<String, dynamic> insert({
@@ -642,8 +666,13 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
   static String get c_col_polygon_array => 'col_polygon_array';
   static String get c_col_circle => 'col_circle';
   static String get c_col_circle_array => 'col_circle_array';
-  static List<GeometricTypes>? converter(List<Map<String, dynamic>> data) {
-    return data.map((data) => GeometricTypes.fromJson(data)).toList();
+
+  static List<GeometricTypes> converter(List<Map<String, dynamic>> data) {
+    return data.map(GeometricTypes.fromJson).toList();
+  }
+
+  static GeometricTypes converterSingle(Map<String, dynamic> data) {
+    return GeometricTypes.fromJson(data);
   }
 
   static Map<String, dynamic> insert({
@@ -830,8 +859,13 @@ class JsonTypes implements SupadartClass<JsonTypes> {
   static String get c_col_json_array => 'col_json_array';
   static String get c_col_jsonb => 'col_jsonb';
   static String get c_col_jsonb_array => 'col_jsonb_array';
-  static List<JsonTypes>? converter(List<Map<String, dynamic>> data) {
-    return data.map((data) => JsonTypes.fromJson(data)).toList();
+
+  static List<JsonTypes> converter(List<Map<String, dynamic>> data) {
+    return data.map(JsonTypes.fromJson).toList();
+  }
+
+  static JsonTypes converterSingle(Map<String, dynamic> data) {
+    return JsonTypes.fromJson(data);
   }
 
   static Map<String, dynamic> insert({
@@ -934,8 +968,13 @@ class BinaryXmlTypes implements SupadartClass<BinaryXmlTypes> {
   static String get c_col_bytea_array => 'col_bytea_array';
   static String get c_col_xml => 'col_xml';
   static String get c_col_xml_array => 'col_xml_array';
-  static List<BinaryXmlTypes>? converter(List<Map<String, dynamic>> data) {
-    return data.map((data) => BinaryXmlTypes.fromJson(data)).toList();
+
+  static List<BinaryXmlTypes> converter(List<Map<String, dynamic>> data) {
+    return data.map(BinaryXmlTypes.fromJson).toList();
+  }
+
+  static BinaryXmlTypes converterSingle(Map<String, dynamic> data) {
+    return BinaryXmlTypes.fromJson(data);
   }
 
   static Map<String, dynamic> insert({
@@ -1034,8 +1073,13 @@ class NetworkTypes implements SupadartClass<NetworkTypes> {
   static String get c_col_macaddr_array => 'col_macaddr_array';
   static String get c_col_macaddr8 => 'col_macaddr8';
   static String get c_col_macaddr8_array => 'col_macaddr8_array';
-  static List<NetworkTypes>? converter(List<Map<String, dynamic>> data) {
-    return data.map((data) => NetworkTypes.fromJson(data)).toList();
+
+  static List<NetworkTypes> converter(List<Map<String, dynamic>> data) {
+    return data.map(NetworkTypes.fromJson).toList();
+  }
+
+  static NetworkTypes converterSingle(Map<String, dynamic> data) {
+    return NetworkTypes.fromJson(data);
   }
 
   static Map<String, dynamic> insert({
@@ -1206,8 +1250,13 @@ class NumericTypes implements SupadartClass<NumericTypes> {
   static String get c_col_real_array => 'col_real_array';
   static String get c_col_numeric => 'col_numeric';
   static String get c_col_numeric_array => 'col_numeric_array';
-  static List<NumericTypes>? converter(List<Map<String, dynamic>> data) {
-    return data.map((data) => NumericTypes.fromJson(data)).toList();
+
+  static List<NumericTypes> converter(List<Map<String, dynamic>> data) {
+    return data.map(NumericTypes.fromJson).toList();
+  }
+
+  static NumericTypes converterSingle(Map<String, dynamic> data) {
+    return NumericTypes.fromJson(data);
   }
 
   static Map<String, dynamic> insert({
@@ -1486,8 +1535,13 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
   static String get c_col_timestamptz_array => 'col_timestamptz_array';
   static String get c_col_interval => 'col_interval';
   static String get c_col_interval_array => 'col_interval_array';
-  static List<DatetimeTypes>? converter(List<Map<String, dynamic>> data) {
-    return data.map((data) => DatetimeTypes.fromJson(data)).toList();
+
+  static List<DatetimeTypes> converter(List<Map<String, dynamic>> data) {
+    return data.map(DatetimeTypes.fromJson).toList();
+  }
+
+  static DatetimeTypes converterSingle(Map<String, dynamic> data) {
+    return DatetimeTypes.fromJson(data);
   }
 
   static Map<String, dynamic> insert({
