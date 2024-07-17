@@ -5,5 +5,5 @@ export const generateStaticColumnNames = (properties: Properties) => {
   for (const propertyName in properties) {
     code += `static String get c_${propertyName} => '${propertyName}';\n`;
   }
-  return code;
+  return code + "\n";
 };
