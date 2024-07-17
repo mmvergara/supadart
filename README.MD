@@ -291,3 +291,15 @@ await supabase.books.update(newData).eq(Books.c_id, 1);
 ```dart
 await supabase.books.delete().eq(Books.c_id, 1);
 ```
+
+#### Fetch Single Data
+
+```dart
+// book is a typeof Books
+final book = await supabase
+      .books
+      .select("*")
+      .eq(Books.c_id, 1)
+      .single()
+      .withConverter(Books.converterSingle);
+```
