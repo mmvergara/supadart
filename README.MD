@@ -11,7 +11,18 @@ final allBooks = await supabase
       .withConverter(Books.converter);
 ```
 
-### Features
+### Table of Contents 📚
+
+- [**Generate Dart Classes via**](#generating-dart-classes)
+- [**Example Usage**](#example-usage)
+  - [**Getting Table Name**](#getting-table-name)
+  - [**Fetch Data**](#fetch-data)
+  - [**Insert Data**](#insert-data)
+  - [**Insert Many Data**](#inset-many-data)
+  - [**Update Data**](#update-data)
+  - [**Delete Data**](#delete-data)
+
+### Features 🚀
 
 - 🛠️ Typesafe Queries (Create, Read, Equality)
 - 🧱 Immutable Generated Classes
@@ -20,14 +31,7 @@ final allBooks = await supabase
 - 🗂️ Supports Defined as array types
 - 🌐 Cli and Web App
 
-### Table of Contents
-
-- [Generate Dart Classes via](#generating-dart-classes)
-  - [CLI](#using-the-dart-cli)
-  - [Web App](https://supadart.vercel.app/)
-- [Example Usage](#example-usage)
-
-### Conversion Table
+### Conversion Table 📊
 
 | Supabase Identifier | PostgreSQL Format           | JSON Type | Dart Type            | Runtime Tested <img src="https://github.com/mmvergara/supadart/actions/workflows/dart.yml/badge.svg?branch=main%22"/> |
 | ------------------- | --------------------------- | --------- | -------------------- | --------------------------------------------------------------------------------------------------------------------- |
@@ -55,7 +59,7 @@ final allBooks = await supabase
 
 ## 1. Pre-requisites
 
-#### if you have serial types you need to add a comment to the column like this,
+#### 1.2 if you have serial types you need to add a comment to the column like this,
 
 serial types in general are not available in supabase table editor afaik, so if you did not add them manually via sql editor you probably dont have them.
 
@@ -68,7 +72,7 @@ COMMENT ON COLUMN test_table.serialx IS 'serial';
 
 [Why do we need this?](https://gist.github.com/mmvergara/5e3d42d73dd316f8ff809fb940163c1f)
 
-#### Install `Internationalization` package
+#### 1.3 Install `Internationalization` package
 
 ```bash
 # This is an official package from dart and is used for parsing dates
@@ -129,7 +133,9 @@ supadart -u <your-supabase-url> -k <your-supabase-anon-key>
 
 # Example Usage
 
-Assuming the following table schema
+Assuming the following table schema <br/>
+
+> we recommend using **snake_casing** for your table names, as it will be converted to **PamelCasing** in the generated classes.
 
 ```sql
 create table
@@ -285,5 +291,3 @@ await supabase.books.update(newData).eq(Books.c_id, 1);
 ```dart
 await supabase.books.delete().eq(Books.c_id, 1);
 ```
-
----
