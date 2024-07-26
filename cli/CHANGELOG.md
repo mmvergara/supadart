@@ -1,3 +1,7 @@
+## 1.3.4
+
+- fixed `--seperate` option to include supadart_abstract_class.dart file import
+
 ## 1.3.3
 
 - changed api base url to `https://supadart.vercel.app/api/generate/`

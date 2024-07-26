@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:dotenv/dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:yaml/yaml.dart';
 
 const String version = 'v1.3.2';
 const String baseUrl = 'https://supadart.vercel.app/api/generate/';
@@ -21,7 +22,7 @@ void main(List<String> arguments) async {
     ..addOption('output',
         abbr: 'o',
         help:
-            'Output file path      -- (default: "lib/generated_classes.dart" or "lib/models/" if --seperated is enabled)')
+            'Output file path, add ./ prefix      -- (default: "./lib/generated_classes.dart" or "./lib/models/" if --seperated is enabled)')
     ..addFlag('dart',
         abbr: 'd',
         negatable: false,
@@ -90,7 +91,25 @@ void main(List<String> arguments) async {
     }
 
     String outputPath = results['output'] ?? 'lib/models/';
+    var pubspec = File('pubspec.yaml').readAsStringSync();
+    var yaml = loadYaml(pubspec);
+    var packageName = yaml['name'];
+
     codeOutput.forEach((className, classCode) {
+      if (className != "supadart_abstract_class" &&
+          className != "client_extension") {
+        int i = 0;
+        classCode = classCode.toString().split("\n").map((line) {
+          if (i == 4) {
+            i++;
+            String path = outputPath.replaceFirst("lib/", "");
+
+            return "$line\nimport 'package:$packageName/$path/supadart_abstract_class.dart';";
+          }
+          i++;
+          return line;
+        }).join("\n");
+      }
       // Create if not exists
       File file = File('$outputPath$className.dart');
       file.createSync(recursive: true);
