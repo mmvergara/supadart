@@ -53,13 +53,10 @@ export const generateDartModelFilesSeperated = (
 
     const imports = getImports([{ classCode, className }], isFlutter);
     // remove 2nd line of import (Supabase SDK Import)
-    imports.splice(1, 1);
+    imports.splice(1, 1, "import 'supadart_abstract_class.dart';");
 
     code += imports.join("\n") + "\n\n";
-
-    code +=
-      "// You have to manually import SupadartClass if you are using seperated files option" +
-      "\n";
+    code += "\n";
     code += classCode;
 
     output[generateDartFileName(className)] = code;
