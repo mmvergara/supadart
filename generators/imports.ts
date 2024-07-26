@@ -28,7 +28,6 @@ export const getImports = (
     );
     imports.push("// flutter pub add intl or dart pub add intl");
   }
-  imports.push("");
   imports.push("// THIS FILE IS AUTO GENERATED. MODIFY WITH CAUTION");
   imports.push("");
 

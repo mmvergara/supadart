@@ -1,3 +1,7 @@
+## 1.3.5
+
+- improved abstract class import for `--seperate` option
+
 ## 1.3.4
 
 - fixed `--seperate` option to include supadart_abstract_class.dart file import
