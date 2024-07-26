@@ -1,6 +1,6 @@
 name: supadart
 description: Generate Dart classes from your Supabase schema.
-version: 1.3.3
+version: 1.3.4
 
 repository: https://github.com/mmvergara/supadart
 homepage: https://github.com/mmvergara/supadart
@@ -16,6 +16,7 @@ dependencies:
   args: ^2.5.0
   dotenv: ^4.2.0
   http: ^1.2.1
+  yaml: ^3.1.2
   # path: ^1.8.0
 
 dev_dependencies:
