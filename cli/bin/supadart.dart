@@ -90,11 +90,14 @@ void main(List<String> arguments) async {
     }
 
     String outputPath = results['output'] ?? 'lib/models/';
-    codeOutput.forEach((className, classCode) {
+    codeOutput.forEach((className, classCode) async {
       // Create if not exists
       File file = File('$outputPath$className.dart');
       file.createSync(recursive: true);
       file.writeAsStringSync(classCode.toString());
+
+      // Format the generated code
+      await formatCode(file.path);
 
       print("*** Generated $outputPath$className.dart ***");
     });
@@ -110,6 +113,9 @@ void main(List<String> arguments) async {
     File file = File(outputPath);
     file.createSync(recursive: true);
     file.writeAsStringSync(codeOutput);
+
+    // Format the generated code
+    await formatCode(file.path);
 
     print("*** Classes generated successfully ***");
     print("*** Output: $outputPath ***");
@@ -127,4 +133,17 @@ Future<dynamic> fetchGeneratedClasses(
       return null;
     }
   });
+}
+
+Future<void> formatCode(String path) async {
+  try {
+    ProcessResult result = await Process.run('dart', ['format', path]);
+    if (result.exitCode != 0) {
+      print('Failed to format code: ${result.stderr}');
+    } else {
+      print('*** Formatted $path ***');
+    }
+  } catch (e) {
+    print('Failed to format code: $e');
+  }
 }
