@@ -1,5 +1,6 @@
 import { generateDartClasses } from "./Class";
 import { generateClientExtension } from "./ClientExtension";
+import { generateModels } from "./Models";
 import { SupadartAbstractClass } from "./SupadartAbstractClass";
 import { getImports } from "./imports";
 import { ClientExtension, DartClass, Definitions } from "./types";
@@ -12,12 +13,14 @@ export const generateBluePrint = (
   const dartClasses: DartClass[] = generateDartClasses(definitions);
   const imports = getImports(dartClasses, isFlutter);
   const clientExtension: ClientExtension = generateClientExtension(definitions);
+  const models = generateModels(definitions);
 
   return {
     imports,
     dartClasses,
     clientExtension,
     SupadartAbstractClass,
+    models,
   };
 };
 
@@ -41,7 +44,7 @@ export const generateDartModelFilesSeperated = (
   definitions: Definitions,
   isFlutter: boolean
 ): Record<string, string> => {
-  const { clientExtension, dartClasses, SupadartAbstractClass } =
+  const { clientExtension, dartClasses, SupadartAbstractClass, models } =
     generateBluePrint(definitions, isFlutter);
 
   // Per key is a class file and the value is the code
@@ -76,5 +79,8 @@ export const generateDartModelFilesSeperated = (
 
   // Generated abstract class
   output["supadart_abstract_class"] = SupadartAbstractClass;
+
+  // Generated models file
+  output["models"] = models;
   return output;
 };
