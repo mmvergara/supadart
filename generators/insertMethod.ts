@@ -16,7 +16,7 @@ export const generateInsertMethod = (
     const isRequiredField = requiredFields.includes(propertyName);
     const hasDefaultValue = properties[propertyName].default;
     const isSerialType =
-      properties[propertyName].description?.includes("serial");
+      properties[propertyName].description?.includes("[supadart:serial]");
     const isRequired =
       isRequiredField && !hasDefaultValue && !isPrimaryKey && !isSerialType;
 
@@ -34,7 +34,7 @@ export const generateInsertMethod = (
     const isRequiredField = requiredFields.includes(propertyName);
     const hasDefaultValue = properties[propertyName].default;
     const isSerialType =
-      properties[propertyName].description?.includes("serial");
+      properties[propertyName].description?.includes("[supadart:serial]");
 
     const isRequired =
       isRequiredField && !hasDefaultValue && !isPrimaryKey && !isSerialType;

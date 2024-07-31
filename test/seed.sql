@@ -31,9 +31,9 @@ CREATE TABLE public.numeric_types (
     col_numeric_array NUMERIC[] NULL
 );
 -- for serial columns
-COMMENT ON COLUMN public.numeric_types.col_bigserial IS 'serial';
-COMMENT ON COLUMN public.numeric_types.col_smallserial IS 'serial';
-COMMENT ON COLUMN public.numeric_types.col_serial IS 'serial';
+COMMENT ON COLUMN public.numeric_types.col_bigserial IS '[supadart:serial]';
+COMMENT ON COLUMN public.numeric_types.col_smallserial IS '[supadart:serial]';
+COMMENT ON COLUMN public.numeric_types.col_serial IS '[supadart:serial]';
 
 -- String Types Table
 CREATE TABLE public.string_types (
