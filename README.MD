@@ -60,16 +60,16 @@ final allBooks = await supabase
 
 ## 1. Pre-requisites
 
-#### 1.2 if you have serial types you need to add a comment to the column like this,
-
-serial types in general are not available in supabase table editor afaik, so if you did not add them manually via sql editor you probably dont have them.
+#### 1.2 if you have serial types you need to add a `[supadart:serial]` to the column like this,
 
 ```sql
-COMMENT ON COLUMN test_table.bigserialx IS 'serial';
-COMMENT ON COLUMN test_table.smallserialx IS 'serial';
-COMMENT ON COLUMN test_table.serialx IS 'serial';
+COMMENT ON COLUMN test_table.bigserialx IS '[supadart:serial]';
+COMMENT ON COLUMN test_table.smallserialx IS 'you can still add comment [supadart:serial]';
+COMMENT ON COLUMN test_table.serialx IS 'this part [supadart:serial] just needs to be included';
 -- otherwise the insert method will always ask for a value
 ```
+
+serial types in general are not available in supabase table editor afaik, so if you did not add them manually via sql editor you probably dont have them.
 
 [Why do we need this?](https://gist.github.com/mmvergara/5e3d42d73dd316f8ff809fb940163c1f)
 
@@ -304,3 +304,8 @@ final book = await supabase
       .single()
       .withConverter(Books.converterSingle);
 ```
+
+# Contributors
+
+[@mmvergara](https://github.com/mmvergara) <br/>
+[@bookshiyi](https://github.com/bookshiyi)  
