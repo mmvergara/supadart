@@ -30,6 +30,8 @@ void main(List<String> arguments) async {
         negatable: false,
         abbr: 's',
         help: 'Generate Seperate files for each classes')
+    ..addOption('server_url',
+        help: 'Custom server URL (e.g., http://localhost:3000)')
     ..addFlag('version', abbr: 'v', negatable: false, help: version);
 
   final results = parser.parse(arguments);
@@ -47,6 +49,7 @@ void main(List<String> arguments) async {
 
   bool isDart = results['dart'] ?? false;
   bool isSeperated = results['seperated'] ?? false;
+  String serverUrl = results['server_url'] ?? baseUrl;
 
   String? url;
   String? anonKey;
@@ -72,7 +75,7 @@ void main(List<String> arguments) async {
     exit(1);
   }
 
-  final requestUrl = Uri.parse(baseUrl).replace(queryParameters: {
+  final requestUrl = Uri.parse('$serverUrl/api/generate').replace(queryParameters: {
     'SUPABASE_URL': url,
     'SUPABASE_ANON_KEY': anonKey,
     if (isDart) 'dart': 'true',
