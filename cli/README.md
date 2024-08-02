@@ -38,9 +38,8 @@ supadart -u <your-supabase-url> -k <your-supabase-anon-key>
 -e, --env-path     Path to the .env file -- (default: .env)
 -u, --url          Supabase URL          -- (default: .env SUPABASE_URL)
 -k, --key          Supabase ANON KEY     -- (default: .env SUPABASE_ANON_KEY)
--o, --output       Output file path      -- (default: "lib/generated_classes.dart" or "lib/models/" if --seperated is enabled)
+-o, --output       Output folder path, add ./ prefix      -- (default: "./lib/models/")
 -d, --dart         Enable if you are not using Flutter, just normal Dart project
 -s, --seperated    Generate Seperate files for each classes
-    --server-url   Custom server URL (e.g., http://localhost:3000)
--v, --version      v1.3.2
+-v, --version      v1.3.7
 ```
