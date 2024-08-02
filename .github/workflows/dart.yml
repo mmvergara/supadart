@@ -9,7 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # if: github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'Production'
 
     env:
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
@@ -23,6 +22,14 @@ jobs:
         uses: dart-lang/setup-dart@v1
         with:
           sdk: stable
+
+      - name: Cache Dart dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-dart-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-dart-
 
       - name: Install dependencies
         run: dart pub get
