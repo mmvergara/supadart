@@ -53,14 +53,13 @@ void main(List<String> arguments) async {
 
   String? url;
   String? anonKey;
+  var envPath = results['env-path'] ?? '.env';
+  var env = DotEnv(includePlatformEnvironment: true)..load([envPath]);
 
   if (results['url'] != null && results['key'] != null) {
     url = results['url'];
     anonKey = results['key'];
   } else {
-    var envPath = results['env-path'] ?? '.env';
-    var env = DotEnv(includePlatformEnvironment: true)..load([envPath]);
-
     url = env['SUPABASE_URL'];
     anonKey = env['SUPABASE_ANON_KEY'];
   }
