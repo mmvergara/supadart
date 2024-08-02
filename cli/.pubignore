@@ -6,3 +6,4 @@ supadart.exe
 generated_classes.dart
 
 lib/models/
+test/
