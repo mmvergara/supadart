@@ -142,3 +142,25 @@ CREATE TABLE public.misc_types (
     col_txid_snapshot TXID_SNAPSHOT NULL,
     col_txid_snapshot_array TXID_SNAPSHOT[] NULL
 );
+
+
+
+-- Create a simple view
+CREATE OR REPLACE VIEW public.combined_types_view AS
+SELECT 
+    nt.id AS numeric_id,
+    nt.col_integer,
+    nt.col_double,
+    st.id AS string_id,
+    st.col_text,
+    st.col_uuid
+FROM 
+    public.numeric_types nt
+JOIN 
+    public.string_types st ON nt.id = st.id;
+
+-- add comment to view
+-- COMMENT ON VIEW public.combined_types_view IS '[supadart:view]';
+
+-- Remove view
+-- DROP VIEW IF EXISTS public.combined_types_view;

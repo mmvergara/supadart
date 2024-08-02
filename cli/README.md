@@ -41,5 +41,5 @@ supadart -u <your-supabase-url> -k <your-supabase-anon-key>
 -o, --output       Output folder path, add ./ prefix      -- (default: "./lib/models/")
 -d, --dart         Enable if you are not using Flutter, just normal Dart project
 -s, --seperated    Generate Seperate files for each classes
--v, --version      v1.3.7
+-v, --version
 ```

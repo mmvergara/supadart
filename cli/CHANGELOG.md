@@ -1,3 +1,7 @@
+## 1.3.8
+
+- Fix Crash when using the tool with views table
+
 ## 1.3.7
 
 - Fix Json Array and DateTime parsing
