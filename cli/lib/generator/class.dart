@@ -16,7 +16,7 @@ List<DartClass> generateDartClasses(DatabaseSwagger swagger) {
 
     final columns = table.columns;
     final requiredFields = table.requiredFields;
-    final className = snakeCasingToPascaleCasing(tableName);
+    final className = tableNameToClassName(tableName);
 
     // Class definition
     dartCode += 'class $className implements SupadartClass<$className> {\n';

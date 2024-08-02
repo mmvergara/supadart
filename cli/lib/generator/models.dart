@@ -7,9 +7,9 @@ String generateModels(DatabaseSwagger swagger) {
   code += "export 'client_extension.dart';\n";
   code += "export 'supadart_abstract_class.dart';\n";
   swagger.definitions.forEach((tableName, _) {
-    final className = snakeCasingToPascaleCasing(tableName);
-    tableName = classNameToFileName(className);
-    code += "export '$tableName';\n";
+    final className = tableNameToClassName(tableName);
+    final fileName = classNameToFileName(className);
+    code += "export '$fileName';\n";
   });
   return code;
 }
