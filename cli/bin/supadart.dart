@@ -49,20 +49,26 @@ void main(List<String> arguments) async {
 
   bool isDart = results['dart'] ?? false;
   bool isSeperated = results['seperated'] ?? false;
-  String serverUrl = results['server_url'] ?? baseUrl;
 
   String? url;
   String? anonKey;
+  String? serverUrl;
+
+  var envPath = results['env-path'] ?? '.env';
+  var env = DotEnv(includePlatformEnvironment: true)..load([envPath]);
 
   if (results['url'] != null && results['key'] != null) {
     url = results['url'];
     anonKey = results['key'];
   } else {
-    var envPath = results['env-path'] ?? '.env';
-    var env = DotEnv(includePlatformEnvironment: true)..load([envPath]);
-
     url = env['SUPABASE_URL'];
     anonKey = env['SUPABASE_ANON_KEY'];
+  }
+
+  if (results['server_url'] != null) {
+    serverUrl = results['server_url'];
+  } else {
+    serverUrl = env['SUPADART_SERVER_URL'] ?? baseUrl;
   }
 
   if (url == null || anonKey == null) {
