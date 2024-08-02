@@ -78,6 +78,8 @@ void main(List<String> arguments) async {
 
   final files = generateModelFiles(databaseSwagger, isFlutter, isSeperated);
   await generateAndFormatFiles(files, results['output'] ?? './lib/models/');
+
+  print('\n$green 🎉 Done! $reset');
 }
 
 Future<void> generateAndFormatFiles(
