@@ -5,4 +5,4 @@ supadart.exe
 .env
 generated_classes.dart
 
-lib
+lib/models/

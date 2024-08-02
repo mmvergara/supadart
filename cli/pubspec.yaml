@@ -19,8 +19,15 @@ dependencies:
   # path: ^1.8.0
 
 dev_dependencies:
+  intl: ^0.19.0
   lints: ^3.0.0
+  supabase: ^2.2.7
   test: ^1.24.0
 
 executables:
   supadart:
+
+analyzer:
+  language:
+    strict-casts: true
+    strict-raw-types: true
