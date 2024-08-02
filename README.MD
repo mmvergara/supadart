@@ -308,5 +308,6 @@ final book = await supabase
 
 # Contributors
 
-[@mmvergara](https://github.com/mmvergara) <br/>
-[@bookshiyi](https://github.com/bookshiyi)
+🎯 [mmvergara](https://github.com/mmvergara) <br/>
+🎯 [bookshiyi](https://github.com/bookshiyi) <br/>
+🎯 [nzlz](https://github.com/nzlz)
