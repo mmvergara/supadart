@@ -1,11 +1,14 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:args/args.dart';
 import 'package:dotenv/dotenv.dart';
-import 'package:http/http.dart' as http;
+import 'package:supadart/generator/generator.dart';
+import 'package:supadart/generator/swagger.dart';
 
-const String version = 'v1.3.2';
-const String baseUrl = 'https://supadart.vercel.app';
+const String version = 'v1.3.7';
+const String red = '\x1B[31m'; // Red text
+const String green = '\x1B[32m'; // Green text
+const String blue = '\x1B[34m'; // Blue text
+const String reset = '\x1B[0m'; // Reset to default color
 void main(List<String> arguments) async {
   final parser = ArgParser()
     ..addFlag('help',
@@ -21,7 +24,7 @@ void main(List<String> arguments) async {
     ..addOption('output',
         abbr: 'o',
         help:
-            'Output file path, add ./ prefix      -- (default: "./lib/generated_classes.dart" or "./lib/models/" if --seperated is enabled)')
+            'Output folder path, add ./ prefix      -- (default: "./lib/models/")')
     ..addFlag('dart',
         abbr: 'd',
         negatable: false,
@@ -30,8 +33,6 @@ void main(List<String> arguments) async {
         negatable: false,
         abbr: 's',
         help: 'Generate Seperate files for each classes')
-    ..addOption('server_url',
-        help: 'Custom server URL (e.g., http://localhost:3000)')
     ..addFlag('version', abbr: 'v', negatable: false, help: version);
 
   final results = parser.parse(arguments);
@@ -47,20 +48,18 @@ void main(List<String> arguments) async {
     exit(0);
   }
 
-  bool isDart = results['dart'] ?? false;
-  bool isSeperated = results['seperated'] ?? false;
-  String serverUrl = results['server_url'] ?? baseUrl;
+  bool isFlutter = results['dart'] ? false : true;
+  bool isSeperated = results['seperated'] ? true : false;
 
   String? url;
   String? anonKey;
+  var envPath = results['env-path'] ?? '.env';
+  var env = DotEnv(includePlatformEnvironment: true)..load([envPath]);
 
   if (results['url'] != null && results['key'] != null) {
     url = results['url'];
     anonKey = results['key'];
   } else {
-    var envPath = results['env-path'] ?? '.env';
-    var env = DotEnv(includePlatformEnvironment: true)..load([envPath]);
-
     url = env['SUPABASE_URL'];
     anonKey = env['SUPABASE_ANON_KEY'];
   }
@@ -68,83 +67,42 @@ void main(List<String> arguments) async {
   if (url == null || anonKey == null) {
     print(
         "Please provide --url and --key or Set SUPABASE_URL and SUPABASE_ANON_KEY in .env file");
-
-    //print help
     print('use -h or --help for help');
-
     exit(1);
   }
 
-  final requestUrl = Uri.parse('$serverUrl/api/generate').replace(queryParameters: {
-    'SUPABASE_URL': url,
-    'SUPABASE_ANON_KEY': anonKey,
-    if (isDart) 'dart': 'true',
-    if (isSeperated) 'seperated': 'true',
-  });
-
-  final jsonResponse = await fetchGeneratedClasses(requestUrl);
-
-  if (isSeperated) {
-    Map<String, dynamic>? codeOutput =
-        jsonResponse['data'] as Map<String, dynamic>?;
-    if (codeOutput == null) {
-      print('Failed to generate classes');
-      exit(1);
-    }
-
-    String outputPath = results['output'] ?? 'lib/models/';
-    codeOutput.forEach((className, classCode) async {
-      // Create if not exists
-      File file = File('$outputPath$className.dart');
-      file.createSync(recursive: true);
-      file.writeAsStringSync(classCode.toString());
-
-      // Format the generated code
-      await formatCode(file.path);
-
-      print("*** Generated $outputPath$className.dart ***");
-    });
-  } else {
-    String? codeOutput = jsonResponse['data'] as String?;
-    if (codeOutput == null) {
-      print('Failed to generate classes');
-      exit(1);
-    }
-
-    String outputPath = results['output'] ?? 'lib/generated_classes.dart';
-    // Create if not exists
-    File file = File(outputPath);
-    file.createSync(recursive: true);
-    file.writeAsStringSync(codeOutput);
-
-    // Format the generated code
-    await formatCode(file.path);
-
-    print("*** Classes generated successfully ***");
-    print("*** Output: $outputPath ***");
+  final databaseSwagger = await fetchDatabaseSwagger(url, anonKey);
+  if (databaseSwagger == null) {
+    exit(1);
   }
+
+  final files = generateModelFiles(databaseSwagger, isFlutter, isSeperated);
+  await generateAndFormatFiles(files, results['output'] ?? './lib/models/');
 }
 
-Future<dynamic> fetchGeneratedClasses(
-  Uri requestUrl,
-) {
-  return http.get(requestUrl).then((response) {
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {
-      print("Error fetching data from API");
-      return null;
-    }
-  });
+Future<void> generateAndFormatFiles(
+    List<GeneratedFile> files, String folderPath) async {
+  await Future.wait(files.map((file) async {
+    final filePath = folderPath + file.fileName;
+    final fileToGenerate = File(filePath);
+
+    // Create file if it doesn't exist else overwrite it
+    await fileToGenerate.create(recursive: true);
+    await fileToGenerate.writeAsString(file.fileContent);
+
+    // Format the file
+    await formatCode(filePath);
+    stdout.write('$green 🎯 Generated: $filePath $reset');
+  }));
 }
 
-Future<void> formatCode(String path) async {
+Future<void> formatCode(String filePath) async {
   try {
-    ProcessResult result = await Process.run('dart', ['format', path]);
+    ProcessResult result = await Process.run('dart', ['format', filePath]);
     if (result.exitCode != 0) {
-      print('Failed to format code: ${result.stderr}');
+      stdout.write('$red Failed to Format $filePath $reset\n');
     } else {
-      print('*** Formatted $path ***');
+      stdout.write('$blue Formatted $reset\n');
     }
   } catch (e) {
     print('Failed to format code: $e');

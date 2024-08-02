@@ -1,3 +1,11 @@
+## 1.3.7
+
+- Fix Json Array and DateTime parsing
+
+## 1.3.6
+
+- Switched Generators from API to just local generation
+
 ## 1.3.5
 
 - improved abstract class import for `--seperate` option

@@ -1,12 +1,14 @@
 name: Runtime Test
 
 on:
-  deployment_status:
+  push:
+    branches:
+      - main
+      - "**"
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    # if: github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'Production'
 
     env:
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
@@ -21,19 +23,18 @@ jobs:
         with:
           sdk: stable
 
+      - name: Cache Dart dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-dart-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-dart-
+
       - name: Install dependencies
         run: dart pub get
-        working-directory: ./test
+        working-directory: ./cli
 
-      - name: Install Supadart
-        run: dart pub global activate supadart
-        working-directory: ./test
-
-      # Generate Classes via Supadart
-      - name: Generate Classes
-        run: supadart -u $SUPABASE_URL -k $SUPABASE_ANON_KEY -d
-        working-directory: ./test
-
-      - name: Run tests
+      - name: Run Runtime tests
         run: dart run test
-        working-directory: ./test
+        working-directory: ./cli
