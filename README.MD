@@ -1,3 +1,10 @@
+[![Pub Version](https://img.shields.io/pub/v/supadart)](https://pub.dev/packages/supadart)
+[![Pub Popularity](https://img.shields.io/pub/popularity/supadart)](https://pub.dev/packages/supadart)
+[![Pub Points](https://img.shields.io/pub/points/supadart)](https://pub.dev/packages/supadart)
+[![GitHub Stars](https://img.shields.io/github/stars/mmvergara/supadart)](https://github.com/mmvergara/supadart/stargazers)
+[![Runtime Test](https://github.com/mmvergara/supadart/actions/workflows/dart.yml/badge.svg)](https://github.com/mmvergara/supadart/actions/workflows/dart.yml)
+[![GitHub License](https://img.shields.io/github/license/mmvergara/supadart)](https://github.com/mmvergara/supadart/blob/main/LICENSE)
+
 # Supadart 🎯
 
 Typesafe Supabase Flutter Queries <br/>
@@ -307,6 +314,4 @@ final book = await supabase
 
 # Contributors
 
-🎯 [mmvergara](https://github.com/mmvergara) <br/>
-🎯 [bookshiyi](https://github.com/bookshiyi) <br/>
-🎯 [nzlz](https://github.com/nzlz)
+[![GitHub contributors](https://contrib.rocks/image?repo=mmvergara/supadart)](https://github.com/mmvergara/supadart/graphs/contributors)
