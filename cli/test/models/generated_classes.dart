@@ -5,11 +5,11 @@ import 'package:intl/intl.dart';
 
 // INTL is an official package from Dart and is used for parsing dates
 // flutter pub add intl or dart pub add intl
-
 // THIS FILE IS AUTO GENERATED. MODIFY WITH CAUTION
 extension SupadartClient on SupabaseClient {
   SupabaseQueryBuilder get string_types => from('string_types');
   SupabaseQueryBuilder get boolean_bit_types => from('boolean_bit_types');
+  SupabaseQueryBuilder get combined_types_view => from('combined_types_view');
   SupabaseQueryBuilder get misc_types => from('misc_types');
   SupabaseQueryBuilder get books => from('books');
   SupabaseQueryBuilder get geometric_types => from('geometric_types');
@@ -313,6 +313,90 @@ class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
               .map((v) => v as String)
               .toList()
           : <String>[],
+    );
+  }
+}
+
+class CombinedTypesView implements SupadartClass<CombinedTypesView> {
+  final String? numeric_id;
+  final int? col_integer;
+  final double? col_double;
+  final String? string_id;
+  final String? col_text;
+  final String? col_uuid;
+
+  const CombinedTypesView({
+    this.numeric_id,
+    this.col_integer,
+    this.col_double,
+    this.string_id,
+    this.col_text,
+    this.col_uuid,
+  });
+
+  static String get table_name => 'combined_types_view';
+  static String get c_numeric_id => 'numeric_id';
+  static String get c_col_integer => 'col_integer';
+  static String get c_col_double => 'col_double';
+  static String get c_string_id => 'string_id';
+  static String get c_col_text => 'col_text';
+  static String get c_col_uuid => 'col_uuid';
+
+  static List<CombinedTypesView> converter(List<Map<String, dynamic>> data) {
+    return data.map(CombinedTypesView.fromJson).toList();
+  }
+
+  static CombinedTypesView converterSingle(Map<String, dynamic> data) {
+    return CombinedTypesView.fromJson(data);
+  }
+
+  static Map<String, dynamic> insert({
+    String? numeric_id,
+    int? col_integer,
+    double? col_double,
+    String? string_id,
+    String? col_text,
+    String? col_uuid,
+  }) {
+    return {
+      if (numeric_id != null) 'numeric_id': numeric_id.toString(),
+      if (col_integer != null) 'col_integer': col_integer.toString(),
+      if (col_double != null) 'col_double': col_double.toString(),
+      if (string_id != null) 'string_id': string_id.toString(),
+      if (col_text != null) 'col_text': col_text.toString(),
+      if (col_uuid != null) 'col_uuid': col_uuid.toString(),
+    };
+  }
+
+  static Map<String, dynamic> update({
+    String? numeric_id,
+    int? col_integer,
+    double? col_double,
+    String? string_id,
+    String? col_text,
+    String? col_uuid,
+  }) {
+    return {
+      if (numeric_id != null) 'numeric_id': numeric_id.toString(),
+      if (col_integer != null) 'col_integer': col_integer.toString(),
+      if (col_double != null) 'col_double': col_double.toString(),
+      if (string_id != null) 'string_id': string_id.toString(),
+      if (col_text != null) 'col_text': col_text.toString(),
+      if (col_uuid != null) 'col_uuid': col_uuid.toString(),
+    };
+  }
+
+  factory CombinedTypesView.fromJson(Map<String, dynamic> json) {
+    return CombinedTypesView(
+      numeric_id:
+          json['numeric_id'] != null ? json['numeric_id'].toString() : '',
+      col_integer: json['col_integer'] != null ? json['col_integer'] as int : 0,
+      col_double: json['col_double'] != null
+          ? double.tryParse(json['col_double'].toString())
+          : 0.0,
+      string_id: json['string_id'] != null ? json['string_id'].toString() : '',
+      col_text: json['col_text'] != null ? json['col_text'].toString() : '',
+      col_uuid: json['col_uuid'] != null ? json['col_uuid'].toString() : '',
     );
   }
 }

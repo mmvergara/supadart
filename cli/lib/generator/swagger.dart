@@ -45,7 +45,9 @@ class Table {
     final properties = json['properties'] as Map<String, dynamic>;
     return Table(
       name: name,
-      requiredFields: List<String>.from(json['required']),
+      requiredFields: json['required'] != null
+          ? List<String>.from(json['required'])
+          : <String>[],
       columns:
           properties.map((key, value) => MapEntry(key, Column.fromJson(value))),
     );

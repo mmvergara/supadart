@@ -159,5 +159,8 @@ FROM
 JOIN 
     public.string_types st ON nt.id = st.id;
 
+-- add comment to view
+-- COMMENT ON VIEW public.combined_types_view IS '[supadart:view]';
+
 -- Remove view
 -- DROP VIEW IF EXISTS public.combined_types_view;
