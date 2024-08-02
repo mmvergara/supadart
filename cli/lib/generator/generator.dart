@@ -59,7 +59,7 @@ List<GeneratedFile> generateClassesSingleFile(
   code += "$supadartAbstractClass\n\n";
   code += dartClasses.map((c) => c.classCode).join("\n");
 
-  return [GeneratedFile(fileName: "generated_classes", fileContent: code)];
+  return [GeneratedFile(fileName: "generated_classes.dart", fileContent: code)];
 }
 
 List<GeneratedFile> generateDartModelFilesSeparated(
