@@ -13,14 +13,14 @@ String toJsonEncodable(
     case "DateTime":
       if (format == "time without time zone") {
         parseValue = isArray
-            ? '$columnName.map((e) => DateFormat("HH:mm:ss.SSS").format(e)).toList()'
-            : 'DateFormat("HH:mm:ss.SSS").format($columnName)';
+            ? "$columnName.map((e) => DateFormat('HH:mm:ss.SSS').format(e)).toList()"
+            : "DateFormat('HH:mm:ss.SSS').format($columnName)";
         break;
       }
       if (format == "time with time zone") {
         parseValue = isArray
-            ? '$columnName.map((e) => DateFormat("HH:mm:ss zzzz").format(e)).toList()'
-            : 'DateFormat("HH:mm:ss zzzz").format($columnName)';
+            ? "$columnName.map((e) => DateFormat('HH:mm:ss zzzz').format(e)).toList()"
+            : "DateFormat('HH:mm:ss zzzz').format($columnName)";
         break;
       }
       if (format == "timestamp with time zone") {
@@ -41,11 +41,12 @@ String toJsonEncodable(
   }
 
   if (isArray && dartType == "List<Map<String, dynamic>>") {
-    parseValue += '.replaceAll(\'"\', \'\\\\"\')'
-        '.replaceAll("{", \'"{"\')'
-        '.replaceAll("}", \'}"\')'
-        '.replaceAll("[", \'{\')'
-        '.replaceAll("]", \'}\')';
+    parseValue += '''
+    .replaceAll('"', '\\\\\"')
+    .replaceAll("{", '"{')
+    .replaceAll("}", '}"')
+    .replaceAll("[", '{')
+    .replaceAll("]", '}')''';
   } else if (isArray) {
     parseValue += '.replaceAll("[", "{").replaceAll("]", "}")';
   }
