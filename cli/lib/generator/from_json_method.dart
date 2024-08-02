@@ -73,26 +73,29 @@ String parseWrapper(String dartType, String format, String jsonValue) {
     // ====================
     case 'DateTime':
       if (format == 'time without time zone') {
+        jsonValue += '.toString()';
         output +=
-            'DateTime.tryParse("1970-01-01T${jsonValue.toString()}") as DateTime';
+            'DateTime.tryParse("1970-01-01T\$${{jsonValue}}") as DateTime';
         break;
       }
       if (format == 'time with time zone') {
+        jsonValue += '.toString()';
         output +=
-            'DateTime.tryParse("1970-01-01T${jsonValue.toString()}") as DateTime';
+            'DateTime.tryParse("1970-01-01T\$${{jsonValue}}") as DateTime';
         break;
       }
-      output += 'DateTime.tryParse(${jsonValue.toString()}) as DateTime';
+      jsonValue += '.toString()';
+      output += 'DateTime.tryParse($jsonValue) as DateTime';
       break;
     case 'List<DateTime>':
       if (format == 'time without time zone') {
         output +=
-            '($jsonValue as List<dynamic>).map((v) => DateTime.tryParse("1970-01-01T${jsonValue.toString()}") as DateTime).toList()';
+            '($jsonValue as List<dynamic>).map((v) => DateTime.tryParse("1970-01-01T\${v.toString()}") as DateTime).toList()';
         break;
       }
       if (format == 'time with time zone') {
         output +=
-            '($jsonValue as List<dynamic>).map((v) => DateTime.tryParse("1970-01-01T${jsonValue.toString()}") as DateTime).toList()';
+            '($jsonValue as List<dynamic>).map((v) => DateTime.tryParse("1970-01-01T\${v.toString()}") as DateTime).toList()';
         break;
       }
       output +=
