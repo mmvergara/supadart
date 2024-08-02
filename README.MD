@@ -102,26 +102,6 @@ supadart
 dart pub global run supadart
 ```
 
-#### Local generation
-
-To generate classes locally, follow these steps:
-
-1. Start the server locally:
-    ```bash
-    # clone the repo
-    cd supadart
-    # install npm if not installed
-    sudo apt install npm
-    npm install next react react-dom
-    # start the server
-    npm run dev # defaults to port 3000, or custom port with: npm run dev -- -p 3001
-    ```
-2. Use the CLI with the local server:
-    ```bash
-    cd supadart
-    dart run cli/bin/supadart.dart --server_url http://localhost:3000 # -u $SUPABASE_URL -k $SUPABASE_ANON_KEY
-    ```
-
 #### Generate Classes
 
 ```bash
@@ -329,4 +309,4 @@ final book = await supabase
 # Contributors
 
 [@mmvergara](https://github.com/mmvergara) <br/>
-[@bookshiyi](https://github.com/bookshiyi)  
+[@bookshiyi](https://github.com/bookshiyi)
