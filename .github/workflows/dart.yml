@@ -1,7 +1,10 @@
 name: Runtime Test
 
 on:
-  deployment_status:
+  push:
+    branches:
+      - main
+      - "**"
 
 jobs:
   build:
