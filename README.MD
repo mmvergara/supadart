@@ -109,14 +109,24 @@ supadart
 dart pub global run supadart
 ```
 
+#### Quick Start
+
+```bash
+supadart -u <your-supabase-url> -k <your-supabase-anon-key>
+```
+
+Alternatively, you can use a configuration file (Recommended)
+
 #### Configuration
 
-Example of `supadart.yaml` file:
+Run `supadart --init` to create a `supadart.yaml` file in your project root directory.
 
 ```yaml
-# Required, your supabase server url
+# supadart.yaml
+
+# Required (if you dont have `-u` specified)
 supabase_url: https://xxx.supabase.co
-# Required, your supabase anon key
+# Required (if you dont have `-k` specified)
 supabase_anon_key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 # Optional, where to place the generated classes files
