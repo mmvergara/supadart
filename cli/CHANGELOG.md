@@ -1,3 +1,8 @@
+## 1.4.1
+
+- Update CLI print feedback
+- Update README
+
 ## 1.4.0
 
 - Support customize table to model class mappings
