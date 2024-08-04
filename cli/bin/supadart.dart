@@ -5,7 +5,7 @@ import 'package:yaml/yaml.dart';
 import 'package:supadart/generator/generator.dart';
 import 'package:supadart/generator/swagger.dart';
 
-const String version = 'v1.3.8';
+const String version = 'v1.4.0';
 const String red = '\x1B[31m'; // Red text
 const String green = '\x1B[32m'; // Green text
 const String blue = '\x1B[34m'; // Blue text
@@ -71,7 +71,7 @@ void main(List<String> arguments) async {
   String output;
   YamlMap? mappings;
 
-  final configPath = results['config'] ?? defaultConfigFile;  
+  final configPath = results['config'] ?? defaultConfigFile;
   final configFile = File(configPath);
   final configContent = await configFile.readAsString();
   final config = loadYaml(configContent);

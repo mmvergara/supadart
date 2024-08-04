@@ -1,3 +1,8 @@
+## 1.4.0
+
+- Support customize table to model class mappings
+- added `--init` option to generate a `supadart.yaml` config file
+
 ## 1.3.8
 
 - Fix Crash when using the tool with views table
