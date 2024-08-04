@@ -2,7 +2,7 @@
 
 This is a simple command line tool that generates dart classes from your Supabase schema.
 
-## Installation
+#### Installation
 
 ```bash
 # 🎯 Active from pub.dev
@@ -16,14 +16,24 @@ supadart
 dart pub global run supadart
 ```
 
-## Configuration
+#### Quick Start
 
-Example of `supadart.yaml` file:
+```bash
+supadart -u <your-supabase-url> -k <your-supabase-anon-key>
+```
+
+Alternatively, you can use a configuration file (Recommended)
+
+#### Configuration
+
+Run `supadart --init` to create a `supadart.yaml` file in your project root directory.
 
 ```yaml
-# Required, your supabase server url
+# supadart.yaml
+
+# Required (if you dont have `-u` specified)
 supabase_url: https://xxx.supabase.co
-# Required, your supabase anon key
+# Required (if you dont have `-k` specified)
 supabase_anon_key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 # Optional, where to place the generated classes files
@@ -40,7 +50,7 @@ mappings:
   people: person
 ```
 
-## Generate Classes
+#### Generate Classes
 
 ```bash
 # Set the supabase_url and supabase_anon_key in your supadart.yaml file
@@ -49,10 +59,12 @@ supadart
 # If you have a .yaml file in a different location
 supadart -c path/to/.yaml
 
-# If you dont have a .env file specify the Supabase URL and ANON KEY
+# If you dont have a .yaml file specify the Supabase URL and ANON KEY
 supadart -u <your-supabase-url> -k <your-supabase-anon-key>
 
 ```
+
+> Note: If you are not using Flutter, just normal Dart project, add `-d` option
 
 ## Options
 
@@ -65,5 +77,5 @@ supadart -u <your-supabase-url> -k <your-supabase-anon-key>
 -o, --output       Output file path, add ./ prefix     --(default: ./lib/generated_classes.dart or ./lib/models/ if --separated is enabled
 -d, --dart         Generation for pure Dart project    --(default: false)
 -s, --separated    Separated files for each classes    --(default: false)
--v, --version      v1.3.8
+-v, --version
 ```

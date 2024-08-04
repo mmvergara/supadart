@@ -5,7 +5,7 @@ import 'package:yaml/yaml.dart';
 import 'package:supadart/generator/generator.dart';
 import 'package:supadart/generator/swagger.dart';
 
-const String version = 'v1.4.0';
+const String version = 'v1.4.1';
 const String red = '\x1B[31m'; // Red text
 const String green = '\x1B[32m'; // Green text
 const String blue = '\x1B[34m'; // Blue text
@@ -64,6 +64,9 @@ void main(List<String> arguments) async {
     exit(0);
   }
 
+  // Run the generator
+  print("🚀 Supadart $version");
+
   String url;
   String anonKey;
   bool isDart;
@@ -95,15 +98,15 @@ void main(List<String> arguments) async {
   isDart = results['dart'] ? true : config['dart'] ?? false;
   output = results['output'] ?? config['output'] ?? './lib/models/';
   mappings = config['mappings'];
-
-  print('URL: $url');
-  print('ANON KEY: $anonKey');
-  print('Output: $output');
-  print('Separated: $isSeparated');
-  print('Dart: $isDart');
-  print('Mappings: $mappings');
-  print('=' * 50);
-
+  print('==============================');
+  print('URL:        $url');
+  print('ANON KEY:   ${anonKey.substring(0, 25)}...');
+  print('Output:     $output');
+  print('Separated:  $isSeparated');
+  print('Dart:       $isDart');
+  print('Mappings:   $mappings');
+  print('==============================');
+  print('Generating...');
   final databaseSwagger = await fetchDatabaseSwagger(url, anonKey);
   if (databaseSwagger == null) {
     print('Failed to fetch database');
@@ -114,7 +117,7 @@ void main(List<String> arguments) async {
       generateModelFiles(databaseSwagger, isDart, isSeparated, mappings);
   await generateAndFormatFiles(files, output);
 
-  print('\n$green 🎉 Done! $reset');
+  print('$green🎉 Done! $reset');
 }
 
 Future<void> generateAndFormatFiles(
@@ -130,18 +133,13 @@ Future<void> generateAndFormatFiles(
 
     // Format the file
     await formatCode(filePath);
-    stdout.write('$green 🎯 Generated: $filePath $reset');
+    print('$green🎯 Generated: $filePath $reset');
   }));
 }
 
 Future<void> formatCode(String filePath) async {
   try {
-    ProcessResult result = await Process.run('dart', ['format', filePath]);
-    if (result.exitCode != 0) {
-      stdout.write('$red Failed to Format $filePath $reset\n');
-    } else {
-      stdout.write('$blue Formatted $reset\n');
-    }
+    await Process.run('dart', ['format', filePath]);
   } catch (e) {
     print('Failed to format code: $e');
   }
