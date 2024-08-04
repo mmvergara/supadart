@@ -129,18 +129,18 @@ supabase_url: https://xxx.supabase.co
 # Required (if you dont have `-k` specified)
 supabase_anon_key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-# Optional, where to place the generated classes files
+# where to place the generated classes files
 output: lib/models/
-# Optional, if you want to generate separated files for each classes
+# if you want to generate separated files for each classes
 separated: true
-# Optional, if you are not using Flutter, just normal Dart project
-flutter: true
+# Set to true, if you are not using Flutter, just normal Dart project
+dart: false
 # Optional, used to map table names to class names(case-sensitive)
-mappings:
-  books: book
-  categories: category
-  children: child
-  people: person
+# mappings:
+  # books: book
+  # categories: category
+  # children: child
+  # people: person
 ```
 
 #### Generate Classes
