@@ -71,13 +71,7 @@ void main(List<String> arguments) async {
   String output;
   YamlMap? mappings;
 
-  final configPath = results['config'] ?? defaultConfigFile;
-  if (!File(configPath).existsSync()) {
-    print('Config file not found at $configPath');
-    print('Please run `supadart -i` to create a config file');
-    exit(1);
-  }
-  
+  final configPath = results['config'] ?? defaultConfigFile;  
   final configFile = File(configPath);
   final configContent = await configFile.readAsString();
   final config = loadYaml(configContent);
