@@ -73,8 +73,14 @@ void main(List<String> arguments) async {
 
   final configPath = results['config'] ?? defaultConfigFile;
   final configFile = File(configPath);
-  final configContent = await configFile.readAsString();
-  final config = loadYaml(configContent);
+  String configContent = "";
+  try {
+    configContent = await configFile.readAsString();
+  } catch (e) {
+    print("config yaml not found");
+  }
+
+  final config = loadYaml(configContent) ?? {};
 
   url = results['url'] ?? config['supabase_url'] ?? '';
   anonKey = results['key'] ?? config['supabase_anon_key'] ?? '';
@@ -87,9 +93,7 @@ void main(List<String> arguments) async {
 
   isSeparated = results['separated'] ? true : config['separated'] ?? false;
   isDart = results['dart'] ? true : config['dart'] ?? false;
-  output = results['output'] ??
-      config['output'] ??
-      (isSeparated ? './lib/models/' : './lib/generated_classes.dart');
+  output = results['output'] ?? config['output'] ?? './lib/models/';
   mappings = config['mappings'];
 
   print('URL: $url');
@@ -116,6 +120,7 @@ void main(List<String> arguments) async {
 Future<void> generateAndFormatFiles(
     List<GeneratedFile> files, String folderPath) async {
   await Future.wait(files.map((file) async {
+    // file.fileName includes .dart extension
     final filePath = folderPath + file.fileName;
     final fileToGenerate = File(filePath);
 
