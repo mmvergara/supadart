@@ -1,7 +1,9 @@
-import 'package:dotenv/dotenv.dart';
+import 'dart:io';
+
 import 'package:supabase/supabase.dart';
 import 'package:supadart/generator/generator.dart';
 import 'package:supadart/generator/swagger.dart';
+import 'package:yaml/yaml.dart';
 
 import '../bin/supadart.dart';
 import 'boolean_bit_types.dart';
@@ -13,22 +15,42 @@ import 'default_values.dart';
 
 void main() async {
   print("Running Supadart Tests");
-  var env = DotEnv(includePlatformEnvironment: true)..load();
 
-  String? url = env['SUPABASE_URL'];
-  String? anonKey = env['SUPABASE_ANON_KEY'];
+  String url;
+  String anonKey;
+  YamlMap? mappings;
+  bool isDart;
+  bool isSeparated;
+  String output;
 
-  if (url == null || anonKey == null) {
-    print('Please provide SUPABASE_URL and SUPABASE_ANON_KEY in .env file');
-    return;
-  }
+  final configPath = 'supadart.yaml';
+  print('Using config file: $configPath');
+  final configFile = File(configPath);
+  final configContent = await configFile.readAsString();
+  final config = loadYaml(configContent);
+
+  url = config['supabase_url'];
+  anonKey = config['supabase_anon_key'];
+  isSeparated = config['separated'] ?? false;
+  isDart = config['dart'] ?? false;
+  output = config['output'] ??
+      (isSeparated ? './lib/models/' : './lib/generated_classes.dart');
+  mappings = config['mappings'];
+
+  print('URL: $url');
+  print('ANON KEY: $anonKey');
+  print('Separated: $isSeparated');
+  print('Dart: $isDart');
+  print('Output: $output');
+  print('Mappings: $mappings');
+  print('=' * 50);
 
   final databaseSwagger = await fetchDatabaseSwagger(url, anonKey);
   if (databaseSwagger == null) {
     print("Failed to fetch database swagger");
     return;
   }
-  final files = generateModelFiles(databaseSwagger, false, false);
+  final files = generateModelFiles(databaseSwagger, false, false, mappings);
   await generateAndFormatFiles(files, './test/models/');
   print("\nGenerated Fresh Models from DB");
 
