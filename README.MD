@@ -32,12 +32,12 @@ final allBooks = await supabase
 
 ### Features 🚀
 
+- 🌐 Cli and Web App
 - 🛠️ Typesafe Queries (Create, Read, Equality)
 - 🧱 Immutable Generated Classes
 - 📊 Supports Column Selection Queries
 - 🔢 Supports all Supabase Major datatypes
 - 🗂️ Supports Defined as array types
-- 🌐 Cli and Web App
 
 ### Conversion Table 📊
 
