@@ -29,6 +29,7 @@ final allBooks = await supabase
   - [**Update Data**](#update-data)
   - [**Delete Data**](#delete-data)
   - [**Fetch Single Data**](#fetch-single-data)
+  - [**Enums CRUD**](#enums-crud)
 
 ### Features 🚀
 
@@ -38,6 +39,7 @@ final allBooks = await supabase
 - 📊 Supports Column Selection Queries
 - 🔢 Supports all Supabase Major datatypes
 - 🗂️ Supports Defined as array types
+- 🗂️ Supports Enums
 
 ### Conversion Table 📊
 
