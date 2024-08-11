@@ -86,9 +86,9 @@ class Column {
 
   String get dartType {
     if (enumValues.isNotEmpty) {
-      return postgresFormat.split(".").last.toUpperCase();
+      return postgresFormat.split(".").last.toUpperCase().replaceAll('"', "");
     }
-    return postgresFormatToDartType(postgresFormat).type;
+    return postgresFormatToDartType(postgresFormat).type.replaceAll('"', "");
   }
 
   bool get hasDefaultValue => defaultValue != null;
