@@ -62,6 +62,7 @@ final allBooks = await supabase
 | 🗓️ timestamp        | timestamp without time zone | string    | DateTime             | type ✅ type[]✅                                                                                                      |
 | 🗓️ timestamptz      | timestamp with time zone    | string    | DateTime             | type ✅ type[]✅                                                                                                      |
 | 💡 bool             | boolean                     | boolean   | bool                 | type ✅ type[]✅                                                                                                      |
+| 🗂️ ENUMS            | ENUM                        | string    | Enum                 | type ✅ type[]✅                                                                                                      |
 
 > [Other Types](https://github.com/mmvergara/supadart/blob/main/other-types.md)
 
@@ -75,7 +76,7 @@ final allBooks = await supabase
 COMMENT ON COLUMN test_table.bigserialx IS '[supadart:serial]';
 COMMENT ON COLUMN test_table.smallserialx IS 'you can still add comment [supadart:serial]';
 COMMENT ON COLUMN test_table.serialx IS 'this part [supadart:serial] just needs to be included';
--- otherwise the insert method will always ask for a value
+-- otherwise the insert method will always ask for a value even though it is auto-generated
 ```
 
 serial types in general are not available in supabase table editor afaik, so if you did not add them manually via sql editor you probably dont have them.
