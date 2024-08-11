@@ -1,3 +1,7 @@
+## 1.5.2
+
+- Fix extra " generated on enum values
+
 ## 1.5.1
 
 - initiate 2nd Swagger Request without the apikey if the first request fails
