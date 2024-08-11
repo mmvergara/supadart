@@ -1,3 +1,7 @@
+## 1.5.1
+
+- initiate 2nd Swagger Request without the apikey if the first request fails
+
 ## 1.5.0
 
 - Support for enum types
