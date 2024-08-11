@@ -4,6 +4,7 @@ import 'package:supadart/generator/generator.dart';
 import 'package:supadart/generator/swagger.dart';
 import '../bin/supadart.dart';
 import 'boolean_bit_types.dart';
+import 'datatypes/enums.dart';
 import 'datetime_types.dart';
 import 'json_types.dart';
 import 'numeric_types.dart';
@@ -54,4 +55,7 @@ void main() async {
 
   // Test Type Default Values
   await performDefaultValuesTest(supabase);
+
+  // Test Enum Types
+  await performEnumTypesTest(supabase);
 }

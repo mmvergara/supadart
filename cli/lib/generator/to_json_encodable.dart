@@ -1,7 +1,10 @@
+import 'package:supadart/generator/swagger.dart';
+
 String toJsonEncodable(
   String dartType,
   String format,
   String columnName,
+  Column columnDetails,
 ) {
   bool isArray = format.contains("[]");
   if (isArray) {
@@ -37,6 +40,12 @@ String toJsonEncodable(
       parseValue = 'jsonEncode($columnName)';
       break;
     default:
+      if (columnDetails.enumValues.isNotEmpty) {
+        parseValue = isArray
+            ? "$columnName.map((e) => e.toString().split('.').last).toList()"
+            : "$columnName.toString().split('.').last";
+        break;
+      }
       parseValue = '$columnName.toString()';
   }
 

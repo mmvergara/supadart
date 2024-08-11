@@ -13,6 +13,7 @@ extension SupadartClient on SupabaseClient {
   SupabaseQueryBuilder get misc_types => from('misc_types');
   SupabaseQueryBuilder get books => from('books');
   SupabaseQueryBuilder get geometric_types => from('geometric_types');
+  SupabaseQueryBuilder get enum_types => from('enum_types');
   SupabaseQueryBuilder get json_types => from('json_types');
   SupabaseQueryBuilder get binary_xml_types => from('binary_xml_types');
   SupabaseQueryBuilder get network_types => from('network_types');
@@ -41,6 +42,8 @@ abstract class SupadartClass<T> {
     throw UnimplementedError();
   }
 }
+
+enum MOOD { happy, sad, neutral, excited, angry }
 
 class StringTypes implements SupadartClass<StringTypes> {
   final String id;
@@ -918,6 +921,58 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
               .map((v) => v as String)
               .toList()
           : <String>[],
+    );
+  }
+}
+
+class EnumTypes implements SupadartClass<EnumTypes> {
+// [supadart:has_enums]
+  final String id;
+  final MOOD col_mood;
+
+  const EnumTypes({
+    required this.id,
+    required this.col_mood,
+  });
+
+  static String get table_name => 'enum_types';
+  static String get c_id => 'id';
+  static String get c_col_mood => 'col_mood';
+
+  static List<EnumTypes> converter(List<Map<String, dynamic>> data) {
+    return data.map(EnumTypes.fromJson).toList();
+  }
+
+  static EnumTypes converterSingle(Map<String, dynamic> data) {
+    return EnumTypes.fromJson(data);
+  }
+
+  static Map<String, dynamic> insert({
+    String? id,
+    required MOOD col_mood,
+  }) {
+    return {
+      if (id != null) 'id': id.toString(),
+      'col_mood': col_mood.toString().split('.').last,
+    };
+  }
+
+  static Map<String, dynamic> update({
+    String? id,
+    MOOD? col_mood,
+  }) {
+    return {
+      if (id != null) 'id': id.toString(),
+      if (col_mood != null) 'col_mood': col_mood.toString().split('.').last,
+    };
+  }
+
+  factory EnumTypes.fromJson(Map<String, dynamic> json) {
+    return EnumTypes(
+      id: json['id'] != null ? json['id'].toString() : '',
+      col_mood: json['col_mood'] != null
+          ? MOOD.values.byName(json['col_mood'].toString())
+          : MOOD.values.first,
     );
   }
 }

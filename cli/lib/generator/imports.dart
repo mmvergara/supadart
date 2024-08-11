@@ -1,6 +1,7 @@
 import 'dart_class.dart';
 
-List<String> getImports(List<DartClass> dartClasses, bool isDart) {
+List<String> getImports(
+    List<DartClass> dartClasses, bool isDart, bool isSingleFile) {
   final generatedClasses = dartClasses.map((c) => c.classCode).join("\n");
 
   List<String> imports = [
@@ -15,6 +16,11 @@ List<String> getImports(List<DartClass> dartClasses, bool isDart) {
   final jsonEncoderImport = "import 'dart:convert';";
   if (generatedClasses.contains("jsonEncode")) {
     imports.add(jsonEncoderImport);
+  }
+
+  final enumsImport = "import 'generated_enums.dart';";
+  if (isSingleFile && generatedClasses.contains("[supadart:has_enums]")) {
+    imports.add(enumsImport);
   }
 
   final dateFormatterPackage = "import 'package:intl/intl.dart';";

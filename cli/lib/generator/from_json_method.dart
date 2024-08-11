@@ -1,4 +1,3 @@
-import 'format_to_dart_type.dart';
 import 'swagger.dart';
 
 String generateFromJsonMethod(String className, Map<String, Column> columns,
@@ -7,20 +6,22 @@ String generateFromJsonMethod(String className, Map<String, Column> columns,
   code += 'return $className(\n';
   columns.forEach((columnName, columnDetails) {
     // final isRequired = requiredFields.contains(columnName);
-    final dartType = postgresFormatToDartType(columnDetails.postgresFormat);
     code +=
-        '$columnName: ${parseWrapper(dartType.type, columnDetails.postgresFormat, 'json[\'$columnName\']')},\n';
+        '$columnName: ${parseWrapper(columnDetails.dartType, columnDetails, columnName)},\n';
   });
   code += ');\n';
   code += '}\n\n';
   return code;
 }
 
-String parseWrapper(String dartType, String format, String jsonValue) {
-  bool isArray = format.contains('[]');
+String parseWrapper(String dartType, Column columnDetails, String columnName) {
+  bool isArray = columnDetails.postgresFormat.contains('[]');
+  String format = columnDetails.postgresFormat;
   if (isArray) {
-    format = format.replaceAll('[]', '');
+    format = columnDetails.postgresFormat.replaceAll('[]', '');
   }
+
+  String jsonValue = 'json[\'$columnName\']';
   String output = '$jsonValue != null ?';
 
   switch (dartType) {
@@ -119,8 +120,12 @@ String parseWrapper(String dartType, String format, String jsonValue) {
       break;
     // ====================
     default:
-      output += 'Something went wrong, please open an issue on this';
-      break;
+      // if no type is found it is assumed to be an enum type
+      String enumName =
+          columnDetails.postgresFormat.split(".").last.toUpperCase();
+      output +=
+          '$enumName.values.byName($jsonValue.toString()) : $enumName.values.first';
+      return output;
   }
   // Add Null Default Value, This will enable the support for column selection
   output += ' : ${dartTypeDefaultNullValue(dartType)}';
