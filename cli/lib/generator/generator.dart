@@ -1,4 +1,4 @@
-import 'package:supadart/generator/enums.dart';
+import 'enums.dart';
 import 'package:yaml/yaml.dart';
 
 import 'class.dart';

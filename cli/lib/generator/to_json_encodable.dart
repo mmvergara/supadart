@@ -1,4 +1,4 @@
-import 'package:supadart/generator/swagger.dart';
+import 'swagger.dart';
 
 String toJsonEncodable(
   String dartType,
