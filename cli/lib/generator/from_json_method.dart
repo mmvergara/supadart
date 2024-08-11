@@ -121,8 +121,7 @@ String parseWrapper(String dartType, Column columnDetails, String columnName) {
     // ====================
     default:
       // if no type is found it is assumed to be an enum type
-      String enumName =
-          columnDetails.postgresFormat.split(".").last.toUpperCase();
+      String enumName = columnDetails.dartType;
       output +=
           '$enumName.values.byName($jsonValue.toString()) : $enumName.values.first';
       return output;

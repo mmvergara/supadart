@@ -5,8 +5,11 @@ String generateEnums(DatabaseSwagger swagger) {
   swagger.definitions.forEach((tableName, table) {
     table.columns.forEach((columnName, columnDetails) {
       if (columnDetails.enumValues.isNotEmpty) {
-        String enumName =
-            columnDetails.postgresFormat.split(".").last.toUpperCase();
+        String enumName = columnDetails.postgresFormat
+            .split(".")
+            .last
+            .toUpperCase()
+            .replaceAll('"', "");
         enumMap[enumName] = columnDetails.enumValues.join(", ");
       }
     });
