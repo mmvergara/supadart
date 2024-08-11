@@ -1,6 +1,6 @@
+import 'package:yaml/yaml.dart';
 import 'converter_methods.dart';
 import 'dart_class.dart';
-import 'format_to_dart_type.dart';
 import 'from_json_method.dart';
 import 'insert_method.dart';
 import 'static_column_names.dart';
@@ -8,7 +8,8 @@ import 'swagger.dart';
 import 'update_method.dart';
 import 'utils.dart';
 
-List<DartClass> generateDartClasses(DatabaseSwagger swagger) {
+List<DartClass> generateDartClasses(
+    DatabaseSwagger swagger, YamlMap? mappings) {
   List<DartClass> generatedClasses = [];
   // Object entries
   swagger.definitions.forEach((tableName, table) {
@@ -16,19 +17,25 @@ List<DartClass> generateDartClasses(DatabaseSwagger swagger) {
 
     final columns = table.columns;
     final requiredFields = table.requiredFields;
-    final className = tableNameToClassName(tableName);
+
+    final className = tableNameToClassName(tableName, mappings);
 
     // Class definition
     dartCode += 'class $className implements SupadartClass<$className> {\n';
 
+    // Has Enums Indicator
+    final hasEnums =
+        columns.values.any((column) => column.enumValues.isNotEmpty);
+    if (hasEnums) {
+      dartCode += '// [supadart:has_enums]\n';
+    }
+
     // Attributes
     columns.forEach((columnName, columnDetails) {
-      final dartType = postgresFormatToDartType(columnDetails.postgresFormat);
-
       // Add question mark for optional fields (not in "required")
       final isOptional = !requiredFields.contains(columnName);
       dartCode +=
-          'final ${dartType.type}${isOptional ? "?" : ""} $columnName;\n';
+          'final ${columnDetails.dartType}${isOptional ? "?" : ""} $columnName;\n';
     });
 
     // Constructor

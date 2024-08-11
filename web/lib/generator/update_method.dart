@@ -7,17 +7,15 @@ String generateUpdateMethod(
   var code = 'static Map<String, dynamic> update({\n';
 
   columns.forEach((columnName, columnDetails) {
-    final dartType = columnDetails.dartType;
-    code += '${dartType.type}? $columnName,\n';
+    code += '${columnDetails.dartType}? $columnName,\n';
   });
 
   code += '}) {\n';
   code += 'return {\n';
 
   columns.forEach((columnName, columnDetails) {
-    final dartDataType = columnDetails.dartType;
     code +=
-        "if ($columnName != null) '$columnName': ${toJsonEncodable(dartDataType.type, columnDetails.postgresFormat, columnName)},\n";
+        "if ($columnName != null) '$columnName': ${toJsonEncodable(columnDetails.dartType, columnDetails.postgresFormat, columnName, columnDetails)},\n";
   });
 
   code += '};\n';

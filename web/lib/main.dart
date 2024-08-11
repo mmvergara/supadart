@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     final filesGenerated =
-        generateModelFiles(swaggerData, isFlutter, isSeperated);
+        generateModelFiles(swaggerData, isFlutter, isSeperated, null);
 
     setState(() {
       output = filesGenerated;
