@@ -1,4 +1,3 @@
-import 'format_to_dart_type.dart';
 import 'swagger.dart';
 import 'to_json_encodable.dart';
 
@@ -16,7 +15,7 @@ String generateInsertMethod(
         !columnDetails.isPrimaryKey &&
         !columnDetails.isSerialType;
     buffer.writeln(
-        '${isRequired ? "required " : ""}${postgresFormatToDartType(columnDetails.postgresFormat).type}${isRequired ? "" : "?"} $columnName,');
+        '${isRequired ? "required " : ""}${columnDetails.dartType}${isRequired ? "" : "?"} $columnName,');
   });
   buffer.writeln('}) {');
   buffer.writeln('return {');
@@ -27,12 +26,11 @@ String generateInsertMethod(
         !!!columnDetails.hasDefaultValue &&
         !columnDetails.isPrimaryKey &&
         !columnDetails.isSerialType;
-    final dartType =
-        postgresFormatToDartType(columnDetails.postgresFormat).type;
+    final dartType = columnDetails.dartType;
 
     buffer.writeln(isRequired
-        ? "'$columnName': ${toJsonEncodable(dartType, columnDetails.postgresFormat, columnName)},"
-        : 'if ($columnName != null) \'$columnName\': ${toJsonEncodable(dartType, columnDetails.postgresFormat, columnName)},');
+        ? "'$columnName': ${toJsonEncodable(dartType, columnDetails.postgresFormat, columnName, columnDetails)},"
+        : 'if ($columnName != null) \'$columnName\': ${toJsonEncodable(dartType, columnDetails.postgresFormat, columnName, columnDetails)},');
   });
   buffer.writeln('};');
   buffer.writeln('}');

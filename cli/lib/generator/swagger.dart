@@ -57,6 +57,7 @@ class Table {
 // Class to represent a database column
 class Column {
   final String postgresFormat;
+  final List<String> enumValues;
   final dynamic defaultValue;
   final String? description;
   final int? maxLength;
@@ -65,6 +66,7 @@ class Column {
 
   Column({
     required this.postgresFormat,
+    this.enumValues = const [],
     this.defaultValue,
     this.description,
     this.maxLength,
@@ -72,12 +74,20 @@ class Column {
     this.isSerialType = false,
   });
 
-  DartType get dartType => postgresFormatToDartType(postgresFormat);
+  String get dartType {
+    if (enumValues.isNotEmpty) {
+      return postgresFormat.split(".").last.toUpperCase();
+    }
+    return postgresFormatToDartType(postgresFormat).type;
+  }
+
   bool get hasDefaultValue => defaultValue != null;
 
   factory Column.fromJson(Map<String, dynamic> json) {
     return Column(
       postgresFormat: json['format'],
+      enumValues:
+          json['enum'] != null ? List<String>.from(json['enum']) : <String>[],
       defaultValue: json['default'],
       description: json['description'],
       maxLength: json['maxLength'],

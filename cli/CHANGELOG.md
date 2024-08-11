@@ -1,3 +1,7 @@
+## 1.5.0
+
+- Support for enum types
+
 ## 1.4.2
 
 - Fix Default Project Type config

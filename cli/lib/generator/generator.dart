@@ -1,3 +1,4 @@
+import 'enums.dart';
 import 'package:yaml/yaml.dart';
 
 import 'class.dart';
@@ -14,27 +15,31 @@ class BluePrint {
   final List<DartClass> dartClasses;
   final String clientExtension;
   final String models;
+  final String enums;
 
   BluePrint({
     required this.imports,
     required this.dartClasses,
     required this.clientExtension,
     required this.models,
+    required this.enums,
   });
 }
 
 BluePrint generateBluePrint(
     DatabaseSwagger swagger, bool isDart, YamlMap? mappings) {
   final dartClasses = generateDartClasses(swagger, mappings);
-  final imports = getImports(dartClasses, isDart);
+  final imports = getImports(dartClasses, isDart, false);
   final clientExtension = generateClientExtension(swagger);
   final models = generateModels(swagger, mappings);
+  final enums = generateEnums(swagger);
 
   return BluePrint(
     imports: imports,
     dartClasses: dartClasses,
     clientExtension: clientExtension,
     models: models,
+    enums: enums,
   );
 }
 
@@ -52,6 +57,7 @@ List<GeneratedFile> generateClassesSingleFile(
     DatabaseSwagger swagger, bool isDart, YamlMap? mappings) {
   final blueprint = generateBluePrint(swagger, isDart, mappings);
   final clientExtension = blueprint.clientExtension;
+  final enums = blueprint.enums;
   final dartClasses = blueprint.dartClasses;
   final imports = blueprint.imports;
 
@@ -60,6 +66,7 @@ List<GeneratedFile> generateClassesSingleFile(
   code += imports.join("\n");
   code += "${clientExtension.toString()}\n\n";
   code += "$supadartAbstractClass\n\n";
+  code += "$enums\n\n";
   code += dartClasses.map((c) => c.classCode).join("\n");
 
   return [GeneratedFile(fileName: "generated_classes.dart", fileContent: code)];
@@ -76,7 +83,7 @@ List<GeneratedFile> generateDartModelFilesSeparated(
 
   for (var i = 0; i < dartClasses.length; i++) {
     String code = "";
-    final imports = getImports([dartClasses[i]], isDart);
+    final imports = getImports([dartClasses[i]], isDart, true);
     imports.replaceRange(1, 2, ["import 'supadart_abstract_class.dart';"]);
 
     code += imports.join("\n");
@@ -109,6 +116,12 @@ List<GeneratedFile> generateDartModelFilesSeparated(
     fileName: "models.dart",
     fileContent: models,
   ));
+
+  output.add(GeneratedFile(
+    fileName: "generated_enums.dart",
+    fileContent: blueprint.enums,
+  ));
+
   return output;
 }
 

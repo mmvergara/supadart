@@ -29,6 +29,7 @@ final allBooks = await supabase
   - [**Update Data**](#update-data)
   - [**Delete Data**](#delete-data)
   - [**Fetch Single Data**](#fetch-single-data)
+  - [**Enums CRUD**](#enums-crud)
 
 ### Features 🚀
 
@@ -38,6 +39,7 @@ final allBooks = await supabase
 - 📊 Supports Column Selection Queries
 - 🔢 Supports all Supabase Major datatypes
 - 🗂️ Supports Defined as array types
+- 🗂️ Supports Enums
 
 ### Conversion Table 📊
 
@@ -137,10 +139,10 @@ separated: true
 dart: false
 # Optional, used to map table names to class names(case-sensitive)
 # mappings:
-  # books: book
-  # categories: category
-  # children: child
-  # people: person
+# books: book
+# categories: category
+# children: child
+# people: person
 ```
 
 #### Generate Classes
@@ -346,6 +348,39 @@ final book = await supabase
       .eq(Books.c_id, 1)
       .single()
       .withConverter(Books.converterSingle);
+```
+
+#### Enums CRUD
+
+- default value of type enum is `enum.values.first`
+
+```sql
+-- assuming the following schema
+CREATE TYPE mood AS ENUM ('happy', 'sad', 'neutral', 'excited', 'angry');
+CREATE TABLE enum_types (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    mood mood NOT NULL
+);
+```
+
+```dart
+enum MOOD { happy, sad, neutral, excited, angry }
+MOOD firstEnumVal = MOOD.angry;
+MOOD newEnumVal = MOOD.excited;
+
+// Create
+await supabase.enum_types.insert(EnumTypes.insert(
+      mood: firstEnumVal,
+    ));
+
+await supabase.enum_types
+        // Update
+        .update(EnumTypes.update(mood: newEnumVal))
+        // Equality ⚠️ you need to do manual ⬇️ enum to string conversion
+        .eq(EnumTypes.c_mood, firstEnumVal.toString().split(".").last);
+
+// Read
+await supabase.enum_types.select().withConverter(EnumTypes.converter);
 ```
 
 # Contributors

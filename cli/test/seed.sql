@@ -1,4 +1,6 @@
 -- Cleanup Qeuries
+DROP VIEW IF EXISTS public.combined_types_view;
+
 DROP TABLE IF EXISTS public.numeric_types;
 DROP TABLE IF EXISTS public.string_types;
 DROP TABLE IF EXISTS public.datetime_types;
@@ -8,6 +10,9 @@ DROP TABLE IF EXISTS public.network_types;
 DROP TABLE IF EXISTS public.json_types;
 DROP TABLE IF EXISTS public.binary_xml_types;
 DROP TABLE IF EXISTS public.misc_types;
+
+DROP TABLE IF EXISTS public.enum_types;
+DROP TYPE IF EXISTS public.mood;
 
 CREATE TABLE public.numeric_types (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -164,3 +169,11 @@ JOIN
 
 -- Remove view
 -- DROP VIEW IF EXISTS public.combined_types_view;
+
+
+
+CREATE TYPE mood AS ENUM ('happy', 'sad', 'neutral', 'excited', 'angry');
+CREATE TABLE enum_types (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    col_mood mood NOT NULL
+);

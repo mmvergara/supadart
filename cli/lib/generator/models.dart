@@ -1,4 +1,4 @@
-import 'package:supadart/generator/utils.dart';
+import 'utils.dart';
 import 'package:yaml/yaml.dart';
 
 import 'swagger.dart';
