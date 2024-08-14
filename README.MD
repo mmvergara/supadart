@@ -76,12 +76,10 @@ final allBooks = await supabase
 COMMENT ON COLUMN test_table.bigserialx IS '[supadart:serial]';
 COMMENT ON COLUMN test_table.smallserialx IS 'you can still add comment [supadart:serial]';
 COMMENT ON COLUMN test_table.serialx IS 'this part [supadart:serial] just needs to be included';
--- otherwise the insert method will always ask for a value even though it is auto-generated
+-- otherwise the insert method will always ask for a value even though serial types are auto-generated
 ```
 
-serial types in general are not available in supabase table editor afaik, so if you did not add them manually via sql editor you probably dont have them.
-
-[Why do we need this?](https://gist.github.com/mmvergara/5e3d42d73dd316f8ff809fb940163c1f)
+> serial types in general are not available in supabase table editor afaik, so if you did not add them manually via sql editor you probably dont have them. [Why do we need this?](https://gist.github.com/mmvergara/5e3d42d73dd316f8ff809fb940163c1f)
 
 #### 1.3 Install `Internationalization` package
 
@@ -103,24 +101,41 @@ dart pub add intl
 ```bash
 # 🎯 Active from pub.dev
 dart pub global activate supadart
-```
 
-```bash
 # 🚀 Run via
 supadart
 # or
 dart pub global run supadart
 ```
 
+---
+
 #### Quick Start
 
 ```bash
 supadart -u <your-supabase-url> -k <your-supabase-anon-key>
+# and you are good to go!
 ```
 
-Alternatively, you can use a configuration file (Recommended)
+More Options
 
-#### Configuration
+```bash
+-h, --help         Show usage information
+-i, --init         Initialize config file supadart.yaml
+-c, --config       Path to config file of yaml         --(default: supadart.yaml)
+-u, --url          Supabase URL                        --(default: supadart.yaml supabase_url)
+-k, --key          Supabase ANON KEY                   --(default: supadart.yaml supabase_anon_key)
+-o, --output       Output file path, add ./ prefix     --(default: ./lib/generated_classes.dart or ./lib/models/ if --separated is enabled
+-d, --dart         Generation for pure Dart project    --(default: false)
+-s, --separated    Separated files for each classes    --(default: false)
+-v, --version      vX.X.X
+```
+
+---
+
+#### With configuration (Recommended)
+
+Alternatively, you can use a configuration file so you just have to run `supadart` without any arguments.
 
 Run `supadart --init` to create a `supadart.yaml` file in your project root directory.
 
@@ -146,6 +161,8 @@ dart: false
 # people: person
 ```
 
+then you can just run `supadart` in the terminal!
+
 #### Generate Classes
 
 ```bash
@@ -157,23 +174,6 @@ supadart -c path/to/.yaml
 
 # If you dont have a .yaml file specify the Supabase URL and ANON KEY
 supadart -u <your-supabase-url> -k <your-supabase-anon-key>
-
-```
-
-> Note: If you are not using Flutter, just normal Dart project, add `-d` option
-
-#### Options
-
-```bash
--h, --help         Show usage information
--i, --init         Initialize config file supadart.yaml
--c, --config       Path to config file of yaml         --(default: supadart.yaml)
--u, --url          Supabase URL                        --(default: supadart.yaml supabase_url)
--k, --key          Supabase ANON KEY                   --(default: supadart.yaml supabase_anon_key)
--o, --output       Output file path, add ./ prefix     --(default: ./lib/generated_classes.dart or ./lib/models/ if --separated is enabled
--d, --dart         Generation for pure Dart project    --(default: false)
--s, --separated    Separated files for each classes    --(default: false)
--v, --version      v1.3.8
 ```
 
 ---
