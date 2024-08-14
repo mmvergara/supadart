@@ -1,5 +1,4 @@
 [![Pub Version](https://img.shields.io/pub/v/supadart)](https://pub.dev/packages/supadart)
-[![Pub Popularity](https://img.shields.io/pub/popularity/supadart)](https://pub.dev/packages/supadart)
 [![Pub Points](https://img.shields.io/pub/points/supadart)](https://pub.dev/packages/supadart)
 [![GitHub Stars](https://img.shields.io/github/stars/mmvergara/supadart)](https://github.com/mmvergara/supadart/stargazers)
 [![Runtime Test](https://github.com/mmvergara/supadart/actions/workflows/dart.yml/badge.svg)](https://github.com/mmvergara/supadart/actions/workflows/dart.yml)
@@ -20,9 +19,12 @@ final allBooks = await supabase
 
 ### Table of Contents 📚
 
-- [**Generate Dart Classes via**](#generating-dart-classes)
+- [**Generate Dart Classes**](#generating-dart-classes)
+  - [**Pre-requisites**](#1-pre-requisites)
+  - [**Generate Dart Classes**](#2-generate-dart-classes)
+    - [**Using the Web App**](https://supadart.vercel.app/)
+    - [**Using the Dart CLI**](#using-the-dart-cli)
 - [**Example Usage**](#example-usage)
-  - [**Getting Table Name**](#getting-table-name)
   - [**Fetch Data**](#fetch-data)
   - [**Insert Data**](#insert-data)
   - [**Insert Many Data**](#inset-many-data)
@@ -70,7 +72,9 @@ final allBooks = await supabase
 
 ## 1. Pre-requisites
 
-#### 1.2 if you have serial types you need to add a `[supadart:serial]` to the column like this,
+#### 1.2 Do you have serial types?
+
+if you have serial types you need to add a `[supadart:serial]` to the column like this
 
 ```sql
 COMMENT ON COLUMN test_table.bigserialx IS '[supadart:serial]';
@@ -89,6 +93,8 @@ flutter pub add intl
 # or
 dart pub add intl
 ```
+
+> Unless you are not using any date types, you can skip this step
 
 ## 2. Generate Dart Classes
 
@@ -162,8 +168,6 @@ dart: false
 ```
 
 then you can just run `supadart` in the terminal!
-
-#### Generate Classes
 
 ```bash
 # Set the supabase_url and supabase_anon_key in your supadart.yaml file
@@ -278,12 +282,6 @@ class Books implements SupadartClass<Books> {
 
 we now have a typesafe'ish to interact with the database.
 
-#### Getting Table Name
-
-```dart
-  Books.table_name // "books"
-```
-
 #### Fetch Data
 
 ```dart
@@ -353,8 +351,6 @@ final book = await supabase
 
 #### Enums CRUD
 
-- default value of type enum is `enum.values.first`
-
 ```sql
 -- assuming the following schema
 CREATE TYPE mood AS ENUM ('happy', 'sad', 'neutral', 'excited', 'angry');
@@ -365,6 +361,7 @@ CREATE TABLE enum_types (
 ```
 
 ```dart
+// enum names are converted to .toUpperCase()
 enum MOOD { happy, sad, neutral, excited, angry }
 MOOD firstEnumVal = MOOD.angry;
 MOOD newEnumVal = MOOD.excited;
@@ -383,6 +380,27 @@ await supabase.enum_types
 // Read
 await supabase.enum_types.select().withConverter(EnumTypes.converter);
 ```
+
+#### Column Selection Queries
+
+```dart
+final book = await supabase
+      .from('books')
+      .select('${Books.c_id}, ${Books.c_name}')
+      .eq(Books.c_id, 69) // Assuming 69 is the id
+      .single()
+      .withConverter(Books.converterSingle);
+```
+
+```dart
+print(book.id);           // 69
+print(book.name);         // "Supadart"
+print(book.description);  // ""
+print(book.price);        // 0
+print(book.created_at);   // 1970-01-01 00:00:00.000
+```
+
+if a value is an enum, the first value of that enum will be used as the default value
 
 # Contributors
 
