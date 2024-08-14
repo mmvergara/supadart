@@ -26,12 +26,13 @@ final allBooks = await supabase
     - [**Using the Dart CLI**](#using-the-dart-cli)
 - [**Example Usage**](#example-usage)
   - [**Fetch Data**](#fetch-data)
+  - [**Fetch Single Data**](#fetch-single-data)
   - [**Insert Data**](#insert-data)
   - [**Insert Many Data**](#inset-many-data)
   - [**Update Data**](#update-data)
   - [**Delete Data**](#delete-data)
-  - [**Fetch Single Data**](#fetch-single-data)
   - [**Enums CRUD**](#enums-crud)
+  - [**Column Selection Queries**](#column-selection-queries)
 
 ### Features 🚀
 
@@ -292,6 +293,18 @@ final allBooks = await supabase
       .withConverter(Books.converter);
 ```
 
+#### Fetch Single Data
+
+```dart
+// book is a typeof Books
+final book = await supabase
+      .books
+      .select("*")
+      .eq(Books.c_id, 1)
+      .single()
+      .withConverter(Books.converterSingle);
+```
+
 #### Insert Data
 
 ```dart
@@ -335,18 +348,6 @@ await supabase.books.update(newData).eq(Books.c_id, 1);
 
 ```dart
 await supabase.books.delete().eq(Books.c_id, 1);
-```
-
-#### Fetch Single Data
-
-```dart
-// book is a typeof Books
-final book = await supabase
-      .books
-      .select("*")
-      .eq(Books.c_id, 1)
-      .single()
-      .withConverter(Books.converterSingle);
 ```
 
 #### Enums CRUD
