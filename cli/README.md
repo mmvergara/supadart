@@ -44,10 +44,10 @@ separated: true
 dart: false
 # Optional, used to map table names to class names(case-sensitive)
 # mappings:
-  # books: book
-  # categories: category
-  # children: child
-  # people: person
+# books: book
+# categories: category
+# children: child
+# people: person
 ```
 
 #### Generate Classes

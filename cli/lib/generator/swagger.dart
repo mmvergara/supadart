@@ -39,6 +39,15 @@ class DatabaseSwagger {
   }
 }
 
+// snake casing to camel casing
+String snakeCaseToCamelCase(String input) {
+  int i = 0;
+  return input.split('_').map((String word) {
+    if (i++ == 0) return word;
+    return word[0].toUpperCase() + word.substring(1);
+  }).join('');
+}
+
 // Class to represent a database table
 class Table {
   final String name;
@@ -58,8 +67,8 @@ class Table {
       requiredFields: json['required'] != null
           ? List<String>.from(json['required'])
           : <String>[],
-      columns:
-          properties.map((key, value) => MapEntry(key, Column.fromJson(value))),
+      columns: properties.map((key, value) =>
+          MapEntry(snakeCaseToCamelCase(key), Column.fromJson(value, key))),
     );
   }
 }
@@ -67,6 +76,7 @@ class Table {
 // Class to represent a database column
 class Column {
   final String postgresFormat;
+  final String dbColName;
   final List<String> enumValues;
   final dynamic defaultValue;
   final String? description;
@@ -76,6 +86,7 @@ class Column {
 
   Column({
     required this.postgresFormat,
+    required this.dbColName,
     this.enumValues = const [],
     this.defaultValue,
     this.description,
@@ -93,9 +104,10 @@ class Column {
 
   bool get hasDefaultValue => defaultValue != null;
 
-  factory Column.fromJson(Map<String, dynamic> json) {
+  factory Column.fromJson(Map<String, dynamic> json, String colName) {
     return Column(
       postgresFormat: json['format'],
+      dbColName: colName,
       enumValues:
           json['enum'] != null ? List<String>.from(json['enum']) : <String>[],
       defaultValue: json['default'],

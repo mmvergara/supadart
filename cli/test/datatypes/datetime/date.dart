@@ -26,17 +26,17 @@ Future<void> performDateTest(SupabaseClient supabase) async {
     var readResult = await readDate(supabase);
     assert(readResult is List<DatetimeTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_date?.year, updatedDate.year);
-    expect(readResult[0].col_date?.month, updatedDate.month);
-    expect(readResult[0].col_date?.day, updatedDate.day);
-    expect(readResult[0].col_date, isA<DateTime>());
+    expect(readResult[0].colDate?.year, updatedDate.year);
+    expect(readResult[0].colDate?.month, updatedDate.month);
+    expect(readResult[0].colDate?.day, updatedDate.day);
+    expect(readResult[0].colDate, isA<DateTime>());
   });
 }
 
 Future<Object?> createDate(SupabaseClient supabase, DateTime insertVal) async {
   try {
     await supabase.datetime_types.insert(DatetimeTypes.insert(
-      col_date: insertVal,
+      colDate: insertVal,
     ));
     return null;
   } catch (error) {
@@ -61,8 +61,8 @@ Future<Object?> updateDate(
     SupabaseClient supabase, DateTime oldValue, DateTime value) async {
   try {
     await supabase.datetime_types
-        .update(DatetimeTypes.update(col_date: value))
-        .eq(DatetimeTypes.c_col_date, oldValue);
+        .update(DatetimeTypes.update(colDate: value))
+        .eq(DatetimeTypes.c_colDate, oldValue);
     return null;
   } catch (error) {
     print("updateDate error");

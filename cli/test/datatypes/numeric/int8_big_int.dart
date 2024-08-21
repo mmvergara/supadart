@@ -28,15 +28,15 @@ Future<void> performBigIntTest(SupabaseClient supabase) async {
     var readResult = await readBigInt(supabase);
     assert(readResult is List<NumericTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_bigint, updatedBigInt);
-    expect(readResult[0].col_bigint, isA<BigInt>());
+    expect(readResult[0].colBigint, updatedBigInt);
+    expect(readResult[0].colBigint, isA<BigInt>());
   });
 }
 
 Future<Object?> createBigInt(SupabaseClient supabase, BigInt insertVal) async {
   try {
     await supabase.numeric_types.insert(NumericTypes.insert(
-      col_bigint: insertVal,
+      colBigint: insertVal,
     ));
     return null;
   } catch (error) {
@@ -61,8 +61,8 @@ Future<Object?> updateBigInt(
     SupabaseClient supabase, BigInt oldValue, BigInt value) async {
   try {
     await supabase.numeric_types
-        .update(NumericTypes.update(col_bigint: value))
-        .eq(NumericTypes.c_col_bigint, oldValue);
+        .update(NumericTypes.update(colBigint: value))
+        .eq(NumericTypes.c_colBigint, oldValue);
     return null;
   } catch (error) {
     print("updateBigInt error");

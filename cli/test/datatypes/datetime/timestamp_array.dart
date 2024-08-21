@@ -37,23 +37,22 @@ Future<void> performTimestampArrayTest(SupabaseClient supabase) async {
     expect(readResult!.length, 1);
 
     for (int i = 0; i < insertTimestamps.length; i++) {
-      expect(readResult[0].col_timestamp_array![i].year,
-          updatedTimestamps[i].year);
-      expect(readResult[0].col_timestamp_array![i].month,
-          updatedTimestamps[i].month);
       expect(
-          readResult[0].col_timestamp_array![i].day, updatedTimestamps[i].day);
-      expect(readResult[0].col_timestamp_array![i].hour,
-          updatedTimestamps[i].hour);
-      expect(readResult[0].col_timestamp_array![i].minute,
+          readResult[0].colTimestampArray![i].year, updatedTimestamps[i].year);
+      expect(readResult[0].colTimestampArray![i].month,
+          updatedTimestamps[i].month);
+      expect(readResult[0].colTimestampArray![i].day, updatedTimestamps[i].day);
+      expect(
+          readResult[0].colTimestampArray![i].hour, updatedTimestamps[i].hour);
+      expect(readResult[0].colTimestampArray![i].minute,
           updatedTimestamps[i].minute);
-      expect(readResult[0].col_timestamp_array![i].second,
+      expect(readResult[0].colTimestampArray![i].second,
           updatedTimestamps[i].second);
-      expect(readResult[0].col_timestamp_array![i].millisecond,
+      expect(readResult[0].colTimestampArray![i].millisecond,
           updatedTimestamps[i].millisecond);
     }
 
-    expect(readResult[0].col_timestamp_array, isA<List<DateTime>>());
+    expect(readResult[0].colTimestampArray, isA<List<DateTime>>());
   });
 }
 
@@ -62,7 +61,7 @@ Future<Object?> createTimestampArr(
   try {
     await supabase.datetime_types.insert(DatetimeTypes.insert(
       id: uuidx,
-      col_timestamp_array: insertVal,
+      colTimestampArray: insertVal,
     ));
     return null;
   } catch (error) {
@@ -86,9 +85,9 @@ Future<List<DatetimeTypes>?> readTimestampArr(SupabaseClient supabase) async {
 Future<Object?> updateTimestampArr(SupabaseClient supabase,
     List<DateTime> oldValue, List<DateTime> value) async {
   try {
-    // Assuming the ID field for update is `col_timestamp` (modify if different)
+    // Assuming the ID field for update is `colTimestamp` (modify if different)
     await supabase.datetime_types
-        .update(DatetimeTypes.update(col_timestamp_array: value))
+        .update(DatetimeTypes.update(colTimestampArray: value))
         .eq(DatetimeTypes.c_id, uuidx);
     return null;
   } catch (error) {

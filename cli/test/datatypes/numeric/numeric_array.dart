@@ -24,8 +24,8 @@ Future<void> performNumericArrayTest(SupabaseClient supabase) async {
     var readResult = await readNumericArray(supabase);
     assert(readResult is List<NumericTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_numeric_array, isA<List<num>>());
-    expect(readResult[0].col_numeric_array, updatedNumericArray);
+    expect(readResult[0].colNumericArray, isA<List<num>>());
+    expect(readResult[0].colNumericArray, updatedNumericArray);
   });
 }
 
@@ -33,7 +33,7 @@ Future<Object?> createNumericArray(
     SupabaseClient supabase, List<num> insertVal) async {
   try {
     await supabase.numeric_types.insert(NumericTypes.insert(
-      col_numeric_array: insertVal,
+      colNumericArray: insertVal,
       id: uuidx,
     ));
     return null;
@@ -46,7 +46,7 @@ Future<Object?> updateNumericArray(
     SupabaseClient supabase, List<num> oldValue, List<num> value) async {
   try {
     await supabase.numeric_types
-        .update(NumericTypes.update(col_numeric_array: value))
+        .update(NumericTypes.update(colNumericArray: value))
         .eq(NumericTypes.c_id, uuidx);
     return null;
   } catch (error) {

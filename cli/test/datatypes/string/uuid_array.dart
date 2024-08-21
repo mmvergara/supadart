@@ -25,10 +25,10 @@ Future<void> performUUIDArrayTest(SupabaseClient supabase) async {
     var readResult = await readUUIDArr(supabase);
     assert(readResult is List<StringTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_uuid_array, isA<List<String>>());
-    expect(readResult[0].col_uuid_array!.length,
+    expect(readResult[0].colUuidArray, isA<List<String>>());
+    expect(readResult[0].colUuidArray!.length,
         updatedUuids.length); // Check array length
-    expect(readResult[0].col_uuid_array,
+    expect(readResult[0].colUuidArray,
         updatedUuids); // Assuming order is preserved
   });
 }
@@ -38,7 +38,7 @@ Future<Object?> createUUIDArr(
   try {
     await supabase.string_types.insert(StringTypes.insert(
       id: uuidx,
-      col_uuid_array: insertVal,
+      colUuidArray: insertVal,
     ));
     return null;
   } catch (error) {
@@ -51,7 +51,7 @@ Future<Object?> updateUUIDArr(
   try {
     // Assuming the ID field for update is `col_uuid` (modify if different)
     await supabase.string_types
-        .update(StringTypes.update(col_uuid_array: value))
+        .update(StringTypes.update(colUuidArray: value))
         .eq(StringTypes.c_id, uuidx);
     return null;
   } catch (error) {

@@ -26,9 +26,9 @@ Future<void> performRealArrayTest(SupabaseClient supabase) async {
     var readResult = await readRealArray(supabase);
     assert(readResult is List<NumericTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_real_array, isA<List<double>>());
-    expect(readResult[0].col_real_array!.length, updatedRealArray.length);
-    expect(readResult[0].col_real_array, updatedRealArray);
+    expect(readResult[0].colRealArray, isA<List<double>>());
+    expect(readResult[0].colRealArray!.length, updatedRealArray.length);
+    expect(readResult[0].colRealArray, updatedRealArray);
   });
 }
 
@@ -36,7 +36,7 @@ Future<Object?> createRealArray(
     SupabaseClient supabase, List<double> insertVal) async {
   try {
     await supabase.numeric_types.insert(NumericTypes.insert(
-      col_real_array: insertVal,
+      colRealArray: insertVal,
       id: uuidx,
     ));
     return null;
@@ -49,7 +49,7 @@ Future<Object?> updateRealArray(
     SupabaseClient supabase, List<double> oldValue, List<double> value) async {
   try {
     await supabase.numeric_types
-        .update(NumericTypes.update(col_real_array: value))
+        .update(NumericTypes.update(colRealArray: value))
         .eq(NumericTypes.c_id, uuidx);
     return null;
   } catch (error) {

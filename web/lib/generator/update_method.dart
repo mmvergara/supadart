@@ -15,7 +15,7 @@ String generateUpdateMethod(
 
   columns.forEach((columnName, columnDetails) {
     code +=
-        "if ($columnName != null) '$columnName': ${toJsonEncodable(columnDetails.dartType, columnDetails.postgresFormat, columnName, columnDetails)},\n";
+        "if ($columnName != null) '${columnDetails.dbColName}': ${toJsonEncodable(columnDetails.dartType, columnDetails.postgresFormat, columnName, columnDetails)},\n";
   });
 
   code += '};\n';

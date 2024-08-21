@@ -39,7 +39,7 @@ Future<void> performTimestamptzArrayTest(SupabaseClient supabase) async {
 
     // Assuming order is preserved during update
     for (int i = 0; i < insertTimestamptzes.length; i++) {
-      var storedTimestamp = readResult[0].col_timestamptz_array![i];
+      var storedTimestamp = readResult[0].colTimestamptzArray![i];
       expect(storedTimestamp, isA<DateTime>());
 
       // Convert both timestamps to UTC for comparison
@@ -63,7 +63,7 @@ Future<void> performTimestamptzArrayTest(SupabaseClient supabase) async {
       expect(storedTimestampUtc, updatedTimestamptzUtc);
     }
 
-    expect(readResult[0].col_timestamptz_array, isA<List<DateTime>>());
+    expect(readResult[0].colTimestamptzArray, isA<List<DateTime>>());
   });
 }
 
@@ -72,7 +72,7 @@ Future<Object?> createTimestamptzArray(
   try {
     await supabase.datetime_types.insert(DatetimeTypes.insert(
       id: uuidx,
-      col_timestamptz_array: insertVal,
+      colTimestamptzArray: insertVal,
     ));
     return null;
   } catch (error) {
@@ -98,7 +98,7 @@ Future<Object?> updateTimestamptzArray(SupabaseClient supabase,
     List<DateTime> oldValue, List<DateTime> value) async {
   try {
     await supabase.datetime_types
-        .update(DatetimeTypes.update(col_timestamptz_array: value))
+        .update(DatetimeTypes.update(colTimestamptzArray: value))
         .eq(DatetimeTypes.c_id, uuidx);
     return null;
   } catch (error) {

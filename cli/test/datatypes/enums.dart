@@ -26,15 +26,15 @@ Future<void> performEnumTypesTest(SupabaseClient supabase) async {
     var readResult = await readEnum(supabase);
     assert(readResult is List<EnumTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_mood, isA<MOOD>());
-    expect(readResult[0].col_mood, updatedEnum);
+    expect(readResult[0].colMood, isA<MOOD>());
+    expect(readResult[0].colMood, updatedEnum);
   });
 }
 
 Future<Object?> createEnum(SupabaseClient supabase, MOOD insertVal) async {
   try {
     await supabase.enum_types.insert(EnumTypes.insert(
-      col_mood: insertVal,
+      colMood: insertVal,
     ));
     return null;
   } catch (error) {
@@ -46,8 +46,8 @@ Future<Object?> updateEnum(
     SupabaseClient supabase, MOOD oldValue, MOOD value) async {
   try {
     await supabase.enum_types
-        .update(EnumTypes.update(col_mood: value))
-        .eq(EnumTypes.c_col_mood, oldValue.toString().split(".").last);
+        .update(EnumTypes.update(colMood: value))
+        .eq(EnumTypes.c_colMood, oldValue.toString().split(".").last);
     return null;
   } catch (error) {
     print("updateEnum error");

@@ -23,8 +23,8 @@ Future<void> performBigSerialTests(SupabaseClient supabase) async {
     var readResult = await readBigSerial(supabase);
     assert(readResult is List<NumericTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_bigserial, isA<BigInt>());
-    expect(readResult[0].col_bigserial, updatedBigSerial);
+    expect(readResult[0].colBigserial, isA<BigInt>());
+    expect(readResult[0].colBigserial, updatedBigSerial);
   });
 }
 
@@ -32,7 +32,7 @@ Future<Object?> createBigSerial(
     SupabaseClient supabase, BigInt insertVal) async {
   try {
     await supabase.numeric_types.insert(NumericTypes.insert(
-      col_bigserial: insertVal,
+      colBigserial: insertVal,
     ));
     return null;
   } catch (error) {
@@ -57,8 +57,8 @@ Future<Object?> updateBigSerial(
     SupabaseClient supabase, BigInt oldValue, BigInt value) async {
   try {
     await supabase.numeric_types
-        .update(NumericTypes.update(col_bigserial: value))
-        .eq(NumericTypes.c_col_bigserial, oldValue);
+        .update(NumericTypes.update(colBigserial: value))
+        .eq(NumericTypes.c_colBigserial, oldValue);
     return null;
   } catch (error) {
     print("updateBigSerial error");

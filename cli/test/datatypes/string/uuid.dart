@@ -24,15 +24,15 @@ Future<void> performUUIDTest(SupabaseClient supabase) async {
     var readResult = await readUUID(supabase);
     assert(readResult is List<StringTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_uuid, updatedUuid);
-    expect(readResult[0].col_uuid, isA<String>());
+    expect(readResult[0].colUuid, updatedUuid);
+    expect(readResult[0].colUuid, isA<String>());
   });
 }
 
 Future<Object?> createUUID(SupabaseClient supabase, String insertVal) async {
   try {
     await supabase.string_types.insert(StringTypes.insert(
-      col_uuid: insertVal,
+      colUuid: insertVal,
     ));
     return null;
   } catch (error) {
@@ -57,8 +57,8 @@ Future<Object?> updateUUID(
     SupabaseClient supabase, String oldValue, String value) async {
   try {
     await supabase.string_types
-        .update(StringTypes.update(col_uuid: value))
-        .eq(StringTypes.c_col_uuid, oldValue);
+        .update(StringTypes.update(colUuid: value))
+        .eq(StringTypes.c_colUuid, oldValue);
     return null;
   } catch (error) {
     print("updateUuid error");

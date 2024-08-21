@@ -28,15 +28,15 @@ Future<void> performNumericTest(SupabaseClient supabase) async {
     var readResult = await readNumeric(supabase);
     assert(readResult is List<NumericTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_numeric, isA<num>());
-    expect(readResult[0].col_numeric, updatedNumeric);
+    expect(readResult[0].colNumeric, isA<num>());
+    expect(readResult[0].colNumeric, updatedNumeric);
   });
 }
 
 Future<Object?> createNumeric(SupabaseClient supabase, num insertVal) async {
   try {
     await supabase.numeric_types.insert(NumericTypes.insert(
-      col_numeric: insertVal,
+      colNumeric: insertVal,
     ));
     return null;
   } catch (error) {
@@ -48,8 +48,8 @@ Future<Object?> updateNumeric(
     SupabaseClient supabase, num oldValue, num value) async {
   try {
     await supabase.numeric_types
-        .update(NumericTypes.update(col_numeric: value))
-        .eq(NumericTypes.c_col_numeric, oldValue);
+        .update(NumericTypes.update(colNumeric: value))
+        .eq(NumericTypes.c_colNumeric, oldValue);
     return null;
   } catch (error) {
     print("updateNumeric error");

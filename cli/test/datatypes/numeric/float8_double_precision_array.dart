@@ -35,8 +35,8 @@ Future<void> performDoublePrecisionArrayTest(SupabaseClient supabase) async {
     var readResult = await readDoublePrecisionArray(supabase);
     assert(readResult is List<NumericTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_double_array, isA<List<double>>());
-    expect(readResult[0].col_double_array, updatedDoublePrecisionArray);
+    expect(readResult[0].colDoubleArray, isA<List<double>>());
+    expect(readResult[0].colDoubleArray, updatedDoublePrecisionArray);
   });
 }
 
@@ -44,7 +44,7 @@ Future<Object?> createDoublePrecisionArray(
     SupabaseClient supabase, List<double> insertVal) async {
   try {
     await supabase.numeric_types.insert(NumericTypes.insert(
-      col_double_array: insertVal,
+      colDoubleArray: insertVal,
       id: uuidx,
     ));
     return null;
@@ -57,7 +57,7 @@ Future<Object?> updateDoublePrecisionArray(
     SupabaseClient supabase, List<double> oldValue, List<double> value) async {
   try {
     await supabase.numeric_types
-        .update(NumericTypes.update(col_double_array: value))
+        .update(NumericTypes.update(colDoubleArray: value))
         .eq(NumericTypes.c_id, uuidx);
     return null;
   } catch (error) {

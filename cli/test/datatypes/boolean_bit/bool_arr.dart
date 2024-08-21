@@ -23,8 +23,8 @@ Future<void> performBooleanArrayTest(SupabaseClient supabase) async {
     var readResult = await readBooleanArray(supabase);
     assert(readResult is List<BooleanBitTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_boolean_array, isA<List<bool>>());
-    expect(readResult[0].col_boolean_array![0], updatedBooleanArray[0]);
+    expect(readResult[0].colBooleanArray, isA<List<bool>>());
+    expect(readResult[0].colBooleanArray![0], updatedBooleanArray[0]);
   });
 }
 
@@ -33,7 +33,7 @@ Future<Object?> createBooleanArray(
   try {
     await supabase.boolean_bit_types.insert(BooleanBitTypes.insert(
       id: uuidx,
-      col_boolean_array: insertVal,
+      colBooleanArray: insertVal,
     ));
     return null;
   } catch (error) {
@@ -46,7 +46,7 @@ Future<Object?> updateBooleanArray(
   try {
     await supabase.boolean_bit_types
         .update(BooleanBitTypes.update(
-          col_boolean_array: value,
+          colBooleanArray: value,
         ))
         .eq(BooleanBitTypes.c_id, uuidx);
     return null;

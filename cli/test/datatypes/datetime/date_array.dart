@@ -25,11 +25,11 @@ Future<void> performDateArrayTest(SupabaseClient supabase) async {
     var readResult = await readDateArray(supabase);
     assert(readResult is List<DatetimeTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_date_array, isA<List<DateTime>>());
+    expect(readResult[0].colDateArray, isA<List<DateTime>>());
     for (int i = 0; i < insertDate.length; i++) {
-      expect(readResult[0].col_date_array![i].year, updatedDate[i].year);
-      expect(readResult[0].col_date_array![i].month, updatedDate[i].month);
-      expect(readResult[0].col_date_array![i].day, updatedDate[i].day);
+      expect(readResult[0].colDateArray![i].year, updatedDate[i].year);
+      expect(readResult[0].colDateArray![i].month, updatedDate[i].month);
+      expect(readResult[0].colDateArray![i].day, updatedDate[i].day);
     }
   });
 }
@@ -39,7 +39,7 @@ Future<Object?> createDateArray(
   try {
     await supabase.datetime_types.insert(DatetimeTypes.insert(
       id: uuidx,
-      col_date_array: insertVal,
+      colDateArray: insertVal,
     ));
     return null;
   } catch (error) {
@@ -65,7 +65,7 @@ Future<Object?> updateDateArray(SupabaseClient supabase,
     List<DateTime> oldValue, List<DateTime> value) async {
   try {
     await supabase.datetime_types
-        .update(DatetimeTypes.update(col_date_array: value))
+        .update(DatetimeTypes.update(colDateArray: value))
         .eq(DatetimeTypes.c_id, uuidx);
     return null;
   } catch (error) {

@@ -97,6 +97,20 @@ dart pub add intl
 
 > Unless you are not using any date types, you can skip this step
 
+#### 1.4 Use snake casing for table names and column names (Optional)
+
+this tool will automatically convert snake_case to camelCase for both table (ClassName) and column (FieldName).
+
+```
+snake_case  => camelCase
+user_table  => UserTable
+```
+
+```
+snake_case  => camelCase
+user_id     => userId
+```
+
 ## 2. Generate Dart Classes
 
 ### Using the [Web App](https://supadart.vercel.app/)
@@ -186,8 +200,6 @@ supadart -u <your-supabase-url> -k <your-supabase-anon-key>
 # Example Usage
 
 Assuming the following table schema <br/>
-
-> we recommend using **snake_casing** for your table names, as it will be converted to **PamelCasing** in the generated classes.
 
 ```sql
 create table

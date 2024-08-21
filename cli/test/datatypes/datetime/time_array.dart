@@ -26,11 +26,11 @@ Future<void> performTimeArrayTest(SupabaseClient supabase) async {
     var readResult = await readTimeArray(supabase);
     assert(readResult is List<DatetimeTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_time_array, isA<List<DateTime>>());
+    expect(readResult[0].colTimeArray, isA<List<DateTime>>());
     for (int i = 0; i < insertTime.length; i++) {
-      expect(readResult[0].col_time_array![i].hour, updatedTime[i].hour);
-      expect(readResult[0].col_time_array![i].minute, updatedTime[i].minute);
-      expect(readResult[0].col_time_array![i].second, updatedTime[i].second);
+      expect(readResult[0].colTimeArray![i].hour, updatedTime[i].hour);
+      expect(readResult[0].colTimeArray![i].minute, updatedTime[i].minute);
+      expect(readResult[0].colTimeArray![i].second, updatedTime[i].second);
     }
   });
 }
@@ -39,7 +39,7 @@ Future<Object?> createTimeArray(
     SupabaseClient supabase, List<DateTime> insertVal) async {
   try {
     await supabase.datetime_types
-        .insert(DatetimeTypes.insert(col_time_array: insertVal, id: uuidx));
+        .insert(DatetimeTypes.insert(colTimeArray: insertVal, id: uuidx));
     return null;
   } catch (error) {
     return error;
@@ -63,7 +63,7 @@ Future<Object?> updateTimeArray(SupabaseClient supabase,
     List<DateTime> oldValue, List<DateTime> value) async {
   try {
     await supabase.datetime_types
-        .update(DatetimeTypes.update(col_time_array: value))
+        .update(DatetimeTypes.update(colTimeArray: value))
         .eq(DatetimeTypes.c_id, uuidx);
     return null;
   } catch (error) {
