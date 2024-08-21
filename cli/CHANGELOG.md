@@ -1,4 +1,4 @@
-## 1.5.21
+## 1.5.3
 
 - Changed model fields to be camel casing
 
