@@ -27,15 +27,15 @@ Future<void> performTimestampTest(SupabaseClient supabase) async {
     var readResult = await readTimestamp(supabase);
     assert(readResult is List<DatetimeTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_timestamp?.year, updatedTimestamp.year);
-    expect(readResult[0].col_timestamp?.month, updatedTimestamp.month);
-    expect(readResult[0].col_timestamp?.day, updatedTimestamp.day);
-    expect(readResult[0].col_timestamp?.hour, updatedTimestamp.hour);
-    expect(readResult[0].col_timestamp?.minute, updatedTimestamp.minute);
-    expect(readResult[0].col_timestamp?.second, updatedTimestamp.second);
+    expect(readResult[0].colTimestamp?.year, updatedTimestamp.year);
+    expect(readResult[0].colTimestamp?.month, updatedTimestamp.month);
+    expect(readResult[0].colTimestamp?.day, updatedTimestamp.day);
+    expect(readResult[0].colTimestamp?.hour, updatedTimestamp.hour);
+    expect(readResult[0].colTimestamp?.minute, updatedTimestamp.minute);
+    expect(readResult[0].colTimestamp?.second, updatedTimestamp.second);
     expect(
-        readResult[0].col_timestamp?.millisecond, updatedTimestamp.millisecond);
-    expect(readResult[0].col_timestamp, isA<DateTime>());
+        readResult[0].colTimestamp?.millisecond, updatedTimestamp.millisecond);
+    expect(readResult[0].colTimestamp, isA<DateTime>());
   });
 }
 
@@ -44,7 +44,7 @@ Future<Object?> createTimestamp(
   try {
     await supabase.datetime_types.insert(DatetimeTypes.insert(
       id: uuidx,
-      col_timestamp: insertVal,
+      colTimestamp: insertVal,
     ));
     return null;
   } catch (error) {
@@ -69,7 +69,7 @@ Future<Object?> updateTimestamp(
     SupabaseClient supabase, DateTime oldValue, DateTime value) async {
   try {
     await supabase.datetime_types
-        .update(DatetimeTypes.update(col_timestamp: value))
+        .update(DatetimeTypes.update(colTimestamp: value))
         .eq(DatetimeTypes.c_id, uuidx);
     return null;
   } catch (error) {

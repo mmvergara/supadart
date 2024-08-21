@@ -34,8 +34,8 @@ Future<void> performJsonBTest(SupabaseClient supabase) async {
     var readResult = await readJsonB(supabase);
     assert(readResult is List<JsonTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_jsonb, updatedJsonb);
-    expect(readResult[0].col_jsonb, isA<Map<String, dynamic>>());
+    expect(readResult[0].colJsonb, updatedJsonb);
+    expect(readResult[0].colJsonb, isA<Map<String, dynamic>>());
   });
 }
 
@@ -44,7 +44,7 @@ Future<Object?> createJsonB(
   try {
     await supabase.json_types.insert(JsonTypes.insert(
       id: uuidx,
-      col_jsonb: insertVal,
+      colJsonb: insertVal,
     ));
     return null;
   } catch (error) {
@@ -68,7 +68,7 @@ Future<Object?> updateJsonB(SupabaseClient supabase,
     Map<String, dynamic> oldValue, Map<String, dynamic> value) async {
   try {
     await supabase.json_types
-        .update(JsonTypes.update(col_jsonb: value))
+        .update(JsonTypes.update(colJsonb: value))
         .eq(JsonTypes.c_id, uuidx);
     return null;
   } catch (error) {

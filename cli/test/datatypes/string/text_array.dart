@@ -35,8 +35,8 @@ Future<void> performTextArrayTest(SupabaseClient supabase) async {
     var readResult = await readTextArray(supabase);
     assert(readResult is List<StringTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_text_array, isA<List<String>>());
-    expect(readResult[0].col_text_array, updatedTextArray);
+    expect(readResult[0].colTextArray, isA<List<String>>());
+    expect(readResult[0].colTextArray, updatedTextArray);
   });
 }
 
@@ -44,7 +44,7 @@ Future<Object?> createTextArray(
     SupabaseClient supabase, List<String> insertVal) async {
   try {
     await supabase.string_types.insert(StringTypes.insert(
-      col_text_array: insertVal,
+      colTextArray: insertVal,
       id: uuidx,
     ));
     return null;
@@ -57,7 +57,7 @@ Future<Object?> updateTextArray(
     SupabaseClient supabase, List<String> oldValue, List<String> value) async {
   try {
     await supabase.string_types
-        .update(StringTypes.update(col_text_array: value))
+        .update(StringTypes.update(colTextArray: value))
         .eq(StringTypes.c_id, uuidx);
     return null;
   } catch (error) {

@@ -29,14 +29,14 @@ Future<void> performSmallIntTest(SupabaseClient supabase) async {
     var readResult = await readSmallint(supabase);
     assert(readResult is List<NumericTypes>);
     expect(readResult!.length, 1); // Assuming only one row is inserted
-    expect(readResult[0].col_smallint, updatedSmallint);
+    expect(readResult[0].colSmallint, updatedSmallint);
   });
 }
 
 Future<Object?> createSmallint(SupabaseClient supabase, int insertVal) async {
   try {
     await supabase.numeric_types.insert(NumericTypes.insert(
-      col_smallint: insertVal,
+      colSmallint: insertVal,
     ));
     return null;
   } catch (error) {
@@ -48,8 +48,8 @@ Future<Object?> updateSmallint(
     SupabaseClient supabase, int oldValue, int value) async {
   try {
     await supabase.numeric_types
-        .update(NumericTypes.update(col_smallint: value))
-        .eq(NumericTypes.c_col_smallint, oldValue);
+        .update(NumericTypes.update(colSmallint: value))
+        .eq(NumericTypes.c_colSmallint, oldValue);
     return null;
   } catch (error) {
     print("updateSmallint error");

@@ -50,8 +50,8 @@ Future<void> performJsonBArrayTest(SupabaseClient supabase) async {
     var readResult = await readJsonBArray(supabase);
     assert(readResult is List<JsonTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_jsonb_array, updatedJsonArray);
-    expect(readResult[0].col_jsonb_array, isA<List<Map<String, dynamic>>>());
+    expect(readResult[0].colJsonbArray, updatedJsonArray);
+    expect(readResult[0].colJsonbArray, isA<List<Map<String, dynamic>>>());
   });
 }
 
@@ -60,7 +60,7 @@ Future<Object?> createJsonBArray(
   try {
     await supabase.json_types.insert(JsonTypes.insert(
       id: uuidx,
-      col_jsonb_array: insertVal,
+      colJsonbArray: insertVal,
     ));
     return null;
   } catch (error) {
@@ -86,7 +86,7 @@ Future<Object?> updateJsonBArray(
     List<Map<String, dynamic>> value) async {
   try {
     await supabase.json_types
-        .update(JsonTypes.update(col_jsonb_array: value))
+        .update(JsonTypes.update(colJsonbArray: value))
         .eq(JsonTypes.c_id, uuidx);
     return null;
   } catch (error) {

@@ -26,17 +26,17 @@ Future<void> performTimeTest(SupabaseClient supabase) async {
     var readResult = await readTime(supabase);
     assert(readResult is List<DatetimeTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_time?.hour, updatedTime.hour);
-    expect(readResult[0].col_time?.minute, updatedTime.minute);
-    expect(readResult[0].col_time?.second, updatedTime.second);
-    expect(readResult[0].col_time, isA<DateTime>());
+    expect(readResult[0].colTime?.hour, updatedTime.hour);
+    expect(readResult[0].colTime?.minute, updatedTime.minute);
+    expect(readResult[0].colTime?.second, updatedTime.second);
+    expect(readResult[0].colTime, isA<DateTime>());
   });
 }
 
 Future<Object?> createTime(SupabaseClient supabase, DateTime insertVal) async {
   try {
     await supabase.datetime_types.insert(DatetimeTypes.insert(
-      col_time: insertVal,
+      colTime: insertVal,
     ));
     return null;
   } catch (error) {
@@ -61,8 +61,8 @@ Future<Object?> updateTime(
     SupabaseClient supabase, DateTime oldValue, DateTime value) async {
   try {
     await supabase.datetime_types
-        .update(DatetimeTypes.update(col_time: value))
-        .eq(DatetimeTypes.c_col_time, oldValue);
+        .update(DatetimeTypes.update(colTime: value))
+        .eq(DatetimeTypes.c_colTime, oldValue);
     return null;
   } catch (error) {
     print("updateTime error");

@@ -36,14 +36,12 @@ Future<void> performTimeTzArrayTest(SupabaseClient supabase) async {
     expect(readResult!.length, 1);
 
     for (int i = 0; i < insertTimeTzs.length; i++) {
-      expect(readResult[0].col_timetz_array![i].hour, updatedTimeTzs[i].hour);
-      expect(
-          readResult[0].col_timetz_array![i].minute, updatedTimeTzs[i].minute);
-      expect(
-          readResult[0].col_timetz_array![i].second, updatedTimeTzs[i].second);
+      expect(readResult[0].colTimetzArray![i].hour, updatedTimeTzs[i].hour);
+      expect(readResult[0].colTimetzArray![i].minute, updatedTimeTzs[i].minute);
+      expect(readResult[0].colTimetzArray![i].second, updatedTimeTzs[i].second);
     }
 
-    expect(readResult[0].col_timetz_array, isA<List<DateTime>>());
+    expect(readResult[0].colTimetzArray, isA<List<DateTime>>());
   });
 }
 
@@ -52,7 +50,7 @@ Future<Object?> createTimeTzArr(
   try {
     await supabase.datetime_types.insert(DatetimeTypes.insert(
       id: uuidx,
-      col_timetz_array: insertVal,
+      colTimetzArray: insertVal,
     ));
     return null;
   } catch (error) {
@@ -76,9 +74,9 @@ Future<List<DatetimeTypes>?> readTimeTzArr(SupabaseClient supabase) async {
 Future<Object?> updateTimeTzArr(SupabaseClient supabase,
     List<DateTime> oldValue, List<DateTime> value) async {
   try {
-    // Assuming the ID field for update is `col_timetz` (modify if different)
+    // Assuming the ID field for update is `colTimetz` (modify if different)
     await supabase.datetime_types
-        .update(DatetimeTypes.update(col_timetz_array: value))
+        .update(DatetimeTypes.update(colTimetzArray: value))
         .eq(DatetimeTypes.c_id, uuidx);
     return null;
   } catch (error) {

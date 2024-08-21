@@ -34,13 +34,10 @@ Future<void> performCharacterVaryingArrayTest(SupabaseClient supabase) async {
     var readResult = await readCharVarArray(supabase);
     assert(readResult is List<StringTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_charactervarying_array, isA<List<String>>());
-    expect(
-        readResult[0].col_charactervarying_array![0], updatedCharVarArray[0]);
-    expect(
-        readResult[0].col_charactervarying_array![1], updatedCharVarArray[1]);
-    expect(
-        readResult[0].col_charactervarying_array![2], updatedCharVarArray[2]);
+    expect(readResult[0].colCharactervaryingArray, isA<List<String>>());
+    expect(readResult[0].colCharactervaryingArray![0], updatedCharVarArray[0]);
+    expect(readResult[0].colCharactervaryingArray![1], updatedCharVarArray[1]);
+    expect(readResult[0].colCharactervaryingArray![2], updatedCharVarArray[2]);
   });
 }
 
@@ -48,7 +45,7 @@ Future<Object?> createCharVarArray(
     SupabaseClient supabase, List<String> insertVal) async {
   try {
     await supabase.string_types.insert(StringTypes.insert(
-      col_charactervarying_array: insertVal,
+      colCharactervaryingArray: insertVal,
       id: uuidx,
     ));
     return null;
@@ -61,7 +58,7 @@ Future<Object?> updateCharVarArray(
     SupabaseClient supabase, List<String> oldValue, List<String> value) async {
   try {
     await supabase.string_types
-        .update(StringTypes.update(col_charactervarying_array: value))
+        .update(StringTypes.update(colCharactervaryingArray: value))
         .eq(StringTypes.c_id, uuidx);
     return null;
   } catch (error) {

@@ -25,15 +25,15 @@ Future<void> performIntegerTest(SupabaseClient supabase) async {
     var readResult = await readInteger(supabase);
     assert(readResult is List<NumericTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_integer, isA<int>());
-    expect(readResult[0].col_integer, updatedInt4);
+    expect(readResult[0].colInteger, isA<int>());
+    expect(readResult[0].colInteger, updatedInt4);
   });
 }
 
 Future<Object?> createInteger(SupabaseClient supabase, int insertVal) async {
   try {
     await supabase.numeric_types.insert(NumericTypes.insert(
-      col_integer: insertVal,
+      colInteger: insertVal,
     ));
     return null;
   } catch (error) {
@@ -45,8 +45,8 @@ Future<Object?> updateInteger(
     SupabaseClient supabase, int oldValue, int value) async {
   try {
     await supabase.numeric_types
-        .update(NumericTypes.update(col_integer: value))
-        .eq(NumericTypes.c_col_integer, oldValue);
+        .update(NumericTypes.update(colInteger: value))
+        .eq(NumericTypes.c_colInteger, oldValue);
     return null;
   } catch (error) {
     print("updateInteger error");

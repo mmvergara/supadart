@@ -29,8 +29,8 @@ Future<void> performIntegerArrayTest(SupabaseClient supabase) async {
     var readResult = await readIntegerArray(supabase);
     assert(readResult is List<NumericTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_integer_array, isA<List<int>>());
-    expect(readResult[0].col_integer_array, updatedInt4Array);
+    expect(readResult[0].colIntegerArray, isA<List<int>>());
+    expect(readResult[0].colIntegerArray, updatedInt4Array);
   });
 }
 
@@ -38,7 +38,7 @@ Future<Object?> createIntegerArray(
     SupabaseClient supabase, List<int> insertVal) async {
   try {
     await supabase.numeric_types.insert(NumericTypes.insert(
-      col_integer_array: insertVal,
+      colIntegerArray: insertVal,
       id: uuidx,
     ));
     return null;
@@ -51,7 +51,7 @@ Future<Object?> updateIntegerArray(
     SupabaseClient supabase, List<int> oldValue, List<int> value) async {
   try {
     await supabase.numeric_types
-        .update(NumericTypes.update(col_integer_array: value))
+        .update(NumericTypes.update(colIntegerArray: value))
         .eq(NumericTypes.c_id, uuidx);
     return null;
   } catch (error) {

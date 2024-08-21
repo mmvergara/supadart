@@ -26,15 +26,15 @@ Future<void> performRealTest(SupabaseClient supabase) async {
     var readResult = await readReal(supabase);
     assert(readResult is List<NumericTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_real, isA<double>());
-    expect(readResult[0].col_real, closeTo(updatedReal, 1e-6));
+    expect(readResult[0].colReal, isA<double>());
+    expect(readResult[0].colReal, closeTo(updatedReal, 1e-6));
   });
 }
 
 Future<Object?> createReal(SupabaseClient supabase, double insertVal) async {
   try {
     await supabase.numeric_types.insert(NumericTypes.insert(
-      col_real: insertVal,
+      colReal: insertVal,
     ));
     return null;
   } catch (error) {
@@ -46,8 +46,8 @@ Future<Object?> updateReal(
     SupabaseClient supabase, double oldValue, double value) async {
   try {
     await supabase.numeric_types
-        .update(NumericTypes.update(col_real: value))
-        .eq(NumericTypes.c_col_real, oldValue);
+        .update(NumericTypes.update(colReal: value))
+        .eq(NumericTypes.c_colReal, oldValue);
     return null;
   } catch (error) {
     print("updateReal error");

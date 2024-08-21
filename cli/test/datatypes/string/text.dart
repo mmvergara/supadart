@@ -27,15 +27,15 @@ Future<void> performTextTest(SupabaseClient supabase) async {
     var readResult = await readText(supabase);
     assert(readResult is List<StringTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_text, isA<String>());
-    expect(readResult[0].col_text, updatedText);
+    expect(readResult[0].colText, isA<String>());
+    expect(readResult[0].colText, updatedText);
   });
 }
 
 Future<Object?> createText(SupabaseClient supabase, String insertVal) async {
   try {
     await supabase.string_types.insert(StringTypes.insert(
-      col_text: insertVal,
+      colText: insertVal,
     ));
     return null;
   } catch (error) {
@@ -47,8 +47,8 @@ Future<Object?> updateText(
     SupabaseClient supabase, String oldValue, String value) async {
   try {
     await supabase.string_types
-        .update(StringTypes.update(col_text: value))
-        .eq(StringTypes.c_col_text, oldValue);
+        .update(StringTypes.update(colText: value))
+        .eq(StringTypes.c_colText, oldValue);
     return null;
   } catch (error) {
     print("updateText error");

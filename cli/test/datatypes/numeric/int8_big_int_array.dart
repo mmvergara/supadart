@@ -34,8 +34,8 @@ Future<void> performBigIntArrayTest(SupabaseClient supabase) async {
     var readResult = await readBigIntArray(supabase);
     assert(readResult is List<NumericTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_bigint_array, updatedBigIntArray);
-    expect(readResult[0].col_bigint_array, isA<List<BigInt>>());
+    expect(readResult[0].colBigintArray, updatedBigIntArray);
+    expect(readResult[0].colBigintArray, isA<List<BigInt>>());
   });
 }
 
@@ -43,7 +43,7 @@ Future<Object?> createBigIntArray(
     SupabaseClient supabase, List<BigInt> insertVal) async {
   try {
     await supabase.numeric_types.insert(NumericTypes.insert(
-      col_bigint_array: insertVal,
+      colBigintArray: insertVal,
       id: uuidx,
     ));
     return null;
@@ -69,7 +69,7 @@ Future<Object?> updateBigIntArray(
     SupabaseClient supabase, List<BigInt> oldValue, List<BigInt> value) async {
   try {
     await supabase.numeric_types
-        .update(NumericTypes.update(col_bigint_array: value))
+        .update(NumericTypes.update(colBigintArray: value))
         .eq(NumericTypes.c_id, uuidx);
     return null;
   } catch (error) {

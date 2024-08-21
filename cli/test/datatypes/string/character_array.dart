@@ -26,8 +26,8 @@ Future<void> performCharacterArrayTest(SupabaseClient supabase) async {
     var readResult = await readCharacterArr(supabase);
     assert(readResult is List<StringTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_character_array, isA<List<String>>());
-    expect(readResult[0].col_character_array, updatedCharacters);
+    expect(readResult[0].colCharacterArray, isA<List<String>>());
+    expect(readResult[0].colCharacterArray, updatedCharacters);
   });
 }
 
@@ -36,7 +36,7 @@ Future<Object?> createCharacterArr(
   try {
     await supabase.string_types.insert(StringTypes.insert(
       id: uuidx,
-      col_character_array: insertVal,
+      colCharacterArray: insertVal,
     ));
     return null;
   } catch (error) {
@@ -48,7 +48,7 @@ Future<Object?> updateCharacterArr(
     SupabaseClient supabase, List<String> oldValue, List<String> value) async {
   try {
     await supabase.string_types
-        .update(StringTypes.update(col_character_array: value))
+        .update(StringTypes.update(colCharacterArray: value))
         .eq(StringTypes.c_id, uuidx); // Assuming ID on col_character
     return null;
   } catch (error) {

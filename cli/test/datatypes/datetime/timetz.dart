@@ -29,11 +29,11 @@ Future<void> performTimeTzTest(SupabaseClient supabase) async {
     expect(readResult!.length, 1);
     // Compare time with timezone
 
-    expect(readResult[0].col_timetz?.hour, updatedTimeTz.hour);
-    expect(readResult[0].col_timetz?.minute, updatedTimeTz.minute);
-    expect(readResult[0].col_timetz?.second, updatedTimeTz.second);
+    expect(readResult[0].colTimetz?.hour, updatedTimeTz.hour);
+    expect(readResult[0].colTimetz?.minute, updatedTimeTz.minute);
+    expect(readResult[0].colTimetz?.second, updatedTimeTz.second);
 
-    expect(readResult[0].col_timetz, isA<DateTime>());
+    expect(readResult[0].colTimetz, isA<DateTime>());
   });
 }
 
@@ -41,7 +41,7 @@ Future<Object?> createTimeTz(
     SupabaseClient supabase, DateTime insertVal) async {
   try {
     await supabase.datetime_types.insert(DatetimeTypes.insert(
-      col_timetz: insertVal,
+      colTimetz: insertVal,
     ));
     return null;
   } catch (error) {
@@ -66,8 +66,8 @@ Future<Object?> updateTimeTz(
     SupabaseClient supabase, DateTime oldValue, DateTime value) async {
   try {
     await supabase.datetime_types
-        .update(DatetimeTypes.update(col_timetz: value))
-        .eq(DatetimeTypes.c_col_timetz, oldValue);
+        .update(DatetimeTypes.update(colTimetz: value))
+        .eq(DatetimeTypes.c_colTimetz, oldValue);
     return null;
   } catch (error) {
     print("updateTimeTz error");

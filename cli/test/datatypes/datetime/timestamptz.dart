@@ -26,7 +26,7 @@ Future<void> performTimestamptzTest(SupabaseClient supabase) async {
     assert(readResult is List<DatetimeTypes>);
     expect(readResult!.length, 1);
 
-    var storedTimestamp = readResult[0].col_timestamptz;
+    var storedTimestamp = readResult[0].colTimestamptz;
     expect(storedTimestamp, isA<DateTime>());
 
     // Convert both timestamps to UTC for comparison
@@ -56,7 +56,7 @@ Future<Object?> createTimestamptz(
   try {
     await supabase.datetime_types.insert(DatetimeTypes.insert(
       id: uuidx,
-      col_timestamptz: insertVal,
+      colTimestamptz: insertVal,
     ));
     return null;
   } catch (error) {
@@ -81,7 +81,7 @@ Future<Object?> updateTimestamptz(
     SupabaseClient supabase, DateTime oldValue, DateTime value) async {
   try {
     await supabase.datetime_types
-        .update(DatetimeTypes.update(col_timestamptz: value))
+        .update(DatetimeTypes.update(colTimestamptz: value))
         .eq(DatetimeTypes.c_id, uuidx);
     return null;
   } catch (error) {

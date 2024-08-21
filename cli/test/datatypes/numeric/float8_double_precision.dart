@@ -28,8 +28,8 @@ Future<void> performDoublePrecisionTest(SupabaseClient supabase) async {
     var readResult = await readDoublePrecision(supabase);
     assert(readResult is List<NumericTypes>);
     expect(readResult!.length, 1);
-    expect(readResult[0].col_double, isA<double>());
-    expect(readResult[0].col_double, updatedDoublePrecision);
+    expect(readResult[0].colDouble, isA<double>());
+    expect(readResult[0].colDouble, updatedDoublePrecision);
   });
 }
 
@@ -37,7 +37,7 @@ Future<Object?> createDoublePrecision(
     SupabaseClient supabase, double insertVal) async {
   try {
     await supabase.numeric_types.insert(NumericTypes.insert(
-      col_double: insertVal,
+      colDouble: insertVal,
     ));
     return null;
   } catch (error) {
@@ -49,8 +49,8 @@ Future<Object?> updateDoublePrecision(
     SupabaseClient supabase, double oldValue, double value) async {
   try {
     await supabase.numeric_types
-        .update(NumericTypes.update(col_double: value))
-        .eq(NumericTypes.c_col_double, oldValue);
+        .update(NumericTypes.update(colDouble: value))
+        .eq(NumericTypes.c_colDouble, oldValue);
     return null;
   } catch (error) {
     print("updateDoublePrecision error");
