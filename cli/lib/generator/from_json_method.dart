@@ -21,7 +21,7 @@ String parseWrapper(String dartType, Column columnDetails, String columnName) {
     format = columnDetails.postgresFormat.replaceAll('[]', '');
   }
 
-  String jsonValue = 'json[\'$columnName\']';
+  String jsonValue = 'json[\'${columnDetails.dbColName}\']';
   String output = '$jsonValue != null ?';
 
   switch (dartType) {
