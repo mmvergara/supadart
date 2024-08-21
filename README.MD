@@ -99,7 +99,7 @@ dart pub add intl
 
 #### 1.4 Use snake casing for table names and column names (Optional)
 
-this tool will automatically convert snake_case to camelCase for both table (ClassName) and column (FieldName).
+this tool will automatically convert snake_case to camelCase for both table (GeneratedClassName) and column (FieldName) generated names.
 
 ```
 snake_case  => camelCase
