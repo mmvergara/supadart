@@ -30,7 +30,7 @@ String generateInsertMethod(
 
     buffer.writeln(isRequired
         ? "'$columnName': ${toJsonEncodable(dartType, columnDetails.postgresFormat, columnName, columnDetails)},"
-        : 'if ($columnName != null) \'$columnName\': ${toJsonEncodable(dartType, columnDetails.postgresFormat, columnName, columnDetails)},');
+        : 'if ($columnName != null) \'${columnDetails.dbColName}\': ${toJsonEncodable(dartType, columnDetails.postgresFormat, columnName, columnDetails)},');
   });
   buffer.writeln('};');
   buffer.writeln('}');
