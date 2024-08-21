@@ -1,3 +1,7 @@
+## 1.5.21
+
+- Changed model fields to be camel casing
+
 ## 1.5.2
 
 - Fix extra " generated on enum values
