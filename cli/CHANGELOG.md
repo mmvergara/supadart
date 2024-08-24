@@ -1,3 +1,7 @@
+## 1.5.4
+
+- Add toJson method to generated models
+
 ## 1.5.3
 
 - Changed model fields to be camel casing
