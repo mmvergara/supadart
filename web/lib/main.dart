@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:supadart_web/generator/generator.dart';
-import 'package:supadart_web/generator/swagger.dart' hide Column;
+import 'package:supadart_web/generators/index.dart';
+import 'package:supadart_web/generators/utils/fetch_swagger.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 void main() {
@@ -42,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String supabaseAnonKey = '';
   bool isLoading = false;
   bool isFlutter = true;
-  bool isSeperated = false;
+  bool isSeparated = false;
 
   String copyStatus = 'Copy to Clipboard';
   List<GeneratedFile> output = [];
@@ -52,26 +52,28 @@ class _MyHomePageState extends State<MyHomePage> {
       isLoading = true;
     });
 
-    final swaggerData =
-        await fetchDatabaseSwagger(supabaseUrl, supabaseAnonKey);
-    if (swaggerData == null) {
+    try {
+      final databaseSwagger =
+          await fetchDatabaseSwagger(supabaseUrl, supabaseAnonKey);
+      if (databaseSwagger == null) {
+        setState(() {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Error fetching Supabase Swagger"),
+            duration: Duration(milliseconds: 300),
+          ));
+          isLoading = false;
+        });
+        return;
+      }
+      final files = supadartRun(databaseSwagger, !isFlutter, isSeparated, null);
+
       setState(() {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("Error fetching Supabase Swagger"),
-          duration: Duration(milliseconds: 300),
-        ));
+        output = files;
         isLoading = false;
       });
-      return;
+    } catch (e) {
+      print(e);
     }
-
-    final filesGenerated =
-        generateModelFiles(swaggerData, isFlutter, isSeperated, null);
-
-    setState(() {
-      output = filesGenerated;
-      isLoading = false;
-    });
   }
 
   @override
@@ -136,10 +138,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     const Text('Single File     '),
                     Switch(
-                      value: isSeperated,
+                      value: isSeparated,
                       onChanged: (value) {
                         setState(() {
-                          isSeperated = value;
+                          isSeparated = value;
                         });
                       },
                       activeColor: const Color(0xFF37996B),
