@@ -1019,11 +1019,11 @@ class EnumTypes implements SupadartClass<EnumTypes> {
 
   static Map<String, dynamic> insert({
     String? id,
-    MOOD? colMood,
+    required MOOD colMood,
   }) {
     return {
       if (id != null) 'id': id.toString(),
-      if (colMood != null) 'col_mood': colMood.toString().split('.').last,
+      'col_mood': colMood.toString().split('.').last,
     };
   }
 
