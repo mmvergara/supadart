@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, camel_case_types, file_namesimport, file_names
+// ignore_for_file: non_constant_identifier_names, camel_case_types, file_namesimport, file_names, unnecessary_null_comparison
 import 'package:supabase/supabase.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
@@ -193,6 +193,22 @@ class StringTypes implements SupadartClass<StringTypes> {
           : <String>[],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      if (id != null) 'id': id,
+      if (colUuid != null) 'col_uuid': colUuid,
+      if (colUuidArray != null) 'col_uuid_array': colUuidArray,
+      if (colCharacter != null) 'col_character': colCharacter,
+      if (colCharacterArray != null) 'col_character_array': colCharacterArray,
+      if (colCharactervarying != null)
+        'col_charactervarying': colCharactervarying,
+      if (colCharactervaryingArray != null)
+        'col_charactervarying_array': colCharactervaryingArray,
+      if (colText != null) 'col_text': colText,
+      if (colTextArray != null) 'col_text_array': colTextArray,
+    };
+  }
 }
 
 class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
@@ -317,6 +333,19 @@ class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
           : <String>[],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      if (id != null) 'id': id,
+      if (colBoolean != null) 'col_boolean': colBoolean,
+      if (colBooleanArray != null) 'col_boolean_array': colBooleanArray,
+      if (colBit != null) 'col_bit': colBit,
+      if (colBitArray != null) 'col_bit_array': colBitArray,
+      if (colBitvarying != null) 'col_bitvarying': colBitvarying,
+      if (colBitvaryingArray != null)
+        'col_bitvarying_array': colBitvaryingArray,
+    };
+  }
 }
 
 class CombinedTypesView implements SupadartClass<CombinedTypesView> {
@@ -400,6 +429,17 @@ class CombinedTypesView implements SupadartClass<CombinedTypesView> {
       colText: json['col_text'] != null ? json['col_text'].toString() : '',
       colUuid: json['col_uuid'] != null ? json['col_uuid'].toString() : '',
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      if (numericId != null) 'numeric_id': numericId,
+      if (colInteger != null) 'col_integer': colInteger,
+      if (colDouble != null) 'col_double': colDouble,
+      if (stringId != null) 'string_id': stringId,
+      if (colText != null) 'col_text': colText,
+      if (colUuid != null) 'col_uuid': colUuid,
+    };
   }
 }
 
@@ -610,6 +650,26 @@ class MiscTypes implements SupadartClass<MiscTypes> {
           : <String>[],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      if (id != null) 'id': id,
+      if (colMoney != null) 'col_money': colMoney,
+      if (colMoneyArray != null) 'col_money_array': colMoneyArray,
+      if (colPgLsn != null) 'col_pg_lsn': colPgLsn,
+      if (colPgLsnArray != null) 'col_pg_lsn_array': colPgLsnArray,
+      if (colPgSnapshot != null) 'col_pg_snapshot': colPgSnapshot,
+      if (colPgSnapshotArray != null)
+        'col_pg_snapshot_array': colPgSnapshotArray,
+      if (colTsquery != null) 'col_tsquery': colTsquery,
+      if (colTsqueryArray != null) 'col_tsquery_array': colTsqueryArray,
+      if (colTsvector != null) 'col_tsvector': colTsvector,
+      if (colTsvectorArray != null) 'col_tsvector_array': colTsvectorArray,
+      if (colTxidSnapshot != null) 'col_txid_snapshot': colTxidSnapshot,
+      if (colTxidSnapshotArray != null)
+        'col_txid_snapshot_array': colTxidSnapshotArray,
+    };
+  }
 }
 
 class Books implements SupadartClass<Books> {
@@ -687,6 +747,16 @@ class Books implements SupadartClass<Books> {
           ? DateTime.tryParse(json['created_at'].toString()) as DateTime
           : DateTime.fromMillisecondsSinceEpoch(0),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (description != null) 'description': description,
+      if (price != null) 'price': price,
+      if (createdAt != null) 'created_at': createdAt,
+    };
   }
 }
 
@@ -903,6 +973,26 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
           : <String>[],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      if (id != null) 'id': id,
+      if (colPoint != null) 'col_point': colPoint,
+      if (colPointArray != null) 'col_point_array': colPointArray,
+      if (colLine != null) 'col_line': colLine,
+      if (colLineArray != null) 'col_line_array': colLineArray,
+      if (colLseg != null) 'col_lseg': colLseg,
+      if (colLsegArray != null) 'col_lseg_array': colLsegArray,
+      if (colBox != null) 'col_box': colBox,
+      if (colBoxArray != null) 'col_box_array': colBoxArray,
+      if (colPath != null) 'col_path': colPath,
+      if (colPathArray != null) 'col_path_array': colPathArray,
+      if (colPolygon != null) 'col_polygon': colPolygon,
+      if (colPolygonArray != null) 'col_polygon_array': colPolygonArray,
+      if (colCircle != null) 'col_circle': colCircle,
+      if (colCircleArray != null) 'col_circle_array': colCircleArray,
+    };
+  }
 }
 
 class EnumTypes implements SupadartClass<EnumTypes> {
@@ -954,6 +1044,13 @@ class EnumTypes implements SupadartClass<EnumTypes> {
           ? MOOD.values.byName(json['col_mood'].toString())
           : MOOD.values.first,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      if (id != null) 'id': id,
+      if (colMood != null) 'col_mood': colMood,
+    };
   }
 }
 
@@ -1064,6 +1161,16 @@ class JsonTypes implements SupadartClass<JsonTypes> {
           : <Map<String, dynamic>>[],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      if (id != null) 'id': id,
+      if (colJson != null) 'col_json': colJson,
+      if (colJsonArray != null) 'col_json_array': colJsonArray,
+      if (colJsonb != null) 'col_jsonb': colJsonb,
+      if (colJsonbArray != null) 'col_jsonb_array': colJsonbArray,
+    };
+  }
 }
 
 class BinaryXmlTypes implements SupadartClass<BinaryXmlTypes> {
@@ -1152,6 +1259,16 @@ class BinaryXmlTypes implements SupadartClass<BinaryXmlTypes> {
               .toList()
           : <String>[],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      if (id != null) 'id': id,
+      if (colBytea != null) 'col_bytea': colBytea,
+      if (colByteaArray != null) 'col_bytea_array': colByteaArray,
+      if (colXml != null) 'col_xml': colXml,
+      if (colXmlArray != null) 'col_xml_array': colXmlArray,
+    };
   }
 }
 
@@ -1299,6 +1416,20 @@ class NetworkTypes implements SupadartClass<NetworkTypes> {
               .toList()
           : <String>[],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      if (id != null) 'id': id,
+      if (colCidr != null) 'col_cidr': colCidr,
+      if (colCidrArray != null) 'col_cidr_array': colCidrArray,
+      if (colInet != null) 'col_inet': colInet,
+      if (colInetArray != null) 'col_inet_array': colInetArray,
+      if (colMacaddr != null) 'col_macaddr': colMacaddr,
+      if (colMacaddrArray != null) 'col_macaddr_array': colMacaddrArray,
+      if (colMacaddr8 != null) 'col_macaddr8': colMacaddr8,
+      if (colMacaddr8Array != null) 'col_macaddr8_array': colMacaddr8Array,
+    };
   }
 }
 
@@ -1589,6 +1720,31 @@ class NumericTypes implements SupadartClass<NumericTypes> {
           : <num>[],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      if (id != null) 'id': id,
+      if (colBigint != null) 'col_bigint': colBigint,
+      if (colBigintArray != null) 'col_bigint_array': colBigintArray,
+      if (colBigserial != null) 'col_bigserial': colBigserial,
+      if (colBigserialArray != null) 'col_bigserial_array': colBigserialArray,
+      if (colInteger != null) 'col_integer': colInteger,
+      if (colIntegerArray != null) 'col_integer_array': colIntegerArray,
+      if (colSmallint != null) 'col_smallint': colSmallint,
+      if (colSmallintArray != null) 'col_smallint_array': colSmallintArray,
+      if (colSmallserial != null) 'col_smallserial': colSmallserial,
+      if (colSmallserialArray != null)
+        'col_smallserial_array': colSmallserialArray,
+      if (colSerial != null) 'col_serial': colSerial,
+      if (colSerialArray != null) 'col_serial_array': colSerialArray,
+      if (colDouble != null) 'col_double': colDouble,
+      if (colDoubleArray != null) 'col_double_array': colDoubleArray,
+      if (colReal != null) 'col_real': colReal,
+      if (colRealArray != null) 'col_real_array': colRealArray,
+      if (colNumeric != null) 'col_numeric': colNumeric,
+      if (colNumericArray != null) 'col_numeric_array': colNumericArray,
+    };
+  }
 }
 
 class DatetimeTypes implements SupadartClass<DatetimeTypes> {
@@ -1807,5 +1963,24 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
               .toList()
           : <Duration>[],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      if (id != null) 'id': id,
+      if (colDate != null) 'col_date': colDate,
+      if (colDateArray != null) 'col_date_array': colDateArray,
+      if (colTime != null) 'col_time': colTime,
+      if (colTimeArray != null) 'col_time_array': colTimeArray,
+      if (colTimetz != null) 'col_timetz': colTimetz,
+      if (colTimetzArray != null) 'col_timetz_array': colTimetzArray,
+      if (colTimestamp != null) 'col_timestamp': colTimestamp,
+      if (colTimestampArray != null) 'col_timestamp_array': colTimestampArray,
+      if (colTimestamptz != null) 'col_timestamptz': colTimestamptz,
+      if (colTimestamptzArray != null)
+        'col_timestamptz_array': colTimestamptzArray,
+      if (colInterval != null) 'col_interval': colInterval,
+      if (colIntervalArray != null) 'col_interval_array': colIntervalArray,
+    };
   }
 }

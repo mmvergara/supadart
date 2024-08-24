@@ -104,7 +104,7 @@ List<GeneratedFile> generateDartModelFilesSeparated(
   output.add(GeneratedFile(
     fileName: "client_extension.dart",
     fileContent:
-        "// ignore_for_file: non_constant_identifier_names, camel_case_types, file_namesimport, file_names\n$supabaseSdkImport\n$clientExtension",
+        "// ignore_for_file: non_constant_identifier_names, camel_case_types, file_namesimport, unnecessary_null_comparison file_names\n$supabaseSdkImport\n$clientExtension",
   ));
 
   output.add(GeneratedFile(
