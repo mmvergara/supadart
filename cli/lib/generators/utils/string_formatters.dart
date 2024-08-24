@@ -31,9 +31,3 @@ String pascalCasingToSnakeCasing(String name) {
 
 String classNameToFileName(String name) =>
     '${pascalCasingToSnakeCasing(name)}.dart';
-
-// extension EqualCaseInsensitiveExtension on String {
-//   bool equalCaseInsensitive(String other) {
-//     return toLowerCase() == other.toLowerCase();
-//   }
-// }

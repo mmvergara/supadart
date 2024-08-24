@@ -1,7 +1,8 @@
 import 'dart:io';
 import 'package:args/args.dart';
 import 'package:supadart/config_init.dart';
-import 'package:supadart/new/index.dart';
+import 'package:supadart/generators/index.dart';
+import 'package:supadart/generators/utils/fetch_swagger.dart';
 import 'package:yaml/yaml.dart';
 
 const String version = 'v1.5.4';

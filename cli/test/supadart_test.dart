@@ -1,6 +1,7 @@
 import 'package:dotenv/dotenv.dart';
 import 'package:supabase/supabase.dart';
-import 'package:supadart/new/index.dart';
+import 'package:supadart/generators/index.dart';
+import 'package:supadart/generators/utils/fetch_swagger.dart';
 import '../bin/supadart.dart';
 import 'boolean_bit_types.dart';
 import 'datatypes/enums.dart';
