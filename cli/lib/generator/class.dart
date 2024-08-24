@@ -1,4 +1,4 @@
-import 'package:supadart/generator/to_json.dart';
+import 'to_json.dart';
 import 'package:yaml/yaml.dart';
 import 'converter_methods.dart';
 import 'dart_class.dart';

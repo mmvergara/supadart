@@ -1,3 +1,4 @@
+import 'to_json.dart';
 import 'package:yaml/yaml.dart';
 import 'converter_methods.dart';
 import 'dart_class.dart';
@@ -58,6 +59,7 @@ List<DartClass> generateDartClasses(
     dartCode += generateInsertMethod(columns, requiredFields);
     dartCode += generateUpdateMethod(columns);
     dartCode += generateFromJsonMethod(className, columns, requiredFields);
+    dartCode += generateToJsonMethod(className, columns);
 
     dartCode += '}\n\n';
     generatedClasses.add(
