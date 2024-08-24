@@ -5,7 +5,7 @@ List<String> getImports(
   final generatedClasses = dartClasses.map((c) => c.classCode).join("\n");
 
   List<String> imports = [
-    "// ignore_for_file: non_constant_identifier_names, camel_case_types, file_namesimport, file_names",
+    "// ignore_for_file: non_constant_identifier_names, camel_case_types, file_namesimport, file_names, unnecessary_null_comparison",
   ];
 
   final supabaseSdkImport = isDart
