@@ -1,21 +1,15 @@
-import '../swagger/column.dart';
-
+import 'package:supadart/generators/swagger/table.dart';
 import 'from_json.dart';
 import 'converters.dart';
-import 'static_column_names.dart';
 import 'update.dart';
 import 'insert.dart';
-import 'to_json.dart';
-
 import '../utils/string_formatters.dart';
-
 import '../swagger/swagger.dart';
 import 'package:yaml/yaml.dart';
 
 class DartClass {
   final String className;
   final String classCode;
-
   DartClass({
     required this.className,
     required this.classCode,
@@ -26,66 +20,94 @@ List<DartClass> generateDartClasses(
     DatabaseSwagger swagger, YamlMap? mappings) {
   List<DartClass> generatedClasses = [];
   swagger.definitions.forEach((tableName, table) {
-    String code = "";
-
-    final columns = table.columns;
-    final requiredFields = table.requiredFields;
+    final code = StringBuffer();
     final className = tableNameToClassName(tableName, mappings);
 
-    code += 'class $className implements SupadartClass<$className> {\n';
-
-    code += generateHasEnumsIndicator(columns);
-    code += generateAttributes(columns, requiredFields);
-    code += generateConstructor(className, columns, requiredFields);
+    // Class definition
+    code.writeln('class $className implements SupadartClass<$className> {');
+    code.write(generateHasEnumsIndicator(table));
+    code.write(generateAttributes(table));
+    code.write(generateConstructor(className, table));
 
     // Table name
-    code += 'static String get table_name => \'$tableName\';\n';
+    code.writeln("static String get table_name => '$tableName';");
 
     // Static column names
-    code += generateStaticColumnNames(columns);
-    // Methods
-    code += generateConverterMethod(className);
-    code += generateConverterSingleMethod(className);
-    code += generateInsertMethod(columns, requiredFields);
-    code += generateUpdateMethod(columns);
-    code += generateFromJsonMethod(className, columns, requiredFields);
-    code += generateToJsonMethod(className, columns);
+    code.write(generateStaticColumnNames(table));
 
-    code += '}\n\n';
+    // Methods
+    code.write(generateConverterMethod(className));
+    code.write(generateConverterSingleMethod(className));
+    code.write(generateInsertMethod(table));
+    code.write(generateUpdateMethod(table));
+    code.write(generateFromJsonMethod(className, table));
+    code.write(generateToJsonMethod(className, table));
+    code.writeln('}');
+    code.writeln();
+
     generatedClasses.add(
       DartClass(
         className: className,
-        classCode: code,
+        classCode: code.toString(),
       ),
     );
   });
-
   return generatedClasses;
 }
 
-String generateHasEnumsIndicator(Map<String, Column> columns) {
+String generateHasEnumsIndicator(Table table) {
+  final columns = table.columns;
   final hasEnums = columns.values.any((column) => column.enumValues.isNotEmpty);
   return hasEnums ? '// [supadart:has_enums]\n' : '';
 }
 
-String generateAttributes(
-    Map<String, Column> columns, List<String> requiredFields) {
-  String code = '';
+String generateAttributes(Table table) {
+  final columns = table.columns;
+  final requiredFields = table.requiredFields;
+  final code = StringBuffer();
   columns.forEach((columnName, columnDetails) {
     final isOptional = !requiredFields.contains(columnName);
-    code +=
-        'final ${columnDetails.dartType}${isOptional ? "?" : ""} $columnName;\n';
+    code.writeln(
+        'final ${columnDetails.dartType}${isOptional ? "?" : ""} $columnName;');
   });
-  return code;
+  return code.toString();
 }
 
-String generateConstructor(String className, Map<String, Column> columns,
-    List<String> requiredFields) {
-  String code = '\n const $className({\n';
+String generateConstructor(String className, Table table) {
+  final columns = table.columns;
+  final requiredFields = table.requiredFields;
+  final code = StringBuffer();
+  code.writeln('\nconst $className({');
   columns.forEach((propertyName, _) {
     final isRequired = requiredFields.contains(propertyName);
-    code += '${isRequired ? "required this." : "this."}$propertyName,\n';
+    code.writeln('${isRequired ? "required this." : "this."}$propertyName,');
   });
-  code += '});\n\n';
-  return code;
+  code.writeln('});');
+  code.writeln();
+  return code.toString();
+}
+
+String generateStaticColumnNames(Table table) {
+  final columns = table.columns;
+  final code = StringBuffer();
+  columns.forEach((propertyName, col) {
+    code.writeln("static String get c_$propertyName => '${col.dbColName}';");
+  });
+  code.writeln();
+  return code.toString();
+}
+
+String generateToJsonMethod(String className, Table table) {
+  final columns = table.columns;
+  final code = StringBuffer();
+  code.writeln('Map<String, dynamic> toJson() {');
+  code.writeln('return {');
+  columns.forEach((columnName, columnDetails) {
+    code.writeln(
+        "if ($columnName != null) '${columnDetails.dbColName}': ${columnDetails.camelColName},");
+  });
+  code.writeln('};');
+  code.writeln('}');
+  code.writeln();
+  return code.toString();
 }

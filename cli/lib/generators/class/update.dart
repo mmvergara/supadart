@@ -1,25 +1,27 @@
+import '../swagger/table.dart';
 import '../utils/to_json_encodable.dart';
-import '../swagger/column.dart';
 
-String generateUpdateMethod(
-  Map<String, Column> columns,
-) {
-  var code = 'static Map<String, dynamic> update({\n';
+String generateUpdateMethod(Table table) {
+  final columns = table.columns;
+  final buffer = StringBuffer();
 
-  columns.forEach((columnName, columnDetails) {
-    code += '${columnDetails.dartType}? $columnName,\n';
-  });
-
-  code += '}) {\n';
-  code += 'return {\n';
+  buffer.writeln('static Map<String, dynamic> update({');
 
   columns.forEach((columnName, columnDetails) {
-    code +=
-        "if ($columnName != null) '${columnDetails.dbColName}': ${toJsonEncodable(columnDetails.dartType, columnDetails.postgresFormat, columnName, columnDetails)},\n";
+    buffer.writeln('${columnDetails.dartType}? $columnName,');
   });
 
-  code += '};\n';
-  code += '}\n\n';
+  buffer.writeln('}) {');
+  buffer.writeln('return {');
 
-  return code;
+  columns.forEach((columnName, columnDetails) {
+    buffer.writeln(
+      "if ($columnName != null) '${columnDetails.dbColName}': ${toJsonEncodable(columnDetails.dartType, columnDetails.postgresFormat, columnName, columnDetails)},",
+    );
+  });
+
+  buffer.writeln('};');
+  buffer.writeln('}');
+
+  return buffer.toString();
 }

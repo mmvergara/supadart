@@ -1,17 +1,23 @@
+import '../swagger/table.dart';
 import '../swagger/column.dart';
 
-String generateFromJsonMethod(String className, Map<String, Column> columns,
-    List<String> requiredFields) {
-  String code = 'factory $className.fromJson(Map<String, dynamic> json) {\n';
-  code += 'return $className(\n';
+String generateFromJsonMethod(String className, Table table) {
+  final columns = table.columns;
+  final StringBuffer code = StringBuffer();
+
+  code.writeln('factory $className.fromJson(Map<String, dynamic> json) {');
+  code.writeln('return $className(');
+
   columns.forEach((columnName, columnDetails) {
-    // final isRequired = requiredFields.contains(columnName);
-    code +=
-        '$columnName: ${parseWrapper(columnDetails.dartType, columnDetails, columnName)},\n';
+    code.writeln(
+        '$columnName: ${parseWrapper(columnDetails.dartType, columnDetails, columnName)},');
   });
-  code += ');\n';
-  code += '}\n\n';
-  return code;
+
+  code.writeln(');');
+  code.writeln('}');
+  code.writeln();
+
+  return code.toString();
 }
 
 String parseWrapper(String dartType, Column columnDetails, String columnName) {

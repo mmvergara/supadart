@@ -13,6 +13,7 @@ class Column {
   final int? maxLength;
   final bool isPrimaryKey;
   final bool isSerialType;
+  final bool isInRequiredColumn;
 
   Column({
     required this.postgresFormat,
@@ -24,6 +25,7 @@ class Column {
     this.maxLength,
     this.isPrimaryKey = false,
     this.isSerialType = false,
+    this.isInRequiredColumn = false,
   });
 
   String get dartType {
@@ -34,8 +36,18 @@ class Column {
   }
 
   bool get hasDefaultValue => defaultValue != null;
+  bool get isRequired {
+    return isInRequiredColumn &&
+        !!!hasDefaultValue &&
+        !isPrimaryKey &&
+        !isSerialType;
+  }
 
-  factory Column.fromJson(Map<String, dynamic> json, String colName) {
+  factory Column.fromJson(
+    String colName,
+    Map<String, dynamic> json,
+    List<String> parentTableRequiredFields,
+  ) {
     return Column(
       postgresFormat: json['format'],
       dbColName: colName,
@@ -47,6 +59,7 @@ class Column {
       maxLength: json['maxLength'],
       isPrimaryKey: json['description']?.contains('<pk/>') ?? false,
       isSerialType: json['description']?.contains('[supadart:serial]') ?? false,
+      isInRequiredColumn: parentTableRequiredFields.contains(colName),
     );
   }
 }

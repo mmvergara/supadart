@@ -1,4 +1,3 @@
-
 import 'package:yaml/yaml.dart';
 
 import 'swagger/swagger.dart';
@@ -9,8 +8,6 @@ import 'standalone/supadart_abstract_class.dart';
 import 'utils/get_imports.dart';
 import 'utils/string_formatters.dart';
 import 'class/class.dart';
-
-
 
 List<GeneratedFile> supadartRun(
   DatabaseSwagger swagger,

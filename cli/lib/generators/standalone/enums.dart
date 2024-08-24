@@ -1,11 +1,11 @@
 import '../swagger/swagger.dart';
 
 String generateEnums(DatabaseSwagger swagger) {
-  Map<String, String> enumMap = {};
+  final enumMap = <String, String>{};
   swagger.definitions.forEach((tableName, table) {
     table.columns.forEach((columnName, columnDetails) {
       if (columnDetails.enumValues.isNotEmpty) {
-        String enumName = columnDetails.postgresFormat
+        final enumName = columnDetails.postgresFormat
             .split(".")
             .last
             .toUpperCase()
@@ -15,9 +15,9 @@ String generateEnums(DatabaseSwagger swagger) {
     });
   });
 
-  String code = "";
+  final code = StringBuffer();
   enumMap.forEach((enumName, enumValues) {
-    code += "enum $enumName { $enumValues }\n";
+    code.write("enum $enumName { $enumValues }\n");
   });
-  return code;
+  return code.toString();
 }

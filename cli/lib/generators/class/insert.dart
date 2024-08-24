@@ -1,40 +1,50 @@
-import '../swagger/column.dart';
-
+import '../swagger/table.dart';
 import '../utils/to_json_encodable.dart';
 
-String generateInsertMethod(
-  Map<String, Column> columns,
-  List<String> requiredFields,
-) {
-  final buffer = StringBuffer()
-    ..writeln('static Map<String, dynamic> insert({');
+String generateInsertMethod(Table table) {
+  final columns = table.columns;
+  final StringBuffer code = StringBuffer();
+
+  // Method signature
+  code.writeln('static Map<String, dynamic> insert({');
 
   // Generate parameters
-  columns.forEach((columnName, columnDetails) {
-    final isRequired = requiredFields.contains(columnName) &&
-        !!!columnDetails.hasDefaultValue &&
-        !columnDetails.isPrimaryKey &&
-        !columnDetails.isSerialType;
-    buffer.writeln(
-        '${isRequired ? "required " : ""}${columnDetails.dartType}${isRequired ? "" : "?"} $columnName,');
-  });
-  buffer.writeln('}) {');
-  buffer.writeln('return {');
-
-  // Generate key-value pairs
-  columns.forEach((columnName, columnDetails) {
-    final isRequired = requiredFields.contains(columnName) &&
-        !!!columnDetails.hasDefaultValue &&
-        !columnDetails.isPrimaryKey &&
-        !columnDetails.isSerialType;
+  for (final entry in columns.entries) {
+    final columnName = entry.key;
+    final columnDetails = entry.value;
+    final isRequired = columnDetails.isRequired;
     final dartType = columnDetails.dartType;
 
-    buffer.writeln(isRequired
-        ? "'$columnName': ${toJsonEncodable(dartType, columnDetails.postgresFormat, columnName, columnDetails)},"
-        : 'if ($columnName != null) \'${columnDetails.dbColName}\': ${toJsonEncodable(dartType, columnDetails.postgresFormat, columnName, columnDetails)},');
-  });
-  buffer.writeln('};');
-  buffer.writeln('}');
+    code.writeln(
+        '  ${isRequired ? "required " : ""}$dartType${isRequired ? "" : "?"} $columnName,');
+  }
+  code.writeln('}) {');
 
-  return buffer.toString();
+  // Method body
+  code.writeln('  return {');
+
+  // Generate key-value pairs
+  for (final entry in columns.entries) {
+    final columnName = entry.key;
+    final columnDetails = entry.value;
+    final isRequired = columnDetails.isRequired;
+    final dbColName = columnDetails.dbColName;
+    final dartType = columnDetails.dartType;
+    final postgresFormat = columnDetails.postgresFormat;
+
+    final jsonEncodable =
+        toJsonEncodable(dartType, postgresFormat, columnName, columnDetails);
+
+    if (isRequired) {
+      code.writeln("    '$dbColName': $jsonEncodable,");
+    } else {
+      code.writeln(
+          "    if ($columnName != null) '$dbColName': $jsonEncodable,");
+    }
+  }
+
+  code.writeln('  };');
+  code.writeln('}');
+
+  return code.toString();
 }

@@ -15,13 +15,15 @@ class Table {
 
   factory Table.fromJson(String name, Map<String, dynamic> json) {
     final properties = json['properties'] as Map<String, dynamic>;
+    final requiredFields = json['required'] != null
+        ? List<String>.from(json['required'])
+        : <String>[];
     return Table(
       name: name,
-      requiredFields: json['required'] != null
-          ? List<String>.from(json['required'])
-          : <String>[],
-      columns: properties.map((key, value) =>
-          MapEntry(snakeCasingToCamelCasing(key), Column.fromJson(value, key))),
+      requiredFields: requiredFields,
+      columns: properties.map((key, value) => MapEntry(
+          snakeCasingToCamelCasing(key),
+          Column.fromJson(key, value, requiredFields))),
     );
   }
 }

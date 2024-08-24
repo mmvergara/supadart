@@ -1,11 +1,11 @@
 import '../swagger/swagger.dart';
 
 String generateClientExtension(DatabaseSwagger swagger) {
-  String code = 'extension SupadartClient on SupabaseClient {\n';
+  final code = StringBuffer('extension SupadartClient on SupabaseClient {\n');
   swagger.definitions.forEach((tableName, _) {
-    tableName = tableName.toLowerCase();
-    code += "SupabaseQueryBuilder get $tableName => from('$tableName');\n";
+    code.write(
+        "SupabaseQueryBuilder get ${tableName.toLowerCase()} => from('$tableName');\n");
   });
-  code += '}\n';
-  return code;
+  code.write('}\n');
+  return code.toString();
 }
