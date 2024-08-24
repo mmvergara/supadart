@@ -1,4 +1,4 @@
-import 'swagger.dart';
+import '../swagger/column.dart';
 
 String generateStaticColumnNames(Map<String, Column> properties) {
   String code = "";

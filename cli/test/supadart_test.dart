@@ -1,7 +1,6 @@
 import 'package:dotenv/dotenv.dart';
 import 'package:supabase/supabase.dart';
-import 'package:supadart/generator/generator.dart';
-import 'package:supadart/generator/swagger.dart';
+import 'package:supadart/new/index.dart';
 import '../bin/supadart.dart';
 import 'boolean_bit_types.dart';
 import 'datatypes/enums.dart';
@@ -30,7 +29,7 @@ void main() async {
   }
 
   // Test config, isDart: true, isSeperated:false, mappings:null
-  final files = generateModelFiles(databaseSwagger, true, false, null);
+  final files = supadartRun(databaseSwagger, true, false, null);
   await generateAndFormatFiles(files, './test/models/');
   print("\nGenerated Fresh Models from DB");
 

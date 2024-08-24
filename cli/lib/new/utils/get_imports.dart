@@ -1,4 +1,4 @@
-import 'dart_class.dart';
+import '../class/class.dart';
 
 List<String> getImports(
     List<DartClass> dartClasses, bool isDart, bool isSingleFile) {

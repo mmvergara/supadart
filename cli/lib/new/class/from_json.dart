@@ -1,4 +1,4 @@
-import 'swagger.dart';
+import '../swagger/column.dart';
 
 String generateFromJsonMethod(String className, Map<String, Column> columns,
     List<String> requiredFields) {

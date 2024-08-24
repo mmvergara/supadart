@@ -1,5 +1,5 @@
-import 'swagger.dart';
-import 'to_json_encodable.dart';
+import '../utils/to_json_encodable.dart';
+import '../swagger/column.dart';
 
 String generateUpdateMethod(
   Map<String, Column> columns,

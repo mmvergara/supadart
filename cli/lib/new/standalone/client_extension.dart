@@ -1,4 +1,4 @@
-import 'swagger.dart';
+import '../swagger/swagger.dart';
 
 String generateClientExtension(DatabaseSwagger swagger) {
   String code = 'extension SupadartClient on SupabaseClient {\n';

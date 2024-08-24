@@ -1,4 +1,4 @@
-import 'swagger.dart';
+import '../swagger/swagger.dart';
 
 String generateEnums(DatabaseSwagger swagger) {
   Map<String, String> enumMap = {};
