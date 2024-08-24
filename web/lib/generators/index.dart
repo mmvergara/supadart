@@ -117,7 +117,7 @@ class SupadartGenerator {
     ));
 
     output.add(GeneratedFile(
-      fileName: "models.dart",
+      fileName: "model_exports.dart",
       fileContent: exports,
     ));
 
