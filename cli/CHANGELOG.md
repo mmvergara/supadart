@@ -1,3 +1,8 @@
+## 1.5.5
+
+- Improve performance by using String Buffer instead of String concatenation
+- Restructure Generators to be more modular and maintainable
+
 ## 1.5.4
 
 - Add toJson method to generated models

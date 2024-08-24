@@ -1,11 +1,11 @@
 import 'dart:io';
 import 'package:args/args.dart';
 import 'package:supadart/config_init.dart';
+import 'package:supadart/generators/index.dart';
+import 'package:supadart/generators/utils/fetch_swagger.dart';
 import 'package:yaml/yaml.dart';
-import 'package:supadart/generator/generator.dart';
-import 'package:supadart/generator/swagger.dart';
 
-const String version = 'v1.5.4';
+const String version = 'v1.5.5';
 const String red = '\x1B[31m'; // Red text
 const String green = '\x1B[32m'; // Green text
 const String blue = '\x1B[34m'; // Blue text
@@ -112,9 +112,8 @@ void main(List<String> arguments) async {
     print('Failed to fetch database');
     exit(1);
   }
+  final files = supadartRun(databaseSwagger, isDart, isSeparated, mappings);
 
-  final files =
-      generateModelFiles(databaseSwagger, isDart, isSeparated, mappings);
   await generateAndFormatFiles(files, output);
 
   print('$green🎉 Done! $reset');
