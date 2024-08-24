@@ -2,7 +2,7 @@ import 'dart:io';
 
 configFileInit(String path) async {
   // Create a new file
-  File file = new File(path);
+  File file = File(path);
 
   // Check if the file already exists
   if (await file.exists()) {
