@@ -77,6 +77,7 @@ class Table {
 class Column {
   final String postgresFormat;
   final String dbColName;
+  final String camelColName;
   final List<String> enumValues;
   final dynamic defaultValue;
   final String? description;
@@ -87,6 +88,7 @@ class Column {
   Column({
     required this.postgresFormat,
     required this.dbColName,
+    required this.camelColName,
     this.enumValues = const [],
     this.defaultValue,
     this.description,
@@ -108,6 +110,7 @@ class Column {
     return Column(
       postgresFormat: json['format'],
       dbColName: colName,
+      camelColName: snakeCaseToCamelCase(colName),
       enumValues:
           json['enum'] != null ? List<String>.from(json['enum']) : <String>[],
       defaultValue: json['default'],
