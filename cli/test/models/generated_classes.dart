@@ -423,7 +423,7 @@ class CombinedTypesView implements SupadartClass<CombinedTypesView> {
           json['numeric_id'] != null ? json['numeric_id'].toString() : '',
       colInteger: json['col_integer'] != null ? json['col_integer'] as int : 0,
       colDouble: json['col_double'] != null
-          ? double.tryParse(json['col_double'].toString())
+          ? double.parse(json['col_double'].toString())
           : 0.0,
       stringId: json['string_id'] != null ? json['string_id'].toString() : '',
       colText: json['col_text'] != null ? json['col_text'].toString() : '',
@@ -737,7 +737,7 @@ class Books implements SupadartClass<Books> {
   factory Books.fromJson(Map<String, dynamic> json) {
     return Books(
       id: json['id'] != null
-          ? BigInt.tryParse(json['id'].toString()) as BigInt
+          ? BigInt.parse(json['id'].toString())
           : BigInt.from(0),
       name: json['name'] != null ? json['name'].toString() : '',
       description:
@@ -1653,7 +1653,7 @@ class NumericTypes implements SupadartClass<NumericTypes> {
     return NumericTypes(
       id: json['id'] != null ? json['id'].toString() : '',
       colBigint: json['col_bigint'] != null
-          ? BigInt.tryParse(json['col_bigint'].toString()) as BigInt
+          ? BigInt.parse(json['col_bigint'].toString())
           : BigInt.from(0),
       colBigintArray: json['col_bigint_array'] != null
           ? (json['col_bigint_array'] as List<dynamic>)
@@ -1661,7 +1661,7 @@ class NumericTypes implements SupadartClass<NumericTypes> {
               .toList()
           : <BigInt>[],
       colBigserial: json['col_bigserial'] != null
-          ? BigInt.tryParse(json['col_bigserial'].toString()) as BigInt
+          ? BigInt.parse(json['col_bigserial'].toString())
           : BigInt.from(0),
       colBigserialArray: json['col_bigserial_array'] != null
           ? (json['col_bigserial_array'] as List<dynamic>)
@@ -1695,7 +1695,7 @@ class NumericTypes implements SupadartClass<NumericTypes> {
               .toList()
           : <int>[],
       colDouble: json['col_double'] != null
-          ? double.tryParse(json['col_double'].toString())
+          ? double.parse(json['col_double'].toString())
           : 0.0,
       colDoubleArray: json['col_double_array'] != null
           ? (json['col_double_array'] as List<dynamic>)
@@ -1703,16 +1703,15 @@ class NumericTypes implements SupadartClass<NumericTypes> {
               .toList()
           : <double>[],
       colReal: json['col_real'] != null
-          ? double.tryParse(json['col_real'].toString())
+          ? double.parse(json['col_real'].toString())
           : 0.0,
       colRealArray: json['col_real_array'] != null
           ? (json['col_real_array'] as List<dynamic>)
               .map((v) => double.tryParse(v.toString()) as double)
               .toList()
           : <double>[],
-      colNumeric: json['col_numeric'] != null
-          ? num.tryParse(json['col_numeric'].toString())
-          : 0,
+      colNumeric:
+          json['col_numeric'] != null ? num.parse(json['col_numeric']) : 0,
       colNumericArray: json['col_numeric_array'] != null
           ? (json['col_numeric_array'] as List<dynamic>)
               .map((v) => num.tryParse(v.toString()) as num)
