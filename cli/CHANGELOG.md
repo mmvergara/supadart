@@ -1,3 +1,7 @@
+## 1.5.6
+
+- Usage of .parse instead of .tryParse in nums and in other types
+
 ## 1.5.5
 
 - Improve performance by using String Buffer instead of String concatenation
