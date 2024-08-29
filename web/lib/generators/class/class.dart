@@ -1,10 +1,11 @@
+import '../class/to_json.dart';
 import '../swagger/table.dart';
+import '../utils/string_formatters.dart';
+import '../swagger/swagger.dart';
 import 'from_json.dart';
 import 'converters.dart';
 import 'update.dart';
 import 'insert.dart';
-import '../utils/string_formatters.dart';
-import '../swagger/swagger.dart';
 import 'package:yaml/yaml.dart';
 
 class DartClass {
@@ -93,21 +94,6 @@ String generateStaticColumnNames(Table table) {
   columns.forEach((propertyName, col) {
     code.writeln("static String get c_$propertyName => '${col.dbColName}';");
   });
-  code.writeln();
-  return code.toString();
-}
-
-String generateToJsonMethod(String className, Table table) {
-  final columns = table.columns;
-  final code = StringBuffer();
-  code.writeln('Map<String, dynamic> toJson() {');
-  code.writeln('return {');
-  columns.forEach((columnName, columnDetails) {
-    code.writeln(
-        "if ($columnName != null) '${columnDetails.dbColName}': ${columnDetails.camelColName},");
-  });
-  code.writeln('};');
-  code.writeln('}');
   code.writeln();
   return code.toString();
 }

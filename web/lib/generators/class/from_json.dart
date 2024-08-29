@@ -40,7 +40,7 @@ String parseWrapper(String dartType, Column columnDetails, String columnName) {
       break;
     // ====================
     case 'BigInt':
-      output += 'BigInt.tryParse($jsonValue.toString()) as BigInt';
+      output += 'BigInt.parse($jsonValue.toString())';
       break;
     case 'List<BigInt>':
       output +=
@@ -48,7 +48,7 @@ String parseWrapper(String dartType, Column columnDetails, String columnName) {
       break;
     // ====================
     case 'double':
-      output += 'double.tryParse($jsonValue.toString())';
+      output += 'double.parse($jsonValue.toString())';
       break;
     case 'List<double>':
       output +=
@@ -56,7 +56,7 @@ String parseWrapper(String dartType, Column columnDetails, String columnName) {
       break;
     // ====================
     case 'num':
-      output += 'num.tryParse($jsonValue.toString())';
+      output += 'num.parse($jsonValue.toString())';
       break;
     case 'List<num>':
       output +=
