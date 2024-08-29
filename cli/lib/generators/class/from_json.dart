@@ -56,7 +56,7 @@ String parseWrapper(String dartType, Column columnDetails, String columnName) {
       break;
     // ====================
     case 'num':
-      output += 'num.parse($jsonValue)';
+      output += 'num.parse($jsonValue.toString())';
       break;
     case 'List<num>':
       output +=
