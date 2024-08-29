@@ -1,4 +1,4 @@
-import 'package:supadart/generators/utils/to_json_encodable.dart';
+import '../utils/to_json_encodable.dart';
 import '../swagger/table.dart';
 
 String generateToJsonMethod(String className, Table table) {
