@@ -5,7 +5,7 @@ import 'package:supadart/generators/index.dart';
 import 'package:supadart/generators/utils/fetch_swagger.dart';
 import 'package:yaml/yaml.dart';
 
-const String version = 'v1.5.6';
+const String version = 'v1.5.7';
 const String red = '\x1B[31m'; // Red text
 const String green = '\x1B[32m'; // Green text
 const String blue = '\x1B[34m'; // Blue text

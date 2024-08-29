@@ -1,3 +1,8 @@
+## 1.5.7
+
+- Fix toJson serialization
+- Fix num parsing fromJson method
+
 ## 1.5.6
 
 - Usage of .parse instead of .tryParse in nums and in other types
