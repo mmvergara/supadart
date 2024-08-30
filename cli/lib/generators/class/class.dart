@@ -1,5 +1,4 @@
-import 'package:supadart/generators/class/generate_map.dart';
-
+import '../class/generate_map.dart';
 import '../class/to_json.dart';
 import '../swagger/table.dart';
 import '../utils/string_formatters.dart';

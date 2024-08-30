@@ -1,5 +1,4 @@
 import '../swagger/table.dart';
-import '../utils/to_json_encodable.dart';
 
 String generateInsertMethod(Table table) {
   final columns = table.columns;
@@ -20,30 +19,38 @@ String generateInsertMethod(Table table) {
   }
   code.writeln('}) {');
 
-  // Method body
-  code.writeln('  return {');
+  code.writeln('return _generateMap(');
 
-  // Generate key-value pairs
   for (final entry in columns.entries) {
     final columnName = entry.key;
-    final columnDetails = entry.value;
-    final isRequired = columnDetails.isRequired;
-    final dbColName = columnDetails.dbColName;
-    final dartType = columnDetails.dartType;
-    final postgresFormat = columnDetails.postgresFormat;
-
-    final jsonEncodable =
-        toJsonEncodable(dartType, postgresFormat, columnName, columnDetails);
-
-    if (isRequired) {
-      code.writeln("    '$dbColName': $jsonEncodable,");
-    } else {
-      code.writeln(
-          "    if ($columnName != null) '$dbColName': $jsonEncodable,");
-    }
+    code.writeln('  $columnName: $columnName,');
   }
 
-  code.writeln('  };');
+  code.writeln(');');
+
+  // // Method body
+  // code.writeln('  return {');
+  // // Generate key-value pairs
+  // for (final entry in columns.entries) {
+  //   final columnName = entry.key;
+  //   final columnDetails = entry.value;
+  //   final isRequired = columnDetails.isRequired;
+  //   final dbColName = columnDetails.dbColName;
+  //   final dartType = columnDetails.dartType;
+  //   final postgresFormat = columnDetails.postgresFormat;
+
+  //   final jsonEncodable =
+  //       toJsonEncodable(dartType, postgresFormat, columnName, columnDetails);
+
+  //   if (isRequired) {
+  //     code.writeln("    '$dbColName': $jsonEncodable,");
+  //   } else {
+  //     code.writeln(
+  //         "    if ($columnName != null) '$dbColName': $jsonEncodable,");
+  //   }
+  // }
+  // code.writeln('  };');
+
   code.writeln('}');
 
   return code.toString();
