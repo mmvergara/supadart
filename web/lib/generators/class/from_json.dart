@@ -10,7 +10,7 @@ String generateFromJsonMethod(String className, Table table) {
 
   columns.forEach((columnName, columnDetails) {
     code.writeln(
-        '$columnName: ${parseWrapper(columnDetails.dartType, columnDetails, columnName)},');
+        '$columnName: ${parseFromJsonWrapper(columnDetails.dartType, columnDetails, columnName)},');
   });
 
   code.writeln(');');
@@ -20,7 +20,8 @@ String generateFromJsonMethod(String className, Table table) {
   return code.toString();
 }
 
-String parseWrapper(String dartType, Column columnDetails, String columnName) {
+String parseFromJsonWrapper(
+    String dartType, Column columnDetails, String columnName) {
   bool isArray = columnDetails.postgresFormat.contains('[]');
   String format = columnDetails.postgresFormat;
   if (isArray) {

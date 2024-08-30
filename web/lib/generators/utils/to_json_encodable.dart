@@ -13,6 +13,9 @@ String toJsonEncodable(
 
   String parseValue = "";
   switch (dartType) {
+    case "bool":
+      parseValue = columnName;
+      break;
     case "DateTime":
       if (format == "time without time zone") {
         parseValue = isArray

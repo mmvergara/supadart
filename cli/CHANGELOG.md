@@ -1,3 +1,8 @@
+## 1.5.8
+
+- Fix Boolean values encoding
+- New Private Generate Map Method to simplify crud methods
+
 ## 1.5.7
 
 - Fix toJson serialization

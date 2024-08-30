@@ -1,3 +1,4 @@
+import '../class/generate_map.dart';
 import '../class/to_json.dart';
 import '../swagger/table.dart';
 import '../utils/string_formatters.dart';
@@ -39,6 +40,7 @@ List<DartClass> generateDartClasses(
     // Methods
     code.write(generateConverterMethod(className));
     code.write(generateConverterSingleMethod(className));
+    code.write(generateGenerateMapPrivateMethod(table));
     code.write(generateInsertMethod(table));
     code.write(generateUpdateMethod(table));
     code.write(generateFromJsonMethod(className, table));

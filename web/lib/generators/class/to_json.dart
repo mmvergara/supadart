@@ -1,4 +1,3 @@
-import '../utils/to_json_encodable.dart';
 import '../swagger/table.dart';
 
 String generateToJsonMethod(String className, Table table) {
@@ -10,28 +9,15 @@ String generateToJsonMethod(String className, Table table) {
   code.writeln(
       '// Promotion doesn\'t work well with public fields due to the possibility of the field being modified elsewhere.');
 
-  List<String> vars = [];
-  List<String> jsonVars = [];
+  code.writeln('return _generateMap(');
 
   columns.forEach((columnName, columnDetails) {
-    // Generate key-value pairs
-    final dbColName = columnDetails.dbColName;
-    final dartType = columnDetails.dartType;
-    final postgresFormat = columnDetails.postgresFormat;
-
-    final camelColName = columnDetails.camelColName;
-    final tempVarName = 'final $camelColName = this.$camelColName;';
-    vars.add(tempVarName);
-
-    final jsonEncodable =
-        toJsonEncodable(dartType, postgresFormat, camelColName, columnDetails);
-    jsonVars.add("if ($camelColName != null) '$dbColName': $jsonEncodable");
+    code.writeln(
+        '  ${columnDetails.camelColName}: ${columnDetails.camelColName},');
   });
 
-  code.writeln(vars.join('\n'));
-  code.writeln('return {');
-  code.writeln(jsonVars.join(',\n'));
-  code.writeln('};');
+  code.writeln(');');
+
   code.writeln('}');
 
   return code.toString();

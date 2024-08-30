@@ -87,7 +87,7 @@ class StringTypes implements SupadartClass<StringTypes> {
     return StringTypes.fromJson(data);
   }
 
-  static Map<String, dynamic> insert({
+  static Map<String, dynamic> _generateMap({
     String? id,
     String? colUuid,
     List<String>? colUuidArray,
@@ -124,6 +124,30 @@ class StringTypes implements SupadartClass<StringTypes> {
     };
   }
 
+  static Map<String, dynamic> insert({
+    String? id,
+    String? colUuid,
+    List<String>? colUuidArray,
+    String? colCharacter,
+    List<String>? colCharacterArray,
+    String? colCharactervarying,
+    List<String>? colCharactervaryingArray,
+    String? colText,
+    List<String>? colTextArray,
+  }) {
+    return _generateMap(
+      id: id,
+      colUuid: colUuid,
+      colUuidArray: colUuidArray,
+      colCharacter: colCharacter,
+      colCharacterArray: colCharacterArray,
+      colCharactervarying: colCharactervarying,
+      colCharactervaryingArray: colCharactervaryingArray,
+      colText: colText,
+      colTextArray: colTextArray,
+    );
+  }
+
   static Map<String, dynamic> update({
     String? id,
     String? colUuid,
@@ -135,30 +159,17 @@ class StringTypes implements SupadartClass<StringTypes> {
     String? colText,
     List<String>? colTextArray,
   }) {
-    return {
-      if (id != null) 'id': id.toString(),
-      if (colUuid != null) 'col_uuid': colUuid.toString(),
-      if (colUuidArray != null)
-        'col_uuid_array':
-            colUuidArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colCharacter != null) 'col_character': colCharacter.toString(),
-      if (colCharacterArray != null)
-        'col_character_array': colCharacterArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colCharactervarying != null)
-        'col_charactervarying': colCharactervarying.toString(),
-      if (colCharactervaryingArray != null)
-        'col_charactervarying_array': colCharactervaryingArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colText != null) 'col_text': colText.toString(),
-      if (colTextArray != null)
-        'col_text_array':
-            colTextArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-    };
+    return _generateMap(
+      id: id,
+      colUuid: colUuid,
+      colUuidArray: colUuidArray,
+      colCharacter: colCharacter,
+      colCharacterArray: colCharacterArray,
+      colCharactervarying: colCharactervarying,
+      colCharactervaryingArray: colCharactervaryingArray,
+      colText: colText,
+      colTextArray: colTextArray,
+    );
   }
 
   factory StringTypes.fromJson(Map<String, dynamic> json) {
@@ -195,40 +206,18 @@ class StringTypes implements SupadartClass<StringTypes> {
   }
 
   Map<String, dynamic> toJson() {
-// Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
-    final id = this.id;
-    final colUuid = this.colUuid;
-    final colUuidArray = this.colUuidArray;
-    final colCharacter = this.colCharacter;
-    final colCharacterArray = this.colCharacterArray;
-    final colCharactervarying = this.colCharactervarying;
-    final colCharactervaryingArray = this.colCharactervaryingArray;
-    final colText = this.colText;
-    final colTextArray = this.colTextArray;
-    return {
-      if (id != null) 'id': id.toString(),
-      if (colUuid != null) 'col_uuid': colUuid.toString(),
-      if (colUuidArray != null)
-        'col_uuid_array':
-            colUuidArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colCharacter != null) 'col_character': colCharacter.toString(),
-      if (colCharacterArray != null)
-        'col_character_array': colCharacterArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colCharactervarying != null)
-        'col_charactervarying': colCharactervarying.toString(),
-      if (colCharactervaryingArray != null)
-        'col_charactervarying_array': colCharactervaryingArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colText != null) 'col_text': colText.toString(),
-      if (colTextArray != null)
-        'col_text_array':
-            colTextArray.toString().replaceAll("[", "{").replaceAll("]", "}")
-    };
+    // Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
+    return _generateMap(
+      id: id,
+      colUuid: colUuid,
+      colUuidArray: colUuidArray,
+      colCharacter: colCharacter,
+      colCharacterArray: colCharacterArray,
+      colCharactervarying: colCharactervarying,
+      colCharactervaryingArray: colCharactervaryingArray,
+      colText: colText,
+      colTextArray: colTextArray,
+    );
   }
 }
 
@@ -268,7 +257,7 @@ class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
     return BooleanBitTypes.fromJson(data);
   }
 
-  static Map<String, dynamic> insert({
+  static Map<String, dynamic> _generateMap({
     String? id,
     bool? colBoolean,
     List<bool>? colBooleanArray,
@@ -279,7 +268,7 @@ class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
   }) {
     return {
       if (id != null) 'id': id.toString(),
-      if (colBoolean != null) 'col_boolean': colBoolean.toString(),
+      if (colBoolean != null) 'col_boolean': colBoolean,
       if (colBooleanArray != null)
         'col_boolean_array': colBooleanArray
             .toString()
@@ -298,6 +287,26 @@ class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
     };
   }
 
+  static Map<String, dynamic> insert({
+    String? id,
+    bool? colBoolean,
+    List<bool>? colBooleanArray,
+    String? colBit,
+    List<String>? colBitArray,
+    String? colBitvarying,
+    List<String>? colBitvaryingArray,
+  }) {
+    return _generateMap(
+      id: id,
+      colBoolean: colBoolean,
+      colBooleanArray: colBooleanArray,
+      colBit: colBit,
+      colBitArray: colBitArray,
+      colBitvarying: colBitvarying,
+      colBitvaryingArray: colBitvaryingArray,
+    );
+  }
+
   static Map<String, dynamic> update({
     String? id,
     bool? colBoolean,
@@ -307,25 +316,15 @@ class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
     String? colBitvarying,
     List<String>? colBitvaryingArray,
   }) {
-    return {
-      if (id != null) 'id': id.toString(),
-      if (colBoolean != null) 'col_boolean': colBoolean.toString(),
-      if (colBooleanArray != null)
-        'col_boolean_array': colBooleanArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colBit != null) 'col_bit': colBit.toString(),
-      if (colBitArray != null)
-        'col_bit_array':
-            colBitArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colBitvarying != null) 'col_bitvarying': colBitvarying.toString(),
-      if (colBitvaryingArray != null)
-        'col_bitvarying_array': colBitvaryingArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-    };
+    return _generateMap(
+      id: id,
+      colBoolean: colBoolean,
+      colBooleanArray: colBooleanArray,
+      colBit: colBit,
+      colBitArray: colBitArray,
+      colBitvarying: colBitvarying,
+      colBitvaryingArray: colBitvaryingArray,
+    );
   }
 
   factory BooleanBitTypes.fromJson(Map<String, dynamic> json) {
@@ -357,32 +356,15 @@ class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
 
   Map<String, dynamic> toJson() {
 // Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
-    final id = this.id;
-    final colBoolean = this.colBoolean;
-    final colBooleanArray = this.colBooleanArray;
-    final colBit = this.colBit;
-    final colBitArray = this.colBitArray;
-    final colBitvarying = this.colBitvarying;
-    final colBitvaryingArray = this.colBitvaryingArray;
-    return {
-      if (id != null) 'id': id.toString(),
-      if (colBoolean != null) 'col_boolean': colBoolean.toString(),
-      if (colBooleanArray != null)
-        'col_boolean_array': colBooleanArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colBit != null) 'col_bit': colBit.toString(),
-      if (colBitArray != null)
-        'col_bit_array':
-            colBitArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colBitvarying != null) 'col_bitvarying': colBitvarying.toString(),
-      if (colBitvaryingArray != null)
-        'col_bitvarying_array': colBitvaryingArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}")
-    };
+    return _generateMap(
+      id: id,
+      colBoolean: colBoolean,
+      colBooleanArray: colBooleanArray,
+      colBit: colBit,
+      colBitArray: colBitArray,
+      colBitvarying: colBitvarying,
+      colBitvaryingArray: colBitvaryingArray,
+    );
   }
 }
 
@@ -419,7 +401,7 @@ class CombinedTypesView implements SupadartClass<CombinedTypesView> {
     return CombinedTypesView.fromJson(data);
   }
 
-  static Map<String, dynamic> insert({
+  static Map<String, dynamic> _generateMap({
     String? numericId,
     int? colInteger,
     double? colDouble,
@@ -437,6 +419,24 @@ class CombinedTypesView implements SupadartClass<CombinedTypesView> {
     };
   }
 
+  static Map<String, dynamic> insert({
+    String? numericId,
+    int? colInteger,
+    double? colDouble,
+    String? stringId,
+    String? colText,
+    String? colUuid,
+  }) {
+    return _generateMap(
+      numericId: numericId,
+      colInteger: colInteger,
+      colDouble: colDouble,
+      stringId: stringId,
+      colText: colText,
+      colUuid: colUuid,
+    );
+  }
+
   static Map<String, dynamic> update({
     String? numericId,
     int? colInteger,
@@ -445,14 +445,14 @@ class CombinedTypesView implements SupadartClass<CombinedTypesView> {
     String? colText,
     String? colUuid,
   }) {
-    return {
-      if (numericId != null) 'numeric_id': numericId.toString(),
-      if (colInteger != null) 'col_integer': colInteger.toString(),
-      if (colDouble != null) 'col_double': colDouble.toString(),
-      if (stringId != null) 'string_id': stringId.toString(),
-      if (colText != null) 'col_text': colText.toString(),
-      if (colUuid != null) 'col_uuid': colUuid.toString(),
-    };
+    return _generateMap(
+      numericId: numericId,
+      colInteger: colInteger,
+      colDouble: colDouble,
+      stringId: stringId,
+      colText: colText,
+      colUuid: colUuid,
+    );
   }
 
   factory CombinedTypesView.fromJson(Map<String, dynamic> json) {
@@ -471,20 +471,14 @@ class CombinedTypesView implements SupadartClass<CombinedTypesView> {
 
   Map<String, dynamic> toJson() {
 // Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
-    final numericId = this.numericId;
-    final colInteger = this.colInteger;
-    final colDouble = this.colDouble;
-    final stringId = this.stringId;
-    final colText = this.colText;
-    final colUuid = this.colUuid;
-    return {
-      if (numericId != null) 'numeric_id': numericId.toString(),
-      if (colInteger != null) 'col_integer': colInteger.toString(),
-      if (colDouble != null) 'col_double': colDouble.toString(),
-      if (stringId != null) 'string_id': stringId.toString(),
-      if (colText != null) 'col_text': colText.toString(),
-      if (colUuid != null) 'col_uuid': colUuid.toString()
-    };
+    return _generateMap(
+      numericId: numericId,
+      colInteger: colInteger,
+      colDouble: colDouble,
+      stringId: stringId,
+      colText: colText,
+      colUuid: colUuid,
+    );
   }
 }
 
@@ -542,7 +536,7 @@ class MiscTypes implements SupadartClass<MiscTypes> {
     return MiscTypes.fromJson(data);
   }
 
-  static Map<String, dynamic> insert({
+  static Map<String, dynamic> _generateMap({
     String? id,
     String? colMoney,
     List<String>? colMoneyArray,
@@ -595,6 +589,38 @@ class MiscTypes implements SupadartClass<MiscTypes> {
     };
   }
 
+  static Map<String, dynamic> insert({
+    String? id,
+    String? colMoney,
+    List<String>? colMoneyArray,
+    String? colPgLsn,
+    List<String>? colPgLsnArray,
+    String? colPgSnapshot,
+    List<String>? colPgSnapshotArray,
+    String? colTsquery,
+    List<String>? colTsqueryArray,
+    String? colTsvector,
+    List<String>? colTsvectorArray,
+    String? colTxidSnapshot,
+    List<String>? colTxidSnapshotArray,
+  }) {
+    return _generateMap(
+      id: id,
+      colMoney: colMoney,
+      colMoneyArray: colMoneyArray,
+      colPgLsn: colPgLsn,
+      colPgLsnArray: colPgLsnArray,
+      colPgSnapshot: colPgSnapshot,
+      colPgSnapshotArray: colPgSnapshotArray,
+      colTsquery: colTsquery,
+      colTsqueryArray: colTsqueryArray,
+      colTsvector: colTsvector,
+      colTsvectorArray: colTsvectorArray,
+      colTxidSnapshot: colTxidSnapshot,
+      colTxidSnapshotArray: colTxidSnapshotArray,
+    );
+  }
+
   static Map<String, dynamic> update({
     String? id,
     String? colMoney,
@@ -610,42 +636,21 @@ class MiscTypes implements SupadartClass<MiscTypes> {
     String? colTxidSnapshot,
     List<String>? colTxidSnapshotArray,
   }) {
-    return {
-      if (id != null) 'id': id.toString(),
-      if (colMoney != null) 'col_money': colMoney.toString(),
-      if (colMoneyArray != null)
-        'col_money_array':
-            colMoneyArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colPgLsn != null) 'col_pg_lsn': colPgLsn.toString(),
-      if (colPgLsnArray != null)
-        'col_pg_lsn_array':
-            colPgLsnArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colPgSnapshot != null) 'col_pg_snapshot': colPgSnapshot.toString(),
-      if (colPgSnapshotArray != null)
-        'col_pg_snapshot_array': colPgSnapshotArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colTsquery != null) 'col_tsquery': colTsquery.toString(),
-      if (colTsqueryArray != null)
-        'col_tsquery_array': colTsqueryArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colTsvector != null) 'col_tsvector': colTsvector.toString(),
-      if (colTsvectorArray != null)
-        'col_tsvector_array': colTsvectorArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colTxidSnapshot != null)
-        'col_txid_snapshot': colTxidSnapshot.toString(),
-      if (colTxidSnapshotArray != null)
-        'col_txid_snapshot_array': colTxidSnapshotArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-    };
+    return _generateMap(
+      id: id,
+      colMoney: colMoney,
+      colMoneyArray: colMoneyArray,
+      colPgLsn: colPgLsn,
+      colPgLsnArray: colPgLsnArray,
+      colPgSnapshot: colPgSnapshot,
+      colPgSnapshotArray: colPgSnapshotArray,
+      colTsquery: colTsquery,
+      colTsqueryArray: colTsqueryArray,
+      colTsvector: colTsvector,
+      colTsvectorArray: colTsvectorArray,
+      colTxidSnapshot: colTxidSnapshot,
+      colTxidSnapshotArray: colTxidSnapshotArray,
+    );
   }
 
   factory MiscTypes.fromJson(Map<String, dynamic> json) {
@@ -698,55 +703,21 @@ class MiscTypes implements SupadartClass<MiscTypes> {
 
   Map<String, dynamic> toJson() {
 // Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
-    final id = this.id;
-    final colMoney = this.colMoney;
-    final colMoneyArray = this.colMoneyArray;
-    final colPgLsn = this.colPgLsn;
-    final colPgLsnArray = this.colPgLsnArray;
-    final colPgSnapshot = this.colPgSnapshot;
-    final colPgSnapshotArray = this.colPgSnapshotArray;
-    final colTsquery = this.colTsquery;
-    final colTsqueryArray = this.colTsqueryArray;
-    final colTsvector = this.colTsvector;
-    final colTsvectorArray = this.colTsvectorArray;
-    final colTxidSnapshot = this.colTxidSnapshot;
-    final colTxidSnapshotArray = this.colTxidSnapshotArray;
-    return {
-      if (id != null) 'id': id.toString(),
-      if (colMoney != null) 'col_money': colMoney.toString(),
-      if (colMoneyArray != null)
-        'col_money_array':
-            colMoneyArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colPgLsn != null) 'col_pg_lsn': colPgLsn.toString(),
-      if (colPgLsnArray != null)
-        'col_pg_lsn_array':
-            colPgLsnArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colPgSnapshot != null) 'col_pg_snapshot': colPgSnapshot.toString(),
-      if (colPgSnapshotArray != null)
-        'col_pg_snapshot_array': colPgSnapshotArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colTsquery != null) 'col_tsquery': colTsquery.toString(),
-      if (colTsqueryArray != null)
-        'col_tsquery_array': colTsqueryArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colTsvector != null) 'col_tsvector': colTsvector.toString(),
-      if (colTsvectorArray != null)
-        'col_tsvector_array': colTsvectorArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colTxidSnapshot != null)
-        'col_txid_snapshot': colTxidSnapshot.toString(),
-      if (colTxidSnapshotArray != null)
-        'col_txid_snapshot_array': colTxidSnapshotArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}")
-    };
+    return _generateMap(
+      id: id,
+      colMoney: colMoney,
+      colMoneyArray: colMoneyArray,
+      colPgLsn: colPgLsn,
+      colPgLsnArray: colPgLsnArray,
+      colPgSnapshot: colPgSnapshot,
+      colPgSnapshotArray: colPgSnapshotArray,
+      colTsquery: colTsquery,
+      colTsqueryArray: colTsqueryArray,
+      colTsvector: colTsvector,
+      colTsvectorArray: colTsvectorArray,
+      colTxidSnapshot: colTxidSnapshot,
+      colTxidSnapshotArray: colTxidSnapshotArray,
+    );
   }
 }
 
@@ -780,23 +751,7 @@ class Books implements SupadartClass<Books> {
     return Books.fromJson(data);
   }
 
-  static Map<String, dynamic> insert({
-    BigInt? id,
-    required String name,
-    String? description,
-    required int price,
-    DateTime? createdAt,
-  }) {
-    return {
-      if (id != null) 'id': id.toString(),
-      'name': name.toString(),
-      if (description != null) 'description': description.toString(),
-      'price': price.toString(),
-      if (createdAt != null) 'created_at': createdAt.toUtc().toString(),
-    };
-  }
-
-  static Map<String, dynamic> update({
+  static Map<String, dynamic> _generateMap({
     BigInt? id,
     String? name,
     String? description,
@@ -810,6 +765,38 @@ class Books implements SupadartClass<Books> {
       if (price != null) 'price': price.toString(),
       if (createdAt != null) 'created_at': createdAt.toUtc().toString(),
     };
+  }
+
+  static Map<String, dynamic> insert({
+    BigInt? id,
+    required String name,
+    String? description,
+    required int price,
+    DateTime? createdAt,
+  }) {
+    return _generateMap(
+      id: id,
+      name: name,
+      description: description,
+      price: price,
+      createdAt: createdAt,
+    );
+  }
+
+  static Map<String, dynamic> update({
+    BigInt? id,
+    String? name,
+    String? description,
+    int? price,
+    DateTime? createdAt,
+  }) {
+    return _generateMap(
+      id: id,
+      name: name,
+      description: description,
+      price: price,
+      createdAt: createdAt,
+    );
   }
 
   factory Books.fromJson(Map<String, dynamic> json) {
@@ -829,18 +816,13 @@ class Books implements SupadartClass<Books> {
 
   Map<String, dynamic> toJson() {
 // Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
-    final id = this.id;
-    final name = this.name;
-    final description = this.description;
-    final price = this.price;
-    final createdAt = this.createdAt;
-    return {
-      if (id != null) 'id': id.toString(),
-      if (name != null) 'name': name.toString(),
-      if (description != null) 'description': description.toString(),
-      if (price != null) 'price': price.toString(),
-      if (createdAt != null) 'created_at': createdAt.toUtc().toString()
-    };
+    return _generateMap(
+      id: id,
+      name: name,
+      description: description,
+      price: price,
+      createdAt: createdAt,
+    );
   }
 }
 
@@ -904,7 +886,7 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
     return GeometricTypes.fromJson(data);
   }
 
-  static Map<String, dynamic> insert({
+  static Map<String, dynamic> _generateMap({
     String? id,
     String? colPoint,
     List<String>? colPointArray,
@@ -956,6 +938,42 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
     };
   }
 
+  static Map<String, dynamic> insert({
+    String? id,
+    String? colPoint,
+    List<String>? colPointArray,
+    String? colLine,
+    List<String>? colLineArray,
+    String? colLseg,
+    List<String>? colLsegArray,
+    String? colBox,
+    List<String>? colBoxArray,
+    String? colPath,
+    List<String>? colPathArray,
+    String? colPolygon,
+    List<String>? colPolygonArray,
+    String? colCircle,
+    List<String>? colCircleArray,
+  }) {
+    return _generateMap(
+      id: id,
+      colPoint: colPoint,
+      colPointArray: colPointArray,
+      colLine: colLine,
+      colLineArray: colLineArray,
+      colLseg: colLseg,
+      colLsegArray: colLsegArray,
+      colBox: colBox,
+      colBoxArray: colBoxArray,
+      colPath: colPath,
+      colPathArray: colPathArray,
+      colPolygon: colPolygon,
+      colPolygonArray: colPolygonArray,
+      colCircle: colCircle,
+      colCircleArray: colCircleArray,
+    );
+  }
+
   static Map<String, dynamic> update({
     String? id,
     String? colPoint,
@@ -973,39 +991,23 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
     String? colCircle,
     List<String>? colCircleArray,
   }) {
-    return {
-      if (id != null) 'id': id.toString(),
-      if (colPoint != null) 'col_point': colPoint.toString(),
-      if (colPointArray != null)
-        'col_point_array':
-            colPointArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colLine != null) 'col_line': colLine.toString(),
-      if (colLineArray != null)
-        'col_line_array':
-            colLineArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colLseg != null) 'col_lseg': colLseg.toString(),
-      if (colLsegArray != null)
-        'col_lseg_array':
-            colLsegArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colBox != null) 'col_box': colBox.toString(),
-      if (colBoxArray != null)
-        'col_box_array':
-            colBoxArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colPath != null) 'col_path': colPath.toString(),
-      if (colPathArray != null)
-        'col_path_array':
-            colPathArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colPolygon != null) 'col_polygon': colPolygon.toString(),
-      if (colPolygonArray != null)
-        'col_polygon_array': colPolygonArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colCircle != null) 'col_circle': colCircle.toString(),
-      if (colCircleArray != null)
-        'col_circle_array':
-            colCircleArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-    };
+    return _generateMap(
+      id: id,
+      colPoint: colPoint,
+      colPointArray: colPointArray,
+      colLine: colLine,
+      colLineArray: colLineArray,
+      colLseg: colLseg,
+      colLsegArray: colLsegArray,
+      colBox: colBox,
+      colBoxArray: colBoxArray,
+      colPath: colPath,
+      colPathArray: colPathArray,
+      colPolygon: colPolygon,
+      colPolygonArray: colPolygonArray,
+      colCircle: colCircle,
+      colCircleArray: colCircleArray,
+    );
   }
 
   factory GeometricTypes.fromJson(Map<String, dynamic> json) {
@@ -1060,54 +1062,23 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
 
   Map<String, dynamic> toJson() {
 // Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
-    final id = this.id;
-    final colPoint = this.colPoint;
-    final colPointArray = this.colPointArray;
-    final colLine = this.colLine;
-    final colLineArray = this.colLineArray;
-    final colLseg = this.colLseg;
-    final colLsegArray = this.colLsegArray;
-    final colBox = this.colBox;
-    final colBoxArray = this.colBoxArray;
-    final colPath = this.colPath;
-    final colPathArray = this.colPathArray;
-    final colPolygon = this.colPolygon;
-    final colPolygonArray = this.colPolygonArray;
-    final colCircle = this.colCircle;
-    final colCircleArray = this.colCircleArray;
-    return {
-      if (id != null) 'id': id.toString(),
-      if (colPoint != null) 'col_point': colPoint.toString(),
-      if (colPointArray != null)
-        'col_point_array':
-            colPointArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colLine != null) 'col_line': colLine.toString(),
-      if (colLineArray != null)
-        'col_line_array':
-            colLineArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colLseg != null) 'col_lseg': colLseg.toString(),
-      if (colLsegArray != null)
-        'col_lseg_array':
-            colLsegArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colBox != null) 'col_box': colBox.toString(),
-      if (colBoxArray != null)
-        'col_box_array':
-            colBoxArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colPath != null) 'col_path': colPath.toString(),
-      if (colPathArray != null)
-        'col_path_array':
-            colPathArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colPolygon != null) 'col_polygon': colPolygon.toString(),
-      if (colPolygonArray != null)
-        'col_polygon_array': colPolygonArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colCircle != null) 'col_circle': colCircle.toString(),
-      if (colCircleArray != null)
-        'col_circle_array':
-            colCircleArray.toString().replaceAll("[", "{").replaceAll("]", "}")
-    };
+    return _generateMap(
+      id: id,
+      colPoint: colPoint,
+      colPointArray: colPointArray,
+      colLine: colLine,
+      colLineArray: colLineArray,
+      colLseg: colLseg,
+      colLsegArray: colLsegArray,
+      colBox: colBox,
+      colBoxArray: colBoxArray,
+      colPath: colPath,
+      colPathArray: colPathArray,
+      colPolygon: colPolygon,
+      colPolygonArray: colPolygonArray,
+      colCircle: colCircle,
+      colCircleArray: colCircleArray,
+    );
   }
 }
 
@@ -1133,17 +1104,7 @@ class EnumTypes implements SupadartClass<EnumTypes> {
     return EnumTypes.fromJson(data);
   }
 
-  static Map<String, dynamic> insert({
-    String? id,
-    required MOOD colMood,
-  }) {
-    return {
-      if (id != null) 'id': id.toString(),
-      'col_mood': colMood.toString().split('.').last,
-    };
-  }
-
-  static Map<String, dynamic> update({
+  static Map<String, dynamic> _generateMap({
     String? id,
     MOOD? colMood,
   }) {
@@ -1151,6 +1112,26 @@ class EnumTypes implements SupadartClass<EnumTypes> {
       if (id != null) 'id': id.toString(),
       if (colMood != null) 'col_mood': colMood.toString().split('.').last,
     };
+  }
+
+  static Map<String, dynamic> insert({
+    String? id,
+    required MOOD colMood,
+  }) {
+    return _generateMap(
+      id: id,
+      colMood: colMood,
+    );
+  }
+
+  static Map<String, dynamic> update({
+    String? id,
+    MOOD? colMood,
+  }) {
+    return _generateMap(
+      id: id,
+      colMood: colMood,
+    );
   }
 
   factory EnumTypes.fromJson(Map<String, dynamic> json) {
@@ -1164,12 +1145,10 @@ class EnumTypes implements SupadartClass<EnumTypes> {
 
   Map<String, dynamic> toJson() {
 // Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
-    final id = this.id;
-    final colMood = this.colMood;
-    return {
-      if (id != null) 'id': id.toString(),
-      if (colMood != null) 'col_mood': colMood.toString().split('.').last
-    };
+    return _generateMap(
+      id: id,
+      colMood: colMood,
+    );
   }
 }
 
@@ -1203,7 +1182,7 @@ class JsonTypes implements SupadartClass<JsonTypes> {
     return JsonTypes.fromJson(data);
   }
 
-  static Map<String, dynamic> insert({
+  static Map<String, dynamic> _generateMap({
     String? id,
     Map<String, dynamic>? colJson,
     List<Map<String, dynamic>>? colJsonArray,
@@ -1231,6 +1210,22 @@ class JsonTypes implements SupadartClass<JsonTypes> {
     };
   }
 
+  static Map<String, dynamic> insert({
+    String? id,
+    Map<String, dynamic>? colJson,
+    List<Map<String, dynamic>>? colJsonArray,
+    Map<String, dynamic>? colJsonb,
+    List<Map<String, dynamic>>? colJsonbArray,
+  }) {
+    return _generateMap(
+      id: id,
+      colJson: colJson,
+      colJsonArray: colJsonArray,
+      colJsonb: colJsonb,
+      colJsonbArray: colJsonbArray,
+    );
+  }
+
   static Map<String, dynamic> update({
     String? id,
     Map<String, dynamic>? colJson,
@@ -1238,25 +1233,13 @@ class JsonTypes implements SupadartClass<JsonTypes> {
     Map<String, dynamic>? colJsonb,
     List<Map<String, dynamic>>? colJsonbArray,
   }) {
-    return {
-      if (id != null) 'id': id.toString(),
-      if (colJson != null) 'col_json': colJson,
-      if (colJsonArray != null)
-        'col_json_array': jsonEncode(colJsonArray)
-            .replaceAll('"', '\\"')
-            .replaceAll("{", '"{')
-            .replaceAll("}", '}"')
-            .replaceAll("[", '{')
-            .replaceAll("]", '}'),
-      if (colJsonb != null) 'col_jsonb': colJsonb,
-      if (colJsonbArray != null)
-        'col_jsonb_array': jsonEncode(colJsonbArray)
-            .replaceAll('"', '\\"')
-            .replaceAll("{", '"{')
-            .replaceAll("}", '}"')
-            .replaceAll("[", '{')
-            .replaceAll("]", '}'),
-    };
+    return _generateMap(
+      id: id,
+      colJson: colJson,
+      colJsonArray: colJsonArray,
+      colJsonb: colJsonb,
+      colJsonbArray: colJsonbArray,
+    );
   }
 
   factory JsonTypes.fromJson(Map<String, dynamic> json) {
@@ -1283,30 +1266,13 @@ class JsonTypes implements SupadartClass<JsonTypes> {
 
   Map<String, dynamic> toJson() {
 // Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
-    final id = this.id;
-    final colJson = this.colJson;
-    final colJsonArray = this.colJsonArray;
-    final colJsonb = this.colJsonb;
-    final colJsonbArray = this.colJsonbArray;
-    return {
-      if (id != null) 'id': id.toString(),
-      if (colJson != null) 'col_json': colJson,
-      if (colJsonArray != null)
-        'col_json_array': jsonEncode(colJsonArray)
-            .replaceAll('"', '\\"')
-            .replaceAll("{", '"{')
-            .replaceAll("}", '}"')
-            .replaceAll("[", '{')
-            .replaceAll("]", '}'),
-      if (colJsonb != null) 'col_jsonb': colJsonb,
-      if (colJsonbArray != null)
-        'col_jsonb_array': jsonEncode(colJsonbArray)
-            .replaceAll('"', '\\"')
-            .replaceAll("{", '"{')
-            .replaceAll("}", '}"')
-            .replaceAll("[", '{')
-            .replaceAll("]", '}')
-    };
+    return _generateMap(
+      id: id,
+      colJson: colJson,
+      colJsonArray: colJsonArray,
+      colJsonb: colJsonb,
+      colJsonbArray: colJsonbArray,
+    );
   }
 }
 
@@ -1340,7 +1306,7 @@ class BinaryXmlTypes implements SupadartClass<BinaryXmlTypes> {
     return BinaryXmlTypes.fromJson(data);
   }
 
-  static Map<String, dynamic> insert({
+  static Map<String, dynamic> _generateMap({
     String? id,
     String? colBytea,
     List<String>? colByteaArray,
@@ -1360,6 +1326,22 @@ class BinaryXmlTypes implements SupadartClass<BinaryXmlTypes> {
     };
   }
 
+  static Map<String, dynamic> insert({
+    String? id,
+    String? colBytea,
+    List<String>? colByteaArray,
+    String? colXml,
+    List<String>? colXmlArray,
+  }) {
+    return _generateMap(
+      id: id,
+      colBytea: colBytea,
+      colByteaArray: colByteaArray,
+      colXml: colXml,
+      colXmlArray: colXmlArray,
+    );
+  }
+
   static Map<String, dynamic> update({
     String? id,
     String? colBytea,
@@ -1367,17 +1349,13 @@ class BinaryXmlTypes implements SupadartClass<BinaryXmlTypes> {
     String? colXml,
     List<String>? colXmlArray,
   }) {
-    return {
-      if (id != null) 'id': id.toString(),
-      if (colBytea != null) 'col_bytea': colBytea.toString(),
-      if (colByteaArray != null)
-        'col_bytea_array':
-            colByteaArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colXml != null) 'col_xml': colXml.toString(),
-      if (colXmlArray != null)
-        'col_xml_array':
-            colXmlArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-    };
+    return _generateMap(
+      id: id,
+      colBytea: colBytea,
+      colByteaArray: colByteaArray,
+      colXml: colXml,
+      colXmlArray: colXmlArray,
+    );
   }
 
   factory BinaryXmlTypes.fromJson(Map<String, dynamic> json) {
@@ -1400,22 +1378,13 @@ class BinaryXmlTypes implements SupadartClass<BinaryXmlTypes> {
 
   Map<String, dynamic> toJson() {
 // Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
-    final id = this.id;
-    final colBytea = this.colBytea;
-    final colByteaArray = this.colByteaArray;
-    final colXml = this.colXml;
-    final colXmlArray = this.colXmlArray;
-    return {
-      if (id != null) 'id': id.toString(),
-      if (colBytea != null) 'col_bytea': colBytea.toString(),
-      if (colByteaArray != null)
-        'col_bytea_array':
-            colByteaArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colXml != null) 'col_xml': colXml.toString(),
-      if (colXmlArray != null)
-        'col_xml_array':
-            colXmlArray.toString().replaceAll("[", "{").replaceAll("]", "}")
-    };
+    return _generateMap(
+      id: id,
+      colBytea: colBytea,
+      colByteaArray: colByteaArray,
+      colXml: colXml,
+      colXmlArray: colXmlArray,
+    );
   }
 }
 
@@ -1461,7 +1430,7 @@ class NetworkTypes implements SupadartClass<NetworkTypes> {
     return NetworkTypes.fromJson(data);
   }
 
-  static Map<String, dynamic> insert({
+  static Map<String, dynamic> _generateMap({
     String? id,
     String? colCidr,
     List<String>? colCidrArray,
@@ -1497,6 +1466,30 @@ class NetworkTypes implements SupadartClass<NetworkTypes> {
     };
   }
 
+  static Map<String, dynamic> insert({
+    String? id,
+    String? colCidr,
+    List<String>? colCidrArray,
+    String? colInet,
+    List<String>? colInetArray,
+    String? colMacaddr,
+    List<String>? colMacaddrArray,
+    String? colMacaddr8,
+    List<String>? colMacaddr8Array,
+  }) {
+    return _generateMap(
+      id: id,
+      colCidr: colCidr,
+      colCidrArray: colCidrArray,
+      colInet: colInet,
+      colInetArray: colInetArray,
+      colMacaddr: colMacaddr,
+      colMacaddrArray: colMacaddrArray,
+      colMacaddr8: colMacaddr8,
+      colMacaddr8Array: colMacaddr8Array,
+    );
+  }
+
   static Map<String, dynamic> update({
     String? id,
     String? colCidr,
@@ -1508,29 +1501,17 @@ class NetworkTypes implements SupadartClass<NetworkTypes> {
     String? colMacaddr8,
     List<String>? colMacaddr8Array,
   }) {
-    return {
-      if (id != null) 'id': id.toString(),
-      if (colCidr != null) 'col_cidr': colCidr.toString(),
-      if (colCidrArray != null)
-        'col_cidr_array':
-            colCidrArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colInet != null) 'col_inet': colInet.toString(),
-      if (colInetArray != null)
-        'col_inet_array':
-            colInetArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colMacaddr != null) 'col_macaddr': colMacaddr.toString(),
-      if (colMacaddrArray != null)
-        'col_macaddr_array': colMacaddrArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colMacaddr8 != null) 'col_macaddr8': colMacaddr8.toString(),
-      if (colMacaddr8Array != null)
-        'col_macaddr8_array': colMacaddr8Array
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-    };
+    return _generateMap(
+      id: id,
+      colCidr: colCidr,
+      colCidrArray: colCidrArray,
+      colInet: colInet,
+      colInetArray: colInetArray,
+      colMacaddr: colMacaddr,
+      colMacaddrArray: colMacaddrArray,
+      colMacaddr8: colMacaddr8,
+      colMacaddr8Array: colMacaddr8Array,
+    );
   }
 
   factory NetworkTypes.fromJson(Map<String, dynamic> json) {
@@ -1567,38 +1548,17 @@ class NetworkTypes implements SupadartClass<NetworkTypes> {
 
   Map<String, dynamic> toJson() {
 // Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
-    final id = this.id;
-    final colCidr = this.colCidr;
-    final colCidrArray = this.colCidrArray;
-    final colInet = this.colInet;
-    final colInetArray = this.colInetArray;
-    final colMacaddr = this.colMacaddr;
-    final colMacaddrArray = this.colMacaddrArray;
-    final colMacaddr8 = this.colMacaddr8;
-    final colMacaddr8Array = this.colMacaddr8Array;
-    return {
-      if (id != null) 'id': id.toString(),
-      if (colCidr != null) 'col_cidr': colCidr.toString(),
-      if (colCidrArray != null)
-        'col_cidr_array':
-            colCidrArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colInet != null) 'col_inet': colInet.toString(),
-      if (colInetArray != null)
-        'col_inet_array':
-            colInetArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colMacaddr != null) 'col_macaddr': colMacaddr.toString(),
-      if (colMacaddrArray != null)
-        'col_macaddr_array': colMacaddrArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colMacaddr8 != null) 'col_macaddr8': colMacaddr8.toString(),
-      if (colMacaddr8Array != null)
-        'col_macaddr8_array': colMacaddr8Array
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}")
-    };
+    return _generateMap(
+      id: id,
+      colCidr: colCidr,
+      colCidrArray: colCidrArray,
+      colInet: colInet,
+      colInetArray: colInetArray,
+      colMacaddr: colMacaddr,
+      colMacaddrArray: colMacaddrArray,
+      colMacaddr8: colMacaddr8,
+      colMacaddr8Array: colMacaddr8Array,
+    );
   }
 }
 
@@ -1674,7 +1634,7 @@ class NumericTypes implements SupadartClass<NumericTypes> {
     return NumericTypes.fromJson(data);
   }
 
-  static Map<String, dynamic> insert({
+  static Map<String, dynamic> _generateMap({
     String? id,
     BigInt? colBigint,
     List<BigInt>? colBigintArray,
@@ -1746,6 +1706,50 @@ class NumericTypes implements SupadartClass<NumericTypes> {
     };
   }
 
+  static Map<String, dynamic> insert({
+    String? id,
+    BigInt? colBigint,
+    List<BigInt>? colBigintArray,
+    BigInt? colBigserial,
+    List<BigInt>? colBigserialArray,
+    int? colInteger,
+    List<int>? colIntegerArray,
+    int? colSmallint,
+    List<int>? colSmallintArray,
+    int? colSmallserial,
+    List<int>? colSmallserialArray,
+    int? colSerial,
+    List<int>? colSerialArray,
+    double? colDouble,
+    List<double>? colDoubleArray,
+    double? colReal,
+    List<double>? colRealArray,
+    num? colNumeric,
+    List<num>? colNumericArray,
+  }) {
+    return _generateMap(
+      id: id,
+      colBigint: colBigint,
+      colBigintArray: colBigintArray,
+      colBigserial: colBigserial,
+      colBigserialArray: colBigserialArray,
+      colInteger: colInteger,
+      colIntegerArray: colIntegerArray,
+      colSmallint: colSmallint,
+      colSmallintArray: colSmallintArray,
+      colSmallserial: colSmallserial,
+      colSmallserialArray: colSmallserialArray,
+      colSerial: colSerial,
+      colSerialArray: colSerialArray,
+      colDouble: colDouble,
+      colDoubleArray: colDoubleArray,
+      colReal: colReal,
+      colRealArray: colRealArray,
+      colNumeric: colNumeric,
+      colNumericArray: colNumericArray,
+    );
+  }
+
   static Map<String, dynamic> update({
     String? id,
     BigInt? colBigint,
@@ -1767,55 +1771,27 @@ class NumericTypes implements SupadartClass<NumericTypes> {
     num? colNumeric,
     List<num>? colNumericArray,
   }) {
-    return {
-      if (id != null) 'id': id.toString(),
-      if (colBigint != null) 'col_bigint': colBigint.toString(),
-      if (colBigintArray != null)
-        'col_bigint_array':
-            colBigintArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colBigserial != null) 'col_bigserial': colBigserial.toString(),
-      if (colBigserialArray != null)
-        'col_bigserial_array': colBigserialArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colInteger != null) 'col_integer': colInteger.toString(),
-      if (colIntegerArray != null)
-        'col_integer_array': colIntegerArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colSmallint != null) 'col_smallint': colSmallint.toString(),
-      if (colSmallintArray != null)
-        'col_smallint_array': colSmallintArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colSmallserial != null) 'col_smallserial': colSmallserial.toString(),
-      if (colSmallserialArray != null)
-        'col_smallserial_array': colSmallserialArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colSerial != null) 'col_serial': colSerial.toString(),
-      if (colSerialArray != null)
-        'col_serial_array':
-            colSerialArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colDouble != null) 'col_double': colDouble.toString(),
-      if (colDoubleArray != null)
-        'col_double_array':
-            colDoubleArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colReal != null) 'col_real': colReal.toString(),
-      if (colRealArray != null)
-        'col_real_array':
-            colRealArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colNumeric != null) 'col_numeric': colNumeric.toString(),
-      if (colNumericArray != null)
-        'col_numeric_array': colNumericArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-    };
+    return _generateMap(
+      id: id,
+      colBigint: colBigint,
+      colBigintArray: colBigintArray,
+      colBigserial: colBigserial,
+      colBigserialArray: colBigserialArray,
+      colInteger: colInteger,
+      colIntegerArray: colIntegerArray,
+      colSmallint: colSmallint,
+      colSmallintArray: colSmallintArray,
+      colSmallserial: colSmallserial,
+      colSmallserialArray: colSmallserialArray,
+      colSerial: colSerial,
+      colSerialArray: colSerialArray,
+      colDouble: colDouble,
+      colDoubleArray: colDoubleArray,
+      colReal: colReal,
+      colRealArray: colRealArray,
+      colNumeric: colNumeric,
+      colNumericArray: colNumericArray,
+    );
   }
 
   factory NumericTypes.fromJson(Map<String, dynamic> json) {
@@ -1892,72 +1868,27 @@ class NumericTypes implements SupadartClass<NumericTypes> {
 
   Map<String, dynamic> toJson() {
 // Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
-    final id = this.id;
-    final colBigint = this.colBigint;
-    final colBigintArray = this.colBigintArray;
-    final colBigserial = this.colBigserial;
-    final colBigserialArray = this.colBigserialArray;
-    final colInteger = this.colInteger;
-    final colIntegerArray = this.colIntegerArray;
-    final colSmallint = this.colSmallint;
-    final colSmallintArray = this.colSmallintArray;
-    final colSmallserial = this.colSmallserial;
-    final colSmallserialArray = this.colSmallserialArray;
-    final colSerial = this.colSerial;
-    final colSerialArray = this.colSerialArray;
-    final colDouble = this.colDouble;
-    final colDoubleArray = this.colDoubleArray;
-    final colReal = this.colReal;
-    final colRealArray = this.colRealArray;
-    final colNumeric = this.colNumeric;
-    final colNumericArray = this.colNumericArray;
-    return {
-      if (id != null) 'id': id.toString(),
-      if (colBigint != null) 'col_bigint': colBigint.toString(),
-      if (colBigintArray != null)
-        'col_bigint_array':
-            colBigintArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colBigserial != null) 'col_bigserial': colBigserial.toString(),
-      if (colBigserialArray != null)
-        'col_bigserial_array': colBigserialArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colInteger != null) 'col_integer': colInteger.toString(),
-      if (colIntegerArray != null)
-        'col_integer_array': colIntegerArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colSmallint != null) 'col_smallint': colSmallint.toString(),
-      if (colSmallintArray != null)
-        'col_smallint_array': colSmallintArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colSmallserial != null) 'col_smallserial': colSmallserial.toString(),
-      if (colSmallserialArray != null)
-        'col_smallserial_array': colSmallserialArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colSerial != null) 'col_serial': colSerial.toString(),
-      if (colSerialArray != null)
-        'col_serial_array':
-            colSerialArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colDouble != null) 'col_double': colDouble.toString(),
-      if (colDoubleArray != null)
-        'col_double_array':
-            colDoubleArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colReal != null) 'col_real': colReal.toString(),
-      if (colRealArray != null)
-        'col_real_array':
-            colRealArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colNumeric != null) 'col_numeric': colNumeric.toString(),
-      if (colNumericArray != null)
-        'col_numeric_array':
-            colNumericArray.toString().replaceAll("[", "{").replaceAll("]", "}")
-    };
+    return _generateMap(
+      id: id,
+      colBigint: colBigint,
+      colBigintArray: colBigintArray,
+      colBigserial: colBigserial,
+      colBigserialArray: colBigserialArray,
+      colInteger: colInteger,
+      colIntegerArray: colIntegerArray,
+      colSmallint: colSmallint,
+      colSmallintArray: colSmallintArray,
+      colSmallserial: colSmallserial,
+      colSmallserialArray: colSmallserialArray,
+      colSerial: colSerial,
+      colSerialArray: colSerialArray,
+      colDouble: colDouble,
+      colDoubleArray: colDoubleArray,
+      colReal: colReal,
+      colRealArray: colRealArray,
+      colNumeric: colNumeric,
+      colNumericArray: colNumericArray,
+    );
   }
 }
 
@@ -2015,7 +1946,7 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
     return DatetimeTypes.fromJson(data);
   }
 
-  static Map<String, dynamic> insert({
+  static Map<String, dynamic> _generateMap({
     String? id,
     DateTime? colDate,
     List<DateTime>? colDateArray,
@@ -2068,6 +1999,38 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
     };
   }
 
+  static Map<String, dynamic> insert({
+    String? id,
+    DateTime? colDate,
+    List<DateTime>? colDateArray,
+    DateTime? colTime,
+    List<DateTime>? colTimeArray,
+    DateTime? colTimetz,
+    List<DateTime>? colTimetzArray,
+    DateTime? colTimestamp,
+    List<DateTime>? colTimestampArray,
+    DateTime? colTimestamptz,
+    List<DateTime>? colTimestamptzArray,
+    Duration? colInterval,
+    List<Duration>? colIntervalArray,
+  }) {
+    return _generateMap(
+      id: id,
+      colDate: colDate,
+      colDateArray: colDateArray,
+      colTime: colTime,
+      colTimeArray: colTimeArray,
+      colTimetz: colTimetz,
+      colTimetzArray: colTimetzArray,
+      colTimestamp: colTimestamp,
+      colTimestampArray: colTimestampArray,
+      colTimestamptz: colTimestamptz,
+      colTimestamptzArray: colTimestamptzArray,
+      colInterval: colInterval,
+      colIntervalArray: colIntervalArray,
+    );
+  }
+
   static Map<String, dynamic> update({
     String? id,
     DateTime? colDate,
@@ -2083,42 +2046,21 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
     Duration? colInterval,
     List<Duration>? colIntervalArray,
   }) {
-    return {
-      if (id != null) 'id': id.toString(),
-      if (colDate != null) 'col_date': colDate.toIso8601String(),
-      if (colDateArray != null)
-        'col_date_array':
-            colDateArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colTime != null)
-        'col_time': DateFormat('HH:mm:ss.SSS').format(colTime),
-      if (colTimeArray != null)
-        'col_time_array':
-            colTimeArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colTimetz != null)
-        'col_timetz': DateFormat('HH:mm:ss zzzz').format(colTimetz),
-      if (colTimetzArray != null)
-        'col_timetz_array':
-            colTimetzArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colTimestamp != null) 'col_timestamp': colTimestamp.toIso8601String(),
-      if (colTimestampArray != null)
-        'col_timestamp_array': colTimestampArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colTimestamptz != null)
-        'col_timestamptz': colTimestamptz.toUtc().toString(),
-      if (colTimestamptzArray != null)
-        'col_timestamptz_array': colTimestamptzArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colInterval != null) 'col_interval': colInterval.toString(),
-      if (colIntervalArray != null)
-        'col_interval_array': colIntervalArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-    };
+    return _generateMap(
+      id: id,
+      colDate: colDate,
+      colDateArray: colDateArray,
+      colTime: colTime,
+      colTimeArray: colTimeArray,
+      colTimetz: colTimetz,
+      colTimetzArray: colTimetzArray,
+      colTimestamp: colTimestamp,
+      colTimestampArray: colTimestampArray,
+      colTimestamptz: colTimestamptz,
+      colTimestamptzArray: colTimestamptzArray,
+      colInterval: colInterval,
+      colIntervalArray: colIntervalArray,
+    );
   }
 
   factory DatetimeTypes.fromJson(Map<String, dynamic> json) {
@@ -2181,54 +2123,20 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
 
   Map<String, dynamic> toJson() {
 // Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
-    final id = this.id;
-    final colDate = this.colDate;
-    final colDateArray = this.colDateArray;
-    final colTime = this.colTime;
-    final colTimeArray = this.colTimeArray;
-    final colTimetz = this.colTimetz;
-    final colTimetzArray = this.colTimetzArray;
-    final colTimestamp = this.colTimestamp;
-    final colTimestampArray = this.colTimestampArray;
-    final colTimestamptz = this.colTimestamptz;
-    final colTimestamptzArray = this.colTimestamptzArray;
-    final colInterval = this.colInterval;
-    final colIntervalArray = this.colIntervalArray;
-    return {
-      if (id != null) 'id': id.toString(),
-      if (colDate != null) 'col_date': colDate.toIso8601String(),
-      if (colDateArray != null)
-        'col_date_array':
-            colDateArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colTime != null)
-        'col_time': DateFormat('HH:mm:ss.SSS').format(colTime),
-      if (colTimeArray != null)
-        'col_time_array':
-            colTimeArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colTimetz != null)
-        'col_timetz': DateFormat('HH:mm:ss zzzz').format(colTimetz),
-      if (colTimetzArray != null)
-        'col_timetz_array':
-            colTimetzArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colTimestamp != null) 'col_timestamp': colTimestamp.toIso8601String(),
-      if (colTimestampArray != null)
-        'col_timestamp_array': colTimestampArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colTimestamptz != null)
-        'col_timestamptz': colTimestamptz.toUtc().toString(),
-      if (colTimestamptzArray != null)
-        'col_timestamptz_array': colTimestamptzArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colInterval != null) 'col_interval': colInterval.toString(),
-      if (colIntervalArray != null)
-        'col_interval_array': colIntervalArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}")
-    };
+    return _generateMap(
+      id: id,
+      colDate: colDate,
+      colDateArray: colDateArray,
+      colTime: colTime,
+      colTimeArray: colTimeArray,
+      colTimetz: colTimetz,
+      colTimetzArray: colTimetzArray,
+      colTimestamp: colTimestamp,
+      colTimestampArray: colTimestampArray,
+      colTimestamptz: colTimestamptz,
+      colTimestamptzArray: colTimestamptzArray,
+      colInterval: colInterval,
+      colIntervalArray: colIntervalArray,
+    );
   }
 }
