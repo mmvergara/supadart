@@ -11,7 +11,6 @@ extension SupadartClient on SupabaseClient {
   SupabaseQueryBuilder get boolean_bit_types => from('boolean_bit_types');
   SupabaseQueryBuilder get combined_types_view => from('combined_types_view');
   SupabaseQueryBuilder get misc_types => from('misc_types');
-  SupabaseQueryBuilder get books => from('books');
   SupabaseQueryBuilder get geometric_types => from('geometric_types');
   SupabaseQueryBuilder get enum_types => from('enum_types');
   SupabaseQueryBuilder get json_types => from('json_types');
@@ -279,7 +278,7 @@ class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
   }) {
     return {
       if (id != null) 'id': id.toString(),
-      if (colBoolean != null) 'col_boolean': colBoolean.toString(),
+      if (colBoolean != null) 'col_boolean': colBoolean,
       if (colBooleanArray != null)
         'col_boolean_array': colBooleanArray
             .toString()
@@ -309,7 +308,7 @@ class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
   }) {
     return {
       if (id != null) 'id': id.toString(),
-      if (colBoolean != null) 'col_boolean': colBoolean.toString(),
+      if (colBoolean != null) 'col_boolean': colBoolean,
       if (colBooleanArray != null)
         'col_boolean_array': colBooleanArray
             .toString()
@@ -366,7 +365,7 @@ class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
     final colBitvaryingArray = this.colBitvaryingArray;
     return {
       if (id != null) 'id': id.toString(),
-      if (colBoolean != null) 'col_boolean': colBoolean.toString(),
+      if (colBoolean != null) 'col_boolean': colBoolean,
       if (colBooleanArray != null)
         'col_boolean_array': colBooleanArray
             .toString()
@@ -746,100 +745,6 @@ class MiscTypes implements SupadartClass<MiscTypes> {
             .toString()
             .replaceAll("[", "{")
             .replaceAll("]", "}")
-    };
-  }
-}
-
-class Books implements SupadartClass<Books> {
-  final BigInt id;
-  final String name;
-  final String? description;
-  final int price;
-  final DateTime? createdAt;
-
-  const Books({
-    required this.id,
-    required this.name,
-    this.description,
-    required this.price,
-    this.createdAt,
-  });
-
-  static String get table_name => 'books';
-  static String get c_id => 'id';
-  static String get c_name => 'name';
-  static String get c_description => 'description';
-  static String get c_price => 'price';
-  static String get c_createdAt => 'created_at';
-
-  static List<Books> converter(List<Map<String, dynamic>> data) {
-    return data.map(Books.fromJson).toList();
-  }
-
-  static Books converterSingle(Map<String, dynamic> data) {
-    return Books.fromJson(data);
-  }
-
-  static Map<String, dynamic> insert({
-    BigInt? id,
-    required String name,
-    String? description,
-    required int price,
-    DateTime? createdAt,
-  }) {
-    return {
-      if (id != null) 'id': id.toString(),
-      'name': name.toString(),
-      if (description != null) 'description': description.toString(),
-      'price': price.toString(),
-      if (createdAt != null) 'created_at': createdAt.toUtc().toString(),
-    };
-  }
-
-  static Map<String, dynamic> update({
-    BigInt? id,
-    String? name,
-    String? description,
-    int? price,
-    DateTime? createdAt,
-  }) {
-    return {
-      if (id != null) 'id': id.toString(),
-      if (name != null) 'name': name.toString(),
-      if (description != null) 'description': description.toString(),
-      if (price != null) 'price': price.toString(),
-      if (createdAt != null) 'created_at': createdAt.toUtc().toString(),
-    };
-  }
-
-  factory Books.fromJson(Map<String, dynamic> json) {
-    return Books(
-      id: json['id'] != null
-          ? BigInt.parse(json['id'].toString())
-          : BigInt.from(0),
-      name: json['name'] != null ? json['name'].toString() : '',
-      description:
-          json['description'] != null ? json['description'].toString() : '',
-      price: json['price'] != null ? json['price'] as int : 0,
-      createdAt: json['created_at'] != null
-          ? DateTime.tryParse(json['created_at'].toString()) as DateTime
-          : DateTime.fromMillisecondsSinceEpoch(0),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-// Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
-    final id = this.id;
-    final name = this.name;
-    final description = this.description;
-    final price = this.price;
-    final createdAt = this.createdAt;
-    return {
-      if (id != null) 'id': id.toString(),
-      if (name != null) 'name': name.toString(),
-      if (description != null) 'description': description.toString(),
-      if (price != null) 'price': price.toString(),
-      if (createdAt != null) 'created_at': createdAt.toUtc().toString()
     };
   }
 }

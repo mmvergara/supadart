@@ -39,6 +39,9 @@ String toJsonEncodable(
     case "List<Map<String, dynamic>>":
       parseValue = 'jsonEncode($columnName)';
       break;
+    case "bool":
+      parseValue = columnName;
+      break;
     default:
       if (columnDetails.enumValues.isNotEmpty) {
         parseValue = isArray
