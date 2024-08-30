@@ -221,14 +221,14 @@ class Books implements SupadartClass<Books> {
   final String name;
   final String? description;
   final int price;
-  final DateTime created_at;
+  final DateTime? createdAt;
 
   const Books({
     required this.id,
     required this.name,
     this.description,
     required this.price,
-    required this.created_at,
+    this.createdAt,
   });
 
   static String get table_name => 'books';
@@ -236,10 +236,30 @@ class Books implements SupadartClass<Books> {
   static String get c_name => 'name';
   static String get c_description => 'description';
   static String get c_price => 'price';
-  static String get c_created_at => 'created_at';
+  static String get c_createdAt => 'created_at';
 
-  static List<Books>? converter(List<Map<String, dynamic>> data) {
-    return data.map((data) => Books.fromJson(data)).toList();
+  static List<Books> converter(List<Map<String, dynamic>> data) {
+    return data.map(Books.fromJson).toList();
+  }
+
+  static Books converterSingle(Map<String, dynamic> data) {
+    return Books.fromJson(data);
+  }
+
+  static Map<String, dynamic> _generateMap({
+    BigInt? id,
+    String? name,
+    String? description,
+    int? price,
+    DateTime? createdAt,
+  }) {
+    return {
+      if (id != null) 'id': id.toString(),
+      if (name != null) 'name': name.toString(),
+      if (description != null) 'description': description.toString(),
+      if (price != null) 'price': price.toString(),
+      if (createdAt != null) 'created_at': createdAt.toUtc().toString(),
+    };
   }
 
   static Map<String, dynamic> insert({
@@ -247,15 +267,15 @@ class Books implements SupadartClass<Books> {
     required String name,
     String? description,
     required int price,
-    DateTime? created_at,
+    DateTime? createdAt,
   }) {
-    return {
-      if (id != null) 'id': id.toString(),
-      'name': name.toString(),
-      if (description != null) 'description': description.toString(),
-      'price': price.toString(),
-      if (created_at != null) 'created_at': created_at.toUtc().toString(),
-    };
+    return _generateMap(
+      id: id,
+      name: name,
+      description: description,
+      price: price,
+      createdAt: createdAt,
+    );
   }
 
   static Map<String, dynamic> update({
@@ -263,29 +283,40 @@ class Books implements SupadartClass<Books> {
     String? name,
     String? description,
     int? price,
-    DateTime? created_at,
+    DateTime? createdAt,
   }) {
-    return {
-      if (id != null) 'id': id.toString(),
-      if (name != null) 'name': name.toString(),
-      if (description != null) 'description': description.toString(),
-      if (price != null) 'price': price.toString(),
-      if (created_at != null) 'created_at': created_at.toUtc().toString(),
-    };
+    return _generateMap(
+      id: id,
+      name: name,
+      description: description,
+      price: price,
+      createdAt: createdAt,
+    );
   }
 
   factory Books.fromJson(Map<String, dynamic> json) {
     return Books(
       id: json['id'] != null
-          ? BigInt.tryParse(json['id'].toString()) as BigInt
+          ? BigInt.parse(json['id'].toString())
           : BigInt.from(0),
       name: json['name'] != null ? json['name'].toString() : '',
       description:
           json['description'] != null ? json['description'].toString() : '',
       price: json['price'] != null ? json['price'] as int : 0,
-      created_at: json['created_at'] != null
+      createdAt: json['created_at'] != null
           ? DateTime.tryParse(json['created_at'].toString()) as DateTime
           : DateTime.fromMillisecondsSinceEpoch(0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    // Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
+    return _generateMap(
+      id: id,
+      name: name,
+      description: description,
+      price: price,
+      createdAt: createdAt,
     );
   }
 }
