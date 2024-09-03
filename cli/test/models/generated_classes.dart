@@ -1,6 +1,5 @@
 // ignore_for_file: non_constant_identifier_names, camel_case_types, file_namesimport, file_names, unnecessary_null_comparison
 import 'package:supabase/supabase.dart';
-import 'dart:convert';
 import 'package:intl/intl.dart';
 
 // INTL is an official package from Dart and is used for parsing dates
@@ -99,28 +98,17 @@ class StringTypes implements SupadartClass<StringTypes> {
     List<String>? colTextArray,
   }) {
     return {
-      if (id != null) 'id': id.toString(),
-      if (colUuid != null) 'col_uuid': colUuid.toString(),
-      if (colUuidArray != null)
-        'col_uuid_array':
-            colUuidArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colCharacter != null) 'col_character': colCharacter.toString(),
-      if (colCharacterArray != null)
-        'col_character_array': colCharacterArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
+      if (id != null) 'id': id,
+      if (colUuid != null) 'col_uuid': colUuid,
+      if (colUuidArray != null) 'col_uuid_array': colUuidArray,
+      if (colCharacter != null) 'col_character': colCharacter,
+      if (colCharacterArray != null) 'col_character_array': colCharacterArray,
       if (colCharactervarying != null)
-        'col_charactervarying': colCharactervarying.toString(),
+        'col_charactervarying': colCharactervarying,
       if (colCharactervaryingArray != null)
-        'col_charactervarying_array': colCharactervaryingArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colText != null) 'col_text': colText.toString(),
-      if (colTextArray != null)
-        'col_text_array':
-            colTextArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+        'col_charactervarying_array': colCharactervaryingArray,
+      if (colText != null) 'col_text': colText,
+      if (colTextArray != null) 'col_text_array': colTextArray,
     };
   }
 
@@ -206,7 +194,7 @@ class StringTypes implements SupadartClass<StringTypes> {
   }
 
   Map<String, dynamic> toJson() {
-    // Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
+// Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
     return _generateMap(
       id: id,
       colUuid: colUuid,
@@ -267,23 +255,14 @@ class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
     List<String>? colBitvaryingArray,
   }) {
     return {
-      if (id != null) 'id': id.toString(),
+      if (id != null) 'id': id,
       if (colBoolean != null) 'col_boolean': colBoolean,
-      if (colBooleanArray != null)
-        'col_boolean_array': colBooleanArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colBit != null) 'col_bit': colBit.toString(),
-      if (colBitArray != null)
-        'col_bit_array':
-            colBitArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colBitvarying != null) 'col_bitvarying': colBitvarying.toString(),
+      if (colBooleanArray != null) 'col_boolean_array': colBooleanArray,
+      if (colBit != null) 'col_bit': colBit,
+      if (colBitArray != null) 'col_bit_array': colBitArray,
+      if (colBitvarying != null) 'col_bitvarying': colBitvarying,
       if (colBitvaryingArray != null)
-        'col_bitvarying_array': colBitvaryingArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
+        'col_bitvarying_array': colBitvaryingArray,
     };
   }
 
@@ -410,12 +389,12 @@ class CombinedTypesView implements SupadartClass<CombinedTypesView> {
     String? colUuid,
   }) {
     return {
-      if (numericId != null) 'numeric_id': numericId.toString(),
-      if (colInteger != null) 'col_integer': colInteger.toString(),
-      if (colDouble != null) 'col_double': colDouble.toString(),
-      if (stringId != null) 'string_id': stringId.toString(),
-      if (colText != null) 'col_text': colText.toString(),
-      if (colUuid != null) 'col_uuid': colUuid.toString(),
+      if (numericId != null) 'numeric_id': numericId,
+      if (colInteger != null) 'col_integer': colInteger,
+      if (colDouble != null) 'col_double': colDouble,
+      if (stringId != null) 'string_id': stringId,
+      if (colText != null) 'col_text': colText,
+      if (colUuid != null) 'col_uuid': colUuid,
     };
   }
 
@@ -552,40 +531,21 @@ class MiscTypes implements SupadartClass<MiscTypes> {
     List<String>? colTxidSnapshotArray,
   }) {
     return {
-      if (id != null) 'id': id.toString(),
-      if (colMoney != null) 'col_money': colMoney.toString(),
-      if (colMoneyArray != null)
-        'col_money_array':
-            colMoneyArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colPgLsn != null) 'col_pg_lsn': colPgLsn.toString(),
-      if (colPgLsnArray != null)
-        'col_pg_lsn_array':
-            colPgLsnArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colPgSnapshot != null) 'col_pg_snapshot': colPgSnapshot.toString(),
+      if (id != null) 'id': id,
+      if (colMoney != null) 'col_money': colMoney,
+      if (colMoneyArray != null) 'col_money_array': colMoneyArray,
+      if (colPgLsn != null) 'col_pg_lsn': colPgLsn,
+      if (colPgLsnArray != null) 'col_pg_lsn_array': colPgLsnArray,
+      if (colPgSnapshot != null) 'col_pg_snapshot': colPgSnapshot,
       if (colPgSnapshotArray != null)
-        'col_pg_snapshot_array': colPgSnapshotArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colTsquery != null) 'col_tsquery': colTsquery.toString(),
-      if (colTsqueryArray != null)
-        'col_tsquery_array': colTsqueryArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colTsvector != null) 'col_tsvector': colTsvector.toString(),
-      if (colTsvectorArray != null)
-        'col_tsvector_array': colTsvectorArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colTxidSnapshot != null)
-        'col_txid_snapshot': colTxidSnapshot.toString(),
+        'col_pg_snapshot_array': colPgSnapshotArray,
+      if (colTsquery != null) 'col_tsquery': colTsquery,
+      if (colTsqueryArray != null) 'col_tsquery_array': colTsqueryArray,
+      if (colTsvector != null) 'col_tsvector': colTsvector,
+      if (colTsvectorArray != null) 'col_tsvector_array': colTsvectorArray,
+      if (colTxidSnapshot != null) 'col_txid_snapshot': colTxidSnapshot,
       if (colTxidSnapshotArray != null)
-        'col_txid_snapshot_array': colTxidSnapshotArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
+        'col_txid_snapshot_array': colTxidSnapshotArray,
     };
   }
 
@@ -759,11 +719,11 @@ class Books implements SupadartClass<Books> {
     DateTime? createdAt,
   }) {
     return {
-      if (id != null) 'id': id.toString(),
-      if (name != null) 'name': name.toString(),
-      if (description != null) 'description': description.toString(),
-      if (price != null) 'price': price.toString(),
-      if (createdAt != null) 'created_at': createdAt.toUtc().toString(),
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (description != null) 'description': description,
+      if (price != null) 'price': price,
+      if (createdAt != null) 'created_at': createdAt.toUtc().toIso8601String(),
     };
   }
 
@@ -904,37 +864,21 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
     List<String>? colCircleArray,
   }) {
     return {
-      if (id != null) 'id': id.toString(),
-      if (colPoint != null) 'col_point': colPoint.toString(),
-      if (colPointArray != null)
-        'col_point_array':
-            colPointArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colLine != null) 'col_line': colLine.toString(),
-      if (colLineArray != null)
-        'col_line_array':
-            colLineArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colLseg != null) 'col_lseg': colLseg.toString(),
-      if (colLsegArray != null)
-        'col_lseg_array':
-            colLsegArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colBox != null) 'col_box': colBox.toString(),
-      if (colBoxArray != null)
-        'col_box_array':
-            colBoxArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colPath != null) 'col_path': colPath.toString(),
-      if (colPathArray != null)
-        'col_path_array':
-            colPathArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colPolygon != null) 'col_polygon': colPolygon.toString(),
-      if (colPolygonArray != null)
-        'col_polygon_array': colPolygonArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colCircle != null) 'col_circle': colCircle.toString(),
-      if (colCircleArray != null)
-        'col_circle_array':
-            colCircleArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+      if (id != null) 'id': id,
+      if (colPoint != null) 'col_point': colPoint,
+      if (colPointArray != null) 'col_point_array': colPointArray,
+      if (colLine != null) 'col_line': colLine,
+      if (colLineArray != null) 'col_line_array': colLineArray,
+      if (colLseg != null) 'col_lseg': colLseg,
+      if (colLsegArray != null) 'col_lseg_array': colLsegArray,
+      if (colBox != null) 'col_box': colBox,
+      if (colBoxArray != null) 'col_box_array': colBoxArray,
+      if (colPath != null) 'col_path': colPath,
+      if (colPathArray != null) 'col_path_array': colPathArray,
+      if (colPolygon != null) 'col_polygon': colPolygon,
+      if (colPolygonArray != null) 'col_polygon_array': colPolygonArray,
+      if (colCircle != null) 'col_circle': colCircle,
+      if (colCircleArray != null) 'col_circle_array': colCircleArray,
     };
   }
 
@@ -1109,7 +1053,7 @@ class EnumTypes implements SupadartClass<EnumTypes> {
     MOOD? colMood,
   }) {
     return {
-      if (id != null) 'id': id.toString(),
+      if (id != null) 'id': id,
       if (colMood != null) 'col_mood': colMood.toString().split('.').last,
     };
   }
@@ -1190,23 +1134,11 @@ class JsonTypes implements SupadartClass<JsonTypes> {
     List<Map<String, dynamic>>? colJsonbArray,
   }) {
     return {
-      if (id != null) 'id': id.toString(),
+      if (id != null) 'id': id,
       if (colJson != null) 'col_json': colJson,
-      if (colJsonArray != null)
-        'col_json_array': jsonEncode(colJsonArray)
-            .replaceAll('"', '\\"')
-            .replaceAll("{", '"{')
-            .replaceAll("}", '}"')
-            .replaceAll("[", '{')
-            .replaceAll("]", '}'),
+      if (colJsonArray != null) 'col_json_array': colJsonArray,
       if (colJsonb != null) 'col_jsonb': colJsonb,
-      if (colJsonbArray != null)
-        'col_jsonb_array': jsonEncode(colJsonbArray)
-            .replaceAll('"', '\\"')
-            .replaceAll("{", '"{')
-            .replaceAll("}", '}"')
-            .replaceAll("[", '{')
-            .replaceAll("]", '}'),
+      if (colJsonbArray != null) 'col_jsonb_array': colJsonbArray,
     };
   }
 
@@ -1314,15 +1246,11 @@ class BinaryXmlTypes implements SupadartClass<BinaryXmlTypes> {
     List<String>? colXmlArray,
   }) {
     return {
-      if (id != null) 'id': id.toString(),
-      if (colBytea != null) 'col_bytea': colBytea.toString(),
-      if (colByteaArray != null)
-        'col_bytea_array':
-            colByteaArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colXml != null) 'col_xml': colXml.toString(),
-      if (colXmlArray != null)
-        'col_xml_array':
-            colXmlArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+      if (id != null) 'id': id,
+      if (colBytea != null) 'col_bytea': colBytea,
+      if (colByteaArray != null) 'col_bytea_array': colByteaArray,
+      if (colXml != null) 'col_xml': colXml,
+      if (colXmlArray != null) 'col_xml_array': colXmlArray,
     };
   }
 
@@ -1442,27 +1370,15 @@ class NetworkTypes implements SupadartClass<NetworkTypes> {
     List<String>? colMacaddr8Array,
   }) {
     return {
-      if (id != null) 'id': id.toString(),
-      if (colCidr != null) 'col_cidr': colCidr.toString(),
-      if (colCidrArray != null)
-        'col_cidr_array':
-            colCidrArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colInet != null) 'col_inet': colInet.toString(),
-      if (colInetArray != null)
-        'col_inet_array':
-            colInetArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colMacaddr != null) 'col_macaddr': colMacaddr.toString(),
-      if (colMacaddrArray != null)
-        'col_macaddr_array': colMacaddrArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colMacaddr8 != null) 'col_macaddr8': colMacaddr8.toString(),
-      if (colMacaddr8Array != null)
-        'col_macaddr8_array': colMacaddr8Array
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
+      if (id != null) 'id': id,
+      if (colCidr != null) 'col_cidr': colCidr,
+      if (colCidrArray != null) 'col_cidr_array': colCidrArray,
+      if (colInet != null) 'col_inet': colInet,
+      if (colInetArray != null) 'col_inet_array': colInetArray,
+      if (colMacaddr != null) 'col_macaddr': colMacaddr,
+      if (colMacaddrArray != null) 'col_macaddr_array': colMacaddrArray,
+      if (colMacaddr8 != null) 'col_macaddr8': colMacaddr8,
+      if (colMacaddr8Array != null) 'col_macaddr8_array': colMacaddr8Array,
     };
   }
 
@@ -1656,53 +1572,26 @@ class NumericTypes implements SupadartClass<NumericTypes> {
     List<num>? colNumericArray,
   }) {
     return {
-      if (id != null) 'id': id.toString(),
-      if (colBigint != null) 'col_bigint': colBigint.toString(),
-      if (colBigintArray != null)
-        'col_bigint_array':
-            colBigintArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colBigserial != null) 'col_bigserial': colBigserial.toString(),
-      if (colBigserialArray != null)
-        'col_bigserial_array': colBigserialArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colInteger != null) 'col_integer': colInteger.toString(),
-      if (colIntegerArray != null)
-        'col_integer_array': colIntegerArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colSmallint != null) 'col_smallint': colSmallint.toString(),
-      if (colSmallintArray != null)
-        'col_smallint_array': colSmallintArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colSmallserial != null) 'col_smallserial': colSmallserial.toString(),
+      if (id != null) 'id': id,
+      if (colBigint != null) 'col_bigint': colBigint,
+      if (colBigintArray != null) 'col_bigint_array': colBigintArray,
+      if (colBigserial != null) 'col_bigserial': colBigserial,
+      if (colBigserialArray != null) 'col_bigserial_array': colBigserialArray,
+      if (colInteger != null) 'col_integer': colInteger,
+      if (colIntegerArray != null) 'col_integer_array': colIntegerArray,
+      if (colSmallint != null) 'col_smallint': colSmallint,
+      if (colSmallintArray != null) 'col_smallint_array': colSmallintArray,
+      if (colSmallserial != null) 'col_smallserial': colSmallserial,
       if (colSmallserialArray != null)
-        'col_smallserial_array': colSmallserialArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colSerial != null) 'col_serial': colSerial.toString(),
-      if (colSerialArray != null)
-        'col_serial_array':
-            colSerialArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colDouble != null) 'col_double': colDouble.toString(),
-      if (colDoubleArray != null)
-        'col_double_array':
-            colDoubleArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colReal != null) 'col_real': colReal.toString(),
-      if (colRealArray != null)
-        'col_real_array':
-            colRealArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colNumeric != null) 'col_numeric': colNumeric.toString(),
-      if (colNumericArray != null)
-        'col_numeric_array': colNumericArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
+        'col_smallserial_array': colSmallserialArray,
+      if (colSerial != null) 'col_serial': colSerial,
+      if (colSerialArray != null) 'col_serial_array': colSerialArray,
+      if (colDouble != null) 'col_double': colDouble,
+      if (colDoubleArray != null) 'col_double_array': colDoubleArray,
+      if (colReal != null) 'col_real': colReal,
+      if (colRealArray != null) 'col_real_array': colRealArray,
+      if (colNumeric != null) 'col_numeric': colNumeric,
+      if (colNumericArray != null) 'col_numeric_array': colNumericArray,
     };
   }
 
@@ -1962,40 +1851,23 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
     List<Duration>? colIntervalArray,
   }) {
     return {
-      if (id != null) 'id': id.toString(),
+      if (id != null) 'id': id,
       if (colDate != null) 'col_date': colDate.toIso8601String(),
-      if (colDateArray != null)
-        'col_date_array':
-            colDateArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+      if (colDateArray != null) 'col_date_array': colDateArray,
       if (colTime != null)
         'col_time': DateFormat('HH:mm:ss.SSS').format(colTime),
-      if (colTimeArray != null)
-        'col_time_array':
-            colTimeArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+      if (colTimeArray != null) 'col_time_array': colTimeArray,
       if (colTimetz != null)
         'col_timetz': DateFormat('HH:mm:ss zzzz').format(colTimetz),
-      if (colTimetzArray != null)
-        'col_timetz_array':
-            colTimetzArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+      if (colTimetzArray != null) 'col_timetz_array': colTimetzArray,
       if (colTimestamp != null) 'col_timestamp': colTimestamp.toIso8601String(),
-      if (colTimestampArray != null)
-        'col_timestamp_array': colTimestampArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
+      if (colTimestampArray != null) 'col_timestamp_array': colTimestampArray,
       if (colTimestamptz != null)
-        'col_timestamptz': colTimestamptz.toUtc().toString(),
+        'col_timestamptz': colTimestamptz.toUtc().toIso8601String(),
       if (colTimestamptzArray != null)
-        'col_timestamptz_array': colTimestamptzArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colInterval != null) 'col_interval': colInterval.toString(),
-      if (colIntervalArray != null)
-        'col_interval_array': colIntervalArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
+        'col_timestamptz_array': colTimestamptzArray,
+      if (colInterval != null) 'col_interval': colInterval,
+      if (colIntervalArray != null) 'col_interval_array': colIntervalArray,
     };
   }
 
