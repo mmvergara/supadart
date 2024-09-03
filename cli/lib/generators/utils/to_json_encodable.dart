@@ -1,6 +1,6 @@
 import '../swagger/column.dart';
 
-String toJsonEncodable(
+dynamic toJsonEncodable(
   String dartType,
   String format,
   String columnName,
@@ -11,9 +11,11 @@ String toJsonEncodable(
     format = format.replaceAll("[]", "");
   }
 
-  String parseValue = "";
+  dynamic parseValue;
   switch (dartType) {
     case "bool":
+    case "int":
+    case "double":
       parseValue = columnName;
       break;
     case "DateTime":
@@ -21,46 +23,38 @@ String toJsonEncodable(
         parseValue = isArray
             ? "$columnName.map((e) => DateFormat('HH:mm:ss.SSS').format(e)).toList()"
             : "DateFormat('HH:mm:ss.SSS').format($columnName)";
-        break;
-      }
-      if (format == "time with time zone") {
+      } else if (format == "time with time zone") {
         parseValue = isArray
             ? "$columnName.map((e) => DateFormat('HH:mm:ss zzzz').format(e)).toList()"
             : "DateFormat('HH:mm:ss zzzz').format($columnName)";
-        break;
-      }
-      if (format == "timestamp with time zone") {
+      } else if (format == "timestamp with time zone") {
         parseValue = isArray
-            ? '$columnName.map((e) => e.toUtc().toString()).toList()'
-            : '$columnName.toUtc().toString()';
-        break;
+            ? '$columnName.map((e) => e.toUtc().toIso8601String()).toList()'
+            : '$columnName.toUtc().toIso8601String()';
+      } else {
+        parseValue = isArray
+            ? '$columnName.map((e) => e.toIso8601String()).toList()'
+            : '$columnName.toIso8601String()';
       }
-      parseValue = '$columnName.toIso8601String()';
       break;
     case "Map<String, dynamic>":
-      return columnName;
+      parseValue = columnName;
+      break;
     case "List<Map<String, dynamic>>":
-      parseValue = 'jsonEncode($columnName)';
+      parseValue = columnName;
       break;
     default:
       if (columnDetails.enumValues.isNotEmpty) {
         parseValue = isArray
             ? "$columnName.map((e) => e.toString().split('.').last).toList()"
             : "$columnName.toString().split('.').last";
-        break;
+      } else if (dartType.startsWith("List<")) {
+        // For any other List types, keep it as is
+        parseValue = columnName;
+      } else {
+        parseValue = columnName;
       }
-      parseValue = '$columnName.toString()';
   }
 
-  if (isArray && dartType == "List<Map<String, dynamic>>") {
-    parseValue += '''
-    .replaceAll('"', '\\\\\"')
-    .replaceAll("{", '"{')
-    .replaceAll("}", '}"')
-    .replaceAll("[", '{')
-    .replaceAll("]", '}')''';
-  } else if (isArray) {
-    parseValue += '.replaceAll("[", "{").replaceAll("]", "}")';
-  }
   return parseValue;
 }
