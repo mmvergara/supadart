@@ -50,7 +50,8 @@ Future<void> performTypeDefaultValuesTest<T extends SupadartClass<T>>(
 
         var type = MirrorSystem.getName(value.type.simpleName);
         var propertyValue = instanceMirror.getField(key).reflectee;
-        expect(getDefaultValue(type), propertyValue);
+        final expectThis = getDefaultValue(type);
+        expect(propertyValue, expectThis);
         print("✅ $name: $type = $propertyValue");
       }
     });
