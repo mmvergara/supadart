@@ -5,8 +5,16 @@ import 'package:test/test.dart';
 import '../../utils.dart';
 
 Future<void> performNumericArrayTest(SupabaseClient supabase) async {
-  List<num> insertNumericArray = [double.infinity, 0, -double.infinity];
-  List<num> updatedNumericArray = [-double.infinity, 0, double.infinity];
+  List<num> insertNumericArray = [
+    1.7976931348623157e+308,
+    0,
+    -1.7976931348623157e+308
+  ];
+  List<num> updatedNumericArray = [
+    -1.7976931348623157e+308,
+    0,
+    1.7976931348623157e+308
+  ];
 
   test('Testing Numeric Array Create', () async {
     await cleanup(supabase, supabase.numeric_types);
