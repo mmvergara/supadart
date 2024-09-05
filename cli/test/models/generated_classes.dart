@@ -99,28 +99,21 @@ class StringTypes implements SupadartClass<StringTypes> {
     List<String>? colTextArray,
   }) {
     return {
-      if (id != null) 'id': id.toString(),
-      if (colUuid != null) 'col_uuid': colUuid.toString(),
+      if (id != null) 'id': id,
+      if (colUuid != null) 'col_uuid': colUuid,
       if (colUuidArray != null)
-        'col_uuid_array':
-            colUuidArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colCharacter != null) 'col_character': colCharacter.toString(),
+        'col_uuid_array': colUuidArray.map((e) => e).toList(),
+      if (colCharacter != null) 'col_character': colCharacter,
       if (colCharacterArray != null)
-        'col_character_array': colCharacterArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
+        'col_character_array': colCharacterArray.map((e) => e).toList(),
       if (colCharactervarying != null)
-        'col_charactervarying': colCharactervarying.toString(),
+        'col_charactervarying': colCharactervarying,
       if (colCharactervaryingArray != null)
-        'col_charactervarying_array': colCharactervaryingArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colText != null) 'col_text': colText.toString(),
+        'col_charactervarying_array':
+            colCharactervaryingArray.map((e) => e).toList(),
+      if (colText != null) 'col_text': colText,
       if (colTextArray != null)
-        'col_text_array':
-            colTextArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+        'col_text_array': colTextArray.map((e) => e).toList(),
     };
   }
 
@@ -178,14 +171,14 @@ class StringTypes implements SupadartClass<StringTypes> {
       colUuid: json['col_uuid'] != null ? json['col_uuid'].toString() : '',
       colUuidArray: json['col_uuid_array'] != null
           ? (json['col_uuid_array'] as List<dynamic>)
-              .map((v) => v as String)
+              .map((v) => v.toString())
               .toList()
           : <String>[],
       colCharacter:
           json['col_character'] != null ? json['col_character'].toString() : '',
       colCharacterArray: json['col_character_array'] != null
           ? (json['col_character_array'] as List<dynamic>)
-              .map((v) => v as String)
+              .map((v) => v.toString())
               .toList()
           : <String>[],
       colCharactervarying: json['col_charactervarying'] != null
@@ -193,20 +186,20 @@ class StringTypes implements SupadartClass<StringTypes> {
           : '',
       colCharactervaryingArray: json['col_charactervarying_array'] != null
           ? (json['col_charactervarying_array'] as List<dynamic>)
-              .map((v) => v as String)
+              .map((v) => v.toString())
               .toList()
           : <String>[],
       colText: json['col_text'] != null ? json['col_text'].toString() : '',
       colTextArray: json['col_text_array'] != null
           ? (json['col_text_array'] as List<dynamic>)
-              .map((v) => v as String)
+              .map((v) => v.toString())
               .toList()
           : <String>[],
     );
   }
 
   Map<String, dynamic> toJson() {
-    // Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
+// Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
     return _generateMap(
       id: id,
       colUuid: colUuid,
@@ -267,23 +260,17 @@ class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
     List<String>? colBitvaryingArray,
   }) {
     return {
-      if (id != null) 'id': id.toString(),
+      if (id != null) 'id': id,
       if (colBoolean != null) 'col_boolean': colBoolean,
       if (colBooleanArray != null)
-        'col_boolean_array': colBooleanArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
+        'col_boolean_array': colBooleanArray.map((e) => e).toList(),
       if (colBit != null) 'col_bit': colBit.toString(),
       if (colBitArray != null)
-        'col_bit_array':
-            colBitArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+        'col_bit_array': colBitArray.map((e) => e.toString()).toList(),
       if (colBitvarying != null) 'col_bitvarying': colBitvarying.toString(),
       if (colBitvaryingArray != null)
-        'col_bitvarying_array': colBitvaryingArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
+        'col_bitvarying_array':
+            colBitvaryingArray.map((e) => e.toString()).toList(),
     };
   }
 
@@ -339,17 +326,13 @@ class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
           : <bool>[],
       colBit: json['col_bit'] != null ? json['col_bit'].toString() : '',
       colBitArray: json['col_bit_array'] != null
-          ? (json['col_bit_array'] as List<dynamic>)
-              .map((v) => v as String)
-              .toList()
+          ? json['col_bit_array'].map((e) => e.toString()).toList()
           : <String>[],
       colBitvarying: json['col_bitvarying'] != null
           ? json['col_bitvarying'].toString()
           : '',
       colBitvaryingArray: json['col_bitvarying_array'] != null
-          ? (json['col_bitvarying_array'] as List<dynamic>)
-              .map((v) => v as String)
-              .toList()
+          ? json['col_bitvarying_array'].map((e) => e.toString()).toList()
           : <String>[],
     );
   }
@@ -410,12 +393,12 @@ class CombinedTypesView implements SupadartClass<CombinedTypesView> {
     String? colUuid,
   }) {
     return {
-      if (numericId != null) 'numeric_id': numericId.toString(),
-      if (colInteger != null) 'col_integer': colInteger.toString(),
+      if (numericId != null) 'numeric_id': numericId,
+      if (colInteger != null) 'col_integer': colInteger,
       if (colDouble != null) 'col_double': colDouble.toString(),
-      if (stringId != null) 'string_id': stringId.toString(),
-      if (colText != null) 'col_text': colText.toString(),
-      if (colUuid != null) 'col_uuid': colUuid.toString(),
+      if (stringId != null) 'string_id': stringId,
+      if (colText != null) 'col_text': colText,
+      if (colUuid != null) 'col_uuid': colUuid,
     };
   }
 
@@ -459,7 +442,9 @@ class CombinedTypesView implements SupadartClass<CombinedTypesView> {
     return CombinedTypesView(
       numericId:
           json['numeric_id'] != null ? json['numeric_id'].toString() : '',
-      colInteger: json['col_integer'] != null ? json['col_integer'] as int : 0,
+      colInteger: json['col_integer'] != null
+          ? int.parse(json['col_integer'].toString())
+          : 0,
       colDouble: json['col_double'] != null
           ? double.parse(json['col_double'].toString())
           : 0.0,
@@ -552,40 +537,29 @@ class MiscTypes implements SupadartClass<MiscTypes> {
     List<String>? colTxidSnapshotArray,
   }) {
     return {
-      if (id != null) 'id': id.toString(),
+      if (id != null) 'id': id,
       if (colMoney != null) 'col_money': colMoney.toString(),
       if (colMoneyArray != null)
-        'col_money_array':
-            colMoneyArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+        'col_money_array': colMoneyArray.map((e) => e.toString()).toList(),
       if (colPgLsn != null) 'col_pg_lsn': colPgLsn.toString(),
       if (colPgLsnArray != null)
-        'col_pg_lsn_array':
-            colPgLsnArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+        'col_pg_lsn_array': colPgLsnArray.map((e) => e.toString()).toList(),
       if (colPgSnapshot != null) 'col_pg_snapshot': colPgSnapshot.toString(),
       if (colPgSnapshotArray != null)
-        'col_pg_snapshot_array': colPgSnapshotArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
+        'col_pg_snapshot_array':
+            colPgSnapshotArray.map((e) => e.toString()).toList(),
       if (colTsquery != null) 'col_tsquery': colTsquery.toString(),
       if (colTsqueryArray != null)
-        'col_tsquery_array': colTsqueryArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
+        'col_tsquery_array': colTsqueryArray.map((e) => e.toString()).toList(),
       if (colTsvector != null) 'col_tsvector': colTsvector.toString(),
       if (colTsvectorArray != null)
-        'col_tsvector_array': colTsvectorArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
+        'col_tsvector_array':
+            colTsvectorArray.map((e) => e.toString()).toList(),
       if (colTxidSnapshot != null)
         'col_txid_snapshot': colTxidSnapshot.toString(),
       if (colTxidSnapshotArray != null)
-        'col_txid_snapshot_array': colTxidSnapshotArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
+        'col_txid_snapshot_array':
+            colTxidSnapshotArray.map((e) => e.toString()).toList(),
     };
   }
 
@@ -658,45 +632,33 @@ class MiscTypes implements SupadartClass<MiscTypes> {
       id: json['id'] != null ? json['id'].toString() : '',
       colMoney: json['col_money'] != null ? json['col_money'].toString() : '',
       colMoneyArray: json['col_money_array'] != null
-          ? (json['col_money_array'] as List<dynamic>)
-              .map((v) => v as String)
-              .toList()
+          ? json['col_money_array'].map((e) => e.toString()).toList()
           : <String>[],
       colPgLsn: json['col_pg_lsn'] != null ? json['col_pg_lsn'].toString() : '',
       colPgLsnArray: json['col_pg_lsn_array'] != null
-          ? (json['col_pg_lsn_array'] as List<dynamic>)
-              .map((v) => v as String)
-              .toList()
+          ? json['col_pg_lsn_array'].map((e) => e.toString()).toList()
           : <String>[],
       colPgSnapshot: json['col_pg_snapshot'] != null
           ? json['col_pg_snapshot'].toString()
           : '',
       colPgSnapshotArray: json['col_pg_snapshot_array'] != null
-          ? (json['col_pg_snapshot_array'] as List<dynamic>)
-              .map((v) => v as String)
-              .toList()
+          ? json['col_pg_snapshot_array'].map((e) => e.toString()).toList()
           : <String>[],
       colTsquery:
           json['col_tsquery'] != null ? json['col_tsquery'].toString() : '',
       colTsqueryArray: json['col_tsquery_array'] != null
-          ? (json['col_tsquery_array'] as List<dynamic>)
-              .map((v) => v as String)
-              .toList()
+          ? json['col_tsquery_array'].map((e) => e.toString()).toList()
           : <String>[],
       colTsvector:
           json['col_tsvector'] != null ? json['col_tsvector'].toString() : '',
       colTsvectorArray: json['col_tsvector_array'] != null
-          ? (json['col_tsvector_array'] as List<dynamic>)
-              .map((v) => v as String)
-              .toList()
+          ? json['col_tsvector_array'].map((e) => e.toString()).toList()
           : <String>[],
       colTxidSnapshot: json['col_txid_snapshot'] != null
           ? json['col_txid_snapshot'].toString()
           : '',
       colTxidSnapshotArray: json['col_txid_snapshot_array'] != null
-          ? (json['col_txid_snapshot_array'] as List<dynamic>)
-              .map((v) => v as String)
-              .toList()
+          ? json['col_txid_snapshot_array'].map((e) => e.toString()).toList()
           : <String>[],
     );
   }
@@ -760,10 +722,10 @@ class Books implements SupadartClass<Books> {
   }) {
     return {
       if (id != null) 'id': id.toString(),
-      if (name != null) 'name': name.toString(),
-      if (description != null) 'description': description.toString(),
-      if (price != null) 'price': price.toString(),
-      if (createdAt != null) 'created_at': createdAt.toUtc().toString(),
+      if (name != null) 'name': name,
+      if (description != null) 'description': description,
+      if (price != null) 'price': price,
+      if (createdAt != null) 'created_at': createdAt.toUtc().toIso8601String(),
     };
   }
 
@@ -807,7 +769,7 @@ class Books implements SupadartClass<Books> {
       name: json['name'] != null ? json['name'].toString() : '',
       description:
           json['description'] != null ? json['description'].toString() : '',
-      price: json['price'] != null ? json['price'] as int : 0,
+      price: json['price'] != null ? int.parse(json['price'].toString()) : 0,
       createdAt: json['created_at'] != null
           ? DateTime.tryParse(json['created_at'].toString()) as DateTime
           : DateTime.fromMillisecondsSinceEpoch(0),
@@ -904,37 +866,28 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
     List<String>? colCircleArray,
   }) {
     return {
-      if (id != null) 'id': id.toString(),
+      if (id != null) 'id': id,
       if (colPoint != null) 'col_point': colPoint.toString(),
       if (colPointArray != null)
-        'col_point_array':
-            colPointArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+        'col_point_array': colPointArray.map((e) => e.toString()).toList(),
       if (colLine != null) 'col_line': colLine.toString(),
       if (colLineArray != null)
-        'col_line_array':
-            colLineArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+        'col_line_array': colLineArray.map((e) => e.toString()).toList(),
       if (colLseg != null) 'col_lseg': colLseg.toString(),
       if (colLsegArray != null)
-        'col_lseg_array':
-            colLsegArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+        'col_lseg_array': colLsegArray.map((e) => e.toString()).toList(),
       if (colBox != null) 'col_box': colBox.toString(),
       if (colBoxArray != null)
-        'col_box_array':
-            colBoxArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+        'col_box_array': colBoxArray.map((e) => e.toString()).toList(),
       if (colPath != null) 'col_path': colPath.toString(),
       if (colPathArray != null)
-        'col_path_array':
-            colPathArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+        'col_path_array': colPathArray.map((e) => e.toString()).toList(),
       if (colPolygon != null) 'col_polygon': colPolygon.toString(),
       if (colPolygonArray != null)
-        'col_polygon_array': colPolygonArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
+        'col_polygon_array': colPolygonArray.map((e) => e.toString()).toList(),
       if (colCircle != null) 'col_circle': colCircle.toString(),
       if (colCircleArray != null)
-        'col_circle_array':
-            colCircleArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+        'col_circle_array': colCircleArray.map((e) => e.toString()).toList(),
     };
   }
 
@@ -1015,47 +968,33 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
       id: json['id'] != null ? json['id'].toString() : '',
       colPoint: json['col_point'] != null ? json['col_point'].toString() : '',
       colPointArray: json['col_point_array'] != null
-          ? (json['col_point_array'] as List<dynamic>)
-              .map((v) => v as String)
-              .toList()
+          ? json['col_point_array'].map((e) => e.toString()).toList()
           : <String>[],
       colLine: json['col_line'] != null ? json['col_line'].toString() : '',
       colLineArray: json['col_line_array'] != null
-          ? (json['col_line_array'] as List<dynamic>)
-              .map((v) => v as String)
-              .toList()
+          ? json['col_line_array'].map((e) => e.toString()).toList()
           : <String>[],
       colLseg: json['col_lseg'] != null ? json['col_lseg'].toString() : '',
       colLsegArray: json['col_lseg_array'] != null
-          ? (json['col_lseg_array'] as List<dynamic>)
-              .map((v) => v as String)
-              .toList()
+          ? json['col_lseg_array'].map((e) => e.toString()).toList()
           : <String>[],
       colBox: json['col_box'] != null ? json['col_box'].toString() : '',
       colBoxArray: json['col_box_array'] != null
-          ? (json['col_box_array'] as List<dynamic>)
-              .map((v) => v as String)
-              .toList()
+          ? json['col_box_array'].map((e) => e.toString()).toList()
           : <String>[],
       colPath: json['col_path'] != null ? json['col_path'].toString() : '',
       colPathArray: json['col_path_array'] != null
-          ? (json['col_path_array'] as List<dynamic>)
-              .map((v) => v as String)
-              .toList()
+          ? json['col_path_array'].map((e) => e.toString()).toList()
           : <String>[],
       colPolygon:
           json['col_polygon'] != null ? json['col_polygon'].toString() : '',
       colPolygonArray: json['col_polygon_array'] != null
-          ? (json['col_polygon_array'] as List<dynamic>)
-              .map((v) => v as String)
-              .toList()
+          ? json['col_polygon_array'].map((e) => e.toString()).toList()
           : <String>[],
       colCircle:
           json['col_circle'] != null ? json['col_circle'].toString() : '',
       colCircleArray: json['col_circle_array'] != null
-          ? (json['col_circle_array'] as List<dynamic>)
-              .map((v) => v as String)
-              .toList()
+          ? json['col_circle_array'].map((e) => e.toString()).toList()
           : <String>[],
     );
   }
@@ -1109,7 +1048,7 @@ class EnumTypes implements SupadartClass<EnumTypes> {
     MOOD? colMood,
   }) {
     return {
-      if (id != null) 'id': id.toString(),
+      if (id != null) 'id': id,
       if (colMood != null) 'col_mood': colMood.toString().split('.').last,
     };
   }
@@ -1190,7 +1129,7 @@ class JsonTypes implements SupadartClass<JsonTypes> {
     List<Map<String, dynamic>>? colJsonbArray,
   }) {
     return {
-      if (id != null) 'id': id.toString(),
+      if (id != null) 'id': id,
       if (colJson != null) 'col_json': colJson,
       if (colJsonArray != null)
         'col_json_array': jsonEncode(colJsonArray)
@@ -1314,15 +1253,13 @@ class BinaryXmlTypes implements SupadartClass<BinaryXmlTypes> {
     List<String>? colXmlArray,
   }) {
     return {
-      if (id != null) 'id': id.toString(),
+      if (id != null) 'id': id,
       if (colBytea != null) 'col_bytea': colBytea.toString(),
       if (colByteaArray != null)
-        'col_bytea_array':
-            colByteaArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+        'col_bytea_array': colByteaArray.map((e) => e.toString()).toList(),
       if (colXml != null) 'col_xml': colXml.toString(),
       if (colXmlArray != null)
-        'col_xml_array':
-            colXmlArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+        'col_xml_array': colXmlArray.map((e) => e.toString()).toList(),
     };
   }
 
@@ -1363,15 +1300,11 @@ class BinaryXmlTypes implements SupadartClass<BinaryXmlTypes> {
       id: json['id'] != null ? json['id'].toString() : '',
       colBytea: json['col_bytea'] != null ? json['col_bytea'].toString() : '',
       colByteaArray: json['col_bytea_array'] != null
-          ? (json['col_bytea_array'] as List<dynamic>)
-              .map((v) => v as String)
-              .toList()
+          ? json['col_bytea_array'].map((e) => e.toString()).toList()
           : <String>[],
       colXml: json['col_xml'] != null ? json['col_xml'].toString() : '',
       colXmlArray: json['col_xml_array'] != null
-          ? (json['col_xml_array'] as List<dynamic>)
-              .map((v) => v as String)
-              .toList()
+          ? json['col_xml_array'].map((e) => e.toString()).toList()
           : <String>[],
     );
   }
@@ -1442,27 +1375,20 @@ class NetworkTypes implements SupadartClass<NetworkTypes> {
     List<String>? colMacaddr8Array,
   }) {
     return {
-      if (id != null) 'id': id.toString(),
+      if (id != null) 'id': id,
       if (colCidr != null) 'col_cidr': colCidr.toString(),
       if (colCidrArray != null)
-        'col_cidr_array':
-            colCidrArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+        'col_cidr_array': colCidrArray.map((e) => e.toString()).toList(),
       if (colInet != null) 'col_inet': colInet.toString(),
       if (colInetArray != null)
-        'col_inet_array':
-            colInetArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+        'col_inet_array': colInetArray.map((e) => e.toString()).toList(),
       if (colMacaddr != null) 'col_macaddr': colMacaddr.toString(),
       if (colMacaddrArray != null)
-        'col_macaddr_array': colMacaddrArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
+        'col_macaddr_array': colMacaddrArray.map((e) => e.toString()).toList(),
       if (colMacaddr8 != null) 'col_macaddr8': colMacaddr8.toString(),
       if (colMacaddr8Array != null)
-        'col_macaddr8_array': colMacaddr8Array
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
+        'col_macaddr8_array':
+            colMacaddr8Array.map((e) => e.toString()).toList(),
     };
   }
 
@@ -1519,29 +1445,21 @@ class NetworkTypes implements SupadartClass<NetworkTypes> {
       id: json['id'] != null ? json['id'].toString() : '',
       colCidr: json['col_cidr'] != null ? json['col_cidr'].toString() : '',
       colCidrArray: json['col_cidr_array'] != null
-          ? (json['col_cidr_array'] as List<dynamic>)
-              .map((v) => v as String)
-              .toList()
+          ? json['col_cidr_array'].map((e) => e.toString()).toList()
           : <String>[],
       colInet: json['col_inet'] != null ? json['col_inet'].toString() : '',
       colInetArray: json['col_inet_array'] != null
-          ? (json['col_inet_array'] as List<dynamic>)
-              .map((v) => v as String)
-              .toList()
+          ? json['col_inet_array'].map((e) => e.toString()).toList()
           : <String>[],
       colMacaddr:
           json['col_macaddr'] != null ? json['col_macaddr'].toString() : '',
       colMacaddrArray: json['col_macaddr_array'] != null
-          ? (json['col_macaddr_array'] as List<dynamic>)
-              .map((v) => v as String)
-              .toList()
+          ? json['col_macaddr_array'].map((e) => e.toString()).toList()
           : <String>[],
       colMacaddr8:
           json['col_macaddr8'] != null ? json['col_macaddr8'].toString() : '',
       colMacaddr8Array: json['col_macaddr8_array'] != null
-          ? (json['col_macaddr8_array'] as List<dynamic>)
-              .map((v) => v as String)
-              .toList()
+          ? json['col_macaddr8_array'].map((e) => e.toString()).toList()
           : <String>[],
     );
   }
@@ -1656,53 +1574,31 @@ class NumericTypes implements SupadartClass<NumericTypes> {
     List<num>? colNumericArray,
   }) {
     return {
-      if (id != null) 'id': id.toString(),
+      if (id != null) 'id': id,
       if (colBigint != null) 'col_bigint': colBigint.toString(),
       if (colBigintArray != null)
-        'col_bigint_array':
-            colBigintArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+        'col_bigint_array': colBigintArray.map((e) => e.toString()).toList(),
       if (colBigserial != null) 'col_bigserial': colBigserial.toString(),
       if (colBigserialArray != null)
-        'col_bigserial_array': colBigserialArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colInteger != null) 'col_integer': colInteger.toString(),
-      if (colIntegerArray != null)
-        'col_integer_array': colIntegerArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colSmallint != null) 'col_smallint': colSmallint.toString(),
-      if (colSmallintArray != null)
-        'col_smallint_array': colSmallintArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colSmallserial != null) 'col_smallserial': colSmallserial.toString(),
+        'col_bigserial_array':
+            colBigserialArray.map((e) => e.toString()).toList(),
+      if (colInteger != null) 'col_integer': colInteger,
+      if (colIntegerArray != null) 'col_integer_array': colIntegerArray,
+      if (colSmallint != null) 'col_smallint': colSmallint,
+      if (colSmallintArray != null) 'col_smallint_array': colSmallintArray,
+      if (colSmallserial != null) 'col_smallserial': colSmallserial,
       if (colSmallserialArray != null)
-        'col_smallserial_array': colSmallserialArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
-      if (colSerial != null) 'col_serial': colSerial.toString(),
-      if (colSerialArray != null)
-        'col_serial_array':
-            colSerialArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+        'col_smallserial_array': colSmallserialArray,
+      if (colSerial != null) 'col_serial': colSerial,
+      if (colSerialArray != null) 'col_serial_array': colSerialArray,
       if (colDouble != null) 'col_double': colDouble.toString(),
       if (colDoubleArray != null)
-        'col_double_array':
-            colDoubleArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
-      if (colReal != null) 'col_real': colReal.toString(),
-      if (colRealArray != null)
-        'col_real_array':
-            colRealArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+        'col_double_array': colDoubleArray.map((e) => e.toString()).toList(),
+      if (colReal != null) 'col_real': colReal,
+      if (colRealArray != null) 'col_real_array': colRealArray,
       if (colNumeric != null) 'col_numeric': colNumeric.toString(),
       if (colNumericArray != null)
-        'col_numeric_array': colNumericArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
+        'col_numeric_array': colNumericArray.map((e) => e.toString()).toList(),
     };
   }
 
@@ -1802,7 +1698,7 @@ class NumericTypes implements SupadartClass<NumericTypes> {
           : BigInt.from(0),
       colBigintArray: json['col_bigint_array'] != null
           ? (json['col_bigint_array'] as List<dynamic>)
-              .map((v) => BigInt.tryParse(v.toString()) as BigInt)
+              .map((v) => BigInt.parse(v.toString()))
               .toList()
           : <BigInt>[],
       colBigserial: json['col_bigserial'] != null
@@ -1810,33 +1706,39 @@ class NumericTypes implements SupadartClass<NumericTypes> {
           : BigInt.from(0),
       colBigserialArray: json['col_bigserial_array'] != null
           ? (json['col_bigserial_array'] as List<dynamic>)
-              .map((v) => BigInt.tryParse(v.toString()) as BigInt)
+              .map((v) => BigInt.parse(v.toString()))
               .toList()
           : <BigInt>[],
-      colInteger: json['col_integer'] != null ? json['col_integer'] as int : 0,
+      colInteger: json['col_integer'] != null
+          ? int.parse(json['col_integer'].toString())
+          : 0,
       colIntegerArray: json['col_integer_array'] != null
           ? (json['col_integer_array'] as List<dynamic>)
-              .map((v) => v as int)
+              .map((v) => int.parse(v.toString()))
               .toList()
           : <int>[],
-      colSmallint:
-          json['col_smallint'] != null ? json['col_smallint'] as int : 0,
+      colSmallint: json['col_smallint'] != null
+          ? int.parse(json['col_smallint'].toString())
+          : 0,
       colSmallintArray: json['col_smallint_array'] != null
           ? (json['col_smallint_array'] as List<dynamic>)
-              .map((v) => v as int)
+              .map((v) => int.parse(v.toString()))
               .toList()
           : <int>[],
-      colSmallserial:
-          json['col_smallserial'] != null ? json['col_smallserial'] as int : 0,
+      colSmallserial: json['col_smallserial'] != null
+          ? int.parse(json['col_smallserial'].toString())
+          : 0,
       colSmallserialArray: json['col_smallserial_array'] != null
           ? (json['col_smallserial_array'] as List<dynamic>)
-              .map((v) => v as int)
+              .map((v) => int.parse(v.toString()))
               .toList()
           : <int>[],
-      colSerial: json['col_serial'] != null ? json['col_serial'] as int : 0,
+      colSerial: json['col_serial'] != null
+          ? int.parse(json['col_serial'].toString())
+          : 0,
       colSerialArray: json['col_serial_array'] != null
           ? (json['col_serial_array'] as List<dynamic>)
-              .map((v) => v as int)
+              .map((v) => int.parse(v.toString()))
               .toList()
           : <int>[],
       colDouble: json['col_double'] != null
@@ -1844,7 +1746,7 @@ class NumericTypes implements SupadartClass<NumericTypes> {
           : 0.0,
       colDoubleArray: json['col_double_array'] != null
           ? (json['col_double_array'] as List<dynamic>)
-              .map((v) => double.tryParse(v.toString()) as double)
+              .map((v) => double.parse(v.toString()))
               .toList()
           : <double>[],
       colReal: json['col_real'] != null
@@ -1852,7 +1754,7 @@ class NumericTypes implements SupadartClass<NumericTypes> {
           : 0.0,
       colRealArray: json['col_real_array'] != null
           ? (json['col_real_array'] as List<dynamic>)
-              .map((v) => double.tryParse(v.toString()) as double)
+              .map((v) => double.parse(v.toString()))
               .toList()
           : <double>[],
       colNumeric: json['col_numeric'] != null
@@ -1860,7 +1762,7 @@ class NumericTypes implements SupadartClass<NumericTypes> {
           : 0,
       colNumericArray: json['col_numeric_array'] != null
           ? (json['col_numeric_array'] as List<dynamic>)
-              .map((v) => num.tryParse(v.toString()) as num)
+              .map((v) => num.parse(v.toString()))
               .toList()
           : <num>[],
     );
@@ -1904,8 +1806,8 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
   final List<DateTime>? colTimestampArray;
   final DateTime? colTimestamptz;
   final List<DateTime>? colTimestamptzArray;
-  final Duration? colInterval;
-  final List<Duration>? colIntervalArray;
+  final String? colInterval;
+  final List<String>? colIntervalArray;
 
   const DatetimeTypes({
     required this.id,
@@ -1958,44 +1860,40 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
     List<DateTime>? colTimestampArray,
     DateTime? colTimestamptz,
     List<DateTime>? colTimestamptzArray,
-    Duration? colInterval,
-    List<Duration>? colIntervalArray,
+    String? colInterval,
+    List<String>? colIntervalArray,
   }) {
     return {
-      if (id != null) 'id': id.toString(),
+      if (id != null) 'id': id,
       if (colDate != null) 'col_date': colDate.toIso8601String(),
       if (colDateArray != null)
-        'col_date_array':
-            colDateArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+        'col_date_array': colDateArray.map((e) => e.toIso8601String()).toList(),
       if (colTime != null)
         'col_time': DateFormat('HH:mm:ss.SSS').format(colTime),
       if (colTimeArray != null)
-        'col_time_array':
-            colTimeArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+        'col_time_array': colTimeArray
+            .map((e) => DateFormat('HH:mm:ss.SSS').format(e))
+            .toList(),
       if (colTimetz != null)
         'col_timetz': DateFormat('HH:mm:ss zzzz').format(colTimetz),
       if (colTimetzArray != null)
-        'col_timetz_array':
-            colTimetzArray.toString().replaceAll("[", "{").replaceAll("]", "}"),
+        'col_timetz_array': colTimetzArray
+            .map((e) => DateFormat('HH:mm:ss zzzz').format(e))
+            .toList(),
       if (colTimestamp != null) 'col_timestamp': colTimestamp.toIso8601String(),
       if (colTimestampArray != null)
-        'col_timestamp_array': colTimestampArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
+        'col_timestamp_array':
+            colTimestampArray.map((e) => e.toIso8601String()).toList(),
       if (colTimestamptz != null)
-        'col_timestamptz': colTimestamptz.toUtc().toString(),
+        'col_timestamptz': colTimestamptz.toUtc().toIso8601String(),
       if (colTimestamptzArray != null)
         'col_timestamptz_array': colTimestamptzArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
+            .map((e) => e.toUtc().toIso8601String())
+            .toList(),
       if (colInterval != null) 'col_interval': colInterval.toString(),
       if (colIntervalArray != null)
-        'col_interval_array': colIntervalArray
-            .toString()
-            .replaceAll("[", "{")
-            .replaceAll("]", "}"),
+        'col_interval_array':
+            colIntervalArray.map((e) => e.toString()).toList(),
     };
   }
 
@@ -2011,8 +1909,8 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
     List<DateTime>? colTimestampArray,
     DateTime? colTimestamptz,
     List<DateTime>? colTimestamptzArray,
-    Duration? colInterval,
-    List<Duration>? colIntervalArray,
+    String? colInterval,
+    List<String>? colIntervalArray,
   }) {
     return _generateMap(
       id: id,
@@ -2043,8 +1941,8 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
     List<DateTime>? colTimestampArray,
     DateTime? colTimestamptz,
     List<DateTime>? colTimestamptzArray,
-    Duration? colInterval,
-    List<Duration>? colIntervalArray,
+    String? colInterval,
+    List<String>? colIntervalArray,
   }) {
     return _generateMap(
       id: id,
@@ -2075,23 +1973,19 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
               .toList()
           : <DateTime>[],
       colTime: json['col_time'] != null
-          ? DateTime.tryParse("1970-01-01T${json['col_time'].toString()}")
-              as DateTime
+          ? DateTime.tryParse("1970-01-01T${json['col_time']}") as DateTime
           : DateTime.fromMillisecondsSinceEpoch(0),
       colTimeArray: json['col_time_array'] != null
           ? (json['col_time_array'] as List<dynamic>)
-              .map((v) =>
-                  DateTime.tryParse("1970-01-01T${v.toString()}") as DateTime)
+              .map((v) => DateTime.tryParse("1970-01-01T$v") as DateTime)
               .toList()
           : <DateTime>[],
       colTimetz: json['col_timetz'] != null
-          ? DateTime.tryParse("1970-01-01T${json['col_timetz'].toString()}")
-              as DateTime
+          ? DateTime.tryParse("1970-01-01T${json['col_timetz']}") as DateTime
           : DateTime.fromMillisecondsSinceEpoch(0),
       colTimetzArray: json['col_timetz_array'] != null
           ? (json['col_timetz_array'] as List<dynamic>)
-              .map((v) =>
-                  DateTime.tryParse("1970-01-01T${v.toString()}") as DateTime)
+              .map((v) => DateTime.tryParse("1970-01-01T$v") as DateTime)
               .toList()
           : <DateTime>[],
       colTimestamp: json['col_timestamp'] != null
@@ -2110,14 +2004,11 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
               .map((v) => DateTime.tryParse(v.toString()) as DateTime)
               .toList()
           : <DateTime>[],
-      colInterval: json['col_interval'] != null
-          ? json['col_interval'] as Duration
-          : Duration(),
+      colInterval:
+          json['col_interval'] != null ? json['col_interval'].toString() : '',
       colIntervalArray: json['col_interval_array'] != null
-          ? (json['col_interval_array'] as List<dynamic>)
-              .map((v) => v as Duration)
-              .toList()
-          : <Duration>[],
+          ? json['col_interval_array'].map((e) => e.toString()).toList()
+          : <String>[],
     );
   }
 
