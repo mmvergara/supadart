@@ -12,12 +12,12 @@ String generateGenerateMapPrivateMethod(Table table) {
   });
 
   buffer.writeln('}) {');
-  
+
   buffer.writeln('return {');
 
   columns.forEach((columnName, columnDetails) {
     buffer.writeln(
-      "if ($columnName != null) '${columnDetails.dbColName}': ${toJsonEncodable(columnDetails.dartType, columnDetails.postgresFormat, columnName, columnDetails)},",
+      "if ($columnName != null) '${columnDetails.dbColName}': ${toJsonEncodable(columnDetails)},",
     );
   });
 
