@@ -1,5 +1,3 @@
-
-
 class DartType {
   final String type;
   DartType(this.type);
@@ -101,10 +99,10 @@ DartType postgresFormatToDartType(String format) {
     // ====================
     // Interval type
     case "interval":
-      return DartType("Duration");
+      return DartType("String");
     // Interval Array type
     case "interval[]":
-      return DartType("List<Duration>");
+      return DartType("List<String>");
 
     // ====================
     // Binary data type
