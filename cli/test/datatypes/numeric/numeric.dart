@@ -8,8 +8,8 @@ import '../../utils.dart';
 // For other cases where precision matters, consider other numeric types. The BigInt type provides arbitrary-precision integers on both native and web. The fixnum package provides strict 64-bit signed numbers, even on the web. Use these types with care, though: they often result in significantly bigger and slower code.
 
 Future<void> performNumericTest(SupabaseClient supabase) async {
-  num insertNumeric = double.infinity;
-  num updatedNumeric = -double.infinity;
+  num insertNumeric = double.maxFinite;
+  num updatedNumeric = -double.maxFinite;
 
   // Tests for double precision
   test('Testing Numeric Create', () async {
