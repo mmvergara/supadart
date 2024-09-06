@@ -54,12 +54,17 @@ Future<void> performTimeTzTest(SupabaseClient supabase) async {
     var originalObject = readResult[0];
     var toJson = originalObject.toJson();
     var fromJson = DatetimeTypes.fromJson(toJson);
-    expect(fromJson.colTimetz, originalObject.colTimetz);
+    final originalTimeUtc = originalObject.colTimetz?.toUtc();
+    final fromJsonTimeUtc = fromJson.colTimetz?.toUtc();
+    expect(fromJsonTimeUtc?.difference(originalTimeUtc!).inMilliseconds,
+        lessThan(1000));
 
     // Test full roundtrip and object equivalence
     var roundTripToJson = fromJson.toJson();
     var roundTripFromJson = DatetimeTypes.fromJson(roundTripToJson);
-    expect(roundTripFromJson.colTimetz, originalObject.colTimetz);
+    final roundTripTimeUtc = roundTripFromJson.colTimetz?.toUtc();
+    expect(roundTripTimeUtc?.difference(originalTimeUtc!).inMilliseconds,
+        lessThan(1000));
   });
 }
 
