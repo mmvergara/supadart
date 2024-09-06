@@ -1,5 +1,5 @@
 import '../swagger/table.dart';
-import '../utils/to_json_encodable.dart';
+import '../utils/encoderJson.dart';
 
 String generateGenerateMapPrivateMethod(Table table) {
   final columns = table.columns;
@@ -17,7 +17,7 @@ String generateGenerateMapPrivateMethod(Table table) {
 
   columns.forEach((columnName, columnDetails) {
     buffer.writeln(
-      "if ($columnName != null) '${columnDetails.dbColName}': ${toJsonEncodable(columnDetails)},",
+      "if ($columnName != null) '${columnDetails.dbColName}': ${encodeToJson(columnDetails)},",
     );
   });
 
