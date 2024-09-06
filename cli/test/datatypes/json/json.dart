@@ -38,16 +38,24 @@ Future<void> performJsonTest(SupabaseClient supabase) async {
     expect(readResult[0].colJson, isA<Map<String, dynamic>>());
   });
 
-  test("Testing Json toJson and fromJson", () async {
+  test(
+      "Testing Json serialization roundtrip maintains data integrity and object equivalence",
+      () async {
     var readResult = await readJson(supabase);
     expect(readResult, isNotNull);
     expect(readResult!.isNotEmpty, true);
 
     var originalObject = readResult[0];
+
+    // Test toJson() followed by fromJson()
     var toJson = originalObject.toJson();
     var fromJson = JsonTypes.fromJson(toJson);
-
     expect(fromJson.colJson, originalObject.colJson);
+
+    // Test full roundtrip and object equivalence
+    var roundTripToJson = fromJson.toJson();
+    var roundTripFromJson = JsonTypes.fromJson(roundTripToJson);
+    expect(roundTripFromJson.colJson, originalObject.colJson);
   });
 }
 

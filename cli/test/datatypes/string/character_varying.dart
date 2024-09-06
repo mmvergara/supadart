@@ -30,16 +30,22 @@ Future<void> performCharacterVaryingTest(SupabaseClient supabase) async {
     expect(readResult[0].colCharactervarying, updatedCharVar);
   });
 
-  test("Testing Character Varying toJson and fromJson", () async {
+  test(
+      "Testing Character Varying serialization roundtrip maintains data integrity",
+      () async {
     var readResult = await readCharVar(supabase);
     expect(readResult, isNotNull);
     expect(readResult!.isNotEmpty, true);
 
+    // Test toJson() followed by fromJson()
     var originalObject = readResult[0];
     var toJson = originalObject.toJson();
     var fromJson = StringTypes.fromJson(toJson);
-
     expect(fromJson.colCharactervarying, originalObject.colCharactervarying);
+
+    // Test full roundtrip and object equivalence
+    var roundTripJson = fromJson.toJson();
+    expect(roundTripJson, originalObject.toJson());
   });
 }
 

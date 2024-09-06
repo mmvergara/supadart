@@ -52,25 +52,23 @@ Future<void> performTimeTzArrayTest(SupabaseClient supabase) async {
 
     expect(colTimetzArray, isA<List<DateTime>>());
   });
-  test("Testing TimeTz Array toJson and fromJson", () async {
+
+  test("Testing TimeTz Array serialization roundtrip maintains data integrity",
+      () async {
     var readResult = await readTimeTzArr(supabase);
     expect(readResult, isNotNull);
     expect(readResult!.isNotEmpty, true);
 
+    // Test toJson() followed by fromJson()
     var originalObject = readResult[0];
     var toJson = originalObject.toJson();
     var fromJson = DatetimeTypes.fromJson(toJson);
+    expect(fromJson.colTimetzArray, originalObject.colTimetzArray);
 
-    var colTimetzArrayOriginal = originalObject.colTimetzArray!;
-    var colTimetzArrayFromJson = fromJson.colTimetzArray!;
-
-    for (int i = 0; i < insertTimeTzs.length; i++) {
-      var originalTimeUtc = colTimetzArrayOriginal[i].toUtc();
-      var fromJsonTimeUtc = colTimetzArrayFromJson[i].toUtc();
-
-      expect(fromJsonTimeUtc.difference(originalTimeUtc).inMilliseconds,
-          lessThan(1000)); // 1 second tolerance
-    }
+    // Test full roundtrip and object equivalence
+    var roundTripToJson = fromJson.toJson();
+    var roundTripFromJson = DatetimeTypes.fromJson(roundTripToJson);
+    expect(roundTripFromJson.colTimetzArray, originalObject.colTimetzArray);
   });
 }
 

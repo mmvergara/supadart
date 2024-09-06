@@ -34,23 +34,22 @@ Future<void> performTimeArrayTest(SupabaseClient supabase) async {
     }
   });
 
-  test("Testing Time Array toJson and fromJson", () async {
+  test("Testing Time serialization roundtrip maintains data integrity",
+      () async {
     var readResult = await readTimeArray(supabase);
     expect(readResult, isNotNull);
     expect(readResult!.isNotEmpty, true);
 
+    // Test toJson() followed by fromJson()
     var originalObject = readResult[0];
     var toJson = originalObject.toJson();
     var fromJson = DatetimeTypes.fromJson(toJson);
+    expect(fromJson.colTimeArray, originalObject.colTimeArray);
 
-    for (int i = 0; i < insertTime.length; i++) {
-      expect(
-          fromJson.colTimeArray![i].hour, originalObject.colTimeArray![i].hour);
-      expect(fromJson.colTimeArray![i].minute,
-          originalObject.colTimeArray![i].minute);
-      expect(fromJson.colTimeArray![i].second,
-          originalObject.colTimeArray![i].second);
-    }
+    // Test full roundtrip and object equivalence
+    var roundTripToJson = fromJson.toJson();
+    var roundTripFromJson = DatetimeTypes.fromJson(roundTripToJson);
+    expect(roundTripFromJson.colTimeArray, originalObject.colTimeArray);
   });
 }
 

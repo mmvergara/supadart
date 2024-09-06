@@ -38,16 +38,23 @@ Future<void> performBigIntArrayTest(SupabaseClient supabase) async {
     expect(readResult[0].colBigintArray, isA<List<BigInt>>());
   });
 
-  test("Testing BigInt Array toJson and fromJson", () async {
+  test(
+      "Testing BigInt Array serialization roundtrip maintains data integrity and object equivalence",
+      () async {
     var readResult = await readBigIntArray(supabase);
     expect(readResult, isNotNull);
     expect(readResult!.isNotEmpty, true);
 
+    // Test toJson() followed by fromJson()
     var originalObject = readResult[0];
     var toJson = originalObject.toJson();
     var fromJson = NumericTypes.fromJson(toJson);
-
     expect(fromJson.colBigintArray, originalObject.colBigintArray);
+
+    // Test full roundtrip and object equivalence
+    var roundTripToJson = fromJson.toJson();
+    var roundTripFromJson = NumericTypes.fromJson(roundTripToJson);
+    expect(roundTripFromJson.colBigintArray, originalObject.colBigintArray);
   });
 }
 

@@ -30,16 +30,22 @@ Future<void> performRealTest(SupabaseClient supabase) async {
     expect(readResult[0].colReal, closeTo(updatedReal, 1e-6));
   });
 
-  test("Testing Real toJson and fromJson", () async {
+  test("Testing Real serialization roundtrip maintains data integrity",
+      () async {
     var readResult = await readReal(supabase);
     expect(readResult, isNotNull);
     expect(readResult!.isNotEmpty, true);
 
+    // Test toJson() followed by fromJson()
     var originalObject = readResult[0];
     var toJson = originalObject.toJson();
     var fromJson = NumericTypes.fromJson(toJson);
-
     expect(fromJson.colReal, originalObject.colReal);
+
+    // Test full roundtrip and object equivalence
+    var roundTripToJson = fromJson.toJson();
+    var roundTripFromJson = NumericTypes.fromJson(roundTripToJson);
+    expect(roundTripFromJson.colReal, originalObject.colReal);
   });
 }
 

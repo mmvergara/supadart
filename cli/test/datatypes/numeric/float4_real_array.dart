@@ -31,16 +31,22 @@ Future<void> performRealArrayTest(SupabaseClient supabase) async {
     expect(readResult[0].colRealArray, updatedRealArray);
   });
 
-  test("Testing Real Array toJson and fromJson", () async {
+  test("Testing Real Array serialization roundtrip maintains data integrity",
+      () async {
     var readResult = await readRealArray(supabase);
     expect(readResult, isNotNull);
     expect(readResult!.isNotEmpty, true);
 
+    // Test toJson() followed by fromJson()
     var originalObject = readResult[0];
     var toJson = originalObject.toJson();
     var fromJson = NumericTypes.fromJson(toJson);
-
     expect(fromJson.colRealArray, originalObject.colRealArray);
+
+    // Test full roundtrip and object equivalence
+    var roundTripToJson = fromJson.toJson();
+    var roundTripFromJson = NumericTypes.fromJson(roundTripToJson);
+    expect(roundTripFromJson.colRealArray, originalObject.colRealArray);
   });
 }
 

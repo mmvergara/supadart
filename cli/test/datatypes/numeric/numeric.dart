@@ -32,16 +32,22 @@ Future<void> performNumericTest(SupabaseClient supabase) async {
     expect(readResult[0].colNumeric, updatedNumeric);
   });
 
-  test("Testing Numeric toJson and fromJson", () async {
+  test("Testing Numeric serialization roundtrip maintains data integrity",
+      () async {
     var readResult = await readNumeric(supabase);
     expect(readResult, isNotNull);
     expect(readResult!.isNotEmpty, true);
 
+    // Test toJson() followed by fromJson()
     var originalObject = readResult[0];
     var toJson = originalObject.toJson();
     var fromJson = NumericTypes.fromJson(toJson);
-
     expect(fromJson.colNumeric, originalObject.colNumeric);
+
+    // Test full roundtrip and object equivalence
+    var roundTripToJson = fromJson.toJson();
+    var roundTripFromJson = NumericTypes.fromJson(roundTripToJson);
+    expect(roundTripFromJson.colNumeric, originalObject.colNumeric);
   });
 }
 

@@ -32,16 +32,23 @@ Future<void> performSmallIntArrayTest(SupabaseClient supabase) async {
     expect(readResult[0].colSmallintArray, updatedSmallintArray);
   });
 
-  test("Testing Smallint Array toJson and fromJson", () async {
+  test(
+      "Testing Smallint Array serialization roundtrip maintains data integrity",
+      () async {
     var readResult = await readSmallintArray(supabase);
     expect(readResult, isNotNull);
     expect(readResult!.isNotEmpty, true);
 
+    // Test toJson() followed by fromJson()
     var originalObject = readResult[0];
     var toJson = originalObject.toJson();
     var fromJson = NumericTypes.fromJson(toJson);
-
     expect(fromJson.colSmallintArray, originalObject.colSmallintArray);
+
+    // Test full roundtrip and object equivalence
+    var roundTripToJson = fromJson.toJson();
+    var roundTripFromJson = NumericTypes.fromJson(roundTripToJson);
+    expect(roundTripFromJson.colSmallintArray, originalObject.colSmallintArray);
   });
 }
 

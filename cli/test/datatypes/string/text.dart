@@ -31,16 +31,22 @@ Future<void> performTextTest(SupabaseClient supabase) async {
     expect(readResult[0].colText, updatedText);
   });
 
-  test("Testing Text toJson and fromJson", () async {
+
+  test("Testing Text serialization roundtrip maintains data integrity",
+      () async {
     var readResult = await readText(supabase);
     expect(readResult, isNotNull);
     expect(readResult!.isNotEmpty, true);
 
+    // Test toJson() followed by fromJson()
     var originalObject = readResult[0];
     var toJson = originalObject.toJson();
     var fromJson = StringTypes.fromJson(toJson);
-
     expect(fromJson.colText, originalObject.colText);
+
+    // Test full roundtrip and object equivalence
+    var roundTripJson = fromJson.toJson();
+    expect(roundTripJson, originalObject.toJson());
   });
 }
 

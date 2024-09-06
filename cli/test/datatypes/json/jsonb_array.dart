@@ -54,16 +54,24 @@ Future<void> performJsonBArrayTest(SupabaseClient supabase) async {
     expect(readResult[0].colJsonbArray, isA<List<Map<String, dynamic>>>());
   });
 
-  test("Testing JsonB Array toJson and fromJson", () async {
+  test(
+      "Testing JsonB Array serialization roundtrip maintains data integrity and object equivalence",
+      () async {
     var readResult = await readJsonBArray(supabase);
     expect(readResult, isNotNull);
     expect(readResult!.isNotEmpty, true);
 
     var originalObject = readResult[0];
+
+    // Test toJson() followed by fromJson()
     var toJson = originalObject.toJson();
     var fromJson = JsonTypes.fromJson(toJson);
-
     expect(fromJson.colJsonbArray, originalObject.colJsonbArray);
+
+    // Test full roundtrip and object equivalence
+    var roundTripToJson = fromJson.toJson();
+    var roundTripFromJson = JsonTypes.fromJson(roundTripToJson);
+    expect(roundTripFromJson.colJsonbArray, originalObject.colJsonbArray);
   });
 }
 

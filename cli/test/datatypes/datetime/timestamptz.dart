@@ -50,26 +50,22 @@ Future<void> performTimestamptzTest(SupabaseClient supabase) async {
     expect(storedTimestampUtc, updatedTimestamptzUtc);
   });
 
-  test("Testing Timestamptz toJson and fromJson", () async {
+  test("Testing Timestamptz serialization roundtrip maintains data integrity",
+      () async {
     var readResult = await readTimestamptz(supabase);
     expect(readResult, isNotNull);
     expect(readResult!.isNotEmpty, true);
 
+    // Test toJson() followed by fromJson()
     var originalObject = readResult[0];
     var toJson = originalObject.toJson();
     var fromJson = DatetimeTypes.fromJson(toJson);
+    expect(fromJson.colTimestamptz, originalObject.colTimestamptz);
 
-    expect(fromJson.colTimestamptz?.year, originalObject.colTimestamptz?.year);
-    expect(
-        fromJson.colTimestamptz?.month, originalObject.colTimestamptz?.month);
-    expect(fromJson.colTimestamptz?.day, originalObject.colTimestamptz?.day);
-    expect(fromJson.colTimestamptz?.hour, originalObject.colTimestamptz?.hour);
-    expect(
-        fromJson.colTimestamptz?.minute, originalObject.colTimestamptz?.minute);
-    expect(
-        fromJson.colTimestamptz?.second, originalObject.colTimestamptz?.second);
-    expect(fromJson.colTimestamptz?.millisecond,
-        originalObject.colTimestamptz?.millisecond);
+    // Test full roundtrip and object equivalence
+    var roundTripToJson = fromJson.toJson();
+    var roundTripFromJson = DatetimeTypes.fromJson(roundTripToJson);
+    expect(roundTripFromJson.colTimestamptz, originalObject.colTimestamptz);
   });
 }
 
