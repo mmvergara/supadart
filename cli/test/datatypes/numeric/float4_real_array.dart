@@ -30,6 +30,18 @@ Future<void> performRealArrayTest(SupabaseClient supabase) async {
     expect(readResult[0].colRealArray!.length, updatedRealArray.length);
     expect(readResult[0].colRealArray, updatedRealArray);
   });
+
+  test("Testing Real Array toJson and fromJson", () async {
+    var readResult = await readRealArray(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = NumericTypes.fromJson(toJson);
+
+    expect(fromJson.colRealArray, originalObject.colRealArray);
+  });
 }
 
 Future<Object?> createRealArray(

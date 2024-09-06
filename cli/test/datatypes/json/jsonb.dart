@@ -37,6 +37,18 @@ Future<void> performJsonBTest(SupabaseClient supabase) async {
     expect(readResult[0].colJsonb, updatedJsonb);
     expect(readResult[0].colJsonb, isA<Map<String, dynamic>>());
   });
+
+  test("Testing Jsonb toJson and fromJson", () async {
+    var readResult = await readJsonB(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = JsonTypes.fromJson(toJson);
+
+    expect(fromJson.colJsonb, originalObject.colJsonb);
+  });
 }
 
 Future<Object?> createJsonB(

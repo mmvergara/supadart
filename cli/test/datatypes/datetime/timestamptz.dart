@@ -49,6 +49,28 @@ Future<void> performTimestamptzTest(SupabaseClient supabase) async {
     // Compare the full DateTime objects
     expect(storedTimestampUtc, updatedTimestamptzUtc);
   });
+
+  test("Testing Timestamptz toJson and fromJson", () async {
+    var readResult = await readTimestamptz(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = DatetimeTypes.fromJson(toJson);
+
+    expect(fromJson.colTimestamptz?.year, originalObject.colTimestamptz?.year);
+    expect(
+        fromJson.colTimestamptz?.month, originalObject.colTimestamptz?.month);
+    expect(fromJson.colTimestamptz?.day, originalObject.colTimestamptz?.day);
+    expect(fromJson.colTimestamptz?.hour, originalObject.colTimestamptz?.hour);
+    expect(
+        fromJson.colTimestamptz?.minute, originalObject.colTimestamptz?.minute);
+    expect(
+        fromJson.colTimestamptz?.second, originalObject.colTimestamptz?.second);
+    expect(fromJson.colTimestamptz?.millisecond,
+        originalObject.colTimestamptz?.millisecond);
+  });
 }
 
 Future<Object?> createTimestamptz(

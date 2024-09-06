@@ -31,6 +31,20 @@ Future<void> performDateTest(SupabaseClient supabase) async {
     expect(readResult[0].colDate?.day, updatedDate.day);
     expect(readResult[0].colDate, isA<DateTime>());
   });
+
+  test("Testing Date toJson and fromJson", () async {
+    var readResult = await readDate(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = DatetimeTypes.fromJson(toJson);
+
+    expect(fromJson.colDate?.year, originalObject.colDate?.year);
+    expect(fromJson.colDate?.month, originalObject.colDate?.month);
+    expect(fromJson.colDate?.day, originalObject.colDate?.day);
+  });
 }
 
 Future<Object?> createDate(SupabaseClient supabase, DateTime insertVal) async {

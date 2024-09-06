@@ -53,6 +53,18 @@ Future<void> performJsonArrayTest(SupabaseClient supabase) async {
     expect(readResult[0].colJsonArray, updatedJsonArray);
     expect(readResult[0].colJsonArray, isA<List<Map<String, dynamic>>>());
   });
+
+  test("Testing Json Array toJson and fromJson", () async {
+    var readResult = await readJsonArray(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = JsonTypes.fromJson(toJson);
+
+    expect(fromJson.colJsonArray, originalObject.colJsonArray);
+  });
 }
 
 Future<Object?> createJsonArray(

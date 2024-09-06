@@ -26,6 +26,18 @@ Future<void> performBooleanArrayTest(SupabaseClient supabase) async {
     expect(readResult[0].colBooleanArray, isA<List<bool>>());
     expect(readResult[0].colBooleanArray![0], updatedBooleanArray[0]);
   });
+
+  test("Testing Boolean Array toJson and fromJson", () async {
+    var readResult = await readBooleanArray(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = BooleanBitTypes.fromJson(toJson);
+
+    expect(fromJson.colBooleanArray, originalObject.colBooleanArray);
+  });
 }
 
 Future<Object?> createBooleanArray(

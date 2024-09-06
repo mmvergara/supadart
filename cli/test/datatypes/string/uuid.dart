@@ -27,6 +27,18 @@ Future<void> performUUIDTest(SupabaseClient supabase) async {
     expect(readResult[0].colUuid, updatedUuid);
     expect(readResult[0].colUuid, isA<String>());
   });
+
+  test("Testing UUID toJson and fromJson", () async {
+    var readResult = await readUUID(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = StringTypes.fromJson(toJson);
+
+    expect(fromJson.colUuid, originalObject.colUuid);
+  });
 }
 
 Future<Object?> createUUID(SupabaseClient supabase, String insertVal) async {

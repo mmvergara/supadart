@@ -32,6 +32,18 @@ Future<void> performIntegerArrayTest(SupabaseClient supabase) async {
     expect(readResult[0].colIntegerArray, isA<List<int>>());
     expect(readResult[0].colIntegerArray, updatedInt4Array);
   });
+
+  test("Testing Integer Array toJson and fromJson", () async {
+    var readResult = await readIntegerArray(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = NumericTypes.fromJson(toJson);
+
+    expect(fromJson.colIntegerArray, originalObject.colIntegerArray);
+  });
 }
 
 Future<Object?> createIntegerArray(

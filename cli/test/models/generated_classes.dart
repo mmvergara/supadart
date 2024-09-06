@@ -165,33 +165,34 @@ class StringTypes implements SupadartClass<StringTypes> {
     );
   }
 
-  factory StringTypes.fromJson(Map<String, dynamic> json) {
+  factory StringTypes.fromJson(Map<String, dynamic> jsonn) {
     return StringTypes(
-      id: json['id'] != null ? json['id'].toString() : '',
-      colUuid: json['col_uuid'] != null ? json['col_uuid'].toString() : '',
-      colUuidArray: json['col_uuid_array'] != null
-          ? (json['col_uuid_array'] as List<dynamic>)
+      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
+      colUuid: jsonn['col_uuid'] != null ? jsonn['col_uuid'].toString() : '',
+      colUuidArray: jsonn['col_uuid_array'] != null
+          ? (jsonn['col_uuid_array'] as List<dynamic>)
               .map((v) => v.toString())
               .toList()
           : <String>[],
-      colCharacter:
-          json['col_character'] != null ? json['col_character'].toString() : '',
-      colCharacterArray: json['col_character_array'] != null
-          ? (json['col_character_array'] as List<dynamic>)
-              .map((v) => v.toString())
-              .toList()
-          : <String>[],
-      colCharactervarying: json['col_charactervarying'] != null
-          ? json['col_charactervarying'].toString()
+      colCharacter: jsonn['col_character'] != null
+          ? jsonn['col_character'].toString()
           : '',
-      colCharactervaryingArray: json['col_charactervarying_array'] != null
-          ? (json['col_charactervarying_array'] as List<dynamic>)
+      colCharacterArray: jsonn['col_character_array'] != null
+          ? (jsonn['col_character_array'] as List<dynamic>)
               .map((v) => v.toString())
               .toList()
           : <String>[],
-      colText: json['col_text'] != null ? json['col_text'].toString() : '',
-      colTextArray: json['col_text_array'] != null
-          ? (json['col_text_array'] as List<dynamic>)
+      colCharactervarying: jsonn['col_charactervarying'] != null
+          ? jsonn['col_charactervarying'].toString()
+          : '',
+      colCharactervaryingArray: jsonn['col_charactervarying_array'] != null
+          ? (jsonn['col_charactervarying_array'] as List<dynamic>)
+              .map((v) => v.toString())
+              .toList()
+          : <String>[],
+      colText: jsonn['col_text'] != null ? jsonn['col_text'].toString() : '',
+      colTextArray: jsonn['col_text_array'] != null
+          ? (jsonn['col_text_array'] as List<dynamic>)
               .map((v) => v.toString())
               .toList()
           : <String>[],
@@ -314,25 +315,29 @@ class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
     );
   }
 
-  factory BooleanBitTypes.fromJson(Map<String, dynamic> json) {
+  factory BooleanBitTypes.fromJson(Map<String, dynamic> jsonn) {
     return BooleanBitTypes(
-      id: json['id'] != null ? json['id'].toString() : '',
+      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
       colBoolean:
-          json['col_boolean'] != null ? json['col_boolean'] as bool : false,
-      colBooleanArray: json['col_boolean_array'] != null
-          ? (json['col_boolean_array'] as List<dynamic>)
+          jsonn['col_boolean'] != null ? jsonn['col_boolean'] as bool : false,
+      colBooleanArray: jsonn['col_boolean_array'] != null
+          ? (jsonn['col_boolean_array'] as List<dynamic>)
               .map((v) => v as bool)
               .toList()
           : <bool>[],
-      colBit: json['col_bit'] != null ? json['col_bit'].toString() : '',
-      colBitArray: json['col_bit_array'] != null
-          ? json['col_bit_array'].map((e) => e.toString()).toList()
+      colBit: jsonn['col_bit'] != null ? jsonn['col_bit'].toString() : '',
+      colBitArray: jsonn['col_bit_array'] != null
+          ? (jsonn['col_bit_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
           : <String>[],
-      colBitvarying: json['col_bitvarying'] != null
-          ? json['col_bitvarying'].toString()
+      colBitvarying: jsonn['col_bitvarying'] != null
+          ? jsonn['col_bitvarying'].toString()
           : '',
-      colBitvaryingArray: json['col_bitvarying_array'] != null
-          ? json['col_bitvarying_array'].map((e) => e.toString()).toList()
+      colBitvaryingArray: jsonn['col_bitvarying_array'] != null
+          ? (jsonn['col_bitvarying_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
           : <String>[],
     );
   }
@@ -438,19 +443,19 @@ class CombinedTypesView implements SupadartClass<CombinedTypesView> {
     );
   }
 
-  factory CombinedTypesView.fromJson(Map<String, dynamic> json) {
+  factory CombinedTypesView.fromJson(Map<String, dynamic> jsonn) {
     return CombinedTypesView(
       numericId:
-          json['numeric_id'] != null ? json['numeric_id'].toString() : '',
-      colInteger: json['col_integer'] != null
-          ? int.parse(json['col_integer'].toString())
+          jsonn['numeric_id'] != null ? jsonn['numeric_id'].toString() : '',
+      colInteger: jsonn['col_integer'] != null
+          ? int.parse(jsonn['col_integer'].toString())
           : 0,
-      colDouble: json['col_double'] != null
-          ? double.parse(json['col_double'].toString())
+      colDouble: jsonn['col_double'] != null
+          ? double.parse(jsonn['col_double'].toString())
           : 0.0,
-      stringId: json['string_id'] != null ? json['string_id'].toString() : '',
-      colText: json['col_text'] != null ? json['col_text'].toString() : '',
-      colUuid: json['col_uuid'] != null ? json['col_uuid'].toString() : '',
+      stringId: jsonn['string_id'] != null ? jsonn['string_id'].toString() : '',
+      colText: jsonn['col_text'] != null ? jsonn['col_text'].toString() : '',
+      colUuid: jsonn['col_uuid'] != null ? jsonn['col_uuid'].toString() : '',
     );
   }
 
@@ -627,38 +632,51 @@ class MiscTypes implements SupadartClass<MiscTypes> {
     );
   }
 
-  factory MiscTypes.fromJson(Map<String, dynamic> json) {
+  factory MiscTypes.fromJson(Map<String, dynamic> jsonn) {
     return MiscTypes(
-      id: json['id'] != null ? json['id'].toString() : '',
-      colMoney: json['col_money'] != null ? json['col_money'].toString() : '',
-      colMoneyArray: json['col_money_array'] != null
-          ? json['col_money_array'].map((e) => e.toString()).toList()
+      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
+      colMoney: jsonn['col_money'] != null ? jsonn['col_money'].toString() : '',
+      colMoneyArray: jsonn['col_money_array'] != null
+          ? (jsonn['col_money_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
           : <String>[],
-      colPgLsn: json['col_pg_lsn'] != null ? json['col_pg_lsn'].toString() : '',
-      colPgLsnArray: json['col_pg_lsn_array'] != null
-          ? json['col_pg_lsn_array'].map((e) => e.toString()).toList()
+      colPgLsn:
+          jsonn['col_pg_lsn'] != null ? jsonn['col_pg_lsn'].toString() : '',
+      colPgLsnArray: jsonn['col_pg_lsn_array'] != null
+          ? (jsonn['col_pg_lsn_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
           : <String>[],
-      colPgSnapshot: json['col_pg_snapshot'] != null
-          ? json['col_pg_snapshot'].toString()
+      colPgSnapshot: jsonn['col_pg_snapshot'] != null
+          ? jsonn['col_pg_snapshot'].toString()
           : '',
-      colPgSnapshotArray: json['col_pg_snapshot_array'] != null
-          ? json['col_pg_snapshot_array'].map((e) => e.toString()).toList()
+      colPgSnapshotArray: jsonn['col_pg_snapshot_array'] != null
+          ? (jsonn['col_pg_snapshot_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
           : <String>[],
       colTsquery:
-          json['col_tsquery'] != null ? json['col_tsquery'].toString() : '',
-      colTsqueryArray: json['col_tsquery_array'] != null
-          ? json['col_tsquery_array'].map((e) => e.toString()).toList()
+          jsonn['col_tsquery'] != null ? jsonn['col_tsquery'].toString() : '',
+      colTsqueryArray: jsonn['col_tsquery_array'] != null
+          ? (jsonn['col_tsquery_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
           : <String>[],
       colTsvector:
-          json['col_tsvector'] != null ? json['col_tsvector'].toString() : '',
-      colTsvectorArray: json['col_tsvector_array'] != null
-          ? json['col_tsvector_array'].map((e) => e.toString()).toList()
+          jsonn['col_tsvector'] != null ? jsonn['col_tsvector'].toString() : '',
+      colTsvectorArray: jsonn['col_tsvector_array'] != null
+          ? (jsonn['col_tsvector_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
           : <String>[],
-      colTxidSnapshot: json['col_txid_snapshot'] != null
-          ? json['col_txid_snapshot'].toString()
+      colTxidSnapshot: jsonn['col_txid_snapshot'] != null
+          ? jsonn['col_txid_snapshot'].toString()
           : '',
-      colTxidSnapshotArray: json['col_txid_snapshot_array'] != null
-          ? json['col_txid_snapshot_array'].map((e) => e.toString()).toList()
+      colTxidSnapshotArray: jsonn['col_txid_snapshot_array'] != null
+          ? (jsonn['col_txid_snapshot_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
           : <String>[],
     );
   }
@@ -761,17 +779,17 @@ class Books implements SupadartClass<Books> {
     );
   }
 
-  factory Books.fromJson(Map<String, dynamic> json) {
+  factory Books.fromJson(Map<String, dynamic> jsonn) {
     return Books(
-      id: json['id'] != null
-          ? BigInt.parse(json['id'].toString())
+      id: jsonn['id'] != null
+          ? BigInt.parse(jsonn['id'].toString())
           : BigInt.from(0),
-      name: json['name'] != null ? json['name'].toString() : '',
+      name: jsonn['name'] != null ? jsonn['name'].toString() : '',
       description:
-          json['description'] != null ? json['description'].toString() : '',
-      price: json['price'] != null ? int.parse(json['price'].toString()) : 0,
-      createdAt: json['created_at'] != null
-          ? DateTime.tryParse(json['created_at'].toString()) as DateTime
+          jsonn['description'] != null ? jsonn['description'].toString() : '',
+      price: jsonn['price'] != null ? int.parse(jsonn['price'].toString()) : 0,
+      createdAt: jsonn['created_at'] != null
+          ? DateTime.parse(jsonn['created_at'].toString())
           : DateTime.fromMillisecondsSinceEpoch(0),
     );
   }
@@ -963,38 +981,52 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
     );
   }
 
-  factory GeometricTypes.fromJson(Map<String, dynamic> json) {
+  factory GeometricTypes.fromJson(Map<String, dynamic> jsonn) {
     return GeometricTypes(
-      id: json['id'] != null ? json['id'].toString() : '',
-      colPoint: json['col_point'] != null ? json['col_point'].toString() : '',
-      colPointArray: json['col_point_array'] != null
-          ? json['col_point_array'].map((e) => e.toString()).toList()
+      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
+      colPoint: jsonn['col_point'] != null ? jsonn['col_point'].toString() : '',
+      colPointArray: jsonn['col_point_array'] != null
+          ? (jsonn['col_point_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
           : <String>[],
-      colLine: json['col_line'] != null ? json['col_line'].toString() : '',
-      colLineArray: json['col_line_array'] != null
-          ? json['col_line_array'].map((e) => e.toString()).toList()
+      colLine: jsonn['col_line'] != null ? jsonn['col_line'].toString() : '',
+      colLineArray: jsonn['col_line_array'] != null
+          ? (jsonn['col_line_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
           : <String>[],
-      colLseg: json['col_lseg'] != null ? json['col_lseg'].toString() : '',
-      colLsegArray: json['col_lseg_array'] != null
-          ? json['col_lseg_array'].map((e) => e.toString()).toList()
+      colLseg: jsonn['col_lseg'] != null ? jsonn['col_lseg'].toString() : '',
+      colLsegArray: jsonn['col_lseg_array'] != null
+          ? (jsonn['col_lseg_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
           : <String>[],
-      colBox: json['col_box'] != null ? json['col_box'].toString() : '',
-      colBoxArray: json['col_box_array'] != null
-          ? json['col_box_array'].map((e) => e.toString()).toList()
+      colBox: jsonn['col_box'] != null ? jsonn['col_box'].toString() : '',
+      colBoxArray: jsonn['col_box_array'] != null
+          ? (jsonn['col_box_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
           : <String>[],
-      colPath: json['col_path'] != null ? json['col_path'].toString() : '',
-      colPathArray: json['col_path_array'] != null
-          ? json['col_path_array'].map((e) => e.toString()).toList()
+      colPath: jsonn['col_path'] != null ? jsonn['col_path'].toString() : '',
+      colPathArray: jsonn['col_path_array'] != null
+          ? (jsonn['col_path_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
           : <String>[],
       colPolygon:
-          json['col_polygon'] != null ? json['col_polygon'].toString() : '',
-      colPolygonArray: json['col_polygon_array'] != null
-          ? json['col_polygon_array'].map((e) => e.toString()).toList()
+          jsonn['col_polygon'] != null ? jsonn['col_polygon'].toString() : '',
+      colPolygonArray: jsonn['col_polygon_array'] != null
+          ? (jsonn['col_polygon_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
           : <String>[],
       colCircle:
-          json['col_circle'] != null ? json['col_circle'].toString() : '',
-      colCircleArray: json['col_circle_array'] != null
-          ? json['col_circle_array'].map((e) => e.toString()).toList()
+          jsonn['col_circle'] != null ? jsonn['col_circle'].toString() : '',
+      colCircleArray: jsonn['col_circle_array'] != null
+          ? (jsonn['col_circle_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
           : <String>[],
     );
   }
@@ -1073,11 +1105,11 @@ class EnumTypes implements SupadartClass<EnumTypes> {
     );
   }
 
-  factory EnumTypes.fromJson(Map<String, dynamic> json) {
+  factory EnumTypes.fromJson(Map<String, dynamic> jsonn) {
     return EnumTypes(
-      id: json['id'] != null ? json['id'].toString() : '',
-      colMood: json['col_mood'] != null
-          ? MOOD.values.byName(json['col_mood'].toString())
+      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
+      colMood: jsonn['col_mood'] != null
+          ? MOOD.values.byName(jsonn['col_mood'].toString())
           : MOOD.values.first,
     );
   }
@@ -1132,20 +1164,10 @@ class JsonTypes implements SupadartClass<JsonTypes> {
       if (id != null) 'id': id,
       if (colJson != null) 'col_json': colJson,
       if (colJsonArray != null)
-        'col_json_array': jsonEncode(colJsonArray)
-            .replaceAll('"', '\\"')
-            .replaceAll("{", '"{')
-            .replaceAll("}", '}"')
-            .replaceAll("[", '{')
-            .replaceAll("]", '}'),
+        'col_json_array': colJsonArray.map((e) => jsonEncode(e)).toList(),
       if (colJsonb != null) 'col_jsonb': colJsonb,
       if (colJsonbArray != null)
-        'col_jsonb_array': jsonEncode(colJsonbArray)
-            .replaceAll('"', '\\"')
-            .replaceAll("{", '"{')
-            .replaceAll("}", '}"')
-            .replaceAll("[", '{')
-            .replaceAll("]", '}'),
+        'col_jsonb_array': colJsonbArray.map((e) => jsonEncode(e)).toList(),
     };
   }
 
@@ -1181,23 +1203,23 @@ class JsonTypes implements SupadartClass<JsonTypes> {
     );
   }
 
-  factory JsonTypes.fromJson(Map<String, dynamic> json) {
+  factory JsonTypes.fromJson(Map<String, dynamic> jsonn) {
     return JsonTypes(
-      id: json['id'] != null ? json['id'].toString() : '',
-      colJson: json['col_json'] != null
-          ? json['col_json'] as Map<String, dynamic>
+      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
+      colJson: jsonn['col_json'] != null
+          ? jsonn['col_json'] as Map<String, dynamic>
           : <String, dynamic>{},
-      colJsonArray: json['col_json_array'] != null
-          ? (json['col_json_array'] as List<dynamic>)
-              .map((v) => v as Map<String, dynamic>)
+      colJsonArray: jsonn['col_json_array'] != null
+          ? (jsonn['col_json_array'] as List<dynamic>)
+              .map((v) => json.decode(v) as Map<String, dynamic>)
               .toList()
           : <Map<String, dynamic>>[],
-      colJsonb: json['col_jsonb'] != null
-          ? json['col_jsonb'] as Map<String, dynamic>
+      colJsonb: jsonn['col_jsonb'] != null
+          ? jsonn['col_jsonb'] as Map<String, dynamic>
           : <String, dynamic>{},
-      colJsonbArray: json['col_jsonb_array'] != null
-          ? (json['col_jsonb_array'] as List<dynamic>)
-              .map((v) => v as Map<String, dynamic>)
+      colJsonbArray: jsonn['col_jsonb_array'] != null
+          ? (jsonn['col_jsonb_array'] as List<dynamic>)
+              .map((v) => json.decode(v) as Map<String, dynamic>)
               .toList()
           : <Map<String, dynamic>>[],
     );
@@ -1295,16 +1317,20 @@ class BinaryXmlTypes implements SupadartClass<BinaryXmlTypes> {
     );
   }
 
-  factory BinaryXmlTypes.fromJson(Map<String, dynamic> json) {
+  factory BinaryXmlTypes.fromJson(Map<String, dynamic> jsonn) {
     return BinaryXmlTypes(
-      id: json['id'] != null ? json['id'].toString() : '',
-      colBytea: json['col_bytea'] != null ? json['col_bytea'].toString() : '',
-      colByteaArray: json['col_bytea_array'] != null
-          ? json['col_bytea_array'].map((e) => e.toString()).toList()
+      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
+      colBytea: jsonn['col_bytea'] != null ? jsonn['col_bytea'].toString() : '',
+      colByteaArray: jsonn['col_bytea_array'] != null
+          ? (jsonn['col_bytea_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
           : <String>[],
-      colXml: json['col_xml'] != null ? json['col_xml'].toString() : '',
-      colXmlArray: json['col_xml_array'] != null
-          ? json['col_xml_array'].map((e) => e.toString()).toList()
+      colXml: jsonn['col_xml'] != null ? jsonn['col_xml'].toString() : '',
+      colXmlArray: jsonn['col_xml_array'] != null
+          ? (jsonn['col_xml_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
           : <String>[],
     );
   }
@@ -1440,26 +1466,34 @@ class NetworkTypes implements SupadartClass<NetworkTypes> {
     );
   }
 
-  factory NetworkTypes.fromJson(Map<String, dynamic> json) {
+  factory NetworkTypes.fromJson(Map<String, dynamic> jsonn) {
     return NetworkTypes(
-      id: json['id'] != null ? json['id'].toString() : '',
-      colCidr: json['col_cidr'] != null ? json['col_cidr'].toString() : '',
-      colCidrArray: json['col_cidr_array'] != null
-          ? json['col_cidr_array'].map((e) => e.toString()).toList()
+      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
+      colCidr: jsonn['col_cidr'] != null ? jsonn['col_cidr'].toString() : '',
+      colCidrArray: jsonn['col_cidr_array'] != null
+          ? (jsonn['col_cidr_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
           : <String>[],
-      colInet: json['col_inet'] != null ? json['col_inet'].toString() : '',
-      colInetArray: json['col_inet_array'] != null
-          ? json['col_inet_array'].map((e) => e.toString()).toList()
+      colInet: jsonn['col_inet'] != null ? jsonn['col_inet'].toString() : '',
+      colInetArray: jsonn['col_inet_array'] != null
+          ? (jsonn['col_inet_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
           : <String>[],
       colMacaddr:
-          json['col_macaddr'] != null ? json['col_macaddr'].toString() : '',
-      colMacaddrArray: json['col_macaddr_array'] != null
-          ? json['col_macaddr_array'].map((e) => e.toString()).toList()
+          jsonn['col_macaddr'] != null ? jsonn['col_macaddr'].toString() : '',
+      colMacaddrArray: jsonn['col_macaddr_array'] != null
+          ? (jsonn['col_macaddr_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
           : <String>[],
       colMacaddr8:
-          json['col_macaddr8'] != null ? json['col_macaddr8'].toString() : '',
-      colMacaddr8Array: json['col_macaddr8_array'] != null
-          ? json['col_macaddr8_array'].map((e) => e.toString()).toList()
+          jsonn['col_macaddr8'] != null ? jsonn['col_macaddr8'].toString() : '',
+      colMacaddr8Array: jsonn['col_macaddr8_array'] != null
+          ? (jsonn['col_macaddr8_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
           : <String>[],
     );
   }
@@ -1690,78 +1724,78 @@ class NumericTypes implements SupadartClass<NumericTypes> {
     );
   }
 
-  factory NumericTypes.fromJson(Map<String, dynamic> json) {
+  factory NumericTypes.fromJson(Map<String, dynamic> jsonn) {
     return NumericTypes(
-      id: json['id'] != null ? json['id'].toString() : '',
-      colBigint: json['col_bigint'] != null
-          ? BigInt.parse(json['col_bigint'].toString())
+      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
+      colBigint: jsonn['col_bigint'] != null
+          ? BigInt.parse(jsonn['col_bigint'].toString())
           : BigInt.from(0),
-      colBigintArray: json['col_bigint_array'] != null
-          ? (json['col_bigint_array'] as List<dynamic>)
+      colBigintArray: jsonn['col_bigint_array'] != null
+          ? (jsonn['col_bigint_array'] as List<dynamic>)
               .map((v) => BigInt.parse(v.toString()))
               .toList()
           : <BigInt>[],
-      colBigserial: json['col_bigserial'] != null
-          ? BigInt.parse(json['col_bigserial'].toString())
+      colBigserial: jsonn['col_bigserial'] != null
+          ? BigInt.parse(jsonn['col_bigserial'].toString())
           : BigInt.from(0),
-      colBigserialArray: json['col_bigserial_array'] != null
-          ? (json['col_bigserial_array'] as List<dynamic>)
+      colBigserialArray: jsonn['col_bigserial_array'] != null
+          ? (jsonn['col_bigserial_array'] as List<dynamic>)
               .map((v) => BigInt.parse(v.toString()))
               .toList()
           : <BigInt>[],
-      colInteger: json['col_integer'] != null
-          ? int.parse(json['col_integer'].toString())
+      colInteger: jsonn['col_integer'] != null
+          ? int.parse(jsonn['col_integer'].toString())
           : 0,
-      colIntegerArray: json['col_integer_array'] != null
-          ? (json['col_integer_array'] as List<dynamic>)
+      colIntegerArray: jsonn['col_integer_array'] != null
+          ? (jsonn['col_integer_array'] as List<dynamic>)
               .map((v) => int.parse(v.toString()))
               .toList()
           : <int>[],
-      colSmallint: json['col_smallint'] != null
-          ? int.parse(json['col_smallint'].toString())
+      colSmallint: jsonn['col_smallint'] != null
+          ? int.parse(jsonn['col_smallint'].toString())
           : 0,
-      colSmallintArray: json['col_smallint_array'] != null
-          ? (json['col_smallint_array'] as List<dynamic>)
+      colSmallintArray: jsonn['col_smallint_array'] != null
+          ? (jsonn['col_smallint_array'] as List<dynamic>)
               .map((v) => int.parse(v.toString()))
               .toList()
           : <int>[],
-      colSmallserial: json['col_smallserial'] != null
-          ? int.parse(json['col_smallserial'].toString())
+      colSmallserial: jsonn['col_smallserial'] != null
+          ? int.parse(jsonn['col_smallserial'].toString())
           : 0,
-      colSmallserialArray: json['col_smallserial_array'] != null
-          ? (json['col_smallserial_array'] as List<dynamic>)
+      colSmallserialArray: jsonn['col_smallserial_array'] != null
+          ? (jsonn['col_smallserial_array'] as List<dynamic>)
               .map((v) => int.parse(v.toString()))
               .toList()
           : <int>[],
-      colSerial: json['col_serial'] != null
-          ? int.parse(json['col_serial'].toString())
+      colSerial: jsonn['col_serial'] != null
+          ? int.parse(jsonn['col_serial'].toString())
           : 0,
-      colSerialArray: json['col_serial_array'] != null
-          ? (json['col_serial_array'] as List<dynamic>)
+      colSerialArray: jsonn['col_serial_array'] != null
+          ? (jsonn['col_serial_array'] as List<dynamic>)
               .map((v) => int.parse(v.toString()))
               .toList()
           : <int>[],
-      colDouble: json['col_double'] != null
-          ? double.parse(json['col_double'].toString())
+      colDouble: jsonn['col_double'] != null
+          ? double.parse(jsonn['col_double'].toString())
           : 0.0,
-      colDoubleArray: json['col_double_array'] != null
-          ? (json['col_double_array'] as List<dynamic>)
+      colDoubleArray: jsonn['col_double_array'] != null
+          ? (jsonn['col_double_array'] as List<dynamic>)
               .map((v) => double.parse(v.toString()))
               .toList()
           : <double>[],
-      colReal: json['col_real'] != null
-          ? double.parse(json['col_real'].toString())
+      colReal: jsonn['col_real'] != null
+          ? double.parse(jsonn['col_real'].toString())
           : 0.0,
-      colRealArray: json['col_real_array'] != null
-          ? (json['col_real_array'] as List<dynamic>)
+      colRealArray: jsonn['col_real_array'] != null
+          ? (jsonn['col_real_array'] as List<dynamic>)
               .map((v) => double.parse(v.toString()))
               .toList()
           : <double>[],
-      colNumeric: json['col_numeric'] != null
-          ? num.parse(json['col_numeric'].toString())
+      colNumeric: jsonn['col_numeric'] != null
+          ? num.parse(jsonn['col_numeric'].toString())
           : 0,
-      colNumericArray: json['col_numeric_array'] != null
-          ? (json['col_numeric_array'] as List<dynamic>)
+      colNumericArray: jsonn['col_numeric_array'] != null
+          ? (jsonn['col_numeric_array'] as List<dynamic>)
               .map((v) => num.parse(v.toString()))
               .toList()
           : <num>[],
@@ -1875,10 +1909,10 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
             .map((e) => DateFormat('HH:mm:ss.SSS').format(e))
             .toList(),
       if (colTimetz != null)
-        'col_timetz': DateFormat('HH:mm:ss zzzz').format(colTimetz),
+        'col_timetz': DateFormat('HH:mm:ssZ').format(colTimetz.toUtc()),
       if (colTimetzArray != null)
         'col_timetz_array': colTimetzArray
-            .map((e) => DateFormat('HH:mm:ss zzzz').format(e))
+            .map((e) => DateFormat('HH:mm:ssZ').format(e.toUtc()))
             .toList(),
       if (colTimestamp != null) 'col_timestamp': colTimestamp.toIso8601String(),
       if (colTimestampArray != null)
@@ -1961,53 +1995,55 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
     );
   }
 
-  factory DatetimeTypes.fromJson(Map<String, dynamic> json) {
+  factory DatetimeTypes.fromJson(Map<String, dynamic> jsonn) {
     return DatetimeTypes(
-      id: json['id'] != null ? json['id'].toString() : '',
-      colDate: json['col_date'] != null
-          ? DateTime.tryParse(json['col_date'].toString()) as DateTime
+      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
+      colDate: jsonn['col_date'] != null
+          ? DateTime.parse(jsonn['col_date'].toString())
           : DateTime.fromMillisecondsSinceEpoch(0),
-      colDateArray: json['col_date_array'] != null
-          ? (json['col_date_array'] as List<dynamic>)
-              .map((v) => DateTime.tryParse(v.toString()) as DateTime)
+      colDateArray: jsonn['col_date_array'] != null
+          ? (jsonn['col_date_array'] as List<dynamic>)
+              .map((v) => DateTime.parse(v.toString()))
               .toList()
           : <DateTime>[],
-      colTime: json['col_time'] != null
-          ? DateTime.tryParse("1970-01-01T${json['col_time']}") as DateTime
+      colTime: jsonn['col_time'] != null
+          ? DateTime.parse("1970-01-01T${jsonn['col_time']}")
           : DateTime.fromMillisecondsSinceEpoch(0),
-      colTimeArray: json['col_time_array'] != null
-          ? (json['col_time_array'] as List<dynamic>)
-              .map((v) => DateTime.tryParse("1970-01-01T$v") as DateTime)
+      colTimeArray: jsonn['col_time_array'] != null
+          ? (jsonn['col_time_array'] as List<dynamic>)
+              .map((v) => DateTime.parse("1970-01-01T${v}"))
               .toList()
           : <DateTime>[],
-      colTimetz: json['col_timetz'] != null
-          ? DateTime.tryParse("1970-01-01T${json['col_timetz']}") as DateTime
+      colTimetz: jsonn['col_timetz'] != null
+          ? DateTime.parse("1970-01-01T${jsonn['col_timetz']}")
           : DateTime.fromMillisecondsSinceEpoch(0),
-      colTimetzArray: json['col_timetz_array'] != null
-          ? (json['col_timetz_array'] as List<dynamic>)
-              .map((v) => DateTime.tryParse("1970-01-01T$v") as DateTime)
+      colTimetzArray: jsonn['col_timetz_array'] != null
+          ? (jsonn['col_timetz_array'] as List<dynamic>)
+              .map((v) => DateTime.parse("1970-01-01T${v}"))
               .toList()
           : <DateTime>[],
-      colTimestamp: json['col_timestamp'] != null
-          ? DateTime.tryParse(json['col_timestamp'].toString()) as DateTime
+      colTimestamp: jsonn['col_timestamp'] != null
+          ? DateTime.parse(jsonn['col_timestamp'].toString())
           : DateTime.fromMillisecondsSinceEpoch(0),
-      colTimestampArray: json['col_timestamp_array'] != null
-          ? (json['col_timestamp_array'] as List<dynamic>)
-              .map((v) => DateTime.tryParse(v.toString()) as DateTime)
+      colTimestampArray: jsonn['col_timestamp_array'] != null
+          ? (jsonn['col_timestamp_array'] as List<dynamic>)
+              .map((v) => DateTime.parse(v.toString()))
               .toList()
           : <DateTime>[],
-      colTimestamptz: json['col_timestamptz'] != null
-          ? DateTime.tryParse(json['col_timestamptz'].toString()) as DateTime
+      colTimestamptz: jsonn['col_timestamptz'] != null
+          ? DateTime.parse(jsonn['col_timestamptz'].toString())
           : DateTime.fromMillisecondsSinceEpoch(0),
-      colTimestamptzArray: json['col_timestamptz_array'] != null
-          ? (json['col_timestamptz_array'] as List<dynamic>)
-              .map((v) => DateTime.tryParse(v.toString()) as DateTime)
+      colTimestamptzArray: jsonn['col_timestamptz_array'] != null
+          ? (jsonn['col_timestamptz_array'] as List<dynamic>)
+              .map((v) => DateTime.parse(v.toString()))
               .toList()
           : <DateTime>[],
       colInterval:
-          json['col_interval'] != null ? json['col_interval'].toString() : '',
-      colIntervalArray: json['col_interval_array'] != null
-          ? json['col_interval_array'].map((e) => e.toString()).toList()
+          jsonn['col_interval'] != null ? jsonn['col_interval'].toString() : '',
+      colIntervalArray: jsonn['col_interval_array'] != null
+          ? (jsonn['col_interval_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
           : <String>[],
     );
   }

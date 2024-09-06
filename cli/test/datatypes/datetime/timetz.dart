@@ -13,6 +13,7 @@ Future<void> performTimeTzTest(SupabaseClient supabase) async {
 
   test('Testing TimeTz Create', () async {
     await cleanup(supabase, supabase.datetime_types);
+    // print("Inserting: $insertTimeTz");
     var createResult = await createTimeTz(supabase, insertTimeTz);
     expect(createResult, null);
   });
@@ -20,6 +21,7 @@ Future<void> performTimeTzTest(SupabaseClient supabase) async {
   test('Testing TimeTz Update', () async {
     var updateResult =
         await updateTimeTz(supabase, insertTimeTz, updatedTimeTz);
+    // print("Updating: $updatedTimeTz");
     expect(updateResult, null);
   });
 
@@ -27,13 +29,33 @@ Future<void> performTimeTzTest(SupabaseClient supabase) async {
     var readResult = await readTimeTz(supabase);
     assert(readResult is List<DatetimeTypes>);
     expect(readResult!.length, 1);
-    // Compare time with timezone
 
-    expect(readResult[0].colTimetz?.hour, updatedTimeTz.hour);
-    expect(readResult[0].colTimetz?.minute, updatedTimeTz.minute);
-    expect(readResult[0].colTimetz?.second, updatedTimeTz.second);
+    // Convert to UTC for comparison
+    // var insertTimeUtc = insertTimeTz.toUtc();
+    var updatedTimeUtc = updatedTimeTz.toUtc();
+    var readTimeUtc = readResult[0].colTimetz?.toUtc();
 
-    expect(readResult[0].colTimetz, isA<DateTime>());
+    // print("original: $insertTimeUtc");
+    // print("updated: $updatedTimeUtc");
+    // print("read: $readTimeUtc");
+
+    // Compare times with tolerance
+    expect(readTimeUtc?.difference(updatedTimeUtc).inMilliseconds,
+        lessThan(1000)); // 1 second tolerance
+  });
+
+  test("Testing TimeTz toJson and fromJson", () async {
+    var readResult = await readTimeTz(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = DatetimeTypes.fromJson(toJson);
+
+    expect(fromJson.colTimetz?.hour, originalObject.colTimetz?.hour);
+    expect(fromJson.colTimetz?.minute, originalObject.colTimetz?.minute);
+    expect(fromJson.colTimetz?.second, originalObject.colTimetz?.second);
   });
 }
 

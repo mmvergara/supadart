@@ -31,6 +31,20 @@ Future<void> performTimeTest(SupabaseClient supabase) async {
     expect(readResult[0].colTime?.second, updatedTime.second);
     expect(readResult[0].colTime, isA<DateTime>());
   });
+
+  test("Testing Time toJson and fromJson", () async {
+    var readResult = await readTime(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = DatetimeTypes.fromJson(toJson);
+
+    expect(fromJson.colTime?.hour, originalObject.colTime?.hour);
+    expect(fromJson.colTime?.minute, originalObject.colTime?.minute);
+    expect(fromJson.colTime?.second, originalObject.colTime?.second);
+  });
 }
 
 Future<Object?> createTime(SupabaseClient supabase, DateTime insertVal) async {

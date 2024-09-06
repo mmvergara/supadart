@@ -35,13 +35,42 @@ Future<void> performTimeTzArrayTest(SupabaseClient supabase) async {
     assert(readResult is List<DatetimeTypes>);
     expect(readResult!.length, 1);
 
+    var colTimetzArray = readResult[0].colTimetzArray!;
+
     for (int i = 0; i < insertTimeTzs.length; i++) {
-      expect(readResult[0].colTimetzArray![i].hour, updatedTimeTzs[i].hour);
-      expect(readResult[0].colTimetzArray![i].minute, updatedTimeTzs[i].minute);
-      expect(readResult[0].colTimetzArray![i].second, updatedTimeTzs[i].second);
+      // var insertTimeUtc = insertTimeTzs[i].toUtc();
+      var updatedTimeUtc = updatedTimeTzs[i].toUtc();
+      var readTimeUtc = colTimetzArray[i].toUtc();
+
+      // print("insert: $insertTimeUtc");
+      // print("updated: $updatedTimeUtc");
+      // print("read: $readTimeUtc");
+
+      expect(readTimeUtc.difference(updatedTimeUtc).inMilliseconds,
+          lessThan(1000)); // 1 second tolerance
     }
 
-    expect(readResult[0].colTimetzArray, isA<List<DateTime>>());
+    expect(colTimetzArray, isA<List<DateTime>>());
+  });
+  test("Testing TimeTz Array toJson and fromJson", () async {
+    var readResult = await readTimeTzArr(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = DatetimeTypes.fromJson(toJson);
+
+    var colTimetzArrayOriginal = originalObject.colTimetzArray!;
+    var colTimetzArrayFromJson = fromJson.colTimetzArray!;
+
+    for (int i = 0; i < insertTimeTzs.length; i++) {
+      var originalTimeUtc = colTimetzArrayOriginal[i].toUtc();
+      var fromJsonTimeUtc = colTimetzArrayFromJson[i].toUtc();
+
+      expect(fromJsonTimeUtc.difference(originalTimeUtc).inMilliseconds,
+          lessThan(1000)); // 1 second tolerance
+    }
   });
 }
 

@@ -35,6 +35,18 @@ Future<void> performNumericArrayTest(SupabaseClient supabase) async {
     expect(readResult[0].colNumericArray, isA<List<num>>());
     expect(readResult[0].colNumericArray, updatedNumericArray);
   });
+
+  test("Testing Numeric Array toJson and fromJson", () async {
+    var readResult = await readNumericArray(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = NumericTypes.fromJson(toJson);
+
+    expect(fromJson.colNumericArray, originalObject.colNumericArray);
+  });
 }
 
 Future<Object?> createNumericArray(

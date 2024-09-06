@@ -31,6 +31,18 @@ Future<void> performUUIDArrayTest(SupabaseClient supabase) async {
     expect(readResult[0].colUuidArray,
         updatedUuids); // Assuming order is preserved
   });
+
+  test("Testing UUID Array toJson and fromJson", () async {
+    var readResult = await readUUIDArr(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = StringTypes.fromJson(toJson);
+
+    expect(fromJson.colUuidArray, originalObject.colUuidArray);
+  });
 }
 
 Future<Object?> createUUIDArr(

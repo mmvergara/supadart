@@ -38,6 +38,18 @@ Future<void> performTextArrayTest(SupabaseClient supabase) async {
     expect(readResult[0].colTextArray, isA<List<String>>());
     expect(readResult[0].colTextArray, updatedTextArray);
   });
+
+  test("Testing Text Array toJson and fromJson", () async {
+    var readResult = await readTextArray(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = StringTypes.fromJson(toJson);
+
+    expect(fromJson.colTextArray, originalObject.colTextArray);
+  });
 }
 
 Future<Object?> createTextArray(

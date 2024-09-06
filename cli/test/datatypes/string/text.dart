@@ -30,6 +30,18 @@ Future<void> performTextTest(SupabaseClient supabase) async {
     expect(readResult[0].colText, isA<String>());
     expect(readResult[0].colText, updatedText);
   });
+
+  test("Testing Text toJson and fromJson", () async {
+    var readResult = await readText(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = StringTypes.fromJson(toJson);
+
+    expect(fromJson.colText, originalObject.colText);
+  });
 }
 
 Future<Object?> createText(SupabaseClient supabase, String insertVal) async {

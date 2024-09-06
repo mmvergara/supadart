@@ -26,6 +26,18 @@ Future<void> performBigSerialTests(SupabaseClient supabase) async {
     expect(readResult[0].colBigserial, isA<BigInt>());
     expect(readResult[0].colBigserial, updatedBigSerial);
   });
+
+  test("Testing BigSerial toJson and fromJson", () async {
+    var readResult = await readBigSerial(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = NumericTypes.fromJson(toJson);
+
+    expect(fromJson.colBigserial, originalObject.colBigserial);
+  });
 }
 
 Future<Object?> createBigSerial(

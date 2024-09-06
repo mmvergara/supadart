@@ -37,6 +37,18 @@ Future<void> performBigIntArrayTest(SupabaseClient supabase) async {
     expect(readResult[0].colBigintArray, updatedBigIntArray);
     expect(readResult[0].colBigintArray, isA<List<BigInt>>());
   });
+
+  test("Testing BigInt Array toJson and fromJson", () async {
+    var readResult = await readBigIntArray(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = NumericTypes.fromJson(toJson);
+
+    expect(fromJson.colBigintArray, originalObject.colBigintArray);
+  });
 }
 
 Future<Object?> createBigIntArray(

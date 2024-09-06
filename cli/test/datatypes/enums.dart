@@ -29,6 +29,18 @@ Future<void> performEnumTypesTest(SupabaseClient supabase) async {
     expect(readResult[0].colMood, isA<MOOD>());
     expect(readResult[0].colMood, updatedEnum);
   });
+
+  test("Testing Enum toJson and fromJson", () async {
+    var readResult = await readEnum(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = EnumTypes.fromJson(toJson);
+
+    expect(fromJson.colMood, originalObject.colMood);
+  });
 }
 
 Future<Object?> createEnum(SupabaseClient supabase, MOOD insertVal) async {

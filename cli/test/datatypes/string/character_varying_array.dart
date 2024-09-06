@@ -39,6 +39,19 @@ Future<void> performCharacterVaryingArrayTest(SupabaseClient supabase) async {
     expect(readResult[0].colCharactervaryingArray![1], updatedCharVarArray[1]);
     expect(readResult[0].colCharactervaryingArray![2], updatedCharVarArray[2]);
   });
+
+  test("Testing Character Varying Array toJson and fromJson", () async {
+    var readResult = await readCharVarArray(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = StringTypes.fromJson(toJson);
+
+    expect(fromJson.colCharactervaryingArray,
+        originalObject.colCharactervaryingArray);
+  });
 }
 
 Future<Object?> createCharVarArray(

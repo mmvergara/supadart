@@ -31,6 +31,18 @@ Future<void> performSmallIntArrayTest(SupabaseClient supabase) async {
     expect(readResult!.length, 1);
     expect(readResult[0].colSmallintArray, updatedSmallintArray);
   });
+
+  test("Testing Smallint Array toJson and fromJson", () async {
+    var readResult = await readSmallintArray(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = NumericTypes.fromJson(toJson);
+
+    expect(fromJson.colSmallintArray, originalObject.colSmallintArray);
+  });
 }
 
 Future<Object?> createSmallintArray(

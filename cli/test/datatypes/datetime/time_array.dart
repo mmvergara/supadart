@@ -33,6 +33,25 @@ Future<void> performTimeArrayTest(SupabaseClient supabase) async {
       expect(readResult[0].colTimeArray![i].second, updatedTime[i].second);
     }
   });
+
+  test("Testing Time Array toJson and fromJson", () async {
+    var readResult = await readTimeArray(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = DatetimeTypes.fromJson(toJson);
+
+    for (int i = 0; i < insertTime.length; i++) {
+      expect(
+          fromJson.colTimeArray![i].hour, originalObject.colTimeArray![i].hour);
+      expect(fromJson.colTimeArray![i].minute,
+          originalObject.colTimeArray![i].minute);
+      expect(fromJson.colTimeArray![i].second,
+          originalObject.colTimeArray![i].second);
+    }
+  });
 }
 
 Future<Object?> createTimeArray(

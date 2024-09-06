@@ -31,6 +31,18 @@ Future<void> performNumericTest(SupabaseClient supabase) async {
     expect(readResult[0].colNumeric, isA<num>());
     expect(readResult[0].colNumeric, updatedNumeric);
   });
+
+  test("Testing Numeric toJson and fromJson", () async {
+    var readResult = await readNumeric(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = NumericTypes.fromJson(toJson);
+
+    expect(fromJson.colNumeric, originalObject.colNumeric);
+  });
 }
 
 Future<Object?> createNumeric(SupabaseClient supabase, num insertVal) async {

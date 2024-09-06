@@ -38,6 +38,18 @@ Future<void> performDoublePrecisionArrayTest(SupabaseClient supabase) async {
     expect(readResult[0].colDoubleArray, isA<List<double>>());
     expect(readResult[0].colDoubleArray, updatedDoublePrecisionArray);
   });
+
+  test("Testing Double Precision Array toJson and fromJson", () async {
+    var readResult = await readDoublePrecisionArray(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = NumericTypes.fromJson(toJson);
+
+    expect(fromJson.colDoubleArray, originalObject.colDoubleArray);
+  });
 }
 
 Future<Object?> createDoublePrecisionArray(

@@ -32,6 +32,25 @@ Future<void> performDateArrayTest(SupabaseClient supabase) async {
       expect(readResult[0].colDateArray![i].day, updatedDate[i].day);
     }
   });
+
+  test("Testing Date Array toJson and fromJson", () async {
+    var readResult = await readDateArray(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = DatetimeTypes.fromJson(toJson);
+
+    for (int i = 0; i < insertDate.length; i++) {
+      expect(
+          fromJson.colDateArray![i].year, originalObject.colDateArray![i].year);
+      expect(fromJson.colDateArray![i].month,
+          originalObject.colDateArray![i].month);
+      expect(
+          fromJson.colDateArray![i].day, originalObject.colDateArray![i].day);
+    }
+  });
 }
 
 Future<Object?> createDateArray(

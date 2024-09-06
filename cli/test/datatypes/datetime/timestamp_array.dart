@@ -54,6 +54,33 @@ Future<void> performTimestampArrayTest(SupabaseClient supabase) async {
 
     expect(readResult[0].colTimestampArray, isA<List<DateTime>>());
   });
+
+  test("Testing Timestamp Array toJson and fromJson", () async {
+    var readResult = await readTimestampArr(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = DatetimeTypes.fromJson(toJson);
+
+    for (int i = 0; i < insertTimestamps.length; i++) {
+      expect(fromJson.colTimestampArray![i].year,
+          originalObject.colTimestampArray![i].year);
+      expect(fromJson.colTimestampArray![i].month,
+          originalObject.colTimestampArray![i].month);
+      expect(fromJson.colTimestampArray![i].day,
+          originalObject.colTimestampArray![i].day);
+      expect(fromJson.colTimestampArray![i].hour,
+          originalObject.colTimestampArray![i].hour);
+      expect(fromJson.colTimestampArray![i].minute,
+          originalObject.colTimestampArray![i].minute);
+      expect(fromJson.colTimestampArray![i].second,
+          originalObject.colTimestampArray![i].second);
+      expect(fromJson.colTimestampArray![i].millisecond,
+          originalObject.colTimestampArray![i].millisecond);
+    }
+  });
 }
 
 Future<Object?> createTimestampArr(

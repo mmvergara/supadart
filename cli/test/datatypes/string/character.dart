@@ -29,6 +29,18 @@ Future<void> performCharacterTest(SupabaseClient supabase) async {
     expect(readResult[0].colCharacter, isA<String>());
     expect(readResult[0].colCharacter, updatedCharacter);
   });
+
+  test("Testing Character toJson and fromJson", () async {
+    var readResult = await readCharacter(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = StringTypes.fromJson(toJson);
+
+    expect(fromJson.colCharacter, originalObject.colCharacter);
+  });
 }
 
 Future<Object?> createCharacter(

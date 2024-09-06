@@ -65,6 +65,41 @@ Future<void> performTimestamptzArrayTest(SupabaseClient supabase) async {
 
     expect(readResult[0].colTimestamptzArray, isA<List<DateTime>>());
   });
+
+  test("Testing Timestamptz Array toJson and fromJson", () async {
+    var readResult = await readTimestamptzArray(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = DatetimeTypes.fromJson(toJson);
+
+    for (int i = 0; i < insertTimestamptzes.length; i++) {
+      var storedTimestamp = originalObject.colTimestamptzArray![i];
+      var fromJsonTimestamp = fromJson.colTimestamptzArray![i];
+
+      // Convert both timestamps to UTC for comparison
+      var storedTimestampUtc = storedTimestamp.toUtc();
+      var fromJsonTimestampUtc = fromJsonTimestamp.toUtc();
+
+      // Compare the UTC timestamps
+      expect(fromJsonTimestampUtc.year, storedTimestampUtc.year);
+      expect(fromJsonTimestampUtc.month, storedTimestampUtc.month);
+      expect(fromJsonTimestampUtc.day, storedTimestampUtc.day);
+      expect(fromJsonTimestampUtc.hour, storedTimestampUtc.hour);
+      expect(fromJsonTimestampUtc.minute, storedTimestampUtc.minute);
+      expect(fromJsonTimestampUtc.second, storedTimestampUtc.second);
+      expect(fromJsonTimestampUtc.millisecond, storedTimestampUtc.millisecond);
+
+      // Check if both timestamps are in UTC
+      expect(fromJsonTimestampUtc.isUtc, true);
+      expect(storedTimestampUtc.isUtc, true);
+
+      // Compare the full DateTime objects
+      expect(fromJsonTimestampUtc, storedTimestampUtc);
+    }
+  });
 }
 
 Future<Object?> createTimestamptzArray(
