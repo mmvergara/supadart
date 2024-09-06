@@ -38,6 +38,25 @@ Future<void> performDoublePrecisionArrayTest(SupabaseClient supabase) async {
     expect(readResult[0].colDoubleArray, isA<List<double>>());
     expect(readResult[0].colDoubleArray, updatedDoublePrecisionArray);
   });
+
+  test(
+      "Testing Double Precision Array serialization roundtrip maintains data integrity",
+      () async {
+    var readResult = await readDoublePrecisionArray(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    // Test toJson() followed by fromJson()
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = NumericTypes.fromJson(toJson);
+    expect(fromJson.colDoubleArray, originalObject.colDoubleArray);
+
+    // Test full roundtrip and object equivalence
+    var roundTripToJson = fromJson.toJson();
+    var roundTripFromJson = NumericTypes.fromJson(roundTripToJson);
+    expect(roundTripFromJson.colDoubleArray, originalObject.colDoubleArray);
+  });
 }
 
 Future<Object?> createDoublePrecisionArray(

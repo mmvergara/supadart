@@ -31,6 +31,24 @@ Future<void> performSmallIntTest(SupabaseClient supabase) async {
     expect(readResult!.length, 1); // Assuming only one row is inserted
     expect(readResult[0].colSmallint, updatedSmallint);
   });
+
+  test("Testing Smallint serialization roundtrip maintains data integrity",
+      () async {
+    var readResult = await readSmallint(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    // Test toJson() followed by fromJson()
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = NumericTypes.fromJson(toJson);
+    expect(fromJson.colSmallint, originalObject.colSmallint);
+
+    // Test full roundtrip and object equivalence
+    var roundTripToJson = fromJson.toJson();
+    var roundTripFromJson = NumericTypes.fromJson(roundTripToJson);
+    expect(roundTripFromJson.colSmallint, originalObject.colSmallint);
+  });
 }
 
 Future<Object?> createSmallint(SupabaseClient supabase, int insertVal) async {

@@ -1,16 +1,15 @@
-import '../swagger/table.dart';
 import '../swagger/column.dart';
+import '../swagger/table.dart';
 
 String generateFromJsonMethod(String className, Table table) {
   final columns = table.columns;
   final StringBuffer code = StringBuffer();
 
-  code.writeln('factory $className.fromJson(Map<String, dynamic> json) {');
+  code.writeln('factory $className.fromJson(Map<String, dynamic> jsonn) {');
   code.writeln('return $className(');
 
   columns.forEach((columnName, columnDetails) {
-    code.writeln(
-        '$columnName: ${parseFromJsonWrapper(columnDetails.dartType, columnDetails, columnName)},');
+    code.writeln('$columnName: ${decodeFromJson(columnDetails)},');
   });
 
   code.writeln(');');
@@ -20,122 +19,177 @@ String generateFromJsonMethod(String className, Table table) {
   return code.toString();
 }
 
-String parseFromJsonWrapper(
-    String dartType, Column columnDetails, String columnName) {
-  bool isArray = columnDetails.postgresFormat.contains('[]');
-  String format = columnDetails.postgresFormat;
-  if (isArray) {
-    format = columnDetails.postgresFormat.replaceAll('[]', '');
-  }
+String decodeFromJson(Column columnDetails) {
+  final postgresFormat = columnDetails.postgresFormat;
+  final dartType = columnDetails.dartType;
+  String jsonValue = 'jsonn[\'${columnDetails.dbColName}\']';
+  String jsonDecode = "";
+  switch (postgresFormat) {
+    case 'smallint':
+    case 'integer':
+      jsonDecode = 'int.parse($jsonValue.toString())';
+      break;
+    case 'smallint[]':
+    case 'integer[]':
+      jsonDecode =
+          '($jsonValue as List<dynamic>).map((v) => int.parse(v.toString())).toList()';
+      break;
 
-  String jsonValue = 'json[\'${columnDetails.dbColName}\']';
-  String output = '$jsonValue != null ?';
+    case 'bigint':
+      jsonDecode = 'BigInt.parse($jsonValue.toString())';
+      break;
+    case 'bigint[]':
+      jsonDecode =
+          '($jsonValue as List<dynamic>).map((v) => BigInt.parse(v.toString())).toList()';
+      break;
 
-  switch (dartType) {
-    // ====================
-    case 'int':
-      output += '$jsonValue as int';
+    case 'real':
+    case 'double precision':
+      jsonDecode = 'double.parse($jsonValue.toString())';
       break;
-    case 'List<int>':
-      output += '($jsonValue as List<dynamic>).map((v) => v as int).toList()';
+
+    case 'real[]':
+    case 'double precision[]':
+      jsonDecode =
+          '($jsonValue as List<dynamic>).map((v) => double.parse(v.toString())).toList()';
       break;
-    // ====================
-    case 'BigInt':
-      output += 'BigInt.parse($jsonValue.toString())';
+
+    case 'numeric':
+      jsonDecode = 'num.parse($jsonValue.toString())';
       break;
-    case 'List<BigInt>':
-      output +=
-          '($jsonValue as List<dynamic>).map((v) => BigInt.tryParse(v.toString()) as BigInt).toList()';
+    case 'numeric[]':
+      jsonDecode =
+          '($jsonValue as List<dynamic>).map((v) => num.parse(v.toString())).toList()';
       break;
-    // ====================
-    case 'double':
-      output += 'double.parse($jsonValue.toString())';
+
+    case 'json':
+    case 'jsonb':
+      jsonDecode = '$jsonValue as Map<String, dynamic>';
       break;
-    case 'List<double>':
-      output +=
-          '($jsonValue as List<dynamic>).map((v) => double.tryParse(v.toString()) as double).toList()';
+    case 'json[]':
+    case 'jsonb[]':
+      jsonDecode =
+          '($jsonValue as List<dynamic>).map((v) => json.decode(v) as Map<String, dynamic>).toList()';
       break;
-    // ====================
-    case 'num':
-      output += 'num.parse($jsonValue.toString())';
+    case 'text':
+    case 'character varying':
+    case 'character':
+    case 'uuid':
+      jsonDecode = '$jsonValue.toString()';
       break;
-    case 'List<num>':
-      output +=
-          '($jsonValue as List<dynamic>).map((v) => num.tryParse(v.toString()) as num).toList()';
+
+    case 'text[]':
+    case 'character varying[]':
+    case 'character[]':
+    case 'uuid[]':
+      jsonDecode =
+          '($jsonValue as List<dynamic>).map((v) => v.toString()).toList()';
       break;
-    // ====================
-    case 'bool':
-      output += '$jsonValue as bool';
+
+    // case 'date':
+    // case 'date[]':
+    // case 'time without time zone':
+    // case 'time without time zone[]':
+    // case 'time with time zone':
+    // case 'time with time zone[]':
+    // case 'timestamp without time zone':
+    // case 'timestamp without time zone[]':
+    // case 'timestamp with time zone':
+    // case 'timestamp with time zone[]':
+    case 'date':
+      jsonDecode = 'DateTime.parse($jsonValue.toString())';
       break;
-    case 'List<bool>':
-      output += '($jsonValue as List<dynamic>).map((v) => v as bool).toList()';
+    case 'date[]':
+      jsonDecode =
+          '($jsonValue as List<dynamic>).map((v) => DateTime.parse(v.toString())).toList()';
       break;
-    // ====================
-    case 'String':
-      output += '$jsonValue.toString()';
+    case 'time without time zone':
+    case 'time with time zone':
+      jsonDecode = 'DateTime.parse("1970-01-01T\$${{jsonValue}}").toLocal()';
       break;
-    case 'List<String>':
-      output +=
-          '($jsonValue as List<dynamic>).map((v) => v as String).toList()';
+    case 'time without time zone[]':
+    case 'time with time zone[]':
+      jsonDecode =
+          '($jsonValue as List<dynamic>).map((v) => DateTime.parse("1970-01-01T\$${"{v}"}").toLocal()).toList()';
       break;
-    // ====================
-    case 'DateTime':
-      if (format == 'time without time zone') {
-        jsonValue += '.toString()';
-        output +=
-            'DateTime.tryParse("1970-01-01T\$${{jsonValue}}") as DateTime';
-        break;
-      }
-      if (format == 'time with time zone') {
-        jsonValue += '.toString()';
-        output +=
-            'DateTime.tryParse("1970-01-01T\$${{jsonValue}}") as DateTime';
-        break;
-      }
-      jsonValue += '.toString()';
-      output += 'DateTime.tryParse($jsonValue) as DateTime';
+    case 'timestamp without time zone':
+    case 'timestamp with time zone':
+      jsonDecode = 'DateTime.parse($jsonValue.toString())';
       break;
-    case 'List<DateTime>':
-      if (format == 'time without time zone') {
-        output +=
-            '($jsonValue as List<dynamic>).map((v) => DateTime.tryParse("1970-01-01T\${v.toString()}") as DateTime).toList()';
-        break;
-      }
-      if (format == 'time with time zone') {
-        output +=
-            '($jsonValue as List<dynamic>).map((v) => DateTime.tryParse("1970-01-01T\${v.toString()}") as DateTime).toList()';
-        break;
-      }
-      output +=
-          '($jsonValue as List<dynamic>).map((v) => DateTime.tryParse(v.toString()) as DateTime).toList()';
+    case 'timestamp without time zone[]':
+    case 'timestamp with time zone[]':
+      jsonDecode =
+          '($jsonValue as List<dynamic>).map((v) => DateTime.parse(v.toString())).toList()';
       break;
-    // ====================
-    case 'Duration':
-      output += '$jsonValue as Duration';
+
+    case 'boolean':
+      jsonDecode += '$jsonValue as bool';
       break;
-    case 'List<Duration>':
-      output +=
-          '($jsonValue as List<dynamic>).map((v) => v as Duration).toList()';
+    case 'boolean[]':
+      jsonDecode +=
+          '($jsonValue as List<dynamic>).map((v) => v as bool).toList()';
       break;
-    // ====================
-    case 'Map<String, dynamic>':
-      output += '$jsonValue as Map<String, dynamic>';
+
+    // NOT YET SUPPORTED TYPES ARE ENCODED TO STRINGS BY DEFAULT
+    // NEED CONTRIBUTIONS TO SUPPORT THESE TYPES
+    case 'interval':
+    case 'bytea':
+    case 'inet':
+    case 'cidr':
+    case 'macaddr':
+    case 'macaddr8':
+    case 'point':
+    case 'line':
+    case 'lseg':
+    case 'box':
+    case 'path':
+    case 'polygon':
+    case 'circle':
+    case 'bit':
+    case 'bit varying':
+    case 'money':
+    case 'tsquery':
+    case 'tsvector':
+    case 'xml':
+    case 'pg_lsn':
+    case 'pg_snapshot':
+    case 'txid_snapshot':
+      jsonDecode = '$jsonValue.toString()';
       break;
-    case 'List<Map<String, dynamic>>':
-      output +=
-          '($jsonValue as List<dynamic>).map((v) => v as Map<String, dynamic>).toList()';
+    case 'interval[]':
+    case 'bytea[]':
+    case 'inet[]':
+    case 'cidr[]':
+    case 'macaddr[]':
+    case 'macaddr8[]':
+    case 'point[]':
+    case 'line[]':
+    case 'lseg[]':
+    case 'box[]':
+    case 'path[]':
+    case 'polygon[]':
+    case 'circle[]':
+    case 'bit[]':
+    case 'bit varying[]':
+    case 'money[]':
+    case 'tsquery[]':
+    case 'tsvector[]':
+    case 'xml[]':
+    case 'pg_lsn[]':
+    case 'pg_snapshot[]':
+    case 'txid_snapshot[]':
+      jsonDecode =
+          "($jsonValue as List<dynamic>).map((e) => e.toString()).toList()";
       break;
-    // ====================
+
     default:
       // if no type is found it is assumed to be an enum type
       String enumName = columnDetails.dartType;
-      output +=
-          '$enumName.values.byName($jsonValue.toString()) : $enumName.values.first';
-      return output;
+      return '$jsonValue != null ? $enumName.values.byName($jsonValue.toString()) : $enumName.values.first';
   }
-  // Add Null Default Value, This will enable the support for column selection
-  output += ' : ${dartTypeDefaultNullValue(dartType)}';
-  return output;
+  String code =
+      '$jsonValue != null ? $jsonDecode : ${dartTypeDefaultNullValue(dartType)}';
+  return code;
 }
 
 String dartTypeDefaultNullValue(String dartType) {
@@ -153,7 +207,7 @@ String dartTypeDefaultNullValue(String dartType) {
     case 'String':
       return "''"; // Empty string as default
     case 'DateTime':
-      return 'DateTime.fromMillisecondsSinceEpoch(0)'; // Using Unix epoch as default
+      return 'DateTime.fromMillisecondsSinceEpoch(0)';
     case 'Duration':
       return 'Duration()'; // Assuming duration in milliseconds
     case 'Map<String, dynamic>':

@@ -31,6 +31,25 @@ Future<void> performUUIDArrayTest(SupabaseClient supabase) async {
     expect(readResult[0].colUuidArray,
         updatedUuids); // Assuming order is preserved
   });
+
+  test(
+      "Testing UUID Array serialization roundtrip maintains data integrity and object equivalence",
+      () async {
+    var readResult = await readUUIDArr(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    var originalObject = readResult[0];
+
+    // Test toJson() followed by fromJson()
+    var toJson = originalObject.toJson();
+    var fromJson = StringTypes.fromJson(toJson);
+    expect(fromJson.colUuidArray, originalObject.colUuidArray);
+
+    // Test full roundtrip and object equivalence
+    var roundTripJson = fromJson.toJson();
+    expect(roundTripJson, originalObject.toJson());
+  });
 }
 
 Future<Object?> createUUIDArr(

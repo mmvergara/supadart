@@ -26,6 +26,25 @@ Future<void> performBooleanArrayTest(SupabaseClient supabase) async {
     expect(readResult[0].colBooleanArray, isA<List<bool>>());
     expect(readResult[0].colBooleanArray![0], updatedBooleanArray[0]);
   });
+
+  test(
+      "Testing Boolean Array serialization roundtrip maintains data integrity and object equivalence",
+      () async {
+    var readResult = await readBooleanArray(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    // Test toJson() followed by fromJson()
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = BooleanBitTypes.fromJson(toJson);
+    expect(fromJson.colBooleanArray, originalObject.colBooleanArray);
+
+    // Test full roundtrip and object equivalence
+    var roundTripToJson = fromJson.toJson();
+    var roundTripFromJson = BooleanBitTypes.fromJson(roundTripToJson);
+    expect(roundTripFromJson.colBooleanArray, originalObject.colBooleanArray);
+  });
 }
 
 Future<Object?> createBooleanArray(

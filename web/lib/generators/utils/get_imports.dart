@@ -14,7 +14,8 @@ List<String> getImports(
   imports.add(supabaseSdkImport);
 
   final jsonEncoderImport = "import 'dart:convert';";
-  if (generatedClasses.contains("jsonEncode")) {
+  if (generatedClasses.contains("jsonEncode") ||
+      generatedClasses.contains("json.decode")) {
     imports.add(jsonEncoderImport);
   }
 

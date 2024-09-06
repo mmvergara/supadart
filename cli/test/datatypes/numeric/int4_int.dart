@@ -28,6 +28,24 @@ Future<void> performIntegerTest(SupabaseClient supabase) async {
     expect(readResult[0].colInteger, isA<int>());
     expect(readResult[0].colInteger, updatedInt4);
   });
+
+  test("Testing Integer serialization roundtrip maintains data integrity",
+      () async {
+    var readResult = await readInteger(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    // Test toJson() followed by fromJson()
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = NumericTypes.fromJson(toJson);
+    expect(fromJson.colInteger, originalObject.colInteger);
+
+    // Test full roundtrip and object equivalence
+    var roundTripToJson = fromJson.toJson();
+    var roundTripFromJson = NumericTypes.fromJson(roundTripToJson);
+    expect(roundTripFromJson.colInteger, originalObject.colInteger);
+  });
 }
 
 Future<Object?> createInteger(SupabaseClient supabase, int insertVal) async {

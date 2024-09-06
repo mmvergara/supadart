@@ -29,6 +29,23 @@ Future<void> performCharacterTest(SupabaseClient supabase) async {
     expect(readResult[0].colCharacter, isA<String>());
     expect(readResult[0].colCharacter, updatedCharacter);
   });
+
+  test("Testing Character serialization roundtrip maintains data integrity",
+      () async {
+    var readResult = await readCharacter(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    // Test toJson() followed by fromJson()
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = StringTypes.fromJson(toJson);
+    expect(fromJson.colCharacter, originalObject.colCharacter);
+
+    // Test full roundtrip and object equivalence
+    var roundTripJson = fromJson.toJson();
+    expect(roundTripJson, originalObject.toJson());
+  });
 }
 
 Future<Object?> createCharacter(

@@ -1,3 +1,9 @@
+## 1.5.9
+
+- Fix FromJson and toJson methods comptaibility with conversions
+- Add fromJson to toJson tests for EACH data types
+- Add Big Serial Array Test
+
 ## 1.5.8
 
 - Fix Boolean values encoding

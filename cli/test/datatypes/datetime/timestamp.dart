@@ -37,6 +37,24 @@ Future<void> performTimestampTest(SupabaseClient supabase) async {
         readResult[0].colTimestamp?.millisecond, updatedTimestamp.millisecond);
     expect(readResult[0].colTimestamp, isA<DateTime>());
   });
+
+  test("Testing Timestamp serialization roundtrip maintains data integrity",
+      () async {
+    var readResult = await readTimestamp(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    // Test toJson() followed by fromJson()
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = DatetimeTypes.fromJson(toJson);
+    expect(fromJson.colTimestamp, originalObject.colTimestamp);
+
+    // Test full roundtrip and object equivalence
+    var roundTripToJson = fromJson.toJson();
+    var roundTripFromJson = DatetimeTypes.fromJson(roundTripToJson);
+    expect(roundTripFromJson.colTimestamp, originalObject.colTimestamp);
+  });
 }
 
 Future<Object?> createTimestamp(

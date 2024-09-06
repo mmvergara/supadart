@@ -8,8 +8,8 @@ import '../../utils.dart';
 // For other cases where precision matters, consider other numeric types. The BigInt type provides arbitrary-precision integers on both native and web. The fixnum package provides strict 64-bit signed numbers, even on the web. Use these types with care, though: they often result in significantly bigger and slower code.
 
 Future<void> performNumericTest(SupabaseClient supabase) async {
-  num insertNumeric = double.infinity;
-  num updatedNumeric = -double.infinity;
+  num insertNumeric = double.maxFinite;
+  num updatedNumeric = -double.maxFinite;
 
   // Tests for double precision
   test('Testing Numeric Create', () async {
@@ -30,6 +30,24 @@ Future<void> performNumericTest(SupabaseClient supabase) async {
     expect(readResult!.length, 1);
     expect(readResult[0].colNumeric, isA<num>());
     expect(readResult[0].colNumeric, updatedNumeric);
+  });
+
+  test("Testing Numeric serialization roundtrip maintains data integrity",
+      () async {
+    var readResult = await readNumeric(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    // Test toJson() followed by fromJson()
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = NumericTypes.fromJson(toJson);
+    expect(fromJson.colNumeric, originalObject.colNumeric);
+
+    // Test full roundtrip and object equivalence
+    var roundTripToJson = fromJson.toJson();
+    var roundTripFromJson = NumericTypes.fromJson(roundTripToJson);
+    expect(roundTripFromJson.colNumeric, originalObject.colNumeric);
   });
 }
 

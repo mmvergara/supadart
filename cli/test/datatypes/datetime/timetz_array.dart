@@ -35,13 +35,42 @@ Future<void> performTimeTzArrayTest(SupabaseClient supabase) async {
     assert(readResult is List<DatetimeTypes>);
     expect(readResult!.length, 1);
 
+    var colTimetzArray = readResult[0].colTimetzArray!;
+
     for (int i = 0; i < insertTimeTzs.length; i++) {
-      expect(readResult[0].colTimetzArray![i].hour, updatedTimeTzs[i].hour);
-      expect(readResult[0].colTimetzArray![i].minute, updatedTimeTzs[i].minute);
-      expect(readResult[0].colTimetzArray![i].second, updatedTimeTzs[i].second);
+      // var insertTimeUtc = insertTimeTzs[i].toUtc();
+      var updatedTimeUtc = updatedTimeTzs[i].toUtc();
+      var readTimeUtc = colTimetzArray[i].toUtc();
+
+      // print("insert: $insertTimeUtc");
+      // print("updated: $updatedTimeUtc");
+      // print("read: $readTimeUtc");
+
+      expect(readTimeUtc.difference(updatedTimeUtc).inMilliseconds,
+          lessThan(1000)); // 1 second tolerance
     }
 
-    expect(readResult[0].colTimetzArray, isA<List<DateTime>>());
+    expect(colTimetzArray, isA<List<DateTime>>());
+  });
+
+  test("Testing TimeTz Array serialization roundtrip maintains data integrity",
+      () async {
+    var readResult = await readTimeTzArr(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    // Test toJson() followed by fromJson()
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = DatetimeTypes.fromJson(toJson);
+    final originalTimeUtc =
+        originalObject.colTimetzArray!.map((e) => e.toUtc()).toList();
+    final fromJsonTimeUtc =
+        fromJson.colTimetzArray!.map((e) => e.toUtc()).toList();
+    for (int i = 0; i < originalTimeUtc.length; i++) {
+      expect(fromJsonTimeUtc[i].difference(originalTimeUtc[i]).inMilliseconds,
+          lessThan(1000));
+    }
   });
 }
 

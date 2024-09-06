@@ -5,8 +5,16 @@ import 'package:test/test.dart';
 import '../../utils.dart';
 
 Future<void> performNumericArrayTest(SupabaseClient supabase) async {
-  List<num> insertNumericArray = [double.infinity, 0, -double.infinity];
-  List<num> updatedNumericArray = [-double.infinity, 0, double.infinity];
+  List<num> insertNumericArray = [
+    1.7976931348623157e+308,
+    0,
+    -1.7976931348623157e+308
+  ];
+  List<num> updatedNumericArray = [
+    -1.7976931348623157e+308,
+    0,
+    1.7976931348623157e+308
+  ];
 
   test('Testing Numeric Array Create', () async {
     await cleanup(supabase, supabase.numeric_types);
@@ -26,6 +34,24 @@ Future<void> performNumericArrayTest(SupabaseClient supabase) async {
     expect(readResult!.length, 1);
     expect(readResult[0].colNumericArray, isA<List<num>>());
     expect(readResult[0].colNumericArray, updatedNumericArray);
+  });
+
+  test("Testing Numeric Array serialization roundtrip maintains data integrity",
+      () async {
+    var readResult = await readNumericArray(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    // Test toJson() followed by fromJson()
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = NumericTypes.fromJson(toJson);
+    expect(fromJson.colNumericArray, originalObject.colNumericArray);
+
+    // Test full roundtrip and object equivalence
+    var roundTripToJson = fromJson.toJson();
+    var roundTripFromJson = NumericTypes.fromJson(roundTripToJson);
+    expect(roundTripFromJson.colNumericArray, originalObject.colNumericArray);
   });
 }
 

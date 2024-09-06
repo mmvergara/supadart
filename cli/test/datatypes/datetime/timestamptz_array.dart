@@ -65,6 +65,26 @@ Future<void> performTimestamptzArrayTest(SupabaseClient supabase) async {
 
     expect(readResult[0].colTimestamptzArray, isA<List<DateTime>>());
   });
+
+  test(
+      "Testing Timestamptz Array serialization roundtrip maintains data integrity",
+      () async {
+    var readResult = await readTimestamptzArray(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    // Test toJson() followed by fromJson()
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = DatetimeTypes.fromJson(toJson);
+    expect(fromJson.colTimestamptzArray, originalObject.colTimestamptzArray);
+
+    // Test full roundtrip and object equivalence
+    var roundTripToJson = fromJson.toJson();
+    var roundTripFromJson = DatetimeTypes.fromJson(roundTripToJson);
+    expect(roundTripFromJson.colTimestamptzArray,
+        originalObject.colTimestamptzArray);
+  });
 }
 
 Future<Object?> createTimestamptzArray(

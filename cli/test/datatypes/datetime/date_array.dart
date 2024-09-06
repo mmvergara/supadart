@@ -32,6 +32,24 @@ Future<void> performDateArrayTest(SupabaseClient supabase) async {
       expect(readResult[0].colDateArray![i].day, updatedDate[i].day);
     }
   });
+
+  test("Testing Date Array serialization roundtrip maintains data integrity",
+      () async {
+    var readResult = await readDateArray(supabase);
+    expect(readResult, isNotNull);
+    expect(readResult!.isNotEmpty, true);
+
+    // Test toJson() followed by fromJson()
+    var originalObject = readResult[0];
+    var toJson = originalObject.toJson();
+    var fromJson = DatetimeTypes.fromJson(toJson);
+    expect(fromJson.colDateArray, originalObject.colDateArray);
+
+    // Test full roundtrip and object equivalence
+    var roundTripToJson = fromJson.toJson();
+    var roundTripFromJson = DatetimeTypes.fromJson(roundTripToJson);
+    expect(roundTripFromJson.colDateArray, originalObject.colDateArray);
+  });
 }
 
 Future<Object?> createDateArray(
