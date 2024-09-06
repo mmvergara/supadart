@@ -1,11 +1,11 @@
-import '../swagger/table.dart';
 import '../swagger/column.dart';
+import '../swagger/table.dart';
 
 String generateFromJsonMethod(String className, Table table) {
   final columns = table.columns;
   final StringBuffer code = StringBuffer();
 
-  code.writeln('factory $className.fromJson(Map<String, dynamic> json) {');
+  code.writeln('factory $className.fromJson(Map<String, dynamic> jsonn) {');
   code.writeln('return $className(');
 
   columns.forEach((columnName, columnDetails) {
@@ -22,9 +22,8 @@ String generateFromJsonMethod(String className, Table table) {
 String decodeFromJson(Column columnDetails) {
   final postgresFormat = columnDetails.postgresFormat;
   final dartType = columnDetails.dartType;
-  String jsonValue = 'json[\'${columnDetails.dbColName}\']';
+  String jsonValue = 'jsonn[\'${columnDetails.dbColName}\']';
   String jsonDecode = "";
-
   switch (postgresFormat) {
     case 'smallint':
     case 'integer':
@@ -70,9 +69,8 @@ String decodeFromJson(Column columnDetails) {
     case 'json[]':
     case 'jsonb[]':
       jsonDecode =
-          '($jsonValue as List<dynamic>).map((v) => v as Map<String, dynamic>).toList()';
+          '($jsonValue as List<dynamic>).map((v) => json.decode(v) as Map<String, dynamic>).toList()';
       break;
-
     case 'text':
     case 'character varying':
     case 'character':
@@ -88,27 +86,40 @@ String decodeFromJson(Column columnDetails) {
           '($jsonValue as List<dynamic>).map((v) => v.toString()).toList()';
       break;
 
+    // case 'date':
+    // case 'date[]':
+    // case 'time without time zone':
+    // case 'time without time zone[]':
+    // case 'time with time zone':
+    // case 'time with time zone[]':
+    // case 'timestamp without time zone':
+    // case 'timestamp without time zone[]':
+    // case 'timestamp with time zone':
+    // case 'timestamp with time zone[]':
     case 'date':
-    case 'timestamp without time zone':
-    case 'timestamp with time zone':
-      jsonDecode = 'DateTime.tryParse($jsonValue.toString()) as DateTime';
+      jsonDecode = 'DateTime.parse($jsonValue.toString())';
       break;
     case 'date[]':
-    case 'timestamp without time zone[]':
-    case 'timestamp with time zone[]':
       jsonDecode =
-          '($jsonValue as List<dynamic>).map((v) => DateTime.tryParse(v.toString()) as DateTime).toList()';
+          '($jsonValue as List<dynamic>).map((v) => DateTime.parse(v.toString())).toList()';
       break;
-
     case 'time without time zone':
     case 'time with time zone':
-      jsonDecode +=
-          'DateTime.tryParse("1970-01-01T\$${{jsonValue}}") as DateTime';
+      jsonDecode = 'DateTime.parse("1970-01-01T\$${{jsonValue}}")';
       break;
     case 'time without time zone[]':
     case 'time with time zone[]':
       jsonDecode =
-          '($jsonValue as List<dynamic>).map((v) => DateTime.tryParse("1970-01-01T\$v") as DateTime).toList()';
+          '($jsonValue as List<dynamic>).map((v) => DateTime.parse("1970-01-01T\$${"{v}"}")).toList()';
+      break;
+    case 'timestamp without time zone':
+    case 'timestamp with time zone':
+      jsonDecode = 'DateTime.parse($jsonValue.toString())';
+      break;
+    case 'timestamp without time zone[]':
+    case 'timestamp with time zone[]':
+      jsonDecode =
+          '($jsonValue as List<dynamic>).map((v) => DateTime.parse(v.toString())).toList()';
       break;
 
     case 'boolean':
@@ -167,7 +178,8 @@ String decodeFromJson(Column columnDetails) {
     case 'pg_lsn[]':
     case 'pg_snapshot[]':
     case 'txid_snapshot[]':
-      jsonDecode = "$jsonValue.map((e) => e.toString()).toList()";
+      jsonDecode =
+          "($jsonValue as List<dynamic>).map((e) => e.toString()).toList()";
       break;
 
     default:
@@ -195,7 +207,7 @@ String dartTypeDefaultNullValue(String dartType) {
     case 'String':
       return "''"; // Empty string as default
     case 'DateTime':
-      return 'DateTime.fromMillisecondsSinceEpoch(0)'; // Using Unix epoch as default
+      return 'DateTime.fromMillisecondsSinceEpoch(0)';
     case 'Duration':
       return 'Duration()'; // Assuming duration in milliseconds
     case 'Map<String, dynamic>':
