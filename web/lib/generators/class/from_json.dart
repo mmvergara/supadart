@@ -105,12 +105,12 @@ String decodeFromJson(Column columnDetails) {
       break;
     case 'time without time zone':
     case 'time with time zone':
-      jsonDecode = 'DateTime.parse("1970-01-01T\$${{jsonValue}}")';
+      jsonDecode = 'DateTime.parse("1970-01-01T\$${{jsonValue}}").toLocal()';
       break;
     case 'time without time zone[]':
     case 'time with time zone[]':
       jsonDecode =
-          '($jsonValue as List<dynamic>).map((v) => DateTime.parse("1970-01-01T\$${"{v}"}")).toList()';
+          '($jsonValue as List<dynamic>).map((v) => DateTime.parse("1970-01-01T\$${"{v}"}").toLocal()).toList()';
       break;
     case 'timestamp without time zone':
     case 'timestamp with time zone':

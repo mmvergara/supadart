@@ -102,11 +102,12 @@ String encodeToJson(
       break;
 
     case 'time with time zone':
-      jsonEncodableType = "DateFormat('HH:mm:ssZ').format($columnName.toUtc())";
+      jsonEncodableType =
+          "DateFormat('HH:mm:ssZ').format($columnName.toLocal())";
       break;
     case 'time with time zone[]':
       jsonEncodableType =
-          "$columnName.map((e) => DateFormat('HH:mm:ssZ').format(e.toUtc())).toList()";
+          "$columnName.map((e) => DateFormat('HH:mm:ssZ').format(e.toLocal())).toList()";
       break;
 
     case 'timestamp without time zone':
