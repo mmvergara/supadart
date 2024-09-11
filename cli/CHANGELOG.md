@@ -1,3 +1,7 @@
+## 1.6.0
+
+- Add local development mode generation support
+
 ## 1.5.9
 
 - Fix FromJson and toJson methods comptaibility with conversions
