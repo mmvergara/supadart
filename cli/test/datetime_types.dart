@@ -1,6 +1,8 @@
 import 'package:supabase/supabase.dart';
 import 'datatypes/datetime/date.dart';
 import 'datatypes/datetime/date_array.dart';
+import 'datatypes/datetime/interval.dart';
+import 'datatypes/datetime/interval_array.dart';
 import 'datatypes/datetime/time.dart';
 import 'datatypes/datetime/time_array.dart';
 import 'datatypes/datetime/timestamp.dart';
@@ -28,6 +30,9 @@ Future<void> performDatetimeTypesTest(SupabaseClient supabase) async {
 
   await performTimestamptzTest(supabase);
   await performTimestamptzArrayTest(supabase);
+
+  await performIntervalTest(supabase);
+  await performIntervalArrayTest(supabase);
 
   // Other Datetime Types
 }

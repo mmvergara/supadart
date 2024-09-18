@@ -6,7 +6,6 @@ These are valid types in Postgres but is not present in the supabase table edito
 | ------------------- | ------------- | --------- | ----------------------------------------------------------- | -------------- |
 |                     | character     | string    | String                                                      | ✅             |
 |                     | varchar       | string    | String                                                      |                |
-|                     | interval      | string    | Duration                                                    |                |
 |                     | bytea         | string    | String (Preferably to be a type of Uint8List needparser⚠ ️) |                |
 |                     | inet          | string    | String                                                      |                |
 |                     | cidr          | string    | String                                                      |                |

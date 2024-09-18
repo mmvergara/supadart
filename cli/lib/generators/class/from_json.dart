@@ -110,7 +110,7 @@ String decodeFromJson(Column columnDetails) {
     case 'time without time zone[]':
     case 'time with time zone[]':
       jsonDecode =
-          '($jsonValue as List<dynamic>).map((v) => DateTime.parse("1970-01-01T\$${"{v}"}").toLocal()).toList()';
+          '($jsonValue as List<dynamic>).map((v) => DateTime.parse("1970-01-01T\$${"v"}").toLocal()).toList()';
       break;
     case 'timestamp without time zone':
     case 'timestamp with time zone':
@@ -130,9 +130,16 @@ String decodeFromJson(Column columnDetails) {
           '($jsonValue as List<dynamic>).map((v) => v as bool).toList()';
       break;
 
+    case 'interval':
+      jsonDecode = 'DurationFromString.fromString($jsonValue.toString())';
+      break;
+
+    case 'interval[]':
+      jsonDecode =
+          '($jsonValue as List<dynamic>).map((v) => DurationFromString.fromString(v.toString())).toList()';
+      break;
     // NOT YET SUPPORTED TYPES ARE ENCODED TO STRINGS BY DEFAULT
     // NEED CONTRIBUTIONS TO SUPPORT THESE TYPES
-    case 'interval':
     case 'bytea':
     case 'inet':
     case 'cidr':
@@ -156,7 +163,6 @@ String decodeFromJson(Column columnDetails) {
     case 'txid_snapshot':
       jsonDecode = '$jsonValue.toString()';
       break;
-    case 'interval[]':
     case 'bytea[]':
     case 'inet[]':
     case 'cidr[]':

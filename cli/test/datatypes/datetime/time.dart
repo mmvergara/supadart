@@ -6,7 +6,6 @@ import 'package:test/scaffolding.dart';
 import '../../utils.dart';
 
 Future<void> performTimeTest(SupabaseClient supabase) async {
-  // json
   DateTime insertTime = DateTime(2021, 10, 10, 10, 10, 10);
 
   DateTime updatedTime = DateTime.now();
@@ -57,7 +56,7 @@ Future<void> performTimeTest(SupabaseClient supabase) async {
     var toJson = originalObject.toJson();
     var fromJson = DatetimeTypes.fromJson(toJson);
     expect(fromJson.colTime, originalObject.colTime);
-    
+
     // Test full roundtrip and object equivalence
     var roundTripToJson = fromJson.toJson();
     var roundTripFromJson = DatetimeTypes.fromJson(roundTripToJson);
