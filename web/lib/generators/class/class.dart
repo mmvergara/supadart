@@ -20,48 +20,32 @@ class DartClass {
 
 List<DartClass> generateDartClasses(
     DatabaseSwagger swagger, YamlMap? mappings) {
-  List<DartClass> generatedClasses = [];
-  swagger.definitions.forEach((tableName, table) {
-    final code = StringBuffer();
+  return swagger.definitions.entries.map((entry) {
+    final tableName = entry.key;
+    final table = entry.value;
     final className = tableNameToClassName(tableName, mappings);
 
-    // Class definition
-    code.writeln('class $className implements SupadartClass<$className> {');
-    code.write(generateHasEnumsIndicator(table));
-    code.write(generateAttributes(table));
-    code.write(generateConstructor(className, table));
+    final code = StringBuffer()
+      ..writeln('class $className implements SupadartClass<$className> {')
+      ..write(generateAttributes(table))
+      ..write(generateConstructor(className, table))
+      ..writeln("static String get table_name => '$tableName';")
+      ..write(generateStaticColumnNames(table))
+      ..write(generateConverterMethod(className))
+      ..write(generateConverterSingleMethod(className))
+      ..write(generateGenerateMapPrivateMethod(table))
+      ..write(generateInsertMethod(table))
+      ..write(generateUpdateMethod(table))
+      ..write(generateFromJsonMethod(className, table))
+      ..write(generateToJsonMethod(className, table))
+      ..writeln('}')
+      ..writeln();
 
-    // Table name
-    code.writeln("static String get table_name => '$tableName';");
-
-    // Static column names
-    code.write(generateStaticColumnNames(table));
-
-    // Methods
-    code.write(generateConverterMethod(className));
-    code.write(generateConverterSingleMethod(className));
-    code.write(generateGenerateMapPrivateMethod(table));
-    code.write(generateInsertMethod(table));
-    code.write(generateUpdateMethod(table));
-    code.write(generateFromJsonMethod(className, table));
-    code.write(generateToJsonMethod(className, table));
-    code.writeln('}');
-    code.writeln();
-
-    generatedClasses.add(
-      DartClass(
-        className: className,
-        classCode: code.toString(),
-      ),
+    return DartClass(
+      className: className,
+      classCode: code.toString(),
     );
-  });
-  return generatedClasses;
-}
-
-String generateHasEnumsIndicator(Table table) {
-  final columns = table.columns;
-  final hasEnums = columns.values.any((column) => column.enumValues.isNotEmpty);
-  return hasEnums ? '// [supadart:has_enums]\n' : '';
+  }).toList();
 }
 
 String generateAttributes(Table table) {

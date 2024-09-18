@@ -1,8 +1,8 @@
-import 'package:supadart/generators/standalone/duration_fromstring.dart';
 import 'package:yaml/yaml.dart';
 import 'swagger/swagger.dart';
 import 'standalone/exports.dart';
 import 'standalone/enums.dart';
+import 'standalone/duration_fromstring.dart';
 import 'standalone/client_extension.dart';
 import 'standalone/supadart_abstract_class.dart';
 import 'utils/string_formatters.dart';

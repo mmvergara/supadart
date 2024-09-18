@@ -133,9 +133,15 @@ String encodeToJson(
       jsonEncodableType = "$columnName.map((e) => e).toList()";
       break;
 
+    case 'interval':
+      jsonEncodableType = '$columnName.toString()';
+      break;
+    case 'interval[]':
+      jsonEncodableType = "$columnName.map((e) => e.toString()).toList()";
+      break;
     // NOT YET SUPPORTED TYPES ARE ENCODED TO STRINGS BY DEFAULT
     // NEED CONTRIBUTIONS TO SUPPORT THESE TYPES
-    case 'interval':
+
     case 'bytea':
     case 'inet':
     case 'cidr':
@@ -159,7 +165,6 @@ String encodeToJson(
     case 'txid_snapshot':
       jsonEncodableType = '$columnName.toString()';
       break;
-    case 'interval[]':
     case 'bytea[]':
     case 'inet[]':
     case 'cidr[]':
