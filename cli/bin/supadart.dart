@@ -106,17 +106,21 @@ void main(List<String> arguments) async {
   print('Dart:       $isDart');
   print('Mappings:   $mappings');
   print('==============================');
-  print('Generating...');
+  print("Fetching database schema...");
   final databaseSwagger = await fetchDatabaseSwagger(url, anonKey);
   if (databaseSwagger == null) {
     print('Failed to fetch database');
     exit(1);
   }
+  print('Generating models...');
+  final stopwatch = Stopwatch()..start();
   final files = supadartRun(databaseSwagger, isDart, isSeparated, mappings);
 
   await generateAndFormatFiles(files, output);
 
-  print('$green🎉 Done! $reset');
+  stopwatch.stop();
+  final elapsed = stopwatch.elapsedMilliseconds;
+  print('$green🎉 Done! ${elapsed}ms $reset');
 }
 
 Future<void> generateAndFormatFiles(

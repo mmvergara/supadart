@@ -99,10 +99,10 @@ DartType postgresFormatToDartType(String format) {
     // ====================
     // Interval type
     case "interval":
-      return DartType("String");
+      return DartType("Duration");
     // Interval Array type
     case "interval[]":
-      return DartType("List<String>");
+      return DartType("List<Duration>");
 
     // ====================
     // Binary data type
