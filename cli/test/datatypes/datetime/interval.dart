@@ -10,9 +10,8 @@ Future<void> performIntervalTest(SupabaseClient supabase) async {
   Duration updatedInterval =
       Duration(days: 2, hours: 2, minutes: 2, seconds: 2);
 
-  await cleanup(supabase, supabase.datetime_types);
-
   test('Testing Interval Create', () async {
+    await cleanup(supabase, supabase.datetime_types);
     var createResult = await createInterval(supabase, insertInterval);
     expect(createResult, null);
   });
@@ -48,8 +47,6 @@ Future<void> performIntervalTest(SupabaseClient supabase) async {
     var roundTripFromJson = DatetimeTypes.fromJson(roundTripToJson);
     expect(roundTripFromJson.colInterval, originalObject.colInterval);
   });
-
-  
 }
 
 Future<Object?> createInterval(
