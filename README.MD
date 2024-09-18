@@ -39,6 +39,7 @@ final allBooks = await supabase
 - 🌐 Cli and Web App
 - 🛠️ Typesafe Queries (Create, Read, Equality)
 - 🧱 Immutable Generated Classes
+- 🗂️ Roundtrip Serialization fromJson to toJson and back
 - 📊 Supports Column Selection Queries
 - 🔢 Supports all Supabase Major datatypes
 - 🗂️ Supports Defined as array types
@@ -64,6 +65,7 @@ final allBooks = await supabase
 | 🗓️ timetz           | time with time zone         | string    | DateTime             | type ✅ type[]✅                                                                                                      |
 | 🗓️ timestamp        | timestamp without time zone | string    | DateTime             | type ✅ type[]✅                                                                                                      |
 | 🗓️ timestamptz      | timestamp with time zone    | string    | DateTime             | type ✅ type[]✅                                                                                                      |
+| 🕒 interval         | interval                    | string    | Duration             | type ✅ type[]✅                                                                                                      |
 | 💡 bool             | boolean                     | boolean   | bool                 | type ✅ type[]✅                                                                                                      |
 | 🗂️ ENUMS            | ENUM                        | string    | Enum                 | type ✅ type[]✅                                                                                                      |
 
