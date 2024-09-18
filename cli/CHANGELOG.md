@@ -1,3 +1,9 @@
+## 1.6.1
+
+- Add Postgres Interval type support => Duration in Dart
+- Refactor import structure to allow easier function creations
+- Add interval test and interval array test
+
 ## 1.6.0
 
 - Add local development mode generation support
