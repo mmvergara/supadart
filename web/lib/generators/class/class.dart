@@ -1,12 +1,15 @@
-import '../class/generate_map.dart';
-import '../class/to_json.dart';
-import '../swagger/table.dart';
-import '../utils/string_formatters.dart';
-import '../swagger/swagger.dart';
+import 'generate_map.dart';
+import 'to_json.dart';
+import 'copy_with.dart';
 import 'from_json.dart';
 import 'converters.dart';
 import 'update.dart';
 import 'insert.dart';
+
+import '../swagger/table.dart';
+import '../swagger/swagger.dart';
+import '../utils/string_formatters.dart';
+
 import 'package:yaml/yaml.dart';
 
 class DartClass {
@@ -38,6 +41,7 @@ List<DartClass> generateDartClasses(
       ..write(generateUpdateMethod(table))
       ..write(generateFromJsonMethod(className, table))
       ..write(generateToJsonMethod(className, table))
+      ..write(generateCopyWithMethod(className, table))
       ..writeln('}')
       ..writeln();
 
