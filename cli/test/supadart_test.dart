@@ -30,7 +30,7 @@ void main() async {
   }
 
   // Test config, isDart: true, isSeperated:false, mappings:null
-  final files = supadartRun(databaseSwagger, true, false, null);
+  final files = supadartRun(databaseSwagger, true, false, null, []);
   await generateAndFormatFiles(files, './test/models/');
   print("\nGenerated Fresh Models from DB");
 
