@@ -22,7 +22,10 @@ class DartClass {
 }
 
 List<DartClass> generateDartClasses(
-    DatabaseSwagger swagger, YamlMap? mappings) {
+  DatabaseSwagger swagger,
+  YamlMap? mappings,
+  List<String> exclude,
+) {
   return swagger.definitions.entries.map((entry) {
     final tableName = entry.key;
     final table = entry.value;
@@ -39,11 +42,15 @@ List<DartClass> generateDartClasses(
       ..write(generateGenerateMapPrivateMethod(table))
       ..write(generateInsertMethod(table))
       ..write(generateUpdateMethod(table))
-      ..write(generateFromJsonMethod(className, table))
-      ..write(generateToJsonMethod(className, table))
-      ..write(generateCopyWithMethod(className, table))
-      ..writeln('}')
-      ..writeln();
+      ..write(generateFromJsonMethod(className, table));
+    if (!exclude.contains('toJson')) {
+      code.write(generateToJsonMethod(className, table));
+    }
+    if (!exclude.contains('copyWith')) {
+      code.write(generateCopyWithMethod(className, table));
+    }
+    code.writeln('}');
+    code.writeln();
 
     return DartClass(
       className: className,

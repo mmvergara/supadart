@@ -1,3 +1,8 @@
+## 1.6.2
+
+- Add -e --exclude option to exclude methods from generated classes
+- Add copyWith method thanks to @bookshiyi
+
 ## 1.6.1
 
 - Add Postgres Interval type support => Duration in Dart

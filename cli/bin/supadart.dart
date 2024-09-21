@@ -5,122 +5,193 @@ import 'package:supadart/generators/index.dart';
 import 'package:supadart/generators/utils/fetch_swagger.dart';
 import 'package:yaml/yaml.dart';
 
-const String version = 'v1.6.1';
-const String red = '\x1B[31m'; // Red text
-const String green = '\x1B[32m'; // Green text
-const String blue = '\x1B[34m'; // Blue text
-const String reset = '\x1B[0m'; // Reset to default color
+const String version = 'v1.6.2';
+const String red = '\x1B[31m';
+const String green = '\x1B[32m';
+const String blue = '\x1B[34m';
+const String reset = '\x1B[0m';
 
 void main(List<String> arguments) async {
-  final defaultConfigFile = 'supadart.yaml';
-  final parser = ArgParser()
+  final parser = setupArgParser();
+  final results = parser.parse(arguments);
+
+  if (results['help'] || results['version']) {
+    handleHelpAndVersion(parser, results);
+    return;
+  }
+
+  if (results['init']) {
+    await configFileInit('supadart.yaml');
+    return;
+  }
+
+  print("🚀 Supadart $version");
+
+  final config = await loadYamlConfig(results);
+  final options = extractOptions(results, config);
+
+  if (!validateOptions(options)) {
+    print('use -h or --help for help');
+    exit(1);
+  }
+
+  printConfiguration(options);
+
+  await generateModels(options);
+}
+
+ArgParser setupArgParser() {
+  return ArgParser()
     ..addFlag('help',
         abbr: 'h', negatable: false, help: 'Show usage information')
     ..addFlag('init',
         abbr: 'i',
         negatable: false,
-        help: 'Initialize config file supadart.yaml ')
+        help: 'Initialize config file supadart.yaml')
     ..addOption('config',
-        abbr: 'c',
-        help:
-            'Path to config file of yaml         --(default: $defaultConfigFile)')
-    ..addOption('url',
-        abbr: "u",
-        help:
-            'Supabase URL                        --(default: $defaultConfigFile supabase_url)')
-    ..addOption('key',
-        abbr: "k",
-        help:
-            'Supabase ANON KEY                   --(default: $defaultConfigFile supabase_anon_key)')
-    ..addOption('output',
-        abbr: 'o',
-        help:
-            'Output file path, add ./ prefix     --(default: ./lib/generated_classes.dart or ./lib/models/ if --separated is enabled')
+        abbr: 'c', help: 'Path to config file of yaml (default: supadart.yaml)')
+    ..addOption('url', abbr: "u", help: 'Supabase URL')
+    ..addOption('key', abbr: "k", help: 'Supabase ANON KEY')
+    ..addOption('output', abbr: 'o', help: 'Output file path, add ./ prefix')
+    ..addOption('exclude',
+        abbr: 'e', help: 'Select methods to exclude ex.  "toJson,copyWith"')
     ..addFlag('dart',
-        abbr: 'd',
-        negatable: false,
-        help: 'Generation for pure Dart project    --(default: false)')
+        abbr: 'd', negatable: false, help: 'Generation for pure Dart project')
     ..addFlag('separated',
-        abbr: 's',
-        negatable: false,
-        help: 'Separated files for each classes    --(default: false)')
+        abbr: 's', negatable: false, help: 'Separated files for each classes')
     ..addFlag('version', abbr: 'v', negatable: false, help: version);
+}
 
-  final results = parser.parse(arguments);
-
+void handleHelpAndVersion(ArgParser parser, ArgResults results) {
   if (results['help']) {
     print('Usage: dart script.dart [options]');
     print(parser.usage);
-    exit(0);
-  }
-
-  if (results['version']) {
+  } else if (results['version']) {
     print(version);
-    exit(0);
   }
+  exit(0);
+}
 
-  if (results['init']) {
-    await configFileInit(defaultConfigFile);
-    exit(0);
-  }
-
-  // Run the generator
-  print("🚀 Supadart $version");
-
-  String url;
-  String anonKey;
-  bool isDart;
-  bool isSeparated;
-  String output;
-  YamlMap? mappings;
-
-  final configPath = results['config'] ?? defaultConfigFile;
+Future<YamlMap> loadYamlConfig(ArgResults results) async {
+  final configPath = results['config'] ?? 'supadart.yaml';
   final configFile = File(configPath);
-  String configContent = "";
   try {
-    configContent = await configFile.readAsString();
+    final configContent = await configFile.readAsString();
+    print("Config file found");
+    return loadYaml(configContent);
   } catch (e) {
-    print("config yaml not found");
+    print("Using CLI arguments only");
+    return YamlMap();
   }
+}
 
-  final config = loadYaml(configContent) ?? {};
+Map<String, dynamic> extractOptions(ArgResults results, YamlMap config) {
+  return {
+    'url': results['url'] ?? config['supabase_url'] ?? '',
+    'anonKey': results['key'] ?? config['supabase_anon_key'] ?? '',
+    'isSeparated': results['separated'] ? true : config['separated'] ?? false,
+    'isDart': results['dart'] ? true : config['dart'] ?? false,
+    'output': results['output'] ?? config['output'] ?? './lib/models/',
+    'mappings': config['mappings'],
+    'exclude': results['exclude']?.split(',') ??
+        List<String>.from(config['exclude'] ?? [])
+  };
+}
 
-  url = results['url'] ?? config['supabase_url'] ?? '';
-  anonKey = results['key'] ?? config['supabase_anon_key'] ?? '';
-  if (url.isEmpty || anonKey.isEmpty) {
+bool validateOptions(Map<String, dynamic> options) {
+  if (options['url'].isEmpty || options['anonKey'].isEmpty) {
     print(
-        "Please provide --url and --key or Set supabase_url and supabase_anon_key in .yaml file");
-    print('use -h or --help for help');
-    exit(1);
+        "Please provide --url and --key or set supabase_url and supabase_anon_key in .yaml file");
+    return false;
   }
+  return true;
+}
 
-  isSeparated = results['separated'] ? true : config['separated'] ?? false;
-  isDart = results['dart'] ? true : config['dart'] ?? false;
-  output = results['output'] ?? config['output'] ?? './lib/models/';
-  mappings = config['mappings'];
+void printConfiguration(Map<String, dynamic> options) {
   print('==============================');
-  print('URL:        $url');
-  print('ANON KEY:   ${anonKey.substring(0, 25)}...');
-  print('Output:     $output');
-  print('Separated:  $isSeparated');
-  print('Dart:       $isDart');
-  print('Mappings:   $mappings');
+  print('URL:         ${options['url']}');
+  print('ANON KEY:    ${options['anonKey'].substring(0, 25)}...');
+  print('Output:      ${options['output']}');
+  print('Separated:   ${options['isSeparated']}');
+  print('Dart:        ${options['isDart']}');
+  print('Mappings:    ${options['mappings']}');
+  print('Excluded:    ${options['exclude']}');
   print('==============================');
+}
+
+Future<void> generateModels(Map<String, dynamic> options) async {
   print("Fetching database schema...");
-  final databaseSwagger = await fetchDatabaseSwagger(url, anonKey);
+  final databaseSwagger =
+      await fetchDatabaseSwagger(options['url'], options['anonKey']);
   if (databaseSwagger == null) {
     print('Failed to fetch database');
     exit(1);
   }
+
   print('Generating models...');
   final stopwatch = Stopwatch()..start();
-  final files = supadartRun(databaseSwagger, isDart, isSeparated, mappings);
+  final files = supadartRun(
+    databaseSwagger,
+    options['isDart'],
+    options['isSeparated'],
+    options['mappings'],
+    options['exclude'],
+  );
 
-  await generateAndFormatFiles(files, output);
+  await generateAndFormatFiles(files, options['output']);
 
   stopwatch.stop();
   final elapsed = stopwatch.elapsedMilliseconds;
   print('$green🎉 Done! ${elapsed}ms $reset');
+}
+
+class Config {
+  final String url;
+  final String anonKey;
+  final bool isSeparated;
+  final bool isDart;
+  final String output;
+
+  Config({
+    required this.url,
+    required this.anonKey,
+    required this.isSeparated,
+    required this.isDart,
+    required this.output,
+  });
+
+  static Future<Config> load(Map<String, dynamic> cliArgs) async {
+    final configPath = cliArgs['config'] ?? 'config.yaml';
+    final configFile = File(configPath);
+
+    Map<String, dynamic> yamlConfig = {};
+    try {
+      final configContent = await configFile.readAsString();
+      yamlConfig = loadYaml(configContent) as Map<String, dynamic>;
+      print("Config file found and loaded");
+    } catch (e) {
+      print(
+          "Config file not found or couldn't be read. Using CLI arguments only.");
+    }
+
+    String url = cliArgs['url'] ?? yamlConfig['supabase_url'] ?? '';
+    String anonKey = cliArgs['key'] ?? yamlConfig['supabase_anon_key'] ?? '';
+
+    if (url.isEmpty || anonKey.isEmpty) {
+      print(
+          "Please provide --url and --key or set supabase_url and supabase_anon_key in the YAML file");
+      print('Use -h or --help for help');
+      exit(1);
+    }
+
+    return Config(
+      url: url,
+      anonKey: anonKey,
+      isSeparated: cliArgs['separated'] ?? yamlConfig['separated'] ?? false,
+      isDart: cliArgs['dart'] ?? yamlConfig['dart'] ?? false,
+      output: cliArgs['output'] ?? yamlConfig['output'] ?? './lib/models/',
+    );
+  }
 }
 
 Future<void> generateAndFormatFiles(

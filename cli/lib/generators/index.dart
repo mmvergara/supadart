@@ -13,8 +13,9 @@ List<GeneratedFile> supadartRun(
   bool isDart,
   bool isSeparated,
   YamlMap? mappings,
+  List<String> exclude,
 ) {
-  final dartClasses = generateDartClasses(swagger, mappings);
+  final dartClasses = generateDartClasses(swagger, mappings, exclude);
 
   final clientExtension = generateClientExtension(swagger);
   final modelExports = generateExports(swagger, mappings);

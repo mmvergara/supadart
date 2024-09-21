@@ -230,7 +230,6 @@ class StringTypes implements SupadartClass<StringTypes> {
   }
 
   Map<String, dynamic> toJson() {
-// Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
     return _generateMap(
       id: id,
       colUuid: colUuid,
@@ -241,6 +240,31 @@ class StringTypes implements SupadartClass<StringTypes> {
       colCharactervaryingArray: colCharactervaryingArray,
       colText: colText,
       colTextArray: colTextArray,
+    );
+  }
+
+  StringTypes copyWith({
+    String? id,
+    String? colUuid,
+    List<String>? colUuidArray,
+    String? colCharacter,
+    List<String>? colCharacterArray,
+    String? colCharactervarying,
+    List<String>? colCharactervaryingArray,
+    String? colText,
+    List<String>? colTextArray,
+  }) {
+    return StringTypes(
+      id: id ?? this.id,
+      colUuid: colUuid ?? this.colUuid,
+      colUuidArray: colUuidArray ?? this.colUuidArray,
+      colCharacter: colCharacter ?? this.colCharacter,
+      colCharacterArray: colCharacterArray ?? this.colCharacterArray,
+      colCharactervarying: colCharactervarying ?? this.colCharactervarying,
+      colCharactervaryingArray:
+          colCharactervaryingArray ?? this.colCharactervaryingArray,
+      colText: colText ?? this.colText,
+      colTextArray: colTextArray ?? this.colTextArray,
     );
   }
 }
@@ -373,7 +397,6 @@ class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
   }
 
   Map<String, dynamic> toJson() {
-// Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
     return _generateMap(
       id: id,
       colBoolean: colBoolean,
@@ -382,6 +405,26 @@ class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
       colBitArray: colBitArray,
       colBitvarying: colBitvarying,
       colBitvaryingArray: colBitvaryingArray,
+    );
+  }
+
+  BooleanBitTypes copyWith({
+    String? id,
+    bool? colBoolean,
+    List<bool>? colBooleanArray,
+    String? colBit,
+    List<String>? colBitArray,
+    String? colBitvarying,
+    List<String>? colBitvaryingArray,
+  }) {
+    return BooleanBitTypes(
+      id: id ?? this.id,
+      colBoolean: colBoolean ?? this.colBoolean,
+      colBooleanArray: colBooleanArray ?? this.colBooleanArray,
+      colBit: colBit ?? this.colBit,
+      colBitArray: colBitArray ?? this.colBitArray,
+      colBitvarying: colBitvarying ?? this.colBitvarying,
+      colBitvaryingArray: colBitvaryingArray ?? this.colBitvaryingArray,
     );
   }
 }
@@ -490,7 +533,6 @@ class CombinedTypesView implements SupadartClass<CombinedTypesView> {
   }
 
   Map<String, dynamic> toJson() {
-// Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
     return _generateMap(
       numericId: numericId,
       colInteger: colInteger,
@@ -498,6 +540,24 @@ class CombinedTypesView implements SupadartClass<CombinedTypesView> {
       stringId: stringId,
       colText: colText,
       colUuid: colUuid,
+    );
+  }
+
+  CombinedTypesView copyWith({
+    String? numericId,
+    int? colInteger,
+    double? colDouble,
+    String? stringId,
+    String? colText,
+    String? colUuid,
+  }) {
+    return CombinedTypesView(
+      numericId: numericId ?? this.numericId,
+      colInteger: colInteger ?? this.colInteger,
+      colDouble: colDouble ?? this.colDouble,
+      stringId: stringId ?? this.stringId,
+      colText: colText ?? this.colText,
+      colUuid: colUuid ?? this.colUuid,
     );
   }
 }
@@ -712,7 +772,6 @@ class MiscTypes implements SupadartClass<MiscTypes> {
   }
 
   Map<String, dynamic> toJson() {
-// Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
     return _generateMap(
       id: id,
       colMoney: colMoney,
@@ -727,6 +786,38 @@ class MiscTypes implements SupadartClass<MiscTypes> {
       colTsvectorArray: colTsvectorArray,
       colTxidSnapshot: colTxidSnapshot,
       colTxidSnapshotArray: colTxidSnapshotArray,
+    );
+  }
+
+  MiscTypes copyWith({
+    String? id,
+    String? colMoney,
+    List<String>? colMoneyArray,
+    String? colPgLsn,
+    List<String>? colPgLsnArray,
+    String? colPgSnapshot,
+    List<String>? colPgSnapshotArray,
+    String? colTsquery,
+    List<String>? colTsqueryArray,
+    String? colTsvector,
+    List<String>? colTsvectorArray,
+    String? colTxidSnapshot,
+    List<String>? colTxidSnapshotArray,
+  }) {
+    return MiscTypes(
+      id: id ?? this.id,
+      colMoney: colMoney ?? this.colMoney,
+      colMoneyArray: colMoneyArray ?? this.colMoneyArray,
+      colPgLsn: colPgLsn ?? this.colPgLsn,
+      colPgLsnArray: colPgLsnArray ?? this.colPgLsnArray,
+      colPgSnapshot: colPgSnapshot ?? this.colPgSnapshot,
+      colPgSnapshotArray: colPgSnapshotArray ?? this.colPgSnapshotArray,
+      colTsquery: colTsquery ?? this.colTsquery,
+      colTsqueryArray: colTsqueryArray ?? this.colTsqueryArray,
+      colTsvector: colTsvector ?? this.colTsvector,
+      colTsvectorArray: colTsvectorArray ?? this.colTsvectorArray,
+      colTxidSnapshot: colTxidSnapshot ?? this.colTxidSnapshot,
+      colTxidSnapshotArray: colTxidSnapshotArray ?? this.colTxidSnapshotArray,
     );
   }
 }
@@ -825,13 +916,28 @@ class Books implements SupadartClass<Books> {
   }
 
   Map<String, dynamic> toJson() {
-// Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
     return _generateMap(
       id: id,
       name: name,
       description: description,
       price: price,
       createdAt: createdAt,
+    );
+  }
+
+  Books copyWith({
+    BigInt? id,
+    String? name,
+    String? description,
+    int? price,
+    DateTime? createdAt,
+  }) {
+    return Books(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      price: price ?? this.price,
+      createdAt: createdAt ?? this.createdAt,
     );
   }
 }
@@ -1062,7 +1168,6 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
   }
 
   Map<String, dynamic> toJson() {
-// Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
     return _generateMap(
       id: id,
       colPoint: colPoint,
@@ -1079,6 +1184,42 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
       colPolygonArray: colPolygonArray,
       colCircle: colCircle,
       colCircleArray: colCircleArray,
+    );
+  }
+
+  GeometricTypes copyWith({
+    String? id,
+    String? colPoint,
+    List<String>? colPointArray,
+    String? colLine,
+    List<String>? colLineArray,
+    String? colLseg,
+    List<String>? colLsegArray,
+    String? colBox,
+    List<String>? colBoxArray,
+    String? colPath,
+    List<String>? colPathArray,
+    String? colPolygon,
+    List<String>? colPolygonArray,
+    String? colCircle,
+    List<String>? colCircleArray,
+  }) {
+    return GeometricTypes(
+      id: id ?? this.id,
+      colPoint: colPoint ?? this.colPoint,
+      colPointArray: colPointArray ?? this.colPointArray,
+      colLine: colLine ?? this.colLine,
+      colLineArray: colLineArray ?? this.colLineArray,
+      colLseg: colLseg ?? this.colLseg,
+      colLsegArray: colLsegArray ?? this.colLsegArray,
+      colBox: colBox ?? this.colBox,
+      colBoxArray: colBoxArray ?? this.colBoxArray,
+      colPath: colPath ?? this.colPath,
+      colPathArray: colPathArray ?? this.colPathArray,
+      colPolygon: colPolygon ?? this.colPolygon,
+      colPolygonArray: colPolygonArray ?? this.colPolygonArray,
+      colCircle: colCircle ?? this.colCircle,
+      colCircleArray: colCircleArray ?? this.colCircleArray,
     );
   }
 }
@@ -1144,10 +1285,19 @@ class EnumTypes implements SupadartClass<EnumTypes> {
   }
 
   Map<String, dynamic> toJson() {
-// Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
     return _generateMap(
       id: id,
       colMood: colMood,
+    );
+  }
+
+  EnumTypes copyWith({
+    String? id,
+    MOOD? colMood,
+  }) {
+    return EnumTypes(
+      id: id ?? this.id,
+      colMood: colMood ?? this.colMood,
     );
   }
 }
@@ -1255,13 +1405,28 @@ class JsonTypes implements SupadartClass<JsonTypes> {
   }
 
   Map<String, dynamic> toJson() {
-// Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
     return _generateMap(
       id: id,
       colJson: colJson,
       colJsonArray: colJsonArray,
       colJsonb: colJsonb,
       colJsonbArray: colJsonbArray,
+    );
+  }
+
+  JsonTypes copyWith({
+    String? id,
+    Map<String, dynamic>? colJson,
+    List<Map<String, dynamic>>? colJsonArray,
+    Map<String, dynamic>? colJsonb,
+    List<Map<String, dynamic>>? colJsonbArray,
+  }) {
+    return JsonTypes(
+      id: id ?? this.id,
+      colJson: colJson ?? this.colJson,
+      colJsonArray: colJsonArray ?? this.colJsonArray,
+      colJsonb: colJsonb ?? this.colJsonb,
+      colJsonbArray: colJsonbArray ?? this.colJsonbArray,
     );
   }
 }
@@ -1365,13 +1530,28 @@ class BinaryXmlTypes implements SupadartClass<BinaryXmlTypes> {
   }
 
   Map<String, dynamic> toJson() {
-// Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
     return _generateMap(
       id: id,
       colBytea: colBytea,
       colByteaArray: colByteaArray,
       colXml: colXml,
       colXmlArray: colXmlArray,
+    );
+  }
+
+  BinaryXmlTypes copyWith({
+    String? id,
+    String? colBytea,
+    List<String>? colByteaArray,
+    String? colXml,
+    List<String>? colXmlArray,
+  }) {
+    return BinaryXmlTypes(
+      id: id ?? this.id,
+      colBytea: colBytea ?? this.colBytea,
+      colByteaArray: colByteaArray ?? this.colByteaArray,
+      colXml: colXml ?? this.colXml,
+      colXmlArray: colXmlArray ?? this.colXmlArray,
     );
   }
 }
@@ -1528,7 +1708,6 @@ class NetworkTypes implements SupadartClass<NetworkTypes> {
   }
 
   Map<String, dynamic> toJson() {
-// Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
     return _generateMap(
       id: id,
       colCidr: colCidr,
@@ -1539,6 +1718,30 @@ class NetworkTypes implements SupadartClass<NetworkTypes> {
       colMacaddrArray: colMacaddrArray,
       colMacaddr8: colMacaddr8,
       colMacaddr8Array: colMacaddr8Array,
+    );
+  }
+
+  NetworkTypes copyWith({
+    String? id,
+    String? colCidr,
+    List<String>? colCidrArray,
+    String? colInet,
+    List<String>? colInetArray,
+    String? colMacaddr,
+    List<String>? colMacaddrArray,
+    String? colMacaddr8,
+    List<String>? colMacaddr8Array,
+  }) {
+    return NetworkTypes(
+      id: id ?? this.id,
+      colCidr: colCidr ?? this.colCidr,
+      colCidrArray: colCidrArray ?? this.colCidrArray,
+      colInet: colInet ?? this.colInet,
+      colInetArray: colInetArray ?? this.colInetArray,
+      colMacaddr: colMacaddr ?? this.colMacaddr,
+      colMacaddrArray: colMacaddrArray ?? this.colMacaddrArray,
+      colMacaddr8: colMacaddr8 ?? this.colMacaddr8,
+      colMacaddr8Array: colMacaddr8Array ?? this.colMacaddr8Array,
     );
   }
 }
@@ -1832,7 +2035,6 @@ class NumericTypes implements SupadartClass<NumericTypes> {
   }
 
   Map<String, dynamic> toJson() {
-// Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
     return _generateMap(
       id: id,
       colBigint: colBigint,
@@ -1853,6 +2055,50 @@ class NumericTypes implements SupadartClass<NumericTypes> {
       colRealArray: colRealArray,
       colNumeric: colNumeric,
       colNumericArray: colNumericArray,
+    );
+  }
+
+  NumericTypes copyWith({
+    String? id,
+    BigInt? colBigint,
+    List<BigInt>? colBigintArray,
+    BigInt? colBigserial,
+    List<BigInt>? colBigserialArray,
+    int? colInteger,
+    List<int>? colIntegerArray,
+    int? colSmallint,
+    List<int>? colSmallintArray,
+    int? colSmallserial,
+    List<int>? colSmallserialArray,
+    int? colSerial,
+    List<int>? colSerialArray,
+    double? colDouble,
+    List<double>? colDoubleArray,
+    double? colReal,
+    List<double>? colRealArray,
+    num? colNumeric,
+    List<num>? colNumericArray,
+  }) {
+    return NumericTypes(
+      id: id ?? this.id,
+      colBigint: colBigint ?? this.colBigint,
+      colBigintArray: colBigintArray ?? this.colBigintArray,
+      colBigserial: colBigserial ?? this.colBigserial,
+      colBigserialArray: colBigserialArray ?? this.colBigserialArray,
+      colInteger: colInteger ?? this.colInteger,
+      colIntegerArray: colIntegerArray ?? this.colIntegerArray,
+      colSmallint: colSmallint ?? this.colSmallint,
+      colSmallintArray: colSmallintArray ?? this.colSmallintArray,
+      colSmallserial: colSmallserial ?? this.colSmallserial,
+      colSmallserialArray: colSmallserialArray ?? this.colSmallserialArray,
+      colSerial: colSerial ?? this.colSerial,
+      colSerialArray: colSerialArray ?? this.colSerialArray,
+      colDouble: colDouble ?? this.colDouble,
+      colDoubleArray: colDoubleArray ?? this.colDoubleArray,
+      colReal: colReal ?? this.colReal,
+      colRealArray: colRealArray ?? this.colRealArray,
+      colNumeric: colNumeric ?? this.colNumeric,
+      colNumericArray: colNumericArray ?? this.colNumericArray,
     );
   }
 }
@@ -2079,7 +2325,6 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
   }
 
   Map<String, dynamic> toJson() {
-// Promotion doesn't work well with public fields due to the possibility of the field being modified elsewhere.
     return _generateMap(
       id: id,
       colDate: colDate,
@@ -2094,6 +2339,38 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
       colTimestamptzArray: colTimestamptzArray,
       colInterval: colInterval,
       colIntervalArray: colIntervalArray,
+    );
+  }
+
+  DatetimeTypes copyWith({
+    String? id,
+    DateTime? colDate,
+    List<DateTime>? colDateArray,
+    DateTime? colTime,
+    List<DateTime>? colTimeArray,
+    DateTime? colTimetz,
+    List<DateTime>? colTimetzArray,
+    DateTime? colTimestamp,
+    List<DateTime>? colTimestampArray,
+    DateTime? colTimestamptz,
+    List<DateTime>? colTimestamptzArray,
+    Duration? colInterval,
+    List<Duration>? colIntervalArray,
+  }) {
+    return DatetimeTypes(
+      id: id ?? this.id,
+      colDate: colDate ?? this.colDate,
+      colDateArray: colDateArray ?? this.colDateArray,
+      colTime: colTime ?? this.colTime,
+      colTimeArray: colTimeArray ?? this.colTimeArray,
+      colTimetz: colTimetz ?? this.colTimetz,
+      colTimetzArray: colTimetzArray ?? this.colTimetzArray,
+      colTimestamp: colTimestamp ?? this.colTimestamp,
+      colTimestampArray: colTimestampArray ?? this.colTimestampArray,
+      colTimestamptz: colTimestamptz ?? this.colTimestamptz,
+      colTimestamptzArray: colTimestamptzArray ?? this.colTimestamptzArray,
+      colInterval: colInterval ?? this.colInterval,
+      colIntervalArray: colIntervalArray ?? this.colIntervalArray,
     );
   }
 }
