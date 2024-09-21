@@ -54,8 +54,7 @@ ArgParser setupArgParser() {
     ..addOption('key', abbr: "k", help: 'Supabase ANON KEY')
     ..addOption('output', abbr: 'o', help: 'Output file path, add ./ prefix')
     ..addOption('exclude',
-        abbr: 'e',
-        help: 'Select which methods to exclude ex.  "toJson,copyWith"')
+        abbr: 'e', help: 'Select methods to exclude ex.  "toJson,copyWith"')
     ..addFlag('dart',
         abbr: 'd', negatable: false, help: 'Generation for pure Dart project')
     ..addFlag('separated',
@@ -110,13 +109,13 @@ bool validateOptions(Map<String, dynamic> options) {
 
 void printConfiguration(Map<String, dynamic> options) {
   print('==============================');
-  print('URL:        ${options['url']}');
-  print('ANON KEY:   ${options['anonKey'].substring(0, 25)}...');
-  print('Output:     ${options['output']}');
-  print('Separated:  ${options['isSeparated']}');
-  print('Dart:       ${options['isDart']}');
-  print('Mappings:   ${options['mappings']}');
-  print('Exclude:    ${options['exclude']}');
+  print('URL:         ${options['url']}');
+  print('ANON KEY:    ${options['anonKey'].substring(0, 25)}...');
+  print('Output:      ${options['output']}');
+  print('Separated:   ${options['isSeparated']}');
+  print('Dart:        ${options['isDart']}');
+  print('Mappings:    ${options['mappings']}');
+  print('Excluded:    ${options['exclude']}');
   print('==============================');
 }
 
