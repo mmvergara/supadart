@@ -28,15 +28,21 @@ supabase_anon_key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 # Optional, where to place the generated classes files
 output: lib/models/
 # Optional, if you want to generate separated files for each classes
-separated: true
+separated: false
 # Optional, if you are not using Flutter, just normal Dart project
 dart: false
 # Optional, used to map table names to class names(case-sensitive)
 mappings:
-  books: book
-  categories: category
-  children: child
-  people: person
+  # books: book
+  # categories: category
+  # children: child
+  # people: person
+
+# Optional, used to exclude methods from generated classes
+exclude:
+  # - toJson
+  # - copyWith
+
 ''');
 
   print('Config file created at $path, please fill the fields');
