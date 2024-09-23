@@ -1,6 +1,7 @@
 import 'package:dotenv/dotenv.dart';
 import 'package:supabase/supabase.dart';
 import 'package:supadart/generators/index.dart';
+import 'package:supadart/generators/storage/fetch_storage.dart';
 import 'package:supadart/generators/utils/fetch_swagger.dart';
 import '../bin/supadart.dart';
 import 'boolean_bit_types.dart';
@@ -29,8 +30,15 @@ void main() async {
     return;
   }
 
+  final storageList = await fetchStorageList(url, anonKey);
+  if (storageList == null) {
+    print("Failed to fetch storage list");
+    return;
+  }
+
   // Test config, isDart: true, isSeperated:false, mappings:null
-  final files = supadartRun(databaseSwagger, true, false, null, []);
+  final files =
+      supadartRun(databaseSwagger, storageList, true, false, null, []);
   await generateAndFormatFiles(files, './test/models/');
   print("\nGenerated Fresh Models from DB");
 

@@ -1,4 +1,5 @@
 import 'package:yaml/yaml.dart';
+import 'storage/storage.dart';
 import 'swagger/swagger.dart';
 import 'standalone/exports.dart';
 import 'standalone/enums.dart';
@@ -10,6 +11,7 @@ import 'class/class.dart';
 
 List<GeneratedFile> supadartRun(
   DatabaseSwagger swagger,
+  Storage storageList,
   bool isDart,
   bool isSeparated,
   YamlMap? mappings,
@@ -18,6 +20,7 @@ List<GeneratedFile> supadartRun(
   final dartClasses = generateDartClasses(swagger, mappings, exclude);
 
   final clientExtension = generateClientExtension(swagger);
+  final storageClientExtension = generateStorageClientExtension(storageList);
   final modelExports = generateExports(swagger, mappings);
   final enums = generateEnums(swagger);
 
@@ -43,6 +46,7 @@ List<GeneratedFile> supadartRun(
 
   final supadartGenerator = SupadartGenerator(
     clientExtension: clientExtension,
+    storageClientExtension: storageClientExtension,
     dartClasses: dartClasses,
     modelExports: modelExports,
     enums: enums,
@@ -69,6 +73,7 @@ class GeneratedFile {
 
 class SupadartGenerator {
   final String clientExtension;
+  final String storageClientExtension;
   final List<DartClass> dartClasses;
   final String modelExports;
   final String enums;
@@ -85,6 +90,7 @@ class SupadartGenerator {
 
   SupadartGenerator({
     required this.clientExtension,
+    required this.storageClientExtension,
     required this.dartClasses,
     required this.modelExports,
     required this.enums,
@@ -164,6 +170,9 @@ import 'supadart_header.dart';
       "\n",
       "// Supabase Client Extension",
       clientExtension,
+      "\n",
+      "// Supabase Storage Client Extension",
+      storageClientExtension,
       "\n",
       "// Enums",
       enums,
