@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:supadart/config_init.dart';
 import 'package:supadart/generators/index.dart';
+import 'package:supadart/generators/storage/fetch_storage.dart';
 import 'package:supadart/generators/utils/fetch_swagger.dart';
 import 'package:yaml/yaml.dart';
 
@@ -128,10 +129,18 @@ Future<void> generateModels(Map<String, dynamic> options) async {
     exit(1);
   }
 
+  final storageList =
+      await fetchStorageList(options['url'], options['anonKey']);
+  if (storageList == null) {
+    print('Failed to fetch storage');
+    exit(1);
+  }
+
   print('Generating models...');
   final stopwatch = Stopwatch()..start();
   final files = supadartRun(
     databaseSwagger,
+    storageList,
     options['isDart'],
     options['isSeparated'],
     options['mappings'],
