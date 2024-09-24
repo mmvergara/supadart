@@ -1,3 +1,8 @@
+## 1.6.3
+
+- Add storage client extension generator thanks to @bookshiyi
+- Update dependencies
+
 ## 1.6.2
 
 - Add -e --exclude option to exclude methods from generated classes
