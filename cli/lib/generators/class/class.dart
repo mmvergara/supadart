@@ -61,10 +61,9 @@ List<DartClass> generateDartClasses(
 
 String generateAttributes(Table table) {
   final columns = table.columns;
-  final requiredFields = table.requiredFields;
   final code = StringBuffer();
   columns.forEach((columnName, columnDetails) {
-    final isOptional = !requiredFields.contains(columnName);
+    final isOptional = !columnDetails.isInRequiredColumn;
     code.writeln(
         'final ${columnDetails.dartType}${isOptional ? "?" : ""} $columnName;');
   });
@@ -73,11 +72,10 @@ String generateAttributes(Table table) {
 
 String generateConstructor(String className, Table table) {
   final columns = table.columns;
-  final requiredFields = table.requiredFields;
   final code = StringBuffer();
   code.writeln('\nconst $className({');
-  columns.forEach((propertyName, _) {
-    final isRequired = requiredFields.contains(propertyName);
+  columns.forEach((propertyName, columnDetails) {
+    final isRequired = columnDetails.isInRequiredColumn;
     code.writeln('${isRequired ? "required this." : "this."}$propertyName,');
   });
   code.writeln('});');
