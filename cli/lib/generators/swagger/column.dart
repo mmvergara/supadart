@@ -8,7 +8,7 @@ class Column {
   final String dbColName;
   final String camelColName;
   final List<String> enumValues;
-  final dynamic defaultValue;
+  final dynamic hasDefaultValue;
   final String? description;
   final int? maxLength;
   final bool isPrimaryKey;
@@ -20,7 +20,7 @@ class Column {
     required this.dbColName,
     required this.camelColName,
     this.enumValues = const [],
-    this.defaultValue,
+    this.hasDefaultValue,
     this.description,
     this.maxLength,
     this.isPrimaryKey = false,
@@ -35,7 +35,10 @@ class Column {
     return postgresFormatToDartType(postgresFormat).type.replaceAll('"', "");
   }
 
-  bool get hasDefaultValue => defaultValue != null;
+  bool get isRequiredInInsert {
+    return isInRequiredColumn && !hasDefaultValue;
+  }
+
   bool get isRequired {
     return isInRequiredColumn &&
         !!!hasDefaultValue &&
@@ -54,7 +57,7 @@ class Column {
       camelColName: snakeCasingToCamelCasing(colName),
       enumValues:
           json['enum'] != null ? List<String>.from(json['enum']) : <String>[],
-      defaultValue: json['default'],
+      hasDefaultValue: json['default'] != null,
       description: json['description'],
       maxLength: json['maxLength'],
       isPrimaryKey: json['description']?.contains('<pk/>') ?? false,
