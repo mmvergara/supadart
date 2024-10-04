@@ -46,10 +46,14 @@ extension SupadartClient on SupabaseClient {
   SupabaseQueryBuilder get enum_types => from('enum_types');
   SupabaseQueryBuilder get json_types => from('json_types');
   SupabaseQueryBuilder get binary_xml_types => from('binary_xml_types');
+  SupabaseQueryBuilder get convention => from('convention');
   SupabaseQueryBuilder get network_types => from('network_types');
   SupabaseQueryBuilder get numeric_types => from('numeric_types');
   SupabaseQueryBuilder get datetime_types => from('datetime_types');
 }
+
+// Supabase Storage Client Extension
+extension SupadartStorageClient on SupabaseStorageClient {}
 
 // Enums
 enum MOOD { happy, sad, neutral, excited, angry }
@@ -827,14 +831,14 @@ class Books implements SupadartClass<Books> {
   final String name;
   final String? description;
   final int price;
-  final DateTime? createdAt;
+  final DateTime createdAt;
 
   const Books({
     required this.id,
     required this.name,
     this.description,
     required this.price,
-    this.createdAt,
+    required this.createdAt,
   });
 
   static String get table_name => 'books';
@@ -1226,11 +1230,11 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
 
 class EnumTypes implements SupadartClass<EnumTypes> {
   final String id;
-  final MOOD? colMood;
+  final MOOD colMood;
 
   const EnumTypes({
     required this.id,
-    this.colMood,
+    required this.colMood,
   });
 
   static String get table_name => 'enum_types';
@@ -1552,6 +1556,170 @@ class BinaryXmlTypes implements SupadartClass<BinaryXmlTypes> {
       colByteaArray: colByteaArray ?? this.colByteaArray,
       colXml: colXml ?? this.colXml,
       colXmlArray: colXmlArray ?? this.colXmlArray,
+    );
+  }
+}
+
+class Convention implements SupadartClass<Convention> {
+  final String id;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final String creatorId;
+  final String name;
+  final String description;
+  final DateTime startDate;
+  final DateTime endDate;
+
+  const Convention({
+    required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.creatorId,
+    required this.name,
+    required this.description,
+    required this.startDate,
+    required this.endDate,
+  });
+
+  static String get table_name => 'convention';
+  static String get c_id => 'id';
+  static String get c_createdAt => 'created_at';
+  static String get c_updatedAt => 'updated_at';
+  static String get c_creatorId => 'creator_id';
+  static String get c_name => 'name';
+  static String get c_description => 'description';
+  static String get c_startDate => 'start_date';
+  static String get c_endDate => 'end_date';
+
+  static List<Convention> converter(List<Map<String, dynamic>> data) {
+    return data.map(Convention.fromJson).toList();
+  }
+
+  static Convention converterSingle(Map<String, dynamic> data) {
+    return Convention.fromJson(data);
+  }
+
+  static Map<String, dynamic> _generateMap({
+    String? id,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    String? creatorId,
+    String? name,
+    String? description,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (createdAt != null) 'created_at': createdAt.toUtc().toIso8601String(),
+      if (updatedAt != null) 'updated_at': updatedAt.toUtc().toIso8601String(),
+      if (creatorId != null) 'creator_id': creatorId,
+      if (name != null) 'name': name,
+      if (description != null) 'description': description,
+      if (startDate != null) 'start_date': startDate.toUtc().toIso8601String(),
+      if (endDate != null) 'end_date': endDate.toUtc().toIso8601String(),
+    };
+  }
+
+  static Map<String, dynamic> insert({
+    String? id,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    required String creatorId,
+    required String name,
+    required String description,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) {
+    return _generateMap(
+      id: id,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      creatorId: creatorId,
+      name: name,
+      description: description,
+      startDate: startDate,
+      endDate: endDate,
+    );
+  }
+
+  static Map<String, dynamic> update({
+    String? id,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    String? creatorId,
+    String? name,
+    String? description,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) {
+    return _generateMap(
+      id: id,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      creatorId: creatorId,
+      name: name,
+      description: description,
+      startDate: startDate,
+      endDate: endDate,
+    );
+  }
+
+  factory Convention.fromJson(Map<String, dynamic> jsonn) {
+    return Convention(
+      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
+      createdAt: jsonn['created_at'] != null
+          ? DateTime.parse(jsonn['created_at'].toString())
+          : DateTime.fromMillisecondsSinceEpoch(0),
+      updatedAt: jsonn['updated_at'] != null
+          ? DateTime.parse(jsonn['updated_at'].toString())
+          : DateTime.fromMillisecondsSinceEpoch(0),
+      creatorId:
+          jsonn['creator_id'] != null ? jsonn['creator_id'].toString() : '',
+      name: jsonn['name'] != null ? jsonn['name'].toString() : '',
+      description:
+          jsonn['description'] != null ? jsonn['description'].toString() : '',
+      startDate: jsonn['start_date'] != null
+          ? DateTime.parse(jsonn['start_date'].toString())
+          : DateTime.fromMillisecondsSinceEpoch(0),
+      endDate: jsonn['end_date'] != null
+          ? DateTime.parse(jsonn['end_date'].toString())
+          : DateTime.fromMillisecondsSinceEpoch(0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return _generateMap(
+      id: id,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      creatorId: creatorId,
+      name: name,
+      description: description,
+      startDate: startDate,
+      endDate: endDate,
+    );
+  }
+
+  Convention copyWith({
+    String? id,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    String? creatorId,
+    String? name,
+    String? description,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) {
+    return Convention(
+      id: id ?? this.id,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      creatorId: creatorId ?? this.creatorId,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
     );
   }
 }
