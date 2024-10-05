@@ -4,7 +4,6 @@ import 'package:supadart_web/generators/index.dart';
 import 'package:supadart_web/generators/storage/fetch_storage.dart';
 import 'package:supadart_web/generators/utils/fetch_swagger.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:yaml/yaml.dart';
 
 void main() {
   runApp(const MyApp());
