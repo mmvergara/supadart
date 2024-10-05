@@ -1,3 +1,7 @@
+## 1.6.4
+
+- Fix nullable fields in class attributes and insert method
+
 ## 1.6.3
 
 - Add storage client extension generator thanks to @bookshiyi
