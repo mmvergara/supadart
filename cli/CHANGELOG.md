@@ -1,3 +1,8 @@
+## 1.6.5
+
+- Fix typo
+- Update dependencies
+
 ## 1.6.4
 
 - Fix nullable fields in class attributes and insert method
