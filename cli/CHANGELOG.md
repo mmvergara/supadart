@@ -1,10 +1,10 @@
-
 ## 1.6.6
-- Add support to array enums
+
 - Yaml config is now required (default: ./supadart.yaml)
+- Enums are now required to be in the yaml config
+- Add support to array enums
 - Changed yaml_config supabase credentials to uppercase SUPABASE_URL, SUPABASE_ANON_KEY
 - Add .env support for supabase credentials SUPABASE_URL, SUPABASE_ANON_KEY
-
 
 ## 1.6.5
 

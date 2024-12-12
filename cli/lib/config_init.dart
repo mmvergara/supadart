@@ -28,22 +28,24 @@ SUPABASE_URL:
 SUPABASE_ANON_KEY:
 
 
+# Do you have enums in your database? map them here
+enums:
+  # mood: [happy, sad, neutral, excited, angry]
+
+
 # Optional, where to place the generated classes files default: ./lib/models/
 output: lib/models/
 # Set to true, if you want to generate separated files for each classes
 separated: false
 # Set to true, if you are not using Flutter, just normal Dart project
 dart: false
+
 # Optional, used to map table names to class names(case-sensitive)
 mappings:
   # books: book
   # categories: category
   # children: child
   # people: person
-
-# Do you have a column that is array of enum type (enum[]) type? If yes, you need to specify the enums
-enums:
-  # mood: [happy, sad, neutral, excited, angry]
 
 # Optional, used to exclude methods from generated classes
 exclude:
