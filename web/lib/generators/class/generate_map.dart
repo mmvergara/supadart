@@ -190,12 +190,15 @@ String encodeToJson(
       break;
 
     default:
-      // If no format is provided, we assume it's a Enum
+      // print(columnName);
+      // print(columnDetails.enumValues);
       if (columnDetails.enumValues.isNotEmpty) {
         jsonEncodableType = isArray
             ? "$columnName.map((e) => e.toString().split('.').last).toList()"
             : "$columnName.toString().split('.').last";
         break;
+      } else {
+        print("No enum values found for $columnName");
       }
   }
   return jsonEncodableType;

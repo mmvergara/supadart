@@ -7,7 +7,7 @@ import 'package:supadart/generators/storage/fetch_storage.dart';
 import 'package:supadart/generators/utils/fetch_swagger.dart';
 import 'package:yaml/yaml.dart';
 
-const String version = 'v1.6.5';
+const String version = 'v1.6.6';
 const String red = '\x1B[31m';
 const String green = '\x1B[32m';
 const String blue = '\x1B[34m';
@@ -50,16 +50,15 @@ ArgParser setupArgParser() {
         negatable: false,
         help: 'Initialize config file supadart.yaml')
     ..addOption('config',
-        abbr: 'c', help: 'Path to config file of yaml (default: supadart.yaml)')
-    ..addOption('url', abbr: "u", help: 'Supabase URL')
-    ..addOption('key', abbr: "k", help: 'Supabase ANON KEY')
-    ..addOption('output', abbr: 'o', help: 'Output file path, add ./ prefix')
-    ..addOption('exclude',
-        abbr: 'e', help: 'Select methods to exclude ex.  "toJson,copyWith"')
-    ..addFlag('dart',
-        abbr: 'd', negatable: false, help: 'Generation for pure Dart project')
-    ..addFlag('separated',
-        abbr: 's', negatable: false, help: 'Separated files for each classes')
+        abbr: 'c',
+        help:
+            'Specify a path to config file of yaml   (default: ./supadart.yaml)')
+    ..addOption('url',
+        abbr: "u",
+        help: 'Supabase URL                            (if not set in yaml)')
+    ..addOption('key',
+        abbr: "k",
+        help: 'Supabase ANON KEY                       (if not set in yaml)')
     ..addFlag('version', abbr: 'v', negatable: false, help: version);
 }
 
@@ -81,7 +80,9 @@ Future<YamlMap> loadYamlConfig(ArgResults results) async {
     print("Config file found");
     return loadYaml(configContent);
   } catch (e) {
-    throw ("As of version 1.6.5 >, you need to create a config file use --init command to generate one");
+    print(
+        "${red}As of version 1.6.5 >, you need to create a config file use --init command to generate one$reset");
+    rethrow;
   }
 }
 
@@ -111,12 +112,11 @@ Map<String, dynamic> extractOptions(ArgResults results, YamlMap config) {
         env['SUPABASE_ANON_KEY'] ??
         config['SUPABASE_ANON_KEY'] ??
         '',
-    'isSeparated': results['separated'] ? true : config['separated'] ?? false,
-    'isDart': results['dart'] ? true : config['dart'] ?? false,
-    'output': results['output'] ?? config['output'] ?? './lib/models/',
+    'isSeparated': config['separated'] ?? false,
+    'isDart': config['dart'] ?? false,
+    'output': config['output'] ?? './lib/models/',
     'mappings': config['mappings'],
-    'exclude': results['exclude']?.split(',') ??
-        List<String>.from(config['exclude'] ?? []),
+    'exclude': List<String>.from(config['exclude'] ?? []),
     'mapOfEnums': enums,
   };
 }

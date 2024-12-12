@@ -138,22 +138,18 @@ dart pub global run supadart
 #### Quick Start
 
 ```bash
-supadart -u <your-supabase-url> -k <your-supabase-anon-key>
-# and you are good to go!
+# Initialize
+supadart --init
 ```
 
 #### CLI Usage
 
 ```bash
--h, --help         Show usage information
--i, --init         Initialize config file supadart.yaml
--c, --config       Path to config file of yaml         --(default: supadart.yaml)
--u, --url          Supabase URL                        --(default: supadart.yaml supabase_url)
--k, --key          Supabase ANON KEY                   --(default: supadart.yaml supabase_anon_key)
--o, --output       Output file path, add ./ prefix     --(default: ./lib/generated_classes.dart or ./lib/models/ if --separated is enabled)
--d, --dart         Generation for pure Dart project    --(default: false)
--s, --separated    Separated files for each classes    --(default: false)
--e, --exclude      Select methods to exclude ex.  "toJson,copyWith"
+-h, --help       Show usage information
+-i, --init       Initialize config file supadart.yaml
+-c, --config     Specify a path to config file of yaml   (default: ./supadart.yaml)
+-u, --url        Supabase URL                  (if not set in yaml)
+-k, --key        Supabase ANON KEY             (if not set in yaml)
 -v, --version
 ```
 
