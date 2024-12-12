@@ -77,7 +77,9 @@ final allBooks = await supabase
 
 #### 1.2 Do you have serial types?
 
-if you have serial types you need to add a `[supadart:serial]` to the column like this
+We don't recommend using serial types when using this package, if you have serial types you need to add a `[supadart:serial]` to the column like this
+
+> You probably don't have them Serial types aren't available in the Supabase editor and must be added via SQL editor manually.
 
 ```sql
 COMMENT ON COLUMN test_table.bigserialx IS '[supadart:serial]';
@@ -86,7 +88,7 @@ COMMENT ON COLUMN test_table.serialx IS 'this part [supadart:serial] just needs 
 -- otherwise the insert method will always ask for a value even though serial types are auto-generated
 ```
 
-> serial types in general are not available in supabase table editor afaik, so if you did not add them manually via sql editor you probably dont have them. [Why do we need this?](https://gist.github.com/mmvergara/5e3d42d73dd316f8ff809fb940163c1f)
+> [Why do we need this?](https://gist.github.com/mmvergara/5e3d42d73dd316f8ff809fb940163c1f)
 
 #### 1.3 Install `Internationalization` package
 
