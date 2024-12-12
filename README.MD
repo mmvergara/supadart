@@ -22,8 +22,6 @@ final allBooks = await supabase
 - [**Generate Dart Classes**](#generating-dart-classes)
   - [**Pre-requisites**](#1-pre-requisites)
   - [**Generate Dart Classes**](#2-generate-dart-classes)
-    - [**Using the Web App**](https://supadart.vercel.app/)
-    - [**Using the Dart CLI**](#using-the-dart-cli)
 - [**Example Usage**](#example-usage)
   - [**Fetch Data**](#fetch-data)
   - [**Fetch Single Data**](#fetch-single-data)
