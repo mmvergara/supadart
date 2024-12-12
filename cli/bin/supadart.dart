@@ -149,13 +149,21 @@ void printConfiguration(Map<String, dynamic> options) {
 
 Future<void> generateModels(Map<String, dynamic> options) async {
   print("Fetching database schema...");
-  final databaseSwagger = await fetchDatabaseSwagger(options);
+  final databaseSwagger = await fetchDatabaseSwagger(
+    options['url'],
+    options['anonKey'],
+    options['mapOfEnums'],
+  );
+
   if (databaseSwagger == null) {
     print('Failed to fetch database');
     exit(1);
   }
 
-  final storageList = await fetchStorageList(options);
+  final storageList = await fetchStorageList(
+    options['url'],
+    options['anonKey'],
+  );
   if (storageList == null) {
     print('Failed to fetch storage');
     exit(1);
