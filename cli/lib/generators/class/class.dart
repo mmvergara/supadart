@@ -1,3 +1,5 @@
+import 'package:supadart/generators/class/new.dart';
+
 import 'generate_map.dart';
 import 'to_json.dart';
 import 'copy_with.dart';
@@ -40,6 +42,7 @@ List<DartClass> generateDartClasses(
       ..write(generateConverterMethod(className))
       ..write(generateConverterSingleMethod(className))
       ..write(generateGenerateMapPrivateMethod(table))
+      ..write(generateGenerateNewStaticMethod(table))
       ..write(generateInsertMethod(table))
       ..write(generateUpdateMethod(table))
       ..write(generateFromJsonMethod(className, table));
