@@ -80,7 +80,9 @@ Future<YamlMap> loadYamlConfig(ArgResults results) async {
     print("Config file found");
     return loadYaml(configContent);
   } catch (e) {
-    throw ("As of version 1.6.5 >, you need to create a config file use --init command to generate one");
+    print(
+        "As of version 1.6.5 >, you need to create a config file use --init command to generate one");
+    rethrow;
   }
 }
 
