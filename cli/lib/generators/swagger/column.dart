@@ -55,7 +55,8 @@ class Column {
     List<String> parentTableRequiredFields,
     Map<String, List<String>> mapOfEnums,
   ) {
-    List<String> enumValues = [];
+    List<String> enumValues =
+        json['enum'] != null ? List<String>.from(json['enum']) : <String>[];
     if (json['format'].toString().contains("public.")) {
       for (var enumName in mapOfEnums.keys) {
         if (json['format'].toString().contains(enumName)) {
