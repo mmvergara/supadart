@@ -14,7 +14,6 @@ Future<DatabaseSwagger?> fetchDatabaseSwagger(
 
   try {
     // First attempt with API key
-    print(mapOfEnums);
     final response = await _secureRequest('$url/rest/v1/?apikey=$anonKey');
     if (response.statusCode == 200) {
       return DatabaseSwagger.fromJson(jsonDecode(response.body), mapOfEnums);
