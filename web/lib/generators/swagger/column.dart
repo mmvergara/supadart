@@ -1,6 +1,5 @@
 // Class to represent a database column
 import '../utils/string_formatters.dart';
-
 import 'utils.dart';
 
 class Column {
@@ -19,7 +18,7 @@ class Column {
     required this.postgresFormat,
     required this.dbColName,
     required this.camelColName,
-    this.enumValues = const [],
+    required this.enumValues,
     this.hasDefaultValue,
     this.description,
     this.maxLength,
@@ -30,7 +29,11 @@ class Column {
 
   String get dartType {
     if (enumValues.isNotEmpty) {
-      return postgresFormat.split(".").last.toUpperCase().replaceAll('"', "");
+      if (postgresFormat.contains("[]")) {
+        return "List<${postgresFormat.split(".").last.toUpperCase().replaceAll('"', "").replaceAll("[]", "")}>";
+      } else {
+        return postgresFormat.split(".").last.toUpperCase().replaceAll('"', "");
+      }
     }
     return postgresFormatToDartType(postgresFormat).type.replaceAll('"', "");
   }
@@ -50,14 +53,25 @@ class Column {
     String colName,
     Map<String, dynamic> json,
     List<String> parentTableRequiredFields,
+    Map<String, List<String>> mapOfEnums,
   ) {
+    List<String> enumValues = [];
+    if (json['format'].toString().contains("public.")) {
+      for (var enumName in mapOfEnums.keys) {
+        if (json['format'].toString().contains(enumName)) {
+          enumValues = mapOfEnums[enumName]!;
+          // print("enumValues set for ${json['format']} to $enumValues");
+        }
+      }
+    }
+
     return Column(
       postgresFormat: json['format'],
       dbColName: colName,
       camelColName: snakeCasingToCamelCasing(colName),
-      enumValues:
-          json['enum'] != null ? List<String>.from(json['enum']) : <String>[],
-      hasDefaultValue: json['default'] != null,
+      enumValues: enumValues,
+      hasDefaultValue: json['description']?.contains('[supadart:serial]') ??
+          json['default'] != null,
       description: json['description'],
       maxLength: json['maxLength'],
       isPrimaryKey: json['description']?.contains('<pk/>') ?? false,

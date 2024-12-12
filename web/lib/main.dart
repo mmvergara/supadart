@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     try {
       final databaseSwagger =
-          await fetchDatabaseSwagger(supabaseUrl, supabaseAnonKey);
+          await fetchDatabaseSwagger(supabaseUrl, supabaseAnonKey, {});
       if (databaseSwagger == null) {
         setState(() {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -80,13 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
 
       final files = supadartRun(
-        databaseSwagger,
-        storageList,
-        !isFlutter,
-        isSeparated,
-        null,
-        [],
-      );
+          databaseSwagger, storageList, !isFlutter, isSeparated, null, [], {});
 
       setState(() {
         output = files;
