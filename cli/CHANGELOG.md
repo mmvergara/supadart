@@ -1,3 +1,7 @@
+## 1.6.7
+
+- Fix enum array generation
+
 ## 1.6.6
 
 - Yaml config is now required (default: ./supadart.yaml)
