@@ -22,8 +22,8 @@ configFileInit(String path) async {
   file.writeAsStringSync('''
 
 # Don't want to expose your supabase credentials? you have two options
-# Use a .env file
-# Specify --url and --key in the CLI (ex. supadart -u <url> -k <key>)
+# 1. Use a .env file to specify SUPABASE_URL and SUPABASE_ANON_KEY
+# 2. Specify --url and --key in the CLI (ex. supadart -u <url> -k <key>)
 supabase_url: https://xxx.supabase.co
 supabase_anon_key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
