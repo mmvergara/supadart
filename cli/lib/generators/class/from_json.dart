@@ -21,7 +21,6 @@ String generateFromJsonMethod(String className, Table table) {
 
 String decodeFromJson(Column columnDetails) {
   final postgresFormat = columnDetails.postgresFormat;
-  final dartType = columnDetails.dartType;
   String jsonValue = 'jsonn[\'${columnDetails.dbColName}\']';
   String jsonDecode = "";
   switch (postgresFormat) {
@@ -187,19 +186,22 @@ String decodeFromJson(Column columnDetails) {
       jsonDecode =
           "($jsonValue as List<dynamic>).map((e) => e.toString()).toList()";
       break;
-
     default:
       // if no type is found it is assumed to be an enum type
       String enumName = columnDetails.dartType;
-      return '$jsonValue != null ? $enumName.values.byName($jsonValue.toString()) : $enumName.values.first';
+      if (postgresFormat.contains("[]")) {
+        return '$jsonValue != null ? $enumName.from($jsonValue.map((e) => ${enumName.replaceAll("List<", "").replaceFirst(">", "")}.values.byName(e.toString())).toList()) : []';
+      } else {
+        return '$jsonValue != null ? $enumName.values.byName($jsonValue.toString()) : $enumName.values.first';
+      }
   }
   String code =
-      '$jsonValue != null ? $jsonDecode : ${dartTypeDefaultNullValue(dartType)}';
+      '$jsonValue != null ? $jsonDecode : ${dartTypeDefaultNullValue(columnDetails)}';
   return code;
 }
 
-String dartTypeDefaultNullValue(String dartType) {
-  switch (dartType) {
+String dartTypeDefaultNullValue(Column columnDetails) {
+  switch (columnDetails.dartType) {
     case 'int':
       return '0';
     case 'BigInt':
