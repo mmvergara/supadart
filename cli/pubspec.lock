@@ -82,7 +82,7 @@ packages:
     source: hosted
     version: "3.0.5"
   dotenv:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: dotenv
       sha256: "379e64b6fc82d3df29461d349a1796ecd2c436c480d4653f3af6872eccbc90e1"

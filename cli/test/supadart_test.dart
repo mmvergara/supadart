@@ -16,15 +16,27 @@ void main() async {
   print("Running Supadart Tests");
 
   var env = DotEnv(includePlatformEnvironment: true)..load();
-  String? url = env['SUPABASE_URL'];
-  String? anonKey = env['SUPABASE_ANON_KEY'];
+  // Test configs
+  // Test configs
+  final url = env['SUPABASE_URL'];
+  final anonKey = env['SUPABASE_ANON_KEY'];
+  final isDart = true;
+  final isSeperated = false;
+  final mappings = null;
+  final mapOfEnums = {
+    'mood': ["happy", "sad", "neutral", "excited", "angry"]
+  };
 
   if (url == null || anonKey == null) {
-    print('Please provide SUPABASE_URL and SUPABASE_ANON_KEY in .env file');
+    print("Please Provide the url and key for your supabase instance");
     return;
   }
 
-  final databaseSwagger = await fetchDatabaseSwagger(url, anonKey);
+  final databaseSwagger = await fetchDatabaseSwagger(
+    url,
+    anonKey,
+    mapOfEnums,
+  );
   if (databaseSwagger == null) {
     print("Failed to fetch database swagger");
     return;
@@ -37,12 +49,15 @@ void main() async {
   }
 
   // Test config, isDart: true, isSeperated:false, mappings:null
-  final files =
-      supadartRun(databaseSwagger, storageList, true, false, null, []);
+  final files = supadartRun(databaseSwagger, storageList, isDart, isSeperated,
+      mappings, [], mapOfEnums);
   await generateAndFormatFiles(files, './test/models/');
   print("\nGenerated Fresh Models from DB");
 
-  final supabase = SupabaseClient(url, anonKey);
+  final supabase = SupabaseClient(
+    url,
+    anonKey,
+  );
   // ========================================
   // STES = Supabase Table Editor Supported (PRIORITIZED)
 

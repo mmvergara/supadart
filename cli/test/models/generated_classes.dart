@@ -1231,15 +1231,18 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
 class EnumTypes implements SupadartClass<EnumTypes> {
   final String id;
   final MOOD colMood;
+  final List<MOOD> colMoodArray;
 
   const EnumTypes({
     required this.id,
     required this.colMood,
+    required this.colMoodArray,
   });
 
   static String get table_name => 'enum_types';
   static String get c_id => 'id';
   static String get c_colMood => 'col_mood';
+  static String get c_colMoodArray => 'col_mood_array';
 
   static List<EnumTypes> converter(List<Map<String, dynamic>> data) {
     return data.map(EnumTypes.fromJson).toList();
@@ -1252,30 +1255,38 @@ class EnumTypes implements SupadartClass<EnumTypes> {
   static Map<String, dynamic> _generateMap({
     String? id,
     MOOD? colMood,
+    List<MOOD>? colMoodArray,
   }) {
     return {
       if (id != null) 'id': id,
       if (colMood != null) 'col_mood': colMood.toString().split('.').last,
+      if (colMoodArray != null)
+        'col_mood_array':
+            colMoodArray.map((e) => e.toString().split('.').last).toList(),
     };
   }
 
   static Map<String, dynamic> insert({
     String? id,
     required MOOD colMood,
+    required List<MOOD> colMoodArray,
   }) {
     return _generateMap(
       id: id,
       colMood: colMood,
+      colMoodArray: colMoodArray,
     );
   }
 
   static Map<String, dynamic> update({
     String? id,
     MOOD? colMood,
+    List<MOOD>? colMoodArray,
   }) {
     return _generateMap(
       id: id,
       colMood: colMood,
+      colMoodArray: colMoodArray,
     );
   }
 
@@ -1285,6 +1296,11 @@ class EnumTypes implements SupadartClass<EnumTypes> {
       colMood: jsonn['col_mood'] != null
           ? MOOD.values.byName(jsonn['col_mood'].toString())
           : MOOD.values.first,
+      colMoodArray: jsonn['col_mood_array'] != null
+          ? List<MOOD>.from(jsonn['col_mood_array']
+              .map((e) => MOOD.values.byName(e.toString()))
+              .toList())
+          : [],
     );
   }
 
@@ -1292,16 +1308,19 @@ class EnumTypes implements SupadartClass<EnumTypes> {
     return _generateMap(
       id: id,
       colMood: colMood,
+      colMoodArray: colMoodArray,
     );
   }
 
   EnumTypes copyWith({
     String? id,
     MOOD? colMood,
+    List<MOOD>? colMoodArray,
   }) {
     return EnumTypes(
       id: id ?? this.id,
       colMood: colMood ?? this.colMood,
+      colMoodArray: colMoodArray ?? this.colMoodArray,
     );
   }
 }
@@ -1918,16 +1937,10 @@ class NumericTypes implements SupadartClass<NumericTypes> {
   final String id;
   final BigInt? colBigint;
   final List<BigInt>? colBigintArray;
-  final BigInt? colBigserial;
-  final List<BigInt>? colBigserialArray;
   final int? colInteger;
   final List<int>? colIntegerArray;
   final int? colSmallint;
   final List<int>? colSmallintArray;
-  final int? colSmallserial;
-  final List<int>? colSmallserialArray;
-  final int? colSerial;
-  final List<int>? colSerialArray;
   final double? colDouble;
   final List<double>? colDoubleArray;
   final double? colReal;
@@ -1939,16 +1952,10 @@ class NumericTypes implements SupadartClass<NumericTypes> {
     required this.id,
     this.colBigint,
     this.colBigintArray,
-    this.colBigserial,
-    this.colBigserialArray,
     this.colInteger,
     this.colIntegerArray,
     this.colSmallint,
     this.colSmallintArray,
-    this.colSmallserial,
-    this.colSmallserialArray,
-    this.colSerial,
-    this.colSerialArray,
     this.colDouble,
     this.colDoubleArray,
     this.colReal,
@@ -1961,16 +1968,10 @@ class NumericTypes implements SupadartClass<NumericTypes> {
   static String get c_id => 'id';
   static String get c_colBigint => 'col_bigint';
   static String get c_colBigintArray => 'col_bigint_array';
-  static String get c_colBigserial => 'col_bigserial';
-  static String get c_colBigserialArray => 'col_bigserial_array';
   static String get c_colInteger => 'col_integer';
   static String get c_colIntegerArray => 'col_integer_array';
   static String get c_colSmallint => 'col_smallint';
   static String get c_colSmallintArray => 'col_smallint_array';
-  static String get c_colSmallserial => 'col_smallserial';
-  static String get c_colSmallserialArray => 'col_smallserial_array';
-  static String get c_colSerial => 'col_serial';
-  static String get c_colSerialArray => 'col_serial_array';
   static String get c_colDouble => 'col_double';
   static String get c_colDoubleArray => 'col_double_array';
   static String get c_colReal => 'col_real';
@@ -1990,16 +1991,10 @@ class NumericTypes implements SupadartClass<NumericTypes> {
     String? id,
     BigInt? colBigint,
     List<BigInt>? colBigintArray,
-    BigInt? colBigserial,
-    List<BigInt>? colBigserialArray,
     int? colInteger,
     List<int>? colIntegerArray,
     int? colSmallint,
     List<int>? colSmallintArray,
-    int? colSmallserial,
-    List<int>? colSmallserialArray,
-    int? colSerial,
-    List<int>? colSerialArray,
     double? colDouble,
     List<double>? colDoubleArray,
     double? colReal,
@@ -2012,19 +2007,10 @@ class NumericTypes implements SupadartClass<NumericTypes> {
       if (colBigint != null) 'col_bigint': colBigint.toString(),
       if (colBigintArray != null)
         'col_bigint_array': colBigintArray.map((e) => e.toString()).toList(),
-      if (colBigserial != null) 'col_bigserial': colBigserial.toString(),
-      if (colBigserialArray != null)
-        'col_bigserial_array':
-            colBigserialArray.map((e) => e.toString()).toList(),
       if (colInteger != null) 'col_integer': colInteger,
       if (colIntegerArray != null) 'col_integer_array': colIntegerArray,
       if (colSmallint != null) 'col_smallint': colSmallint,
       if (colSmallintArray != null) 'col_smallint_array': colSmallintArray,
-      if (colSmallserial != null) 'col_smallserial': colSmallserial,
-      if (colSmallserialArray != null)
-        'col_smallserial_array': colSmallserialArray,
-      if (colSerial != null) 'col_serial': colSerial,
-      if (colSerialArray != null) 'col_serial_array': colSerialArray,
       if (colDouble != null) 'col_double': colDouble.toString(),
       if (colDoubleArray != null)
         'col_double_array': colDoubleArray.map((e) => e.toString()).toList(),
@@ -2040,16 +2026,10 @@ class NumericTypes implements SupadartClass<NumericTypes> {
     String? id,
     BigInt? colBigint,
     List<BigInt>? colBigintArray,
-    BigInt? colBigserial,
-    List<BigInt>? colBigserialArray,
     int? colInteger,
     List<int>? colIntegerArray,
     int? colSmallint,
     List<int>? colSmallintArray,
-    int? colSmallserial,
-    List<int>? colSmallserialArray,
-    int? colSerial,
-    List<int>? colSerialArray,
     double? colDouble,
     List<double>? colDoubleArray,
     double? colReal,
@@ -2061,16 +2041,10 @@ class NumericTypes implements SupadartClass<NumericTypes> {
       id: id,
       colBigint: colBigint,
       colBigintArray: colBigintArray,
-      colBigserial: colBigserial,
-      colBigserialArray: colBigserialArray,
       colInteger: colInteger,
       colIntegerArray: colIntegerArray,
       colSmallint: colSmallint,
       colSmallintArray: colSmallintArray,
-      colSmallserial: colSmallserial,
-      colSmallserialArray: colSmallserialArray,
-      colSerial: colSerial,
-      colSerialArray: colSerialArray,
       colDouble: colDouble,
       colDoubleArray: colDoubleArray,
       colReal: colReal,
@@ -2084,16 +2058,10 @@ class NumericTypes implements SupadartClass<NumericTypes> {
     String? id,
     BigInt? colBigint,
     List<BigInt>? colBigintArray,
-    BigInt? colBigserial,
-    List<BigInt>? colBigserialArray,
     int? colInteger,
     List<int>? colIntegerArray,
     int? colSmallint,
     List<int>? colSmallintArray,
-    int? colSmallserial,
-    List<int>? colSmallserialArray,
-    int? colSerial,
-    List<int>? colSerialArray,
     double? colDouble,
     List<double>? colDoubleArray,
     double? colReal,
@@ -2105,16 +2073,10 @@ class NumericTypes implements SupadartClass<NumericTypes> {
       id: id,
       colBigint: colBigint,
       colBigintArray: colBigintArray,
-      colBigserial: colBigserial,
-      colBigserialArray: colBigserialArray,
       colInteger: colInteger,
       colIntegerArray: colIntegerArray,
       colSmallint: colSmallint,
       colSmallintArray: colSmallintArray,
-      colSmallserial: colSmallserial,
-      colSmallserialArray: colSmallserialArray,
-      colSerial: colSerial,
-      colSerialArray: colSerialArray,
       colDouble: colDouble,
       colDoubleArray: colDoubleArray,
       colReal: colReal,
@@ -2135,14 +2097,6 @@ class NumericTypes implements SupadartClass<NumericTypes> {
               .map((v) => BigInt.parse(v.toString()))
               .toList()
           : <BigInt>[],
-      colBigserial: jsonn['col_bigserial'] != null
-          ? BigInt.parse(jsonn['col_bigserial'].toString())
-          : BigInt.from(0),
-      colBigserialArray: jsonn['col_bigserial_array'] != null
-          ? (jsonn['col_bigserial_array'] as List<dynamic>)
-              .map((v) => BigInt.parse(v.toString()))
-              .toList()
-          : <BigInt>[],
       colInteger: jsonn['col_integer'] != null
           ? int.parse(jsonn['col_integer'].toString())
           : 0,
@@ -2156,22 +2110,6 @@ class NumericTypes implements SupadartClass<NumericTypes> {
           : 0,
       colSmallintArray: jsonn['col_smallint_array'] != null
           ? (jsonn['col_smallint_array'] as List<dynamic>)
-              .map((v) => int.parse(v.toString()))
-              .toList()
-          : <int>[],
-      colSmallserial: jsonn['col_smallserial'] != null
-          ? int.parse(jsonn['col_smallserial'].toString())
-          : 0,
-      colSmallserialArray: jsonn['col_smallserial_array'] != null
-          ? (jsonn['col_smallserial_array'] as List<dynamic>)
-              .map((v) => int.parse(v.toString()))
-              .toList()
-          : <int>[],
-      colSerial: jsonn['col_serial'] != null
-          ? int.parse(jsonn['col_serial'].toString())
-          : 0,
-      colSerialArray: jsonn['col_serial_array'] != null
-          ? (jsonn['col_serial_array'] as List<dynamic>)
               .map((v) => int.parse(v.toString()))
               .toList()
           : <int>[],
@@ -2207,16 +2145,10 @@ class NumericTypes implements SupadartClass<NumericTypes> {
       id: id,
       colBigint: colBigint,
       colBigintArray: colBigintArray,
-      colBigserial: colBigserial,
-      colBigserialArray: colBigserialArray,
       colInteger: colInteger,
       colIntegerArray: colIntegerArray,
       colSmallint: colSmallint,
       colSmallintArray: colSmallintArray,
-      colSmallserial: colSmallserial,
-      colSmallserialArray: colSmallserialArray,
-      colSerial: colSerial,
-      colSerialArray: colSerialArray,
       colDouble: colDouble,
       colDoubleArray: colDoubleArray,
       colReal: colReal,
@@ -2230,16 +2162,10 @@ class NumericTypes implements SupadartClass<NumericTypes> {
     String? id,
     BigInt? colBigint,
     List<BigInt>? colBigintArray,
-    BigInt? colBigserial,
-    List<BigInt>? colBigserialArray,
     int? colInteger,
     List<int>? colIntegerArray,
     int? colSmallint,
     List<int>? colSmallintArray,
-    int? colSmallserial,
-    List<int>? colSmallserialArray,
-    int? colSerial,
-    List<int>? colSerialArray,
     double? colDouble,
     List<double>? colDoubleArray,
     double? colReal,
@@ -2251,16 +2177,10 @@ class NumericTypes implements SupadartClass<NumericTypes> {
       id: id ?? this.id,
       colBigint: colBigint ?? this.colBigint,
       colBigintArray: colBigintArray ?? this.colBigintArray,
-      colBigserial: colBigserial ?? this.colBigserial,
-      colBigserialArray: colBigserialArray ?? this.colBigserialArray,
       colInteger: colInteger ?? this.colInteger,
       colIntegerArray: colIntegerArray ?? this.colIntegerArray,
       colSmallint: colSmallint ?? this.colSmallint,
       colSmallintArray: colSmallintArray ?? this.colSmallintArray,
-      colSmallserial: colSmallserial ?? this.colSmallserial,
-      colSmallserialArray: colSmallserialArray ?? this.colSmallserialArray,
-      colSerial: colSerial ?? this.colSerial,
-      colSerialArray: colSerialArray ?? this.colSerialArray,
       colDouble: colDouble ?? this.colDouble,
       colDoubleArray: colDoubleArray ?? this.colDoubleArray,
       colReal: colReal ?? this.colReal,

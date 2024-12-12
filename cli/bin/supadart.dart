@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:args/args.dart';
+import 'package:dotenv/dotenv.dart';
 import 'package:supadart/config_init.dart';
 import 'package:supadart/generators/index.dart';
 import 'package:supadart/generators/storage/fetch_storage.dart';
@@ -27,9 +28,8 @@ void main(List<String> arguments) async {
   }
 
   print("🚀 Supadart $version");
-
-  final config = await loadYamlConfig(results);
-  final options = extractOptions(results, config);
+  final yamlConfig = await loadYamlConfig(results);
+  final options = extractOptions(results, yamlConfig);
 
   if (!validateOptions(options)) {
     print('use -h or --help for help');
@@ -81,28 +81,54 @@ Future<YamlMap> loadYamlConfig(ArgResults results) async {
     print("Config file found");
     return loadYaml(configContent);
   } catch (e) {
-    print("Using CLI arguments only");
-    return YamlMap();
+    throw ("As of version 1.6.5 >, you need to create a config file use --init command to generate one");
   }
 }
 
 Map<String, dynamic> extractOptions(ArgResults results, YamlMap config) {
+  // check if env values are set for SUPABASE_URL and SUPABASE_ANON_KEY
+  var env = DotEnv(includePlatformEnvironment: true)..load();
+  if (env['SUPABASE_URL'] != null && env['SUPABASE_ANON_KEY'] != null) {
+    print("Using .env file for SUPABASE_URL and SUPABASE_ANON_KEY");
+  }
+
+  // Extract enums as a Map<String, List<String>> from config['enums']
+  Map<String, List<String>> enums = {};
+  if (config.containsKey('enums')) {
+    if (config['enums'] != null) {
+      (config['enums'] as Map).forEach((enumName, value) {
+        if (value is List) {
+          enums["public.$enumName"] = List<String>.from(value);
+        }
+      });
+    }
+  }
+
   return {
-    'url': results['url'] ?? config['supabase_url'] ?? '',
-    'anonKey': results['key'] ?? config['supabase_anon_key'] ?? '',
+    'url':
+        results['url'] ?? env['SUPABASE_URL'] ?? config['SUPABASE_URL'] ?? '',
+    'anonKey': results['key'] ??
+        env['SUPABASE_ANON_KEY'] ??
+        config['SUPABASE_ANON_KEY'] ??
+        '',
     'isSeparated': results['separated'] ? true : config['separated'] ?? false,
     'isDart': results['dart'] ? true : config['dart'] ?? false,
     'output': results['output'] ?? config['output'] ?? './lib/models/',
     'mappings': config['mappings'],
     'exclude': results['exclude']?.split(',') ??
-        List<String>.from(config['exclude'] ?? [])
+        List<String>.from(config['exclude'] ?? []),
+    'mapOfEnums': enums,
   };
 }
 
 bool validateOptions(Map<String, dynamic> options) {
   if (options['url'].isEmpty || options['anonKey'].isEmpty) {
     print(
-        "Please provide --url and --key or set supabase_url and supabase_anon_key in .yaml file");
+        "${red}Please Provide the url and key for your supabase instance... You can");
+    print("1. Use a .env file to specify SUPABASE_URL and SUPABASE_ANON_KEY");
+    print("2. Set SUPABASE_URL and SUPABASE_ANON_KEY in .yaml config file");
+    print(
+        "3. Specificy --url and --key in the cli (ex. supadart -u <url> -k <key>) $reset");
     return false;
   }
   return true;
@@ -117,20 +143,27 @@ void printConfiguration(Map<String, dynamic> options) {
   print('Dart:        ${options['isDart']}');
   print('Mappings:    ${options['mappings']}');
   print('Excluded:    ${options['exclude']}');
+  print('Enums:       ${options['mapOfEnums']}');
   print('==============================');
 }
 
 Future<void> generateModels(Map<String, dynamic> options) async {
   print("Fetching database schema...");
-  final databaseSwagger =
-      await fetchDatabaseSwagger(options['url'], options['anonKey']);
+  final databaseSwagger = await fetchDatabaseSwagger(
+    options['url'],
+    options['anonKey'],
+    options['mapOfEnums'],
+  );
+
   if (databaseSwagger == null) {
     print('Failed to fetch database');
     exit(1);
   }
 
-  final storageList =
-      await fetchStorageList(options['url'], options['anonKey']);
+  final storageList = await fetchStorageList(
+    options['url'],
+    options['anonKey'],
+  );
   if (storageList == null) {
     print('Failed to fetch storage');
     exit(1);
@@ -145,6 +178,7 @@ Future<void> generateModels(Map<String, dynamic> options) async {
     options['isSeparated'],
     options['mappings'],
     options['exclude'],
+    options['mapOfEnums'],
   );
 
   await generateAndFormatFiles(files, options['output']);

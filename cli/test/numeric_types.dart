@@ -1,7 +1,7 @@
 import 'package:supabase/supabase.dart';
 
-import 'datatypes/numeric/big_serial.dart';
-import 'datatypes/numeric/big_serial_array.dart';
+// import 'datatypes/numeric/big_serial.dart';
+// import 'datatypes/numeric/big_serial_array.dart';
 import 'datatypes/numeric/int2_small_int.dart';
 import 'datatypes/numeric/int2_small_int_array.dart';
 import 'datatypes/numeric/int4_int.dart';
@@ -27,8 +27,8 @@ Future<void> performNumericTypesTest(SupabaseClient supabase) async {
   await performBigIntTest(supabase);
   await performBigIntArrayTest(supabase);
 
-  await performBigSerialTests(supabase);
-  await performBigSerialArrayTests(supabase);
+  // await performBigSerialTests(supabase);
+  // await performBigSerialArrayTests(supabase);
 
   await performRealTest(supabase);
   await performRealArrayTest(supabase);

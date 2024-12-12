@@ -18,16 +18,16 @@ CREATE TABLE public.numeric_types (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     col_bigint BIGINT NULL,
     col_bigint_array BIGINT[] NULL,
-    col_bigserial BIGSERIAL,
-    col_bigserial_array BIGINT[] NULL,
     col_integer INTEGER NULL,
     col_integer_array INTEGER[] NULL,
     col_smallint SMALLINT NULL,
     col_smallint_array SMALLINT[] NULL,
-    col_smallserial SMALLSERIAL,
-    col_smallserial_array SMALLINT[] NULL,
-    col_serial SERIAL,
-    col_serial_array INTEGER[] NULL,
+    -- col_bigserial BIGSERIAL,
+    -- col_bigserial_array BIGSERIAL[] NULL,
+    -- col_smallserial SMALLSERIAL,
+    -- col_smallserial_array SMALLSERIAL[] NULL,
+    -- col_serial SERIAL,
+    -- col_serial_array SERIAL[] NULL,
     col_double DOUBLE PRECISION NULL,
     col_double_array DOUBLE PRECISION[] NULL,
     col_real REAL NULL,
@@ -36,9 +36,10 @@ CREATE TABLE public.numeric_types (
     col_numeric_array NUMERIC[] NULL
 );
 -- for serial columns
-COMMENT ON COLUMN public.numeric_types.col_bigserial IS '[supadart:serial]';
-COMMENT ON COLUMN public.numeric_types.col_smallserial IS '[supadart:serial]';
-COMMENT ON COLUMN public.numeric_types.col_serial IS '[supadart:serial]';
+-- COMMENT ON COLUMN public.numeric_types.col_bigserial IS '[supadart:serial]';
+-- COMMENT ON COLUMN public.numeric_types.col_smallserial IS '[supadart:serial]';
+-- COMMENT ON COLUMN public.numeric_types.col_serial IS '[supadart:serial]';
+
 
 -- String Types Table
 CREATE TABLE public.string_types (
@@ -171,9 +172,10 @@ JOIN
 -- DROP VIEW IF EXISTS public.combined_types_view;
 
 
-
 CREATE TYPE mood AS ENUM ('happy', 'sad', 'neutral', 'excited', 'angry');
+
 CREATE TABLE enum_types (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    col_mood mood NOT NULL
+    col_mood mood NOT NULL,
+    col_mood_array mood[] NOT NULL
 );

@@ -5,15 +5,21 @@ import 'package:test/test.dart';
 void main() {
   test('Fetch Supabase storage information', () async {
     var env = DotEnv(includePlatformEnvironment: true)..load();
-    String? url = env['SUPABASE_URL'];
-    String? anonKey = env['SUPABASE_ANON_KEY'];
 
-    if (url == null || anonKey == null) {
+    Map<String, dynamic> options = {
+      'url': env['SUPABASE_URL'],
+      'anonKey': env['SUPABASE_ANON_KEY'],
+    };
+
+    if (options['url'] == null || options['anonKey'] == null) {
       print('Please provide SUPABASE_URL and SUPABASE_ANON_KEY in .env file');
       return;
     }
 
-    final storageJson = await fetchStorageList(url, anonKey);
+    final storageJson = await fetchStorageList(
+      options['url'],
+      options['anonKey'],
+    );
     if (storageJson == null) {
       print("Failed to fetch storage list");
       return;

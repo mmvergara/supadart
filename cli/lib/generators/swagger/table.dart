@@ -13,17 +13,19 @@ class Table {
     required this.columns,
   });
 
-  factory Table.fromJson(String name, Map<String, dynamic> json) {
+  factory Table.fromJson(String name, Map<String, dynamic> json,
+      Map<String, List<String>> mapOfEnums) {
     final properties = json['properties'] as Map<String, dynamic>;
     final requiredFields = json['required'] != null
         ? List<String>.from(json['required'])
         : <String>[];
+
     return Table(
       name: name,
       requiredFields: requiredFields,
       columns: properties.map((key, value) => MapEntry(
           snakeCasingToCamelCasing(key),
-          Column.fromJson(key, value, requiredFields))),
+          Column.fromJson(key, value, requiredFields, mapOfEnums))),
     );
   }
 }

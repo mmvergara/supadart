@@ -20,10 +20,13 @@ configFileInit(String path) async {
 
   // Write to the file
   file.writeAsStringSync('''
-# Required (if you dont have `-u` specified)
+
+# Don't want to expose your supabase credentials? you have two options
+# 1. Use a .env file to specify SUPABASE_URL and SUPABASE_ANON_KEY
+# 2. Specify --url and --key in the CLI (ex. supadart -u <url> -k <key>)
 supabase_url: https://xxx.supabase.co
-# Required (if you dont have `-k` specified)
 supabase_anon_key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 
 # Optional, where to place the generated classes files default: ./lib/models/
 output: lib/models/
@@ -37,7 +40,9 @@ mappings:
   # categories: category
   # children: child
   # people: person
-
+# Do you have a column that is array of enum type (enum[]) type? If yes, you need to specify the enums
+enums:
+  # mood: [happy, sad, neutral, excited, angry]
 # Optional, used to exclude methods from generated classes
 exclude:
   # - toJson
