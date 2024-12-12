@@ -157,6 +157,7 @@ DartType postgresFormatToDartType(String format) {
       return DartType("List<String>"); // These might require custom handling
 
     default:
+      print("format: $format");
       return DartType(
           "dynamic"); // For unsupported types, use dynamic as a fallback
   }

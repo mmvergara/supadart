@@ -28,7 +28,7 @@ class Column {
   });
 
   String get dartType {
-    if (enumValues.isNotEmpty) {
+    if (postgresFormat.contains("public.")) {
       if (postgresFormat.contains("[]")) {
         return "List<${postgresFormat.split(".").last.toUpperCase().replaceAll('"', "").replaceAll("[]", "")}>";
       } else {

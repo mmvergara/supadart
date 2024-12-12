@@ -42,6 +42,7 @@ extension SupadartClient on SupabaseClient {
   SupabaseQueryBuilder get combined_types_view => from('combined_types_view');
   SupabaseQueryBuilder get misc_types => from('misc_types');
   SupabaseQueryBuilder get books => from('books');
+  SupabaseQueryBuilder get profiles => from('profiles');
   SupabaseQueryBuilder get geometric_types => from('geometric_types');
   SupabaseQueryBuilder get enum_types => from('enum_types');
   SupabaseQueryBuilder get json_types => from('json_types');
@@ -57,6 +58,8 @@ extension SupadartStorageClient on SupabaseStorageClient {}
 
 // Enums
 enum MOOD { happy, sad, neutral, excited, angry }
+
+enum USERGROUP { USERS, ADMIN, MODERATOR }
 
 // Utils
 extension DurationFromString on Duration {
@@ -942,6 +945,115 @@ class Books implements SupadartClass<Books> {
       description: description ?? this.description,
       price: price ?? this.price,
       createdAt: createdAt ?? this.createdAt,
+    );
+  }
+}
+
+class Profiles implements SupadartClass<Profiles> {
+  final String id;
+  final String? firstName;
+  final String? lastName;
+  final List<USERGROUP> userGroups;
+
+  const Profiles({
+    required this.id,
+    this.firstName,
+    this.lastName,
+    required this.userGroups,
+  });
+
+  static String get table_name => 'profiles';
+  static String get c_id => 'id';
+  static String get c_firstName => 'first_name';
+  static String get c_lastName => 'last_name';
+  static String get c_userGroups => 'user_groups';
+
+  static List<Profiles> converter(List<Map<String, dynamic>> data) {
+    return data.map(Profiles.fromJson).toList();
+  }
+
+  static Profiles converterSingle(Map<String, dynamic> data) {
+    return Profiles.fromJson(data);
+  }
+
+  static Map<String, dynamic> _generateMap({
+    String? id,
+    String? firstName,
+    String? lastName,
+    List<USERGROUP>? userGroups,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (firstName != null) 'first_name': firstName,
+      if (lastName != null) 'last_name': lastName,
+      if (userGroups != null)
+        'user_groups':
+            userGroups.map((e) => e.toString().split('.').last).toList(),
+    };
+  }
+
+  static Map<String, dynamic> insert({
+    String? id,
+    String? firstName,
+    String? lastName,
+    required List<USERGROUP> userGroups,
+  }) {
+    return _generateMap(
+      id: id,
+      firstName: firstName,
+      lastName: lastName,
+      userGroups: userGroups,
+    );
+  }
+
+  static Map<String, dynamic> update({
+    String? id,
+    String? firstName,
+    String? lastName,
+    List<USERGROUP>? userGroups,
+  }) {
+    return _generateMap(
+      id: id,
+      firstName: firstName,
+      lastName: lastName,
+      userGroups: userGroups,
+    );
+  }
+
+  factory Profiles.fromJson(Map<String, dynamic> jsonn) {
+    return Profiles(
+      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
+      firstName:
+          jsonn['first_name'] != null ? jsonn['first_name'].toString() : '',
+      lastName: jsonn['last_name'] != null ? jsonn['last_name'].toString() : '',
+      userGroups: jsonn['user_groups'] != null
+          ? List<USERGROUP>.from(jsonn['user_groups']
+              .map((e) => USERGROUP.values.byName(e.toString()))
+              .toList())
+          : [],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return _generateMap(
+      id: id,
+      firstName: firstName,
+      lastName: lastName,
+      userGroups: userGroups,
+    );
+  }
+
+  Profiles copyWith({
+    String? id,
+    String? firstName,
+    String? lastName,
+    List<USERGROUP>? userGroups,
+  }) {
+    return Profiles(
+      id: id ?? this.id,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      userGroups: userGroups ?? this.userGroups,
     );
   }
 }
