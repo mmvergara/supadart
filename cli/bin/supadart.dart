@@ -81,7 +81,7 @@ Future<YamlMap> loadYamlConfig(ArgResults results) async {
     return loadYaml(configContent);
   } catch (e) {
     print(
-        "As of version 1.6.5 >, you need to create a config file use --init command to generate one");
+        "${red}As of version 1.6.5 >, you need to create a config file use --init command to generate one$reset");
     rethrow;
   }
 }
