@@ -51,11 +51,14 @@ ArgParser setupArgParser() {
         help: 'Initialize config file supadart.yaml')
     ..addOption('config',
         abbr: 'c',
-        help: 'Path to config file of yaml   (default: ./supadart.yaml)')
+        help:
+            'Specify a path to config file of yaml   (default: ./supadart.yaml)')
     ..addOption('url',
-        abbr: "u", help: 'Supabase URL                  (if not set in yaml)')
+        abbr: "u",
+        help: 'Supabase URL                            (if not set in yaml)')
     ..addOption('key',
-        abbr: "k", help: 'Supabase ANON KEY             (if not set in yaml)')
+        abbr: "k",
+        help: 'Supabase ANON KEY                       (if not set in yaml)')
     ..addFlag('version', abbr: 'v', negatable: false, help: version);
 }
 
