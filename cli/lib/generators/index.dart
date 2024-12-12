@@ -16,13 +16,14 @@ List<GeneratedFile> supadartRun(
   bool isSeparated,
   YamlMap? mappings,
   List<String> exclude,
+  Map<String, List<String>> mapOfEnums,
 ) {
   final dartClasses = generateDartClasses(swagger, mappings, exclude);
 
   final clientExtension = generateClientExtension(swagger);
   final storageClientExtension = generateStorageClientExtension(storageList);
   final modelExports = generateExports(swagger, mappings);
-  final enums = generateEnums(swagger);
+  final enums = generateEnums(mapOfEnums);
 
   bool needsIntl = false;
   bool needsDartConvert = false;
