@@ -7,7 +7,7 @@ import 'package:supadart/generators/storage/fetch_storage.dart';
 import 'package:supadart/generators/utils/fetch_swagger.dart';
 import 'package:yaml/yaml.dart';
 
-const String version = 'v1.6.5';
+const String version = 'v1.6.6';
 const String red = '\x1B[31m';
 const String green = '\x1B[32m';
 const String blue = '\x1B[34m';
@@ -50,16 +50,12 @@ ArgParser setupArgParser() {
         negatable: false,
         help: 'Initialize config file supadart.yaml')
     ..addOption('config',
-        abbr: 'c', help: 'Path to config file of yaml (default: supadart.yaml)')
-    ..addOption('url', abbr: "u", help: 'Supabase URL')
-    ..addOption('key', abbr: "k", help: 'Supabase ANON KEY')
-    ..addOption('output', abbr: 'o', help: 'Output file path, add ./ prefix')
-    ..addOption('exclude',
-        abbr: 'e', help: 'Select methods to exclude ex.  "toJson,copyWith"')
-    ..addFlag('dart',
-        abbr: 'd', negatable: false, help: 'Generation for pure Dart project')
-    ..addFlag('separated',
-        abbr: 's', negatable: false, help: 'Separated files for each classes')
+        abbr: 'c',
+        help: 'Path to config file of yaml   (default: ./supadart.yaml)')
+    ..addOption('url',
+        abbr: "u", help: 'Supabase URL                  (if not set in yaml)')
+    ..addOption('key',
+        abbr: "k", help: 'Supabase ANON KEY             (if not set in yaml)')
     ..addFlag('version', abbr: 'v', negatable: false, help: version);
 }
 
