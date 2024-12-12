@@ -360,6 +360,8 @@ await supabase.books.delete().eq(Books.c_id, 1);
 
 #### Enums CRUD
 
+> You need to specify your enums on supadart.yaml config file
+
 ```sql
 -- assuming the following schema
 CREATE TYPE mood AS ENUM ('happy', 'sad', 'neutral', 'excited', 'angry');
