@@ -112,12 +112,11 @@ Map<String, dynamic> extractOptions(ArgResults results, YamlMap config) {
         env['SUPABASE_ANON_KEY'] ??
         config['SUPABASE_ANON_KEY'] ??
         '',
-    'isSeparated': results['separated'] ? true : config['separated'] ?? false,
-    'isDart': results['dart'] ? true : config['dart'] ?? false,
-    'output': results['output'] ?? config['output'] ?? './lib/models/',
+    'isSeparated': config['separated'] ?? false,
+    'isDart': config['dart'] ?? false,
+    'output': config['output'] ?? './lib/models/',
     'mappings': config['mappings'],
-    'exclude': results['exclude']?.split(',') ??
-        List<String>.from(config['exclude'] ?? []),
+    'exclude': List<String>.from(config['exclude'] ?? []),
     'mapOfEnums': enums,
   };
 }
