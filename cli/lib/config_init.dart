@@ -47,10 +47,11 @@ mappings:
   # children: child
   # people: person
 
-# Optional, used to exclude methods from generated classes
+# Optional, used to exclude methods from generated classes, comment out to include them
 exclude:
   # - toJson
-  # - copyWith
+  - copyWith
+  - New
 
 ''');
 

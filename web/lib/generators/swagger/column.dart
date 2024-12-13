@@ -28,7 +28,7 @@ class Column {
   });
 
   String get dartType {
-    if (enumValues.isNotEmpty) {
+    if (postgresFormat.contains("public.")) {
       if (postgresFormat.contains("[]")) {
         return "List<${postgresFormat.split(".").last.toUpperCase().replaceAll('"', "").replaceAll("[]", "")}>";
       } else {
@@ -55,7 +55,8 @@ class Column {
     List<String> parentTableRequiredFields,
     Map<String, List<String>> mapOfEnums,
   ) {
-    List<String> enumValues = [];
+    List<String> enumValues =
+        json['enum'] != null ? List<String>.from(json['enum']) : <String>[];
     if (json['format'].toString().contains("public.")) {
       for (var enumName in mapOfEnums.keys) {
         if (json['format'].toString().contains(enumName)) {

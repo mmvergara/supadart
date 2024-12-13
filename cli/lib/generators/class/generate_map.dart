@@ -1,7 +1,7 @@
 import '../swagger/table.dart';
 import '../swagger/column.dart';
 
-String generateGenerateMapPrivateMethod(Table table) {
+String generateMapStaticMethod(Table table) {
   final columns = table.columns;
   final buffer = StringBuffer();
 

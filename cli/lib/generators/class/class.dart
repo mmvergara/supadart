@@ -1,3 +1,4 @@
+import 'new.dart';
 import 'generate_map.dart';
 import 'to_json.dart';
 import 'copy_with.dart';
@@ -39,10 +40,13 @@ List<DartClass> generateDartClasses(
       ..write(generateStaticColumnNames(table))
       ..write(generateConverterMethod(className))
       ..write(generateConverterSingleMethod(className))
-      ..write(generateGenerateMapPrivateMethod(table))
+      ..write(generateMapStaticMethod(table))
       ..write(generateInsertMethod(table))
       ..write(generateUpdateMethod(table))
       ..write(generateFromJsonMethod(className, table));
+    if (!exclude.contains('New')) {
+      code.write(generateNewStaticMethod(table));
+    }
     if (!exclude.contains('toJson')) {
       code.write(generateToJsonMethod(className, table));
     }
