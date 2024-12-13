@@ -1,3 +1,7 @@
+## 1.6.8
+
+- Add "New" method to generated classes
+
 ## 1.6.7
 
 - Fix enum array generation
