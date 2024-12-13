@@ -154,32 +154,6 @@ class StringTypes implements SupadartClass<StringTypes> {
     };
   }
 
-  static Object New({
-    String? id,
-    String? colUuid,
-    List<String>? colUuidArray,
-    String? colCharacter,
-    List<String>? colCharacterArray,
-    String? colCharactervarying,
-    List<String>? colCharactervaryingArray,
-    String? colText,
-    List<String>? colTextArray,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (colUuid != null) 'col_uuid': colUuid,
-      if (colUuidArray != null) 'col_uuid_array': colUuidArray,
-      if (colCharacter != null) 'col_character': colCharacter,
-      if (colCharacterArray != null) 'col_character_array': colCharacterArray,
-      if (colCharactervarying != null)
-        'col_charactervarying': colCharactervarying,
-      if (colCharactervaryingArray != null)
-        'col_charactervarying_array': colCharactervaryingArray,
-      if (colText != null) 'col_text': colText,
-      if (colTextArray != null) 'col_text_array': colTextArray,
-    };
-  }
-
   static Map<String, dynamic> insert({
     String? id,
     String? colUuid,
@@ -260,6 +234,32 @@ class StringTypes implements SupadartClass<StringTypes> {
               .toList()
           : <String>[],
     );
+  }
+
+  static Object New({
+    String? id,
+    String? colUuid,
+    List<String>? colUuidArray,
+    String? colCharacter,
+    List<String>? colCharacterArray,
+    String? colCharactervarying,
+    List<String>? colCharactervaryingArray,
+    String? colText,
+    List<String>? colTextArray,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (colUuid != null) 'col_uuid': colUuid,
+      if (colUuidArray != null) 'col_uuid_array': colUuidArray,
+      if (colCharacter != null) 'col_character': colCharacter,
+      if (colCharacterArray != null) 'col_character_array': colCharacterArray,
+      if (colCharactervarying != null)
+        'col_charactervarying': colCharactervarying,
+      if (colCharactervaryingArray != null)
+        'col_charactervarying_array': colCharactervaryingArray,
+      if (colText != null) 'col_text': colText,
+      if (colTextArray != null) 'col_text_array': colTextArray,
+    };
   }
 
   Map<String, dynamic> toJson() {
@@ -362,27 +362,6 @@ class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
     };
   }
 
-  static Object New({
-    String? id,
-    bool? colBoolean,
-    List<bool>? colBooleanArray,
-    String? colBit,
-    List<String>? colBitArray,
-    String? colBitvarying,
-    List<String>? colBitvaryingArray,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (colBoolean != null) 'col_boolean': colBoolean,
-      if (colBooleanArray != null) 'col_boolean_array': colBooleanArray,
-      if (colBit != null) 'col_bit': colBit,
-      if (colBitArray != null) 'col_bit_array': colBitArray,
-      if (colBitvarying != null) 'col_bitvarying': colBitvarying,
-      if (colBitvaryingArray != null)
-        'col_bitvarying_array': colBitvaryingArray,
-    };
-  }
-
   static Map<String, dynamic> insert({
     String? id,
     bool? colBoolean,
@@ -448,6 +427,27 @@ class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
               .toList()
           : <String>[],
     );
+  }
+
+  static Object New({
+    String? id,
+    bool? colBoolean,
+    List<bool>? colBooleanArray,
+    String? colBit,
+    List<String>? colBitArray,
+    String? colBitvarying,
+    List<String>? colBitvaryingArray,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (colBoolean != null) 'col_boolean': colBoolean,
+      if (colBooleanArray != null) 'col_boolean_array': colBooleanArray,
+      if (colBit != null) 'col_bit': colBit,
+      if (colBitArray != null) 'col_bit_array': colBitArray,
+      if (colBitvarying != null) 'col_bitvarying': colBitvarying,
+      if (colBitvaryingArray != null)
+        'col_bitvarying_array': colBitvaryingArray,
+    };
   }
 
   Map<String, dynamic> toJson() {
@@ -534,24 +534,6 @@ class CombinedTypesView implements SupadartClass<CombinedTypesView> {
     };
   }
 
-  static Object New({
-    String? numericId,
-    int? colInteger,
-    double? colDouble,
-    String? stringId,
-    String? colText,
-    String? colUuid,
-  }) {
-    return {
-      if (numericId != null) 'numeric_id': numericId,
-      if (colInteger != null) 'col_integer': colInteger,
-      if (colDouble != null) 'col_double': colDouble,
-      if (stringId != null) 'string_id': stringId,
-      if (colText != null) 'col_text': colText,
-      if (colUuid != null) 'col_uuid': colUuid,
-    };
-  }
-
   static Map<String, dynamic> insert({
     String? numericId,
     int? colInteger,
@@ -602,6 +584,24 @@ class CombinedTypesView implements SupadartClass<CombinedTypesView> {
       colText: jsonn['col_text'] != null ? jsonn['col_text'].toString() : '',
       colUuid: jsonn['col_uuid'] != null ? jsonn['col_uuid'].toString() : '',
     );
+  }
+
+  static Object New({
+    String? numericId,
+    int? colInteger,
+    double? colDouble,
+    String? stringId,
+    String? colText,
+    String? colUuid,
+  }) {
+    return {
+      if (numericId != null) 'numeric_id': numericId,
+      if (colInteger != null) 'col_integer': colInteger,
+      if (colDouble != null) 'col_double': colDouble,
+      if (stringId != null) 'string_id': stringId,
+      if (colText != null) 'col_text': colText,
+      if (colUuid != null) 'col_uuid': colUuid,
+    };
   }
 
   Map<String, dynamic> toJson() {
@@ -730,40 +730,6 @@ class MiscTypes implements SupadartClass<MiscTypes> {
     };
   }
 
-  static Object New({
-    String? id,
-    String? colMoney,
-    List<String>? colMoneyArray,
-    String? colPgLsn,
-    List<String>? colPgLsnArray,
-    String? colPgSnapshot,
-    List<String>? colPgSnapshotArray,
-    String? colTsquery,
-    List<String>? colTsqueryArray,
-    String? colTsvector,
-    List<String>? colTsvectorArray,
-    String? colTxidSnapshot,
-    List<String>? colTxidSnapshotArray,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (colMoney != null) 'col_money': colMoney,
-      if (colMoneyArray != null) 'col_money_array': colMoneyArray,
-      if (colPgLsn != null) 'col_pg_lsn': colPgLsn,
-      if (colPgLsnArray != null) 'col_pg_lsn_array': colPgLsnArray,
-      if (colPgSnapshot != null) 'col_pg_snapshot': colPgSnapshot,
-      if (colPgSnapshotArray != null)
-        'col_pg_snapshot_array': colPgSnapshotArray,
-      if (colTsquery != null) 'col_tsquery': colTsquery,
-      if (colTsqueryArray != null) 'col_tsquery_array': colTsqueryArray,
-      if (colTsvector != null) 'col_tsvector': colTsvector,
-      if (colTsvectorArray != null) 'col_tsvector_array': colTsvectorArray,
-      if (colTxidSnapshot != null) 'col_txid_snapshot': colTxidSnapshot,
-      if (colTxidSnapshotArray != null)
-        'col_txid_snapshot_array': colTxidSnapshotArray,
-    };
-  }
-
   static Map<String, dynamic> insert({
     String? id,
     String? colMoney,
@@ -877,6 +843,40 @@ class MiscTypes implements SupadartClass<MiscTypes> {
     );
   }
 
+  static Object New({
+    String? id,
+    String? colMoney,
+    List<String>? colMoneyArray,
+    String? colPgLsn,
+    List<String>? colPgLsnArray,
+    String? colPgSnapshot,
+    List<String>? colPgSnapshotArray,
+    String? colTsquery,
+    List<String>? colTsqueryArray,
+    String? colTsvector,
+    List<String>? colTsvectorArray,
+    String? colTxidSnapshot,
+    List<String>? colTxidSnapshotArray,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (colMoney != null) 'col_money': colMoney,
+      if (colMoneyArray != null) 'col_money_array': colMoneyArray,
+      if (colPgLsn != null) 'col_pg_lsn': colPgLsn,
+      if (colPgLsnArray != null) 'col_pg_lsn_array': colPgLsnArray,
+      if (colPgSnapshot != null) 'col_pg_snapshot': colPgSnapshot,
+      if (colPgSnapshotArray != null)
+        'col_pg_snapshot_array': colPgSnapshotArray,
+      if (colTsquery != null) 'col_tsquery': colTsquery,
+      if (colTsqueryArray != null) 'col_tsquery_array': colTsqueryArray,
+      if (colTsvector != null) 'col_tsvector': colTsvector,
+      if (colTsvectorArray != null) 'col_tsvector_array': colTsvectorArray,
+      if (colTxidSnapshot != null) 'col_txid_snapshot': colTxidSnapshot,
+      if (colTxidSnapshotArray != null)
+        'col_txid_snapshot_array': colTxidSnapshotArray,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     return _generateMap(
       id: id,
@@ -974,22 +974,6 @@ class Books implements SupadartClass<Books> {
     };
   }
 
-  static Object New({
-    BigInt? id,
-    String? name,
-    String? description,
-    int? price,
-    DateTime? createdAt,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (description != null) 'description': description,
-      if (price != null) 'price': price,
-      if (createdAt != null) 'created_at': createdAt,
-    };
-  }
-
   static Map<String, dynamic> insert({
     BigInt? id,
     required String name,
@@ -1035,6 +1019,22 @@ class Books implements SupadartClass<Books> {
           ? DateTime.parse(jsonn['created_at'].toString())
           : DateTime.fromMillisecondsSinceEpoch(0),
     );
+  }
+
+  static Object New({
+    BigInt? id,
+    String? name,
+    String? description,
+    int? price,
+    DateTime? createdAt,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (description != null) 'description': description,
+      if (price != null) 'price': price,
+      if (createdAt != null) 'created_at': createdAt,
+    };
   }
 
   Map<String, dynamic> toJson() {
@@ -1107,20 +1107,6 @@ class Profiles implements SupadartClass<Profiles> {
     };
   }
 
-  static Object New({
-    String? id,
-    String? firstName,
-    String? lastName,
-    List<USERGROUP>? userGroups,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (firstName != null) 'first_name': firstName,
-      if (lastName != null) 'last_name': lastName,
-      if (userGroups != null) 'user_groups': userGroups,
-    };
-  }
-
   static Map<String, dynamic> insert({
     String? id,
     String? firstName,
@@ -1161,6 +1147,20 @@ class Profiles implements SupadartClass<Profiles> {
               .toList())
           : [],
     );
+  }
+
+  static Object New({
+    String? id,
+    String? firstName,
+    String? lastName,
+    List<USERGROUP>? userGroups,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (firstName != null) 'first_name': firstName,
+      if (lastName != null) 'last_name': lastName,
+      if (userGroups != null) 'user_groups': userGroups,
+    };
   }
 
   Map<String, dynamic> toJson() {
@@ -1290,42 +1290,6 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
     };
   }
 
-  static Object New({
-    String? id,
-    String? colPoint,
-    List<String>? colPointArray,
-    String? colLine,
-    List<String>? colLineArray,
-    String? colLseg,
-    List<String>? colLsegArray,
-    String? colBox,
-    List<String>? colBoxArray,
-    String? colPath,
-    List<String>? colPathArray,
-    String? colPolygon,
-    List<String>? colPolygonArray,
-    String? colCircle,
-    List<String>? colCircleArray,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (colPoint != null) 'col_point': colPoint,
-      if (colPointArray != null) 'col_point_array': colPointArray,
-      if (colLine != null) 'col_line': colLine,
-      if (colLineArray != null) 'col_line_array': colLineArray,
-      if (colLseg != null) 'col_lseg': colLseg,
-      if (colLsegArray != null) 'col_lseg_array': colLsegArray,
-      if (colBox != null) 'col_box': colBox,
-      if (colBoxArray != null) 'col_box_array': colBoxArray,
-      if (colPath != null) 'col_path': colPath,
-      if (colPathArray != null) 'col_path_array': colPathArray,
-      if (colPolygon != null) 'col_polygon': colPolygon,
-      if (colPolygonArray != null) 'col_polygon_array': colPolygonArray,
-      if (colCircle != null) 'col_circle': colCircle,
-      if (colCircleArray != null) 'col_circle_array': colCircleArray,
-    };
-  }
-
   static Map<String, dynamic> insert({
     String? id,
     String? colPoint,
@@ -1448,6 +1412,42 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
     );
   }
 
+  static Object New({
+    String? id,
+    String? colPoint,
+    List<String>? colPointArray,
+    String? colLine,
+    List<String>? colLineArray,
+    String? colLseg,
+    List<String>? colLsegArray,
+    String? colBox,
+    List<String>? colBoxArray,
+    String? colPath,
+    List<String>? colPathArray,
+    String? colPolygon,
+    List<String>? colPolygonArray,
+    String? colCircle,
+    List<String>? colCircleArray,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (colPoint != null) 'col_point': colPoint,
+      if (colPointArray != null) 'col_point_array': colPointArray,
+      if (colLine != null) 'col_line': colLine,
+      if (colLineArray != null) 'col_line_array': colLineArray,
+      if (colLseg != null) 'col_lseg': colLseg,
+      if (colLsegArray != null) 'col_lseg_array': colLsegArray,
+      if (colBox != null) 'col_box': colBox,
+      if (colBoxArray != null) 'col_box_array': colBoxArray,
+      if (colPath != null) 'col_path': colPath,
+      if (colPathArray != null) 'col_path_array': colPathArray,
+      if (colPolygon != null) 'col_polygon': colPolygon,
+      if (colPolygonArray != null) 'col_polygon_array': colPolygonArray,
+      if (colCircle != null) 'col_circle': colCircle,
+      if (colCircleArray != null) 'col_circle_array': colCircleArray,
+    };
+  }
+
   Map<String, dynamic> toJson() {
     return _generateMap(
       id: id,
@@ -1543,18 +1543,6 @@ class EnumTypes implements SupadartClass<EnumTypes> {
     };
   }
 
-  static Object New({
-    String? id,
-    MOOD? colMood,
-    List<MOOD>? colMoodArray,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (colMood != null) 'col_mood': colMood,
-      if (colMoodArray != null) 'col_mood_array': colMoodArray,
-    };
-  }
-
   static Map<String, dynamic> insert({
     String? id,
     required MOOD colMood,
@@ -1591,6 +1579,18 @@ class EnumTypes implements SupadartClass<EnumTypes> {
               .toList())
           : [],
     );
+  }
+
+  static Object New({
+    String? id,
+    MOOD? colMood,
+    List<MOOD>? colMoodArray,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (colMood != null) 'col_mood': colMood,
+      if (colMoodArray != null) 'col_mood_array': colMoodArray,
+    };
   }
 
   Map<String, dynamic> toJson() {
@@ -1662,22 +1662,6 @@ class JsonTypes implements SupadartClass<JsonTypes> {
     };
   }
 
-  static Object New({
-    String? id,
-    Map<String, dynamic>? colJson,
-    List<Map<String, dynamic>>? colJsonArray,
-    Map<String, dynamic>? colJsonb,
-    List<Map<String, dynamic>>? colJsonbArray,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (colJson != null) 'col_json': colJson,
-      if (colJsonArray != null) 'col_json_array': colJsonArray,
-      if (colJsonb != null) 'col_jsonb': colJsonb,
-      if (colJsonbArray != null) 'col_jsonb_array': colJsonbArray,
-    };
-  }
-
   static Map<String, dynamic> insert({
     String? id,
     Map<String, dynamic>? colJson,
@@ -1730,6 +1714,22 @@ class JsonTypes implements SupadartClass<JsonTypes> {
               .toList()
           : <Map<String, dynamic>>[],
     );
+  }
+
+  static Object New({
+    String? id,
+    Map<String, dynamic>? colJson,
+    List<Map<String, dynamic>>? colJsonArray,
+    Map<String, dynamic>? colJsonb,
+    List<Map<String, dynamic>>? colJsonbArray,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (colJson != null) 'col_json': colJson,
+      if (colJsonArray != null) 'col_json_array': colJsonArray,
+      if (colJsonb != null) 'col_jsonb': colJsonb,
+      if (colJsonbArray != null) 'col_jsonb_array': colJsonbArray,
+    };
   }
 
   Map<String, dynamic> toJson() {
@@ -1807,22 +1807,6 @@ class BinaryXmlTypes implements SupadartClass<BinaryXmlTypes> {
     };
   }
 
-  static Object New({
-    String? id,
-    String? colBytea,
-    List<String>? colByteaArray,
-    String? colXml,
-    List<String>? colXmlArray,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (colBytea != null) 'col_bytea': colBytea,
-      if (colByteaArray != null) 'col_bytea_array': colByteaArray,
-      if (colXml != null) 'col_xml': colXml,
-      if (colXmlArray != null) 'col_xml_array': colXmlArray,
-    };
-  }
-
   static Map<String, dynamic> insert({
     String? id,
     String? colBytea,
@@ -1871,6 +1855,22 @@ class BinaryXmlTypes implements SupadartClass<BinaryXmlTypes> {
               .toList()
           : <String>[],
     );
+  }
+
+  static Object New({
+    String? id,
+    String? colBytea,
+    List<String>? colByteaArray,
+    String? colXml,
+    List<String>? colXmlArray,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (colBytea != null) 'col_bytea': colBytea,
+      if (colByteaArray != null) 'col_bytea_array': colByteaArray,
+      if (colXml != null) 'col_xml': colXml,
+      if (colXmlArray != null) 'col_xml_array': colXmlArray,
+    };
   }
 
   Map<String, dynamic> toJson() {
@@ -1961,28 +1961,6 @@ class Convention implements SupadartClass<Convention> {
     };
   }
 
-  static Object New({
-    String? id,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    String? creatorId,
-    String? name,
-    String? description,
-    DateTime? startDate,
-    DateTime? endDate,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (createdAt != null) 'created_at': createdAt,
-      if (updatedAt != null) 'updated_at': updatedAt,
-      if (creatorId != null) 'creator_id': creatorId,
-      if (name != null) 'name': name,
-      if (description != null) 'description': description,
-      if (startDate != null) 'start_date': startDate,
-      if (endDate != null) 'end_date': endDate,
-    };
-  }
-
   static Map<String, dynamic> insert({
     String? id,
     DateTime? createdAt,
@@ -2048,6 +2026,28 @@ class Convention implements SupadartClass<Convention> {
           ? DateTime.parse(jsonn['end_date'].toString())
           : DateTime.fromMillisecondsSinceEpoch(0),
     );
+  }
+
+  static Object New({
+    String? id,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    String? creatorId,
+    String? name,
+    String? description,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (creatorId != null) 'creator_id': creatorId,
+      if (name != null) 'name': name,
+      if (description != null) 'description': description,
+      if (startDate != null) 'start_date': startDate,
+      if (endDate != null) 'end_date': endDate,
+    };
   }
 
   Map<String, dynamic> toJson() {
@@ -2157,30 +2157,6 @@ class NetworkTypes implements SupadartClass<NetworkTypes> {
     };
   }
 
-  static Object New({
-    String? id,
-    String? colCidr,
-    List<String>? colCidrArray,
-    String? colInet,
-    List<String>? colInetArray,
-    String? colMacaddr,
-    List<String>? colMacaddrArray,
-    String? colMacaddr8,
-    List<String>? colMacaddr8Array,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (colCidr != null) 'col_cidr': colCidr,
-      if (colCidrArray != null) 'col_cidr_array': colCidrArray,
-      if (colInet != null) 'col_inet': colInet,
-      if (colInetArray != null) 'col_inet_array': colInetArray,
-      if (colMacaddr != null) 'col_macaddr': colMacaddr,
-      if (colMacaddrArray != null) 'col_macaddr_array': colMacaddrArray,
-      if (colMacaddr8 != null) 'col_macaddr8': colMacaddr8,
-      if (colMacaddr8Array != null) 'col_macaddr8_array': colMacaddr8Array,
-    };
-  }
-
   static Map<String, dynamic> insert({
     String? id,
     String? colCidr,
@@ -2259,6 +2235,30 @@ class NetworkTypes implements SupadartClass<NetworkTypes> {
               .toList()
           : <String>[],
     );
+  }
+
+  static Object New({
+    String? id,
+    String? colCidr,
+    List<String>? colCidrArray,
+    String? colInet,
+    List<String>? colInetArray,
+    String? colMacaddr,
+    List<String>? colMacaddrArray,
+    String? colMacaddr8,
+    List<String>? colMacaddr8Array,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (colCidr != null) 'col_cidr': colCidr,
+      if (colCidrArray != null) 'col_cidr_array': colCidrArray,
+      if (colInet != null) 'col_inet': colInet,
+      if (colInetArray != null) 'col_inet_array': colInetArray,
+      if (colMacaddr != null) 'col_macaddr': colMacaddr,
+      if (colMacaddrArray != null) 'col_macaddr_array': colMacaddrArray,
+      if (colMacaddr8 != null) 'col_macaddr8': colMacaddr8,
+      if (colMacaddr8Array != null) 'col_macaddr8_array': colMacaddr8Array,
+    };
   }
 
   Map<String, dynamic> toJson() {
@@ -2389,38 +2389,6 @@ class NumericTypes implements SupadartClass<NumericTypes> {
     };
   }
 
-  static Object New({
-    String? id,
-    BigInt? colBigint,
-    List<BigInt>? colBigintArray,
-    int? colInteger,
-    List<int>? colIntegerArray,
-    int? colSmallint,
-    List<int>? colSmallintArray,
-    double? colDouble,
-    List<double>? colDoubleArray,
-    double? colReal,
-    List<double>? colRealArray,
-    num? colNumeric,
-    List<num>? colNumericArray,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (colBigint != null) 'col_bigint': colBigint,
-      if (colBigintArray != null) 'col_bigint_array': colBigintArray,
-      if (colInteger != null) 'col_integer': colInteger,
-      if (colIntegerArray != null) 'col_integer_array': colIntegerArray,
-      if (colSmallint != null) 'col_smallint': colSmallint,
-      if (colSmallintArray != null) 'col_smallint_array': colSmallintArray,
-      if (colDouble != null) 'col_double': colDouble,
-      if (colDoubleArray != null) 'col_double_array': colDoubleArray,
-      if (colReal != null) 'col_real': colReal,
-      if (colRealArray != null) 'col_real_array': colRealArray,
-      if (colNumeric != null) 'col_numeric': colNumeric,
-      if (colNumericArray != null) 'col_numeric_array': colNumericArray,
-    };
-  }
-
   static Map<String, dynamic> insert({
     String? id,
     BigInt? colBigint,
@@ -2537,6 +2505,38 @@ class NumericTypes implements SupadartClass<NumericTypes> {
               .toList()
           : <num>[],
     );
+  }
+
+  static Object New({
+    String? id,
+    BigInt? colBigint,
+    List<BigInt>? colBigintArray,
+    int? colInteger,
+    List<int>? colIntegerArray,
+    int? colSmallint,
+    List<int>? colSmallintArray,
+    double? colDouble,
+    List<double>? colDoubleArray,
+    double? colReal,
+    List<double>? colRealArray,
+    num? colNumeric,
+    List<num>? colNumericArray,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (colBigint != null) 'col_bigint': colBigint,
+      if (colBigintArray != null) 'col_bigint_array': colBigintArray,
+      if (colInteger != null) 'col_integer': colInteger,
+      if (colIntegerArray != null) 'col_integer_array': colIntegerArray,
+      if (colSmallint != null) 'col_smallint': colSmallint,
+      if (colSmallintArray != null) 'col_smallint_array': colSmallintArray,
+      if (colDouble != null) 'col_double': colDouble,
+      if (colDoubleArray != null) 'col_double_array': colDoubleArray,
+      if (colReal != null) 'col_real': colReal,
+      if (colRealArray != null) 'col_real_array': colRealArray,
+      if (colNumeric != null) 'col_numeric': colNumeric,
+      if (colNumericArray != null) 'col_numeric_array': colNumericArray,
+    };
   }
 
   Map<String, dynamic> toJson() {
@@ -2693,39 +2693,6 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
     };
   }
 
-  static Object New({
-    String? id,
-    DateTime? colDate,
-    List<DateTime>? colDateArray,
-    DateTime? colTime,
-    List<DateTime>? colTimeArray,
-    DateTime? colTimetz,
-    List<DateTime>? colTimetzArray,
-    DateTime? colTimestamp,
-    List<DateTime>? colTimestampArray,
-    DateTime? colTimestamptz,
-    List<DateTime>? colTimestamptzArray,
-    Duration? colInterval,
-    List<Duration>? colIntervalArray,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (colDate != null) 'col_date': colDate,
-      if (colDateArray != null) 'col_date_array': colDateArray,
-      if (colTime != null) 'col_time': colTime,
-      if (colTimeArray != null) 'col_time_array': colTimeArray,
-      if (colTimetz != null) 'col_timetz': colTimetz,
-      if (colTimetzArray != null) 'col_timetz_array': colTimetzArray,
-      if (colTimestamp != null) 'col_timestamp': colTimestamp,
-      if (colTimestampArray != null) 'col_timestamp_array': colTimestampArray,
-      if (colTimestamptz != null) 'col_timestamptz': colTimestamptz,
-      if (colTimestamptzArray != null)
-        'col_timestamptz_array': colTimestamptzArray,
-      if (colInterval != null) 'col_interval': colInterval,
-      if (colIntervalArray != null) 'col_interval_array': colIntervalArray,
-    };
-  }
-
   static Map<String, dynamic> insert({
     String? id,
     DateTime? colDate,
@@ -2842,6 +2809,39 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
               .toList()
           : <Duration>[],
     );
+  }
+
+  static Object New({
+    String? id,
+    DateTime? colDate,
+    List<DateTime>? colDateArray,
+    DateTime? colTime,
+    List<DateTime>? colTimeArray,
+    DateTime? colTimetz,
+    List<DateTime>? colTimetzArray,
+    DateTime? colTimestamp,
+    List<DateTime>? colTimestampArray,
+    DateTime? colTimestamptz,
+    List<DateTime>? colTimestamptzArray,
+    Duration? colInterval,
+    List<Duration>? colIntervalArray,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (colDate != null) 'col_date': colDate,
+      if (colDateArray != null) 'col_date_array': colDateArray,
+      if (colTime != null) 'col_time': colTime,
+      if (colTimeArray != null) 'col_time_array': colTimeArray,
+      if (colTimetz != null) 'col_timetz': colTimetz,
+      if (colTimetzArray != null) 'col_timetz_array': colTimetzArray,
+      if (colTimestamp != null) 'col_timestamp': colTimestamp,
+      if (colTimestampArray != null) 'col_timestamp_array': colTimestampArray,
+      if (colTimestamptz != null) 'col_timestamptz': colTimestamptz,
+      if (colTimestamptzArray != null)
+        'col_timestamptz_array': colTimestamptzArray,
+      if (colInterval != null) 'col_interval': colInterval,
+      if (colIntervalArray != null) 'col_interval_array': colIntervalArray,
+    };
   }
 
   Map<String, dynamic> toJson() {
