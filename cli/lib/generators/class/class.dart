@@ -1,5 +1,4 @@
-import 'package:supadart/generators/class/new.dart';
-
+import 'new.dart';
 import 'generate_map.dart';
 import 'to_json.dart';
 import 'copy_with.dart';
