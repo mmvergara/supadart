@@ -1,6 +1,6 @@
 import '../swagger/table.dart';
 
-String generateGenerateNewStaticMethod(Table table) {
+String generateNewStaticMethod(Table table) {
   final columns = table.columns;
   final buffer = StringBuffer();
 

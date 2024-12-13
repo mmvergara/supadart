@@ -41,11 +41,13 @@ List<DartClass> generateDartClasses(
       ..write(generateStaticColumnNames(table))
       ..write(generateConverterMethod(className))
       ..write(generateConverterSingleMethod(className))
-      ..write(generateGenerateMapPrivateMethod(table))
-      ..write(generateGenerateNewStaticMethod(table))
+      ..write(generateMapStaticMethod(table))
       ..write(generateInsertMethod(table))
       ..write(generateUpdateMethod(table))
       ..write(generateFromJsonMethod(className, table));
+    if (!exclude.contains('New')) {
+      code.write(generateNewStaticMethod(table));
+    }
     if (!exclude.contains('toJson')) {
       code.write(generateToJsonMethod(className, table));
     }
