@@ -49,7 +49,7 @@ mappings:
 
 # Optional, used to exclude methods from generated classes, comment out to include them
 exclude:
-  - toJson
+  # - toJson
   - copyWith
   - New
 
