@@ -140,6 +140,7 @@ dart pub global run supadart
 # Initialize supadart.yaml config file
 supadart --init
 
+# Configure `supadart.yaml`
 
 # Generate classes
 supadart --url <supabase_url> --key <supabase_anon_key>
