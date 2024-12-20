@@ -366,6 +366,7 @@ await supabase.books.delete().eq(Books.c_id, 1);
 
 - You need to specify your enums on supadart.yaml config file
 - Enum `names` are converted to `UPPERCASE` to follow dart enum naming conventions
+- Enum `values` are case-sensitive in postgres, so you need to specify them as they are in the database
 - Optional: We recommend defining the enum values as lowercase to follow dart enum naming conventions
 
 Assuming the following schema
@@ -379,14 +380,15 @@ CREATE TABLE enum_types (
 );
 ```
 
-**IMPORTANT:** In the supadart.yaml you need to specify the enums additionaly enum values are case-sensitive in postgres, so you need to specify them as they are in the database
+In your supadart.yaml config file
 
 ```yaml
 enums:
+  # Case sensitive, define them as they are in the database
   mood: [happy, sad, neutral, excited, angry]
 ```
 
-### Generated Enum Class
+### Generated Enum
 
 ```dart
 enum MOOD { happy, sad, neutral, excited, angry }
