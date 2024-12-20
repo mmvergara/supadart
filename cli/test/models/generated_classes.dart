@@ -59,7 +59,7 @@ extension SupadartStorageClient on SupabaseStorageClient {}
 // Enums
 enum MOOD { happy, sad, neutral, excited, angry }
 
-enum USERGROUP { users, admin, moderator }
+enum USERGROUP { USERS, ADMIN, MODERATOR }
 
 // Utils
 extension DurationFromString on Duration {
