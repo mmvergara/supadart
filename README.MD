@@ -366,11 +366,12 @@ await supabase.books.delete().eq(Books.c_id, 1);
 
 - You need to specify your enums on supadart.yaml config file
 - Enum `names` are converted to `UPPERCASE` to follow dart enum naming conventions
-- Enum `values` are converted to `LOWERCASE` to follow dart enum naming conventions
+- Optional: We recommend defining the enum values as lowercase to follow dart enum naming conventions
 
 Assuming the following schema
 
 ```sql
+-- We recommend defining the enum values as lowercase to follow dart enum naming conventions
 CREATE TYPE mood AS ENUM ('happy', 'sad', 'neutral', 'excited', 'angry');
 CREATE TABLE enum_types (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
