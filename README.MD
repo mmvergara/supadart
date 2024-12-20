@@ -361,7 +361,7 @@ await supabase.books.delete().eq(Books.c_id, 1);
 
 #### Enums CRUD
 
-> You need to specify your enums on supadart.yaml config file
+**IMPORTANT:** You need to specify your enums on supadart.yaml config file
 
 ```sql
 -- assuming the following schema
