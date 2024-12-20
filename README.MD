@@ -29,7 +29,7 @@ final allBooks = await supabase
   - [**Insert Many Data**](#inset-many-data)
   - [**Update Data**](#update-data)
   - [**Delete Data**](#delete-data)
-- [**Working with Enums**](#enums-crud)
+- [**Working with Enums**](#working-with-enums)
 - [**Column Selection Queries**](#column-selection-queries)
 
 ### Features 🚀
