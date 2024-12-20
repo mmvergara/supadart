@@ -29,8 +29,8 @@ final allBooks = await supabase
   - [**Insert Many Data**](#inset-many-data)
   - [**Update Data**](#update-data)
   - [**Delete Data**](#delete-data)
-  - [**Enums CRUD**](#enums-crud)
-  - [**Column Selection Queries**](#column-selection-queries)
+- [**Working with Enums**](#enums-crud)
+- [**Column Selection Queries**](#column-selection-queries)
 
 ### Features 🚀
 
@@ -140,8 +140,6 @@ dart pub global run supadart
 # Initialize supadart.yaml config file
 supadart --init
 
-# Configure `supadart.yaml`
-
 # Generate classes
 supadart --url <supabase_url> --key <supabase_anon_key>
 
@@ -150,6 +148,9 @@ supadart --url <supabase_url> --key <supabase_anon_key>
 supadart
 ```
 
+If you have enums, you need to specify them in the config file
+
+````yaml
 #### CLI Usage
 
 ```bash
@@ -159,7 +160,7 @@ supadart
 -u, --url        Supabase URL                            (if not set in yaml)
 -k, --key        Supabase ANON KEY                       (if not set in yaml)
 -v, --version
-```
+````
 
 ---
 
@@ -359,12 +360,17 @@ await supabase.books.update(newData).eq(Books.c_id, 1);
 await supabase.books.delete().eq(Books.c_id, 1);
 ```
 
-#### Enums CRUD
+# Working with Enums
 
-**IMPORTANT:** You need to specify your enums on supadart.yaml config file
+**IMPORTANT:**
+
+- You need to specify your enums on supadart.yaml config file
+- Enum `names` are converted to `UPPERCASE` to follow dart enum naming conventions
+- Enum `values` are converted to `LOWERCASE` to follow dart enum naming conventions
+
+Assuming the following schema
 
 ```sql
--- assuming the following schema
 CREATE TYPE mood AS ENUM ('happy', 'sad', 'neutral', 'excited', 'angry');
 CREATE TABLE enum_types (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -372,9 +378,22 @@ CREATE TABLE enum_types (
 );
 ```
 
+In the supadart.yaml you need to specify the enums
+
+```yaml
+enums:
+  mood: [happy, sad, neutral, excited, angry]
+```
+
+### Generated Enum Class
+
 ```dart
-// enum names are converted to .toUpperCase()
 enum MOOD { happy, sad, neutral, excited, angry }
+```
+
+### Create / Read / Update with Enums
+
+```dart
 MOOD firstEnumVal = MOOD.angry;
 MOOD newEnumVal = MOOD.excited;
 
@@ -393,7 +412,11 @@ await supabase.enum_types
 await supabase.enum_types.select().withConverter(EnumTypes.converter);
 ```
 
-#### Column Selection Queries
+# Column Selection Queries
+
+**IMPORTANT:**
+
+- When you select columns, the class will fill the missing columns with the default values
 
 ```dart
 final book = await supabase

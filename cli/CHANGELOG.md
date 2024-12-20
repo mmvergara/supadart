@@ -1,3 +1,9 @@
+## 1.6.9
+
+- Enum `names` are converted to `UPPERCASE` to follow dart enum naming conventions
+- Enum `values` are converted to `LOWERCASE` to follow dart enum naming conventions
+- Update supadart.yaml documentation for enums
+
 ## 1.6.8
 
 - Add "New" method to generated classes

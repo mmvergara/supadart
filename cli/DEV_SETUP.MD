@@ -9,7 +9,11 @@ dart pub get
 ### Compile and Run
 
 ```bash
-dart compile exe bin/supadart.dart ; ./bin/supadart.exe
+# Compile and run > Initialize config file supadart.yaml
+dart compile exe bin/supadart.dart ; ./bin/supadart.exe --init
+
+# Compile and run > Generate dart classes
+dart compile exe bin/supadart.dart ; ./bin/supadart.exe --url <supabase_url> --key <supabase_anon_key>
 ```
 
 ### Testing

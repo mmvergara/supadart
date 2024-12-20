@@ -24,7 +24,8 @@ void main() async {
   final isSeperated = false;
   final mappings = null;
   final mapOfEnums = {
-    'mood': ["happy", "sad", "neutral", "excited", "angry"]
+    'mood': ["happy", "sad", "neutral", "excited", "angry"],
+    'usergroup': ["USERS", "ADMIN", "MODERATOR"]
   };
 
   if (url == null || anonKey == null) {

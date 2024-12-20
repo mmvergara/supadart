@@ -28,10 +28,10 @@ SUPABASE_URL:
 SUPABASE_ANON_KEY:
 
 
-# Do you have enums in your database? map them here
+# Enums in your database? map them here
+# Please take a look at the documentation to see how to work with enums
 enums:
   # mood: [happy, sad, neutral, excited, angry]
-
 
 # Optional, where to place the generated classes files default: ./lib/models/
 output: lib/models/
