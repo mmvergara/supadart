@@ -379,7 +379,7 @@ CREATE TABLE enum_types (
 );
 ```
 
-In the supadart.yaml you need to specify the enums
+**IMPORTANT:** In the supadart.yaml you need to specify the enums additionaly enum values are case-sensitive in postgres, so you need to specify them as they are in the database
 
 ```yaml
 enums:
