@@ -1,3 +1,7 @@
+## 1.7.0
+
+- Revert changes on upperCasing generated enum values (postgres enums are case-sensitive)
+
 ## 1.6.9
 
 - Enum `names` are converted to `UPPERCASE` to follow dart enum naming conventions
