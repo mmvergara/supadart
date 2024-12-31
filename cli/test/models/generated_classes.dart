@@ -41,15 +41,15 @@ extension SupadartClient on SupabaseClient {
   SupabaseQueryBuilder get boolean_bit_types => from('boolean_bit_types');
   SupabaseQueryBuilder get combined_types_view => from('combined_types_view');
   SupabaseQueryBuilder get misc_types => from('misc_types');
-  SupabaseQueryBuilder get books => from('books');
   SupabaseQueryBuilder get profiles => from('profiles');
   SupabaseQueryBuilder get geometric_types => from('geometric_types');
+  SupabaseQueryBuilder get genres => from('genres');
   SupabaseQueryBuilder get enum_types => from('enum_types');
   SupabaseQueryBuilder get json_types => from('json_types');
   SupabaseQueryBuilder get binary_xml_types => from('binary_xml_types');
-  SupabaseQueryBuilder get convention => from('convention');
   SupabaseQueryBuilder get network_types => from('network_types');
   SupabaseQueryBuilder get numeric_types => from('numeric_types');
+  SupabaseQueryBuilder get events => from('events');
   SupabaseQueryBuilder get datetime_types => from('datetime_types');
 }
 
@@ -928,142 +928,6 @@ class MiscTypes implements SupadartClass<MiscTypes> {
   }
 }
 
-class Books implements SupadartClass<Books> {
-  final BigInt id;
-  final String name;
-  final String? description;
-  final int price;
-  final DateTime createdAt;
-
-  const Books({
-    required this.id,
-    required this.name,
-    this.description,
-    required this.price,
-    required this.createdAt,
-  });
-
-  static String get table_name => 'books';
-  static String get c_id => 'id';
-  static String get c_name => 'name';
-  static String get c_description => 'description';
-  static String get c_price => 'price';
-  static String get c_createdAt => 'created_at';
-
-  static List<Books> converter(List<Map<String, dynamic>> data) {
-    return data.map(Books.fromJson).toList();
-  }
-
-  static Books converterSingle(Map<String, dynamic> data) {
-    return Books.fromJson(data);
-  }
-
-  static Map<String, dynamic> _generateMap({
-    BigInt? id,
-    String? name,
-    String? description,
-    int? price,
-    DateTime? createdAt,
-  }) {
-    return {
-      if (id != null) 'id': id.toString(),
-      if (name != null) 'name': name,
-      if (description != null) 'description': description,
-      if (price != null) 'price': price,
-      if (createdAt != null) 'created_at': createdAt.toUtc().toIso8601String(),
-    };
-  }
-
-  static Map<String, dynamic> insert({
-    BigInt? id,
-    required String name,
-    String? description,
-    required int price,
-    DateTime? createdAt,
-  }) {
-    return _generateMap(
-      id: id,
-      name: name,
-      description: description,
-      price: price,
-      createdAt: createdAt,
-    );
-  }
-
-  static Map<String, dynamic> update({
-    BigInt? id,
-    String? name,
-    String? description,
-    int? price,
-    DateTime? createdAt,
-  }) {
-    return _generateMap(
-      id: id,
-      name: name,
-      description: description,
-      price: price,
-      createdAt: createdAt,
-    );
-  }
-
-  factory Books.fromJson(Map<String, dynamic> jsonn) {
-    return Books(
-      id: jsonn['id'] != null
-          ? BigInt.parse(jsonn['id'].toString())
-          : BigInt.from(0),
-      name: jsonn['name'] != null ? jsonn['name'].toString() : '',
-      description:
-          jsonn['description'] != null ? jsonn['description'].toString() : '',
-      price: jsonn['price'] != null ? int.parse(jsonn['price'].toString()) : 0,
-      createdAt: jsonn['created_at'] != null
-          ? DateTime.parse(jsonn['created_at'].toString())
-          : DateTime.fromMillisecondsSinceEpoch(0),
-    );
-  }
-
-  static Object New({
-    BigInt? id,
-    String? name,
-    String? description,
-    int? price,
-    DateTime? createdAt,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (description != null) 'description': description,
-      if (price != null) 'price': price,
-      if (createdAt != null) 'created_at': createdAt,
-    };
-  }
-
-  Map<String, dynamic> toJson() {
-    return _generateMap(
-      id: id,
-      name: name,
-      description: description,
-      price: price,
-      createdAt: createdAt,
-    );
-  }
-
-  Books copyWith({
-    BigInt? id,
-    String? name,
-    String? description,
-    int? price,
-    DateTime? createdAt,
-  }) {
-    return Books(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      description: description ?? this.description,
-      price: price ?? this.price,
-      createdAt: createdAt ?? this.createdAt,
-    );
-  }
-}
-
 class Profiles implements SupadartClass<Profiles> {
   final String id;
   final String? firstName;
@@ -1505,6 +1369,92 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
   }
 }
 
+class Genres implements SupadartClass<Genres> {
+  final String id;
+  final String name;
+
+  const Genres({
+    required this.id,
+    required this.name,
+  });
+
+  static String get table_name => 'genres';
+  static String get c_id => 'id';
+  static String get c_name => 'name';
+
+  static List<Genres> converter(List<Map<String, dynamic>> data) {
+    return data.map(Genres.fromJson).toList();
+  }
+
+  static Genres converterSingle(Map<String, dynamic> data) {
+    return Genres.fromJson(data);
+  }
+
+  static Map<String, dynamic> _generateMap({
+    String? id,
+    String? name,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+    };
+  }
+
+  static Map<String, dynamic> insert({
+    String? id,
+    required String name,
+  }) {
+    return _generateMap(
+      id: id,
+      name: name,
+    );
+  }
+
+  static Map<String, dynamic> update({
+    String? id,
+    String? name,
+  }) {
+    return _generateMap(
+      id: id,
+      name: name,
+    );
+  }
+
+  factory Genres.fromJson(Map<String, dynamic> jsonn) {
+    return Genres(
+      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
+      name: jsonn['name'] != null ? jsonn['name'].toString() : '',
+    );
+  }
+
+  static Object New({
+    String? id,
+    String? name,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+    };
+  }
+
+  Map<String, dynamic> toJson() {
+    return _generateMap(
+      id: id,
+      name: name,
+    );
+  }
+
+  Genres copyWith({
+    String? id,
+    String? name,
+  }) {
+    return Genres(
+      id: id ?? this.id,
+      name: name ?? this.name,
+    );
+  }
+}
+
 class EnumTypes implements SupadartClass<EnumTypes> {
   final String id;
   final MOOD colMood;
@@ -1896,192 +1846,6 @@ class BinaryXmlTypes implements SupadartClass<BinaryXmlTypes> {
       colByteaArray: colByteaArray ?? this.colByteaArray,
       colXml: colXml ?? this.colXml,
       colXmlArray: colXmlArray ?? this.colXmlArray,
-    );
-  }
-}
-
-class Convention implements SupadartClass<Convention> {
-  final String id;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final String creatorId;
-  final String name;
-  final String description;
-  final DateTime startDate;
-  final DateTime endDate;
-
-  const Convention({
-    required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.creatorId,
-    required this.name,
-    required this.description,
-    required this.startDate,
-    required this.endDate,
-  });
-
-  static String get table_name => 'convention';
-  static String get c_id => 'id';
-  static String get c_createdAt => 'created_at';
-  static String get c_updatedAt => 'updated_at';
-  static String get c_creatorId => 'creator_id';
-  static String get c_name => 'name';
-  static String get c_description => 'description';
-  static String get c_startDate => 'start_date';
-  static String get c_endDate => 'end_date';
-
-  static List<Convention> converter(List<Map<String, dynamic>> data) {
-    return data.map(Convention.fromJson).toList();
-  }
-
-  static Convention converterSingle(Map<String, dynamic> data) {
-    return Convention.fromJson(data);
-  }
-
-  static Map<String, dynamic> _generateMap({
-    String? id,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    String? creatorId,
-    String? name,
-    String? description,
-    DateTime? startDate,
-    DateTime? endDate,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (createdAt != null) 'created_at': createdAt.toUtc().toIso8601String(),
-      if (updatedAt != null) 'updated_at': updatedAt.toUtc().toIso8601String(),
-      if (creatorId != null) 'creator_id': creatorId,
-      if (name != null) 'name': name,
-      if (description != null) 'description': description,
-      if (startDate != null) 'start_date': startDate.toUtc().toIso8601String(),
-      if (endDate != null) 'end_date': endDate.toUtc().toIso8601String(),
-    };
-  }
-
-  static Map<String, dynamic> insert({
-    String? id,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    required String creatorId,
-    required String name,
-    required String description,
-    required DateTime startDate,
-    required DateTime endDate,
-  }) {
-    return _generateMap(
-      id: id,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
-      creatorId: creatorId,
-      name: name,
-      description: description,
-      startDate: startDate,
-      endDate: endDate,
-    );
-  }
-
-  static Map<String, dynamic> update({
-    String? id,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    String? creatorId,
-    String? name,
-    String? description,
-    DateTime? startDate,
-    DateTime? endDate,
-  }) {
-    return _generateMap(
-      id: id,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
-      creatorId: creatorId,
-      name: name,
-      description: description,
-      startDate: startDate,
-      endDate: endDate,
-    );
-  }
-
-  factory Convention.fromJson(Map<String, dynamic> jsonn) {
-    return Convention(
-      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
-      createdAt: jsonn['created_at'] != null
-          ? DateTime.parse(jsonn['created_at'].toString())
-          : DateTime.fromMillisecondsSinceEpoch(0),
-      updatedAt: jsonn['updated_at'] != null
-          ? DateTime.parse(jsonn['updated_at'].toString())
-          : DateTime.fromMillisecondsSinceEpoch(0),
-      creatorId:
-          jsonn['creator_id'] != null ? jsonn['creator_id'].toString() : '',
-      name: jsonn['name'] != null ? jsonn['name'].toString() : '',
-      description:
-          jsonn['description'] != null ? jsonn['description'].toString() : '',
-      startDate: jsonn['start_date'] != null
-          ? DateTime.parse(jsonn['start_date'].toString())
-          : DateTime.fromMillisecondsSinceEpoch(0),
-      endDate: jsonn['end_date'] != null
-          ? DateTime.parse(jsonn['end_date'].toString())
-          : DateTime.fromMillisecondsSinceEpoch(0),
-    );
-  }
-
-  static Object New({
-    String? id,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    String? creatorId,
-    String? name,
-    String? description,
-    DateTime? startDate,
-    DateTime? endDate,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (createdAt != null) 'created_at': createdAt,
-      if (updatedAt != null) 'updated_at': updatedAt,
-      if (creatorId != null) 'creator_id': creatorId,
-      if (name != null) 'name': name,
-      if (description != null) 'description': description,
-      if (startDate != null) 'start_date': startDate,
-      if (endDate != null) 'end_date': endDate,
-    };
-  }
-
-  Map<String, dynamic> toJson() {
-    return _generateMap(
-      id: id,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
-      creatorId: creatorId,
-      name: name,
-      description: description,
-      startDate: startDate,
-      endDate: endDate,
-    );
-  }
-
-  Convention copyWith({
-    String? id,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    String? creatorId,
-    String? name,
-    String? description,
-    DateTime? startDate,
-    DateTime? endDate,
-  }) {
-    return Convention(
-      id: id ?? this.id,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-      creatorId: creatorId ?? this.creatorId,
-      name: name ?? this.name,
-      description: description ?? this.description,
-      startDate: startDate ?? this.startDate,
-      endDate: endDate ?? this.endDate,
     );
   }
 }
@@ -2586,6 +2350,111 @@ class NumericTypes implements SupadartClass<NumericTypes> {
       colRealArray: colRealArray ?? this.colRealArray,
       colNumeric: colNumeric ?? this.colNumeric,
       colNumericArray: colNumericArray ?? this.colNumericArray,
+    );
+  }
+}
+
+class Events implements SupadartClass<Events> {
+  final String id;
+  final String title;
+  final List<String> category;
+
+  const Events({
+    required this.id,
+    required this.title,
+    required this.category,
+  });
+
+  static String get table_name => 'events';
+  static String get c_id => 'id';
+  static String get c_title => 'title';
+  static String get c_category => 'category';
+
+  static List<Events> converter(List<Map<String, dynamic>> data) {
+    return data.map(Events.fromJson).toList();
+  }
+
+  static Events converterSingle(Map<String, dynamic> data) {
+    return Events.fromJson(data);
+  }
+
+  static Map<String, dynamic> _generateMap({
+    String? id,
+    String? title,
+    List<String>? category,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (title != null) 'title': title,
+      if (category != null) 'category': category.map((e) => e).toList(),
+    };
+  }
+
+  static Map<String, dynamic> insert({
+    String? id,
+    required String title,
+    required List<String> category,
+  }) {
+    return _generateMap(
+      id: id,
+      title: title,
+      category: category,
+    );
+  }
+
+  static Map<String, dynamic> update({
+    String? id,
+    String? title,
+    List<String>? category,
+  }) {
+    return _generateMap(
+      id: id,
+      title: title,
+      category: category,
+    );
+  }
+
+  factory Events.fromJson(Map<String, dynamic> jsonn) {
+    return Events(
+      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
+      title: jsonn['title'] != null ? jsonn['title'].toString() : '',
+      category: jsonn['category'] != null
+          ? (jsonn['category'] as List<dynamic>)
+              .map((v) => v.toString())
+              .toList()
+          : <String>[],
+    );
+  }
+
+  static Object New({
+    String? id,
+    String? title,
+    List<String>? category,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (title != null) 'title': title,
+      if (category != null) 'category': category,
+    };
+  }
+
+  Map<String, dynamic> toJson() {
+    return _generateMap(
+      id: id,
+      title: title,
+      category: category,
+    );
+  }
+
+  Events copyWith({
+    String? id,
+    String? title,
+    List<String>? category,
+  }) {
+    return Events(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      category: category ?? this.category,
     );
   }
 }
