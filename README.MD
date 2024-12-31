@@ -148,7 +148,7 @@ supadart --url <supabase_url> --key <supabase_anon_key>
 supadart
 ```
 
-If you have enums, you need to specify them in the config file
+> ENUMS: If you have enums, you need to specify them in the config file
 
 ````yaml
 #### CLI Usage
