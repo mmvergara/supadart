@@ -130,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 const SizedBox(height: 16),
                 const Text(
-                    'This tool will generate Dart classes from your Supabase schema.'),
+                    'This tool will generate Dart classes from your Supabase schema. (Deprecated, please use the CLI instead)'),
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
