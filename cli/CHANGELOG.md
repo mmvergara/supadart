@@ -1,3 +1,9 @@
+## 1.7.1
+- Update Dependencies
+- Clarify Case Sensitivity on Enum Values (supadart.yaml)
+- Improve error messages on missing supadart.yaml file
+- Add deprecation note on the web app
+
 ## 1.7.0
 
 - Revert changes on upperCasing generated enum values (postgres enums are case-sensitive)

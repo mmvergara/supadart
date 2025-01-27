@@ -34,7 +34,6 @@ final allBooks = await supabase
 
 ### Features 🚀
 
-- 🌐 Cli and Web App
 - 🛠️ Typesafe Queries (Create, Read, Equality)
 - 🧱 Immutable Generated Classes
 - 🗂️ Roundtrip Serialization fromJson to toJson and back
@@ -117,10 +116,6 @@ user_id     => userId
 
 ## 2. Generate Dart Classes
 
-> Using the [Web App (no enum support)](https://supadart.vercel.app/)
-
-### Using the Dart CLI (Recommended)
-
 #### Installation
 
 ```bash
@@ -161,6 +156,8 @@ supadart
 -k, --key        Supabase ANON KEY                       (if not set in yaml)
 -v, --version
 ````
+
+> Using the [Web App (deprecated)](https://supadart.vercel.app/)
 
 ---
 
