@@ -29,6 +29,10 @@ void main(List<String> arguments) async {
 
   print("🚀 Supadart $version");
   final yamlConfig = await loadYamlConfig(results);
+  if (yamlConfig == null) {
+    print('Failed to load yaml config');
+    exit(1);
+  }
   final options = extractOptions(results, yamlConfig);
 
   if (!validateOptions(options)) {
@@ -72,7 +76,7 @@ void handleHelpAndVersion(ArgParser parser, ArgResults results) {
   exit(0);
 }
 
-Future<YamlMap> loadYamlConfig(ArgResults results) async {
+Future<YamlMap?> loadYamlConfig(ArgResults results) async {
   final configPath = results['config'] ?? 'supadart.yaml';
   final configFile = File(configPath);
   try {
@@ -81,8 +85,8 @@ Future<YamlMap> loadYamlConfig(ArgResults results) async {
     return loadYaml(configContent);
   } catch (e) {
     print(
-        "${red}As of version 1.6.5 >, you need to create a config file use --init command to generate one$reset");
-    rethrow;
+        "${red}You need to create a config file use --init command to generate one$reset");
+    return null;
   }
 }
 
