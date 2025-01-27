@@ -1,11 +1,40 @@
+# Ignore tool-specific or temporary directories
+
 .dart_tool/
+build/
+.idea/
+.vscode/
+packages/
+coverage/
+
+# Ignore compiled executables and scripts
 
 cli.exe
 supadart.exe
+
+# Ignore sensitive or environment-specific files
+
 .env
+\*.env
+
+# Ignore generated files
+
 generated_classes.dart
 
-lib/models/
+# Ignore test files and documentation
+
 test/
 DEV_SETUP.MD
+
+# Ignore config files for internal use
+
 supadart.yaml
+
+# Other typical exclusions
+
+_.log
+_.DS_Store
+_.bak
+_.tmp
+\*.swp
+Thumbs.db

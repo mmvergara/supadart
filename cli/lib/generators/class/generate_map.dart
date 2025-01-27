@@ -198,7 +198,8 @@ String encodeToJson(
             : "$columnName.toString().split('.').last";
         break;
       } else {
-        print("No enum values found for $columnName");
+        print(
+            "No enum values found for $columnName, if you have enum values, please add them to the yaml file");
       }
   }
   return jsonEncodableType;
