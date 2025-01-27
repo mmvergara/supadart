@@ -28,7 +28,7 @@ SUPABASE_URL:
 SUPABASE_ANON_KEY:
 
 
-# Enums in your database? map them here
+# Enums in your database? map them here (Case Sensitive)
 # Please take a look at the documentation to see how to work with enums
 enums:
   # mood: [happy, sad, neutral, excited, angry]
