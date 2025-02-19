@@ -190,6 +190,10 @@ String encodeToJson(
       break;
 
     default:
+      if (format.contains("vector") || format.contains("VECTOR")) {
+        jsonEncodableType = '$columnName.toString()';
+        break;
+      }
       // print(columnName);
       // print(columnDetails.enumValues);
       if (columnDetails.enumValues.isNotEmpty) {
