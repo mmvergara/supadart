@@ -29,6 +29,10 @@ class Column {
 
   String get dartType {
     if (postgresFormat.contains("public.")) {
+      if (postgresFormat.contains("vector") ||
+          postgresFormat.contains("VECTOR")) {
+        return "String";
+      }
       if (postgresFormat.contains("[]")) {
         return "List<${postgresFormat.split(".").last.toUpperCase().replaceAll('"', "").replaceAll("[]", "")}>";
       } else {

@@ -1,4 +1,9 @@
+## 1.7.2
+
+- Add support for vector types and create embeddings table
+
 ## 1.7.1
+
 - Update Dependencies
 - Clarify Case Sensitivity on Enum Values (supadart.yaml)
 - Improve error messages on missing supadart.yaml file

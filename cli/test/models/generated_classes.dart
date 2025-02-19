@@ -43,6 +43,7 @@ extension SupadartClient on SupabaseClient {
   SupabaseQueryBuilder get misc_types => from('misc_types');
   SupabaseQueryBuilder get profiles => from('profiles');
   SupabaseQueryBuilder get geometric_types => from('geometric_types');
+  SupabaseQueryBuilder get embeddings => from('embeddings');
   SupabaseQueryBuilder get genres => from('genres');
   SupabaseQueryBuilder get enum_types => from('enum_types');
   SupabaseQueryBuilder get json_types => from('json_types');
@@ -1365,6 +1366,78 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
       colPolygonArray: colPolygonArray ?? this.colPolygonArray,
       colCircle: colCircle ?? this.colCircle,
       colCircleArray: colCircleArray ?? this.colCircleArray,
+    );
+  }
+}
+
+class Embeddings implements SupadartClass<Embeddings> {
+  final String? embedding;
+
+  const Embeddings({
+    this.embedding,
+  });
+
+  static String get table_name => 'embeddings';
+  static String get c_embedding => 'embedding';
+
+  static List<Embeddings> converter(List<Map<String, dynamic>> data) {
+    return data.map(Embeddings.fromJson).toList();
+  }
+
+  static Embeddings converterSingle(Map<String, dynamic> data) {
+    return Embeddings.fromJson(data);
+  }
+
+  static Map<String, dynamic> _generateMap({
+    String? embedding,
+  }) {
+    return {
+      if (embedding != null) 'embedding': embedding.toString(),
+    };
+  }
+
+  static Map<String, dynamic> insert({
+    String? embedding,
+  }) {
+    return _generateMap(
+      embedding: embedding,
+    );
+  }
+
+  static Map<String, dynamic> update({
+    String? embedding,
+  }) {
+    return _generateMap(
+      embedding: embedding,
+    );
+  }
+
+  factory Embeddings.fromJson(Map<String, dynamic> jsonn) {
+    return Embeddings(
+      embedding:
+          jsonn['embedding'] != null ? jsonn['embedding'].toString() : '',
+    );
+  }
+
+  static Object New({
+    String? embedding,
+  }) {
+    return {
+      if (embedding != null) 'embedding': embedding,
+    };
+  }
+
+  Map<String, dynamic> toJson() {
+    return _generateMap(
+      embedding: embedding,
+    );
+  }
+
+  Embeddings copyWith({
+    String? embedding,
+  }) {
+    return Embeddings(
+      embedding: embedding ?? this.embedding,
     );
   }
 }

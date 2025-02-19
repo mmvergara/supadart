@@ -187,6 +187,13 @@ String decodeFromJson(Column columnDetails) {
           "($jsonValue as List<dynamic>).map((e) => e.toString()).toList()";
       break;
     default:
+      // check if its a vector
+      if (postgresFormat.contains("vector") ||
+          postgresFormat.contains("VECTOR")) {
+        jsonDecode = '$jsonValue.toString()';
+        break;
+      }
+
       // if no type is found it is assumed to be an enum type
       String enumName = columnDetails.dartType;
       if (postgresFormat.contains("[]")) {

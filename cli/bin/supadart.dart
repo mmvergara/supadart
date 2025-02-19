@@ -7,7 +7,7 @@ import 'package:supadart/generators/storage/fetch_storage.dart';
 import 'package:supadart/generators/utils/fetch_swagger.dart';
 import 'package:yaml/yaml.dart';
 
-const String version = 'v1.7.1';
+const String version = 'v1.7.2';
 const String red = '\x1B[31m';
 const String green = '\x1B[32m';
 const String blue = '\x1B[34m';

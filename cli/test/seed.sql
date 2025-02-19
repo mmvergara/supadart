@@ -10,6 +10,8 @@ DROP TABLE IF EXISTS public.network_types;
 DROP TABLE IF EXISTS public.json_types;
 DROP TABLE IF EXISTS public.binary_xml_types;
 DROP TABLE IF EXISTS public.misc_types;
+DROP TABLE IF EXISTS public.embeddings;
+DROP TABLE IF EXISTS public.profiles;
 
 DROP TABLE IF EXISTS public.enum_types;
 DROP TYPE IF EXISTS public.mood;
@@ -181,13 +183,21 @@ CREATE TABLE enum_types (
 );
 
 
+DROP TYPE public.usergroup;
 CREATE TYPE public.usergroup AS ENUM ('USERS', 'ADMIN', 'MODERATOR');
 
 
 create table
   public.profiles (
-    id uuid not null default extensions.uuid_generate_v4 (),
+    id uuid not null default extensions.uuid_generate_v4(),
     first_name character varying(100) null,
     last_name character varying(100) null,
     user_groups usergroup[] not null default '{{USERS}}'::usergroup[]
   );
+
+
+CREATE EXTENSION IF NOT EXISTS vector;
+
+create table public.embeddings (
+    embedding VECTOR(1536)
+);
