@@ -39,7 +39,7 @@ class Column {
         return postgresFormat.split(".").last.toUpperCase().replaceAll('"', "");
       }
     }
-    return postgresFormatToDartType(postgresFormat).type.replaceAll('"', "");
+    return postgresFormatToDartType(postgresFormat);
   }
 
   bool get isRequiredInInsert {
@@ -51,6 +51,10 @@ class Column {
         !!!hasDefaultValue &&
         !isPrimaryKey &&
         !isSerialType;
+  }
+
+  bool get isNullable {
+    return !isInRequiredColumn;
   }
 
   factory Column.fromJson(
