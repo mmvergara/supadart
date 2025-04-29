@@ -275,28 +275,39 @@ class StringTypes implements SupadartClass<StringTypes> {
     );
   }
 
+  static const _unset = Object();
   StringTypes copyWith({
-    String? id,
-    String? colUuid,
-    List<String>? colUuidArray,
-    String? colCharacter,
-    List<String>? colCharacterArray,
-    String? colCharactervarying,
-    List<String>? colCharactervaryingArray,
-    String? colText,
-    List<String>? colTextArray,
+    Object? id = _unset,
+    Object? colUuid = _unset,
+    Object? colUuidArray = _unset,
+    Object? colCharacter = _unset,
+    Object? colCharacterArray = _unset,
+    Object? colCharactervarying = _unset,
+    Object? colCharactervaryingArray = _unset,
+    Object? colText = _unset,
+    Object? colTextArray = _unset,
   }) {
     return StringTypes(
-      id: id ?? this.id,
-      colUuid: colUuid ?? this.colUuid,
-      colUuidArray: colUuidArray ?? this.colUuidArray,
-      colCharacter: colCharacter ?? this.colCharacter,
-      colCharacterArray: colCharacterArray ?? this.colCharacterArray,
-      colCharactervarying: colCharactervarying ?? this.colCharactervarying,
-      colCharactervaryingArray:
-          colCharactervaryingArray ?? this.colCharactervaryingArray,
-      colText: colText ?? this.colText,
-      colTextArray: colTextArray ?? this.colTextArray,
+      id: id == _unset ? this.id : id as String,
+      colUuid: colUuid == _unset ? this.colUuid : colUuid as String?,
+      colUuidArray: colUuidArray == _unset
+          ? this.colUuidArray
+          : colUuidArray as List<String>?,
+      colCharacter:
+          colCharacter == _unset ? this.colCharacter : colCharacter as String?,
+      colCharacterArray: colCharacterArray == _unset
+          ? this.colCharacterArray
+          : colCharacterArray as List<String>?,
+      colCharactervarying: colCharactervarying == _unset
+          ? this.colCharactervarying
+          : colCharactervarying as String?,
+      colCharactervaryingArray: colCharactervaryingArray == _unset
+          ? this.colCharactervaryingArray
+          : colCharactervaryingArray as List<String>?,
+      colText: colText == _unset ? this.colText : colText as String?,
+      colTextArray: colTextArray == _unset
+          ? this.colTextArray
+          : colTextArray as List<String>?,
     );
   }
 }
@@ -461,23 +472,32 @@ class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
     );
   }
 
+  static const _unset = Object();
   BooleanBitTypes copyWith({
-    String? id,
-    bool? colBoolean,
-    List<bool>? colBooleanArray,
-    String? colBit,
-    List<String>? colBitArray,
-    String? colBitvarying,
-    List<String>? colBitvaryingArray,
+    Object? id = _unset,
+    Object? colBoolean = _unset,
+    Object? colBooleanArray = _unset,
+    Object? colBit = _unset,
+    Object? colBitArray = _unset,
+    Object? colBitvarying = _unset,
+    Object? colBitvaryingArray = _unset,
   }) {
     return BooleanBitTypes(
-      id: id ?? this.id,
-      colBoolean: colBoolean ?? this.colBoolean,
-      colBooleanArray: colBooleanArray ?? this.colBooleanArray,
-      colBit: colBit ?? this.colBit,
-      colBitArray: colBitArray ?? this.colBitArray,
-      colBitvarying: colBitvarying ?? this.colBitvarying,
-      colBitvaryingArray: colBitvaryingArray ?? this.colBitvaryingArray,
+      id: id == _unset ? this.id : id as String,
+      colBoolean: colBoolean == _unset ? this.colBoolean : colBoolean as bool?,
+      colBooleanArray: colBooleanArray == _unset
+          ? this.colBooleanArray
+          : colBooleanArray as List<bool>?,
+      colBit: colBit == _unset ? this.colBit : colBit as String?,
+      colBitArray: colBitArray == _unset
+          ? this.colBitArray
+          : colBitArray as List<String>?,
+      colBitvarying: colBitvarying == _unset
+          ? this.colBitvarying
+          : colBitvarying as String?,
+      colBitvaryingArray: colBitvaryingArray == _unset
+          ? this.colBitvaryingArray
+          : colBitvaryingArray as List<String>?,
     );
   }
 }
@@ -615,21 +635,22 @@ class CombinedTypesView implements SupadartClass<CombinedTypesView> {
     );
   }
 
+  static const _unset = Object();
   CombinedTypesView copyWith({
-    String? numericId,
-    int? colInteger,
-    double? colDouble,
-    String? stringId,
-    String? colText,
-    String? colUuid,
+    Object? numericId = _unset,
+    Object? colInteger = _unset,
+    Object? colDouble = _unset,
+    Object? stringId = _unset,
+    Object? colText = _unset,
+    Object? colUuid = _unset,
   }) {
     return CombinedTypesView(
-      numericId: numericId ?? this.numericId,
-      colInteger: colInteger ?? this.colInteger,
-      colDouble: colDouble ?? this.colDouble,
-      stringId: stringId ?? this.stringId,
-      colText: colText ?? this.colText,
-      colUuid: colUuid ?? this.colUuid,
+      numericId: numericId == _unset ? this.numericId : numericId as String?,
+      colInteger: colInteger == _unset ? this.colInteger : colInteger as int?,
+      colDouble: colDouble == _unset ? this.colDouble : colDouble as double?,
+      stringId: stringId == _unset ? this.stringId : stringId as String?,
+      colText: colText == _unset ? this.colText : colText as String?,
+      colUuid: colUuid == _unset ? this.colUuid : colUuid as String?,
     );
   }
 }
@@ -897,35 +918,54 @@ class MiscTypes implements SupadartClass<MiscTypes> {
     );
   }
 
+  static const _unset = Object();
   MiscTypes copyWith({
-    String? id,
-    String? colMoney,
-    List<String>? colMoneyArray,
-    String? colPgLsn,
-    List<String>? colPgLsnArray,
-    String? colPgSnapshot,
-    List<String>? colPgSnapshotArray,
-    String? colTsquery,
-    List<String>? colTsqueryArray,
-    String? colTsvector,
-    List<String>? colTsvectorArray,
-    String? colTxidSnapshot,
-    List<String>? colTxidSnapshotArray,
+    Object? id = _unset,
+    Object? colMoney = _unset,
+    Object? colMoneyArray = _unset,
+    Object? colPgLsn = _unset,
+    Object? colPgLsnArray = _unset,
+    Object? colPgSnapshot = _unset,
+    Object? colPgSnapshotArray = _unset,
+    Object? colTsquery = _unset,
+    Object? colTsqueryArray = _unset,
+    Object? colTsvector = _unset,
+    Object? colTsvectorArray = _unset,
+    Object? colTxidSnapshot = _unset,
+    Object? colTxidSnapshotArray = _unset,
   }) {
     return MiscTypes(
-      id: id ?? this.id,
-      colMoney: colMoney ?? this.colMoney,
-      colMoneyArray: colMoneyArray ?? this.colMoneyArray,
-      colPgLsn: colPgLsn ?? this.colPgLsn,
-      colPgLsnArray: colPgLsnArray ?? this.colPgLsnArray,
-      colPgSnapshot: colPgSnapshot ?? this.colPgSnapshot,
-      colPgSnapshotArray: colPgSnapshotArray ?? this.colPgSnapshotArray,
-      colTsquery: colTsquery ?? this.colTsquery,
-      colTsqueryArray: colTsqueryArray ?? this.colTsqueryArray,
-      colTsvector: colTsvector ?? this.colTsvector,
-      colTsvectorArray: colTsvectorArray ?? this.colTsvectorArray,
-      colTxidSnapshot: colTxidSnapshot ?? this.colTxidSnapshot,
-      colTxidSnapshotArray: colTxidSnapshotArray ?? this.colTxidSnapshotArray,
+      id: id == _unset ? this.id : id as String,
+      colMoney: colMoney == _unset ? this.colMoney : colMoney as String?,
+      colMoneyArray: colMoneyArray == _unset
+          ? this.colMoneyArray
+          : colMoneyArray as List<String>?,
+      colPgLsn: colPgLsn == _unset ? this.colPgLsn : colPgLsn as String?,
+      colPgLsnArray: colPgLsnArray == _unset
+          ? this.colPgLsnArray
+          : colPgLsnArray as List<String>?,
+      colPgSnapshot: colPgSnapshot == _unset
+          ? this.colPgSnapshot
+          : colPgSnapshot as String?,
+      colPgSnapshotArray: colPgSnapshotArray == _unset
+          ? this.colPgSnapshotArray
+          : colPgSnapshotArray as List<String>?,
+      colTsquery:
+          colTsquery == _unset ? this.colTsquery : colTsquery as String?,
+      colTsqueryArray: colTsqueryArray == _unset
+          ? this.colTsqueryArray
+          : colTsqueryArray as List<String>?,
+      colTsvector:
+          colTsvector == _unset ? this.colTsvector : colTsvector as String?,
+      colTsvectorArray: colTsvectorArray == _unset
+          ? this.colTsvectorArray
+          : colTsvectorArray as List<String>?,
+      colTxidSnapshot: colTxidSnapshot == _unset
+          ? this.colTxidSnapshot
+          : colTxidSnapshot as String?,
+      colTxidSnapshotArray: colTxidSnapshotArray == _unset
+          ? this.colTxidSnapshotArray
+          : colTxidSnapshotArray as List<String>?,
     );
   }
 }
@@ -1039,17 +1079,20 @@ class Profiles implements SupadartClass<Profiles> {
     );
   }
 
+  static const _unset = Object();
   Profiles copyWith({
-    String? id,
-    String? firstName,
-    String? lastName,
-    List<USERGROUP>? userGroups,
+    Object? id = _unset,
+    Object? firstName = _unset,
+    Object? lastName = _unset,
+    Object? userGroups = _unset,
   }) {
     return Profiles(
-      id: id ?? this.id,
-      firstName: firstName ?? this.firstName,
-      lastName: lastName ?? this.lastName,
-      userGroups: userGroups ?? this.userGroups,
+      id: id == _unset ? this.id : id as String,
+      firstName: firstName == _unset ? this.firstName : firstName as String?,
+      lastName: lastName == _unset ? this.lastName : lastName as String?,
+      userGroups: userGroups == _unset
+          ? this.userGroups
+          : userGroups as List<USERGROUP>,
     );
   }
 }
@@ -1336,39 +1379,55 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
     );
   }
 
+  static const _unset = Object();
   GeometricTypes copyWith({
-    String? id,
-    String? colPoint,
-    List<String>? colPointArray,
-    String? colLine,
-    List<String>? colLineArray,
-    String? colLseg,
-    List<String>? colLsegArray,
-    String? colBox,
-    List<String>? colBoxArray,
-    String? colPath,
-    List<String>? colPathArray,
-    String? colPolygon,
-    List<String>? colPolygonArray,
-    String? colCircle,
-    List<String>? colCircleArray,
+    Object? id = _unset,
+    Object? colPoint = _unset,
+    Object? colPointArray = _unset,
+    Object? colLine = _unset,
+    Object? colLineArray = _unset,
+    Object? colLseg = _unset,
+    Object? colLsegArray = _unset,
+    Object? colBox = _unset,
+    Object? colBoxArray = _unset,
+    Object? colPath = _unset,
+    Object? colPathArray = _unset,
+    Object? colPolygon = _unset,
+    Object? colPolygonArray = _unset,
+    Object? colCircle = _unset,
+    Object? colCircleArray = _unset,
   }) {
     return GeometricTypes(
-      id: id ?? this.id,
-      colPoint: colPoint ?? this.colPoint,
-      colPointArray: colPointArray ?? this.colPointArray,
-      colLine: colLine ?? this.colLine,
-      colLineArray: colLineArray ?? this.colLineArray,
-      colLseg: colLseg ?? this.colLseg,
-      colLsegArray: colLsegArray ?? this.colLsegArray,
-      colBox: colBox ?? this.colBox,
-      colBoxArray: colBoxArray ?? this.colBoxArray,
-      colPath: colPath ?? this.colPath,
-      colPathArray: colPathArray ?? this.colPathArray,
-      colPolygon: colPolygon ?? this.colPolygon,
-      colPolygonArray: colPolygonArray ?? this.colPolygonArray,
-      colCircle: colCircle ?? this.colCircle,
-      colCircleArray: colCircleArray ?? this.colCircleArray,
+      id: id == _unset ? this.id : id as String,
+      colPoint: colPoint == _unset ? this.colPoint : colPoint as String?,
+      colPointArray: colPointArray == _unset
+          ? this.colPointArray
+          : colPointArray as List<String>?,
+      colLine: colLine == _unset ? this.colLine : colLine as String?,
+      colLineArray: colLineArray == _unset
+          ? this.colLineArray
+          : colLineArray as List<String>?,
+      colLseg: colLseg == _unset ? this.colLseg : colLseg as String?,
+      colLsegArray: colLsegArray == _unset
+          ? this.colLsegArray
+          : colLsegArray as List<String>?,
+      colBox: colBox == _unset ? this.colBox : colBox as String?,
+      colBoxArray: colBoxArray == _unset
+          ? this.colBoxArray
+          : colBoxArray as List<String>?,
+      colPath: colPath == _unset ? this.colPath : colPath as String?,
+      colPathArray: colPathArray == _unset
+          ? this.colPathArray
+          : colPathArray as List<String>?,
+      colPolygon:
+          colPolygon == _unset ? this.colPolygon : colPolygon as String?,
+      colPolygonArray: colPolygonArray == _unset
+          ? this.colPolygonArray
+          : colPolygonArray as List<String>?,
+      colCircle: colCircle == _unset ? this.colCircle : colCircle as String?,
+      colCircleArray: colCircleArray == _unset
+          ? this.colCircleArray
+          : colCircleArray as List<String>?,
     );
   }
 }
@@ -1436,11 +1495,12 @@ class Embeddings implements SupadartClass<Embeddings> {
     );
   }
 
+  static const _unset = Object();
   Embeddings copyWith({
-    String? embedding,
+    Object? embedding = _unset,
   }) {
     return Embeddings(
-      embedding: embedding ?? this.embedding,
+      embedding: embedding == _unset ? this.embedding : embedding as String?,
     );
   }
 }
@@ -1541,15 +1601,18 @@ class EnumTypes implements SupadartClass<EnumTypes> {
     );
   }
 
+  static const _unset = Object();
   EnumTypes copyWith({
-    String? id,
-    MOOD? colMood,
-    List<MOOD>? colMoodArray,
+    Object? id = _unset,
+    Object? colMood = _unset,
+    Object? colMoodArray = _unset,
   }) {
     return EnumTypes(
-      id: id ?? this.id,
-      colMood: colMood ?? this.colMood,
-      colMoodArray: colMoodArray ?? this.colMoodArray,
+      id: id == _unset ? this.id : id as String,
+      colMood: colMood == _unset ? this.colMood : colMood as MOOD,
+      colMoodArray: colMoodArray == _unset
+          ? this.colMoodArray
+          : colMoodArray as List<MOOD>,
     );
   }
 }
@@ -1682,19 +1745,27 @@ class JsonTypes implements SupadartClass<JsonTypes> {
     );
   }
 
+  static const _unset = Object();
   JsonTypes copyWith({
-    String? id,
-    Map<String, dynamic>? colJson,
-    List<Map<String, dynamic>>? colJsonArray,
-    Map<String, dynamic>? colJsonb,
-    List<Map<String, dynamic>>? colJsonbArray,
+    Object? id = _unset,
+    Object? colJson = _unset,
+    Object? colJsonArray = _unset,
+    Object? colJsonb = _unset,
+    Object? colJsonbArray = _unset,
   }) {
     return JsonTypes(
-      id: id ?? this.id,
-      colJson: colJson ?? this.colJson,
-      colJsonArray: colJsonArray ?? this.colJsonArray,
-      colJsonb: colJsonb ?? this.colJsonb,
-      colJsonbArray: colJsonbArray ?? this.colJsonbArray,
+      id: id == _unset ? this.id : id as String,
+      colJson:
+          colJson == _unset ? this.colJson : colJson as Map<String, dynamic>?,
+      colJsonArray: colJsonArray == _unset
+          ? this.colJsonArray
+          : colJsonArray as List<Map<String, dynamic>>?,
+      colJsonb: colJsonb == _unset
+          ? this.colJsonb
+          : colJsonb as Map<String, dynamic>?,
+      colJsonbArray: colJsonbArray == _unset
+          ? this.colJsonbArray
+          : colJsonbArray as List<Map<String, dynamic>>?,
     );
   }
 }
@@ -1824,19 +1895,24 @@ class BinaryXmlTypes implements SupadartClass<BinaryXmlTypes> {
     );
   }
 
+  static const _unset = Object();
   BinaryXmlTypes copyWith({
-    String? id,
-    String? colBytea,
-    List<String>? colByteaArray,
-    String? colXml,
-    List<String>? colXmlArray,
+    Object? id = _unset,
+    Object? colBytea = _unset,
+    Object? colByteaArray = _unset,
+    Object? colXml = _unset,
+    Object? colXmlArray = _unset,
   }) {
     return BinaryXmlTypes(
-      id: id ?? this.id,
-      colBytea: colBytea ?? this.colBytea,
-      colByteaArray: colByteaArray ?? this.colByteaArray,
-      colXml: colXml ?? this.colXml,
-      colXmlArray: colXmlArray ?? this.colXmlArray,
+      id: id == _unset ? this.id : id as String,
+      colBytea: colBytea == _unset ? this.colBytea : colBytea as String?,
+      colByteaArray: colByteaArray == _unset
+          ? this.colByteaArray
+          : colByteaArray as List<String>?,
+      colXml: colXml == _unset ? this.colXml : colXml as String?,
+      colXmlArray: colXmlArray == _unset
+          ? this.colXmlArray
+          : colXmlArray as List<String>?,
     );
   }
 }
@@ -2031,27 +2107,38 @@ class NetworkTypes implements SupadartClass<NetworkTypes> {
     );
   }
 
+  static const _unset = Object();
   NetworkTypes copyWith({
-    String? id,
-    String? colCidr,
-    List<String>? colCidrArray,
-    String? colInet,
-    List<String>? colInetArray,
-    String? colMacaddr,
-    List<String>? colMacaddrArray,
-    String? colMacaddr8,
-    List<String>? colMacaddr8Array,
+    Object? id = _unset,
+    Object? colCidr = _unset,
+    Object? colCidrArray = _unset,
+    Object? colInet = _unset,
+    Object? colInetArray = _unset,
+    Object? colMacaddr = _unset,
+    Object? colMacaddrArray = _unset,
+    Object? colMacaddr8 = _unset,
+    Object? colMacaddr8Array = _unset,
   }) {
     return NetworkTypes(
-      id: id ?? this.id,
-      colCidr: colCidr ?? this.colCidr,
-      colCidrArray: colCidrArray ?? this.colCidrArray,
-      colInet: colInet ?? this.colInet,
-      colInetArray: colInetArray ?? this.colInetArray,
-      colMacaddr: colMacaddr ?? this.colMacaddr,
-      colMacaddrArray: colMacaddrArray ?? this.colMacaddrArray,
-      colMacaddr8: colMacaddr8 ?? this.colMacaddr8,
-      colMacaddr8Array: colMacaddr8Array ?? this.colMacaddr8Array,
+      id: id == _unset ? this.id : id as String,
+      colCidr: colCidr == _unset ? this.colCidr : colCidr as String?,
+      colCidrArray: colCidrArray == _unset
+          ? this.colCidrArray
+          : colCidrArray as List<String>?,
+      colInet: colInet == _unset ? this.colInet : colInet as String?,
+      colInetArray: colInetArray == _unset
+          ? this.colInetArray
+          : colInetArray as List<String>?,
+      colMacaddr:
+          colMacaddr == _unset ? this.colMacaddr : colMacaddr as String?,
+      colMacaddrArray: colMacaddrArray == _unset
+          ? this.colMacaddrArray
+          : colMacaddrArray as List<String>?,
+      colMacaddr8:
+          colMacaddr8 == _unset ? this.colMacaddr8 : colMacaddr8 as String?,
+      colMacaddr8Array: colMacaddr8Array == _unset
+          ? this.colMacaddr8Array
+          : colMacaddr8Array as List<String>?,
     );
   }
 }
@@ -2313,35 +2400,49 @@ class NumericTypes implements SupadartClass<NumericTypes> {
     );
   }
 
+  static const _unset = Object();
   NumericTypes copyWith({
-    String? id,
-    BigInt? colBigint,
-    List<BigInt>? colBigintArray,
-    int? colInteger,
-    List<int>? colIntegerArray,
-    int? colSmallint,
-    List<int>? colSmallintArray,
-    double? colDouble,
-    List<double>? colDoubleArray,
-    double? colReal,
-    List<double>? colRealArray,
-    num? colNumeric,
-    List<num>? colNumericArray,
+    Object? id = _unset,
+    Object? colBigint = _unset,
+    Object? colBigintArray = _unset,
+    Object? colInteger = _unset,
+    Object? colIntegerArray = _unset,
+    Object? colSmallint = _unset,
+    Object? colSmallintArray = _unset,
+    Object? colDouble = _unset,
+    Object? colDoubleArray = _unset,
+    Object? colReal = _unset,
+    Object? colRealArray = _unset,
+    Object? colNumeric = _unset,
+    Object? colNumericArray = _unset,
   }) {
     return NumericTypes(
-      id: id ?? this.id,
-      colBigint: colBigint ?? this.colBigint,
-      colBigintArray: colBigintArray ?? this.colBigintArray,
-      colInteger: colInteger ?? this.colInteger,
-      colIntegerArray: colIntegerArray ?? this.colIntegerArray,
-      colSmallint: colSmallint ?? this.colSmallint,
-      colSmallintArray: colSmallintArray ?? this.colSmallintArray,
-      colDouble: colDouble ?? this.colDouble,
-      colDoubleArray: colDoubleArray ?? this.colDoubleArray,
-      colReal: colReal ?? this.colReal,
-      colRealArray: colRealArray ?? this.colRealArray,
-      colNumeric: colNumeric ?? this.colNumeric,
-      colNumericArray: colNumericArray ?? this.colNumericArray,
+      id: id == _unset ? this.id : id as String,
+      colBigint: colBigint == _unset ? this.colBigint : colBigint as BigInt?,
+      colBigintArray: colBigintArray == _unset
+          ? this.colBigintArray
+          : colBigintArray as List<BigInt>?,
+      colInteger: colInteger == _unset ? this.colInteger : colInteger as int?,
+      colIntegerArray: colIntegerArray == _unset
+          ? this.colIntegerArray
+          : colIntegerArray as List<int>?,
+      colSmallint:
+          colSmallint == _unset ? this.colSmallint : colSmallint as int?,
+      colSmallintArray: colSmallintArray == _unset
+          ? this.colSmallintArray
+          : colSmallintArray as List<int>?,
+      colDouble: colDouble == _unset ? this.colDouble : colDouble as double?,
+      colDoubleArray: colDoubleArray == _unset
+          ? this.colDoubleArray
+          : colDoubleArray as List<double>?,
+      colReal: colReal == _unset ? this.colReal : colReal as double?,
+      colRealArray: colRealArray == _unset
+          ? this.colRealArray
+          : colRealArray as List<double>?,
+      colNumeric: colNumeric == _unset ? this.colNumeric : colNumeric as num?,
+      colNumericArray: colNumericArray == _unset
+          ? this.colNumericArray
+          : colNumericArray as List<num>?,
     );
   }
 }
@@ -2618,35 +2719,53 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
     );
   }
 
+  static const _unset = Object();
   DatetimeTypes copyWith({
-    String? id,
-    DateTime? colDate,
-    List<DateTime>? colDateArray,
-    DateTime? colTime,
-    List<DateTime>? colTimeArray,
-    DateTime? colTimetz,
-    List<DateTime>? colTimetzArray,
-    DateTime? colTimestamp,
-    List<DateTime>? colTimestampArray,
-    DateTime? colTimestamptz,
-    List<DateTime>? colTimestamptzArray,
-    Duration? colInterval,
-    List<Duration>? colIntervalArray,
+    Object? id = _unset,
+    Object? colDate = _unset,
+    Object? colDateArray = _unset,
+    Object? colTime = _unset,
+    Object? colTimeArray = _unset,
+    Object? colTimetz = _unset,
+    Object? colTimetzArray = _unset,
+    Object? colTimestamp = _unset,
+    Object? colTimestampArray = _unset,
+    Object? colTimestamptz = _unset,
+    Object? colTimestamptzArray = _unset,
+    Object? colInterval = _unset,
+    Object? colIntervalArray = _unset,
   }) {
     return DatetimeTypes(
-      id: id ?? this.id,
-      colDate: colDate ?? this.colDate,
-      colDateArray: colDateArray ?? this.colDateArray,
-      colTime: colTime ?? this.colTime,
-      colTimeArray: colTimeArray ?? this.colTimeArray,
-      colTimetz: colTimetz ?? this.colTimetz,
-      colTimetzArray: colTimetzArray ?? this.colTimetzArray,
-      colTimestamp: colTimestamp ?? this.colTimestamp,
-      colTimestampArray: colTimestampArray ?? this.colTimestampArray,
-      colTimestamptz: colTimestamptz ?? this.colTimestamptz,
-      colTimestamptzArray: colTimestamptzArray ?? this.colTimestamptzArray,
-      colInterval: colInterval ?? this.colInterval,
-      colIntervalArray: colIntervalArray ?? this.colIntervalArray,
+      id: id == _unset ? this.id : id as String,
+      colDate: colDate == _unset ? this.colDate : colDate as DateTime?,
+      colDateArray: colDateArray == _unset
+          ? this.colDateArray
+          : colDateArray as List<DateTime>?,
+      colTime: colTime == _unset ? this.colTime : colTime as DateTime?,
+      colTimeArray: colTimeArray == _unset
+          ? this.colTimeArray
+          : colTimeArray as List<DateTime>?,
+      colTimetz: colTimetz == _unset ? this.colTimetz : colTimetz as DateTime?,
+      colTimetzArray: colTimetzArray == _unset
+          ? this.colTimetzArray
+          : colTimetzArray as List<DateTime>?,
+      colTimestamp: colTimestamp == _unset
+          ? this.colTimestamp
+          : colTimestamp as DateTime?,
+      colTimestampArray: colTimestampArray == _unset
+          ? this.colTimestampArray
+          : colTimestampArray as List<DateTime>?,
+      colTimestamptz: colTimestamptz == _unset
+          ? this.colTimestamptz
+          : colTimestamptz as DateTime?,
+      colTimestamptzArray: colTimestamptzArray == _unset
+          ? this.colTimestamptzArray
+          : colTimestamptzArray as List<DateTime>?,
+      colInterval:
+          colInterval == _unset ? this.colInterval : colInterval as Duration?,
+      colIntervalArray: colIntervalArray == _unset
+          ? this.colIntervalArray
+          : colIntervalArray as List<Duration>?,
     );
   }
 }
