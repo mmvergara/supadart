@@ -1,164 +1,67 @@
-class DartType {
-  final String type;
-  DartType(this.type);
-}
-
-DartType postgresFormatToDartType(String format) {
+String postgresFormatToDartType(String format) {
   switch (format) {
-    // ====================
     // Integer types
     case "bigint":
-      return DartType("BigInt");
-
+      return "BigInt";
     case "integer":
     case "smallint":
-      return DartType("int");
-    // Integer Array types
+      return "int";
     case "bigint[]":
-      return DartType("List<BigInt>");
+      return "List<BigInt>";
     case "integer[]":
     case "smallint[]":
-      return DartType("List<int>");
+      return "List<int>";
 
-    // ====================
     // Floating-point types
     case "double precision":
     case "real":
-      return DartType("double");
-    // Floating-point Array types
+      return "double";
     case "double precision[]":
     case "real[]":
-      return DartType("List<double>");
+      return "List<double>";
 
-    // ====================
-    // Numeric type
+    // Numeric types
     case "numeric":
-      return DartType("num");
-    // Numeric Array type
+      return "num";
     case "numeric[]":
-      return DartType("List<num>");
+      return "List<num>";
 
-    // ====================
-    // Boolean type
+    // Boolean types
     case "boolean":
-      return DartType("bool");
-    // Boolean Array type
+      return "bool";
     case "boolean[]":
-      return DartType("List<bool>");
+      return "List<bool>";
 
-    // ====================
-    // String types
-    case "text":
-    case "character varying":
-    case "character":
-    case "uuid":
-    case "bit":
-    case "bit varying":
-    case "cidr":
-    case "inet":
-    case "macaddr":
-    case "macaddr8":
-    case "money":
-    case "tsquery":
-    case "tsvector":
-    case "xml":
-      return DartType("String");
-    // String Array types
-    case "text[]":
-    case "character varying[]":
-    case "character[]":
-    case "uuid[]":
-    case "bit[]":
-    case "bit varying[]":
-    case "cidr[]":
-    case "inet[]":
-    case "macaddr[]":
-    case "macaddr8[]":
-    case "money[]":
-    case "tsquery[]":
-    case "tsvector[]":
-    case "xml[]":
-      return DartType("List<String>");
-
-    // ====================
     // Date and Time types
     case "date":
     case "timestamp without time zone":
     case "timestamp with time zone":
     case "time without time zone":
     case "time with time zone":
-      return DartType("DateTime");
-    // Date and Time Array types
+      return "DateTime";
     case "date[]":
     case "timestamp without time zone[]":
     case "timestamp with time zone[]":
     case "time without time zone[]":
     case "time with time zone[]":
-      return DartType("List<DateTime>");
+      return "List<DateTime>";
 
-    // ====================
-    // Interval type
+    // Interval types
     case "interval":
-      return DartType("Duration");
-    // Interval Array type
+      return "Duration";
     case "interval[]":
-      return DartType("List<Duration>");
+      return "List<Duration>";
 
-    // ====================
-    // Binary data type
-    case "bytea":
-      return DartType("String");
-    // Binary data Array type
-    case "bytea[]":
-      return DartType("List<String>");
-
-    // ====================
     // JSON types
     case "json":
     case "jsonb":
-      return DartType("Map<String, dynamic>");
-    // JSON Array types
+      return "Map<String, dynamic>";
     case "json[]":
     case "jsonb[]":
-      return DartType("List<Map<String, dynamic>>");
+      return "List<Map<String, dynamic>>";
 
-    // ====================
-    // Geometric types
-    case "box":
-    case "circle":
-    case "line":
-    case "lseg":
-    case "path":
-    case "point":
-    case "polygon":
-      return DartType(
-          "String"); // These might require custom classes for proper representation
-    // Geometric Array types
-    case "box[]":
-    case "circle[]":
-    case "line[]":
-    case "lseg[]":
-    case "path[]":
-    case "point[]":
-    case "polygon[]":
-      return DartType(
-          "List<String>"); // These might require custom classes for proper representation
-
-    // ====================
-    // PostgreSQL-specific types
-    case "pg_lsn":
-    case "pg_snapshot":
-    case "txid_snapshot":
-      return DartType("String"); // These might require custom handling
-    // PostgreSQL-specific Array types
-    case "pg_lsn[]":
-    case "pg_snapshot[]":
-    case "txid_snapshot[]":
-      return DartType("List<String>"); // These might require custom handling
-
+    // This is where all other types go, supported or unsupported they are going be strings
     default:
-      print("format: $format");
-      return DartType(
-          "String"); // For unsupported types, use string as a fallback
+      return format.endsWith("[]") ? "List<String>" : "String";
   }
 }

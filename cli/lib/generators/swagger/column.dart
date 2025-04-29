@@ -7,6 +7,7 @@ class Column {
   final String dbColName;
   final String camelColName;
   final List<String> enumValues;
+  final bool isEnum;
   final dynamic hasDefaultValue;
   final String? description;
   final int? maxLength;
@@ -19,6 +20,7 @@ class Column {
     required this.dbColName,
     required this.camelColName,
     required this.enumValues,
+    required this.isEnum,
     this.hasDefaultValue,
     this.description,
     this.maxLength,
@@ -39,7 +41,7 @@ class Column {
         return postgresFormat.split(".").last.toUpperCase().replaceAll('"', "");
       }
     }
-    return postgresFormatToDartType(postgresFormat).type.replaceAll('"', "");
+    return postgresFormatToDartType(postgresFormat);
   }
 
   bool get isRequiredInInsert {
@@ -51,6 +53,10 @@ class Column {
         !!!hasDefaultValue &&
         !isPrimaryKey &&
         !isSerialType;
+  }
+
+  bool get isNullable {
+    return !isInRequiredColumn;
   }
 
   factory Column.fromJson(
@@ -82,6 +88,7 @@ class Column {
       isPrimaryKey: json['description']?.contains('<pk/>') ?? false,
       isSerialType: json['description']?.contains('[supadart:serial]') ?? false,
       isInRequiredColumn: parentTableRequiredFields.contains(colName),
+      isEnum: json['enum'] != null || enumValues.isNotEmpty,
     );
   }
 }

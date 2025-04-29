@@ -1,3 +1,10 @@
+## 1.8.0
+
+- Fallback all types to String or String[] if not supported
+- Should not set default value to "0" in fromJson when the field is a nullable foreign key
+- disabled default values test
+- Support null values for copyWith
+
 ## 1.7.2
 
 - Add support for vector types and create embeddings table

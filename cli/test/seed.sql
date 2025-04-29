@@ -183,7 +183,7 @@ CREATE TABLE enum_types (
 );
 
 
-DROP TYPE public.usergroup;
+DROP TYPE IF EXISTS public.usergroup;
 CREATE TYPE public.usergroup AS ENUM ('USERS', 'ADMIN', 'MODERATOR');
 
 
