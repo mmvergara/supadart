@@ -62,7 +62,6 @@ String postgresFormatToDartType(String format) {
 
     // This is where all other types go, supported or unsupported they are going be strings
     default:
-      print("format: $format");
       return format.endsWith("[]") ? "List<String>" : "String";
   }
 }
