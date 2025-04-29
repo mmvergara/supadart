@@ -27,6 +27,7 @@ String decodeFromJson(Column columnDetails) {
     case 'smallint':
     case 'integer':
       jsonDecode = 'int.parse($jsonValue.toString())';
+
       break;
     case 'smallint[]':
     case 'integer[]':
@@ -194,17 +195,30 @@ String decodeFromJson(Column columnDetails) {
         break;
       }
 
-      // if no type is found it is assumed to be an enum type
-      String enumName = columnDetails.dartType;
+      // check if the type is an enum type
+      if (columnDetails.isEnum) {
+        String enumName = columnDetails.dartType;
+        if (postgresFormat.contains("[]")) {
+          return '$jsonValue != null ? $enumName.from($jsonValue.map((e) => ${enumName.replaceAll("List<", "").replaceFirst(">", "")}.values.byName(e.toString())).toList()) : []';
+        } else {
+          return '$jsonValue != null ? $enumName.values.byName($jsonValue.toString()) : $enumName.values.first';
+        }
+      }
+
+      // If the type is not supported, we will fallback to string type
       if (postgresFormat.contains("[]")) {
-        return '$jsonValue != null ? $enumName.from($jsonValue.map((e) => ${enumName.replaceAll("List<", "").replaceFirst(">", "")}.values.byName(e.toString())).toList()) : []';
+        jsonDecode =
+            '($jsonValue as List<dynamic>).map((e) => e.toString()).toList()';
       } else {
-        return '$jsonValue != null ? $enumName.values.byName($jsonValue.toString()) : $enumName.values.first';
+        jsonDecode = '$jsonValue.toString()';
       }
   }
-  String code =
-      '$jsonValue != null ? $jsonDecode : ${dartTypeDefaultNullValue(columnDetails)}';
-  return code;
+
+  if (columnDetails.isNullable) {
+    return '$jsonValue != null ? $jsonDecode : null';
+  }
+
+  return '$jsonValue != null ? $jsonDecode : ${dartTypeDefaultNullValue(columnDetails)}';
 }
 
 String dartTypeDefaultNullValue(Column columnDetails) {
