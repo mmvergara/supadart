@@ -1,3 +1,8 @@
+## 1.8.1
+
+- Add support for PostGIS geometry and geography thanks to @ih57452
+
+
 ## 1.8.0
 
 - Fallback all types to String or String[] if not supported

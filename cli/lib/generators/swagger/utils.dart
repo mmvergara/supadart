@@ -60,6 +60,15 @@ String postgresFormatToDartType(String format) {
     case "jsonb[]":
       return "List<Map<String, dynamic>>";
 
+    // PostGIS types
+    case final String s when s.contains('geometry') && s.endsWith('[]'):
+    case final String s when s.contains('geography') && s.endsWith('[]'):
+      return "List<Geometry>";
+
+    case final String s when s.contains('geometry'):
+    case final String s when s.contains('geography'):
+      return "Geometry";
+
     // This is where all other types go, supported or unsupported they are going be strings
     default:
       return format.endsWith("[]") ? "List<String>" : "String";

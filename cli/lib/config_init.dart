@@ -53,6 +53,10 @@ exclude:
   - copyWith
   - New
 
+# Optional, enables support for PostGIS types
+# Requires the geobase package
+postGIS: false
+
 ''');
 
   print('Config file created at $path, please fill the fields');
