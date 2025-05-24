@@ -6,6 +6,7 @@
 // SDK
 import 'package:supabase/supabase.dart';
 
+// No geobase needed
 // INTL is an official package from Dart and is used for parsing dates
 // flutter pub add intl or dart pub add intl
 import 'package:intl/intl.dart';
@@ -44,11 +45,13 @@ extension SupadartClient on SupabaseClient {
   SupabaseQueryBuilder get profiles => from('profiles');
   SupabaseQueryBuilder get geometric_types => from('geometric_types');
   SupabaseQueryBuilder get embeddings => from('embeddings');
+  SupabaseQueryBuilder get genres => from('genres');
   SupabaseQueryBuilder get enum_types => from('enum_types');
   SupabaseQueryBuilder get json_types => from('json_types');
   SupabaseQueryBuilder get binary_xml_types => from('binary_xml_types');
   SupabaseQueryBuilder get network_types => from('network_types');
   SupabaseQueryBuilder get numeric_types => from('numeric_types');
+  SupabaseQueryBuilder get events => from('events');
   SupabaseQueryBuilder get datetime_types => from('datetime_types');
 }
 
@@ -1505,6 +1508,93 @@ class Embeddings implements SupadartClass<Embeddings> {
   }
 }
 
+class Genres implements SupadartClass<Genres> {
+  final String id;
+  final String name;
+
+  const Genres({
+    required this.id,
+    required this.name,
+  });
+
+  static String get table_name => 'genres';
+  static String get c_id => 'id';
+  static String get c_name => 'name';
+
+  static List<Genres> converter(List<Map<String, dynamic>> data) {
+    return data.map(Genres.fromJson).toList();
+  }
+
+  static Genres converterSingle(Map<String, dynamic> data) {
+    return Genres.fromJson(data);
+  }
+
+  static Map<String, dynamic> _generateMap({
+    String? id,
+    String? name,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+    };
+  }
+
+  static Map<String, dynamic> insert({
+    String? id,
+    required String name,
+  }) {
+    return _generateMap(
+      id: id,
+      name: name,
+    );
+  }
+
+  static Map<String, dynamic> update({
+    String? id,
+    String? name,
+  }) {
+    return _generateMap(
+      id: id,
+      name: name,
+    );
+  }
+
+  factory Genres.fromJson(Map<String, dynamic> jsonn) {
+    return Genres(
+      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
+      name: jsonn['name'] != null ? jsonn['name'].toString() : '',
+    );
+  }
+
+  static Object New({
+    String? id,
+    String? name,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+    };
+  }
+
+  Map<String, dynamic> toJson() {
+    return _generateMap(
+      id: id,
+      name: name,
+    );
+  }
+
+  static const _unset = Object();
+  Genres copyWith({
+    Object? id = _unset,
+    Object? name = _unset,
+  }) {
+    return Genres(
+      id: id == _unset ? this.id : id as String,
+      name: name == _unset ? this.name : name as String,
+    );
+  }
+}
+
 class EnumTypes implements SupadartClass<EnumTypes> {
   final String id;
   final MOOD colMood;
@@ -2443,6 +2533,112 @@ class NumericTypes implements SupadartClass<NumericTypes> {
       colNumericArray: colNumericArray == _unset
           ? this.colNumericArray
           : colNumericArray as List<num>?,
+    );
+  }
+}
+
+class Events implements SupadartClass<Events> {
+  final String id;
+  final String title;
+  final List<String> category;
+
+  const Events({
+    required this.id,
+    required this.title,
+    required this.category,
+  });
+
+  static String get table_name => 'events';
+  static String get c_id => 'id';
+  static String get c_title => 'title';
+  static String get c_category => 'category';
+
+  static List<Events> converter(List<Map<String, dynamic>> data) {
+    return data.map(Events.fromJson).toList();
+  }
+
+  static Events converterSingle(Map<String, dynamic> data) {
+    return Events.fromJson(data);
+  }
+
+  static Map<String, dynamic> _generateMap({
+    String? id,
+    String? title,
+    List<String>? category,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (title != null) 'title': title,
+      if (category != null) 'category': category.map((e) => e).toList(),
+    };
+  }
+
+  static Map<String, dynamic> insert({
+    String? id,
+    required String title,
+    required List<String> category,
+  }) {
+    return _generateMap(
+      id: id,
+      title: title,
+      category: category,
+    );
+  }
+
+  static Map<String, dynamic> update({
+    String? id,
+    String? title,
+    List<String>? category,
+  }) {
+    return _generateMap(
+      id: id,
+      title: title,
+      category: category,
+    );
+  }
+
+  factory Events.fromJson(Map<String, dynamic> jsonn) {
+    return Events(
+      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
+      title: jsonn['title'] != null ? jsonn['title'].toString() : '',
+      category: jsonn['category'] != null
+          ? (jsonn['category'] as List<dynamic>)
+              .map((v) => v.toString())
+              .toList()
+          : <String>[],
+    );
+  }
+
+  static Object New({
+    String? id,
+    String? title,
+    List<String>? category,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (title != null) 'title': title,
+      if (category != null) 'category': category,
+    };
+  }
+
+  Map<String, dynamic> toJson() {
+    return _generateMap(
+      id: id,
+      title: title,
+      category: category,
+    );
+  }
+
+  static const _unset = Object();
+  Events copyWith({
+    Object? id = _unset,
+    Object? title = _unset,
+    Object? category = _unset,
+  }) {
+    return Events(
+      id: id == _unset ? this.id : id as String,
+      title: title == _unset ? this.title : title as String,
+      category: category == _unset ? this.category : category as List<String>,
     );
   }
 }
