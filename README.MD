@@ -68,6 +68,8 @@ final allBooks = await supabase
 
 > [Other Types](https://github.com/mmvergara/supadart/blob/main/other-types.md)
 
+> [PostGIS Types](https://github.com/mmvergara/supadart/blob/main/postgis-types.md)
+
 # Generating Dart Classes
 
 ## 1. Pre-requisites
