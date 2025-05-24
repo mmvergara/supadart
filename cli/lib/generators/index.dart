@@ -1,13 +1,14 @@
 import 'package:yaml/yaml.dart';
+
+import 'class/class.dart';
+import 'standalone/client_extension.dart';
+import 'standalone/duration_fromstring.dart';
+import 'standalone/enums.dart';
+import 'standalone/exports.dart';
+import 'standalone/supadart_abstract_class.dart';
 import 'storage/storage.dart';
 import 'swagger/swagger.dart';
-import 'standalone/exports.dart';
-import 'standalone/enums.dart';
-import 'standalone/duration_fromstring.dart';
-import 'standalone/client_extension.dart';
-import 'standalone/supadart_abstract_class.dart';
 import 'utils/string_formatters.dart';
-import 'class/class.dart';
 
 List<GeneratedFile> supadartRun(
   DatabaseSwagger swagger,
@@ -17,6 +18,7 @@ List<GeneratedFile> supadartRun(
   YamlMap? mappings,
   List<String> exclude,
   Map<String, List<String>> mapOfEnums,
+  bool isPostGIS,
 ) {
   final dartClasses = generateDartClasses(swagger, mappings, exclude);
 
@@ -56,6 +58,7 @@ List<GeneratedFile> supadartRun(
     needsDartConvert: needsDartConvert,
     needsDurationFromString: needsDurationFromString,
     mappings: mappings,
+    isPostGIS: isPostGIS,
   );
   return isSeparated
       ? supadartGenerator.generateDartModelFilesSeparated()
@@ -83,6 +86,7 @@ class SupadartGenerator {
   final bool isDart;
   final bool needsIntl;
   final bool needsDartConvert;
+  final bool isPostGIS;
 
   // Function Imports
   final bool needsDurationFromString;
@@ -100,6 +104,7 @@ class SupadartGenerator {
     required this.needsDartConvert,
     required this.needsDurationFromString,
     required this.mappings,
+    required this.isPostGIS,
   });
 
   List<GeneratedFile> generateClassesSingleFile() {
@@ -156,6 +161,9 @@ import 'supadart_header.dart';
           ? "import 'package:supabase/supabase.dart';"
           : "import 'package:supabase_flutter/supabase_flutter.dart';",
       "\n",
+      isPostGIS
+          ? "import 'package:geobase/geobase.dart';"
+          : "// No geobase needed",
       needsIntl
           ? """
           // INTL is an official package from Dart and is used for parsing dates

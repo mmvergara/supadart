@@ -1,5 +1,5 @@
-import '../swagger/table.dart';
 import '../swagger/column.dart';
+import '../swagger/table.dart';
 
 String generateMapStaticMethod(Table table) {
   final columns = table.columns;
@@ -139,6 +139,24 @@ String encodeToJson(
     case 'interval[]':
       jsonEncodableType = "$columnName.map((e) => e.toString()).toList()";
       break;
+
+    // These types will be prefixed with the schema PostGIS is installed in
+    // (eg. extensions.geometry), and may optionally end with a specific
+    // geometry type if specified for the column (eg. extensions.geometry(POINT),
+    // extensions.geometry(LINESTRING)), so check that they contain name
+    // anywhere in the string.
+    case final String s when s.contains('geometry') && s.endsWith('[]'):
+    case final String s when s.contains('geography') && s.endsWith('[]'):
+      jsonEncodableType =
+          '$columnName.map((e) => e.toBytesHex(format: WKB.geometryExtended)).toList()';
+      break;
+
+    case final String s when s.contains('geometry'):
+    case final String s when s.contains('geography'):
+      jsonEncodableType =
+          '$columnName.toBytesHex(format: WKB.geometryExtended)';
+      break;
+
     // NOT YET SUPPORTED TYPES ARE ENCODED TO STRINGS BY DEFAULT
     // NEED CONTRIBUTIONS TO SUPPORT THESE TYPES
 
