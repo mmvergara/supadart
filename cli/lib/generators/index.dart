@@ -162,7 +162,7 @@ import 'supadart_header.dart';
           : "import 'package:supabase_flutter/supabase_flutter.dart';",
       "\n",
       isPostGIS
-          ? "import 'package:geobase/geobase.dart';"
+          ? "${isSingleFile ? "import" : "export"} 'package:geobase/geobase.dart';"
           : "// No geobase needed",
       needsIntl
           ? """
