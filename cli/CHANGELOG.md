@@ -1,3 +1,8 @@
+## 1.8.2
+
+- Fix import statement for PostGIS geometry and geography
+- Thanks to @momingse
+
 ## 1.8.1
 
 - Add support for PostGIS geometry and geography thanks to @ih57452
