@@ -278,7 +278,7 @@ String dartTypeDefaultNullValue(Column columnDetails) {
     case 'List<Map<String, dynamic>>':
       return '<Map<String, dynamic>>[]';
     case 'Geometry':
-      return 'null';
+      return 'Point(Position.view(const [double.nan, double.nan]))';
     case 'List<Geometry>':
       return '<Geometry>[]';
     default:

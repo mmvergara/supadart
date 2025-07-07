@@ -1,3 +1,7 @@
+## 1.8.3
+
+- Fix fromJson Geometry default null type handling
+
 ## 1.8.2
 
 - Fix import statement for PostGIS geometry and geography
@@ -6,7 +10,6 @@
 ## 1.8.1
 
 - Add support for PostGIS geometry and geography thanks to @ih57452
-
 
 ## 1.8.0
 
