@@ -5,12 +5,12 @@ class DatabaseSwagger {
 
   DatabaseSwagger(this.definitions);
 
-  factory DatabaseSwagger.fromJson(
-      Map<String, dynamic> json, Map<String, List<String>> mapOfEnums) {
+  factory DatabaseSwagger.fromJson(Map<String, dynamic> json,
+      Map<String, List<String>> mapOfEnums, bool jsonbToDynamic) {
     final definitions = json['definitions'] as Map<String, dynamic>;
     return DatabaseSwagger(
-      definitions.map((key, value) =>
-          MapEntry(key, Table.fromJson(key, value, mapOfEnums))),
+      definitions.map((key, value) => MapEntry(
+          key, Table.fromJson(key, value, mapOfEnums, jsonbToDynamic))),
     );
   }
 }

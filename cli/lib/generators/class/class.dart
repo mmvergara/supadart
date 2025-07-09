@@ -26,6 +26,7 @@ List<DartClass> generateDartClasses(
   DatabaseSwagger swagger,
   YamlMap? mappings,
   List<String> exclude,
+  bool jsonbToDynamic,
 ) {
   return swagger.definitions.entries.map((entry) {
     final tableName = entry.key;
@@ -40,15 +41,15 @@ List<DartClass> generateDartClasses(
       ..write(generateStaticColumnNames(table))
       ..write(generateConverterMethod(className))
       ..write(generateConverterSingleMethod(className))
-      ..write(generateMapStaticMethod(table))
+      ..write(generateMapStaticMethod(table, jsonbToDynamic: jsonbToDynamic))
       ..write(generateInsertMethod(table))
       ..write(generateUpdateMethod(table))
-      ..write(generateFromJsonMethod(className, table));
+      ..write(generateFromJsonMethod(className, table, jsonbToDynamic));
     if (!exclude.contains('New')) {
       code.write(generateNewStaticMethod(table));
     }
     if (!exclude.contains('toJson')) {
-      code.write(generateToJsonMethod(className, table));
+      code.write(generateToJsonMethod(className, table, jsonbToDynamic));
     }
     if (!exclude.contains('copyWith')) {
       code.write(generateCopyWithMethod(className, table));

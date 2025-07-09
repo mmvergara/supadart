@@ -3,11 +3,8 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import '../swagger/swagger.dart';
 
-Future<DatabaseSwagger?> fetchDatabaseSwagger(
-  String url,
-  String anonKey,
-  Map<String, List<String>> mapOfEnums,
-) async {
+Future<DatabaseSwagger?> fetchDatabaseSwagger(String url, String anonKey,
+    Map<String, List<String>> mapOfEnums, bool jsonbToDynamic) async {
   if (!url.startsWith("http://") && !url.startsWith("https://")) {
     url = "https://$url"; // Default to HTTPS if no scheme is provided
   }
@@ -16,14 +13,16 @@ Future<DatabaseSwagger?> fetchDatabaseSwagger(
     // First attempt with API key
     final response = await _secureRequest('$url/rest/v1/?apikey=$anonKey');
     if (response.statusCode == 200) {
-      return DatabaseSwagger.fromJson(jsonDecode(response.body), mapOfEnums);
+      return DatabaseSwagger.fromJson(
+          jsonDecode(response.body), mapOfEnums, jsonbToDynamic);
     }
 
     // Second attempt without API key
     print("Trying without the API key...");
     final response2 = await _secureRequest('$url/rest/v1/');
     if (response2.statusCode == 200) {
-      return DatabaseSwagger.fromJson(jsonDecode(response2.body), mapOfEnums);
+      return DatabaseSwagger.fromJson(
+          jsonDecode(response2.body), mapOfEnums, jsonbToDynamic);
     }
 
     print(

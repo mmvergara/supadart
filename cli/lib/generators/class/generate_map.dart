@@ -1,7 +1,7 @@
 import '../swagger/column.dart';
 import '../swagger/table.dart';
 
-String generateMapStaticMethod(Table table) {
+String generateMapStaticMethod(Table table, {bool jsonbToDynamic = false}) {
   final columns = table.columns;
   final buffer = StringBuffer();
 
@@ -17,7 +17,7 @@ String generateMapStaticMethod(Table table) {
 
   columns.forEach((columnName, columnDetails) {
     buffer.writeln(
-      "if ($columnName != null) '${columnDetails.dbColName}': ${encodeToJson(columnDetails)},",
+      "if ($columnName != null) '${columnDetails.dbColName}': ${encodeToJson(columnDetails, jsonbToDynamic)},",
     );
   });
 
@@ -29,10 +29,15 @@ String generateMapStaticMethod(Table table) {
 
 String encodeToJson(
   Column columnDetails,
+  bool jsonbToDynamic,
 ) {
   final columnName = columnDetails.camelColName;
   String format = columnDetails.postgresFormat;
   bool isArray = format.contains("[]");
+
+  if (jsonbToDynamic && (format == 'jsonb' || format == 'jsonb[]')) {
+    return columnName;
+  }
 
   String jsonEncodableType = '';
   switch (format) {

@@ -1,3 +1,7 @@
+## 1.8.4
+
+- Add jsonbToDynamic option to override the default jsonb mapping to dynamic
+
 ## 1.8.3
 
 - Fix fromJson Geometry default null type handling

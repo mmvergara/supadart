@@ -19,8 +19,10 @@ List<GeneratedFile> supadartRun(
   List<String> exclude,
   Map<String, List<String>> mapOfEnums,
   bool isPostGIS,
+  bool jsonbToDynamic,
 ) {
-  final dartClasses = generateDartClasses(swagger, mappings, exclude);
+  final dartClasses =
+      generateDartClasses(swagger, mappings, exclude, jsonbToDynamic);
 
   final clientExtension = generateClientExtension(swagger);
   final storageClientExtension = generateStorageClientExtension(storageList);

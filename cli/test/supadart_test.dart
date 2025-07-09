@@ -37,6 +37,7 @@ void main() async {
     url,
     anonKey,
     mapOfEnums,
+    false,
   );
   if (databaseSwagger == null) {
     print("Failed to fetch database swagger");
@@ -51,7 +52,7 @@ void main() async {
 
   // Test config, isDart: true, isSeperated:false, mappings:null
   final files = supadartRun(databaseSwagger, storageList, isDart, isSeperated,
-      mappings, [], mapOfEnums, false);
+      mappings, [], mapOfEnums, false, false);
   await generateAndFormatFiles(files, './test/models/');
   print("\nGenerated Fresh Models from DB");
 
