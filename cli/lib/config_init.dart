@@ -57,6 +57,10 @@ exclude:
 # Requires the geobase package
 postGIS: false
 
+# Optional, map jsonb fields to dynamic instead of Map<String, dynamic>
+# Set to true to enable (default: false)
+jsonbToDynamic: false
+
 ''');
 
   print('Config file created at $path, please fill the fields');

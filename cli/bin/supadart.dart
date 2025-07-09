@@ -124,6 +124,7 @@ Map<String, dynamic> extractOptions(ArgResults results, YamlMap config) {
     'exclude': List<String>.from(config['exclude'] ?? []),
     'mapOfEnums': enums,
     'isPostGIS': config['postGIS'] ?? false,
+    'jsonbToDynamic': config['jsonbToDynamic'] ?? false,
   };
 }
 
@@ -142,15 +143,16 @@ bool validateOptions(Map<String, dynamic> options) {
 
 void printConfiguration(Map<String, dynamic> options) {
   print('==============================');
-  print('URL:         ${options['url']}');
-  print('ANON KEY:    ${options['anonKey'].substring(0, 25)}...');
-  print('Output:      ${options['output']}');
-  print('Separated:   ${options['isSeparated']}');
-  print('Dart:        ${options['isDart']}');
-  print('Mappings:    ${options['mappings']}');
-  print('Excluded:    ${options['exclude']}');
-  print('Enums:       ${options['mapOfEnums']}');
-  print('PostGIS:     ${options['isPostGIS']}');
+  print('URL:            ${options['url']}');
+  print('ANON KEY:       ${options['anonKey'].substring(0, 25)}...');
+  print('Output:         ${options['output']}');
+  print('Separated:      ${options['isSeparated']}');
+  print('Dart:           ${options['isDart']}');
+  print('Mappings:       ${options['mappings']}');
+  print('Excluded:       ${options['exclude']}');
+  print('Enums:          ${options['mapOfEnums']}');
+  print('PostGIS:        ${options['isPostGIS']}');
+  print('JsonbToDynamic: ${options['jsonbToDynamic']}');
   print('==============================');
 }
 
@@ -160,6 +162,7 @@ Future<void> generateModels(Map<String, dynamic> options) async {
     options['url'],
     options['anonKey'],
     options['mapOfEnums'],
+    options['jsonbToDynamic'],
   );
 
   if (databaseSwagger == null) {
@@ -187,6 +190,7 @@ Future<void> generateModels(Map<String, dynamic> options) async {
     options['exclude'],
     options['mapOfEnums'],
     options['isPostGIS'],
+    options['jsonbToDynamic'],
   );
 
   await generateAndFormatFiles(files, options['output']);

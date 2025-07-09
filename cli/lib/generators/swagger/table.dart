@@ -14,7 +14,7 @@ class Table {
   });
 
   factory Table.fromJson(String name, Map<String, dynamic> json,
-      Map<String, List<String>> mapOfEnums) {
+      Map<String, List<String>> mapOfEnums, bool jsonbToDynamic) {
     final properties = json['properties'] as Map<String, dynamic>;
     final requiredFields = json['required'] != null
         ? List<String>.from(json['required'])
@@ -25,7 +25,8 @@ class Table {
       requiredFields: requiredFields,
       columns: properties.map((key, value) => MapEntry(
           snakeCasingToCamelCasing(key),
-          Column.fromJson(key, value, requiredFields, mapOfEnums))),
+          Column.fromJson(key, value, requiredFields, mapOfEnums,
+              jsonbToDynamic: jsonbToDynamic))),
     );
   }
 }

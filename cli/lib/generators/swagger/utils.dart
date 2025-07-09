@@ -1,4 +1,8 @@
-String postgresFormatToDartType(String format) {
+String postgresFormatToDartType(String format, bool jsonbToDynamic) {
+  if (jsonbToDynamic) {
+    if (format == 'jsonb') return 'dynamic';
+    if (format == 'jsonb[]') return 'List<dynamic>';
+  }
   switch (format) {
     // Integer types
     case "bigint":

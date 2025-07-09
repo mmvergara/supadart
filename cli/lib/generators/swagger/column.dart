@@ -14,6 +14,7 @@ class Column {
   final bool isPrimaryKey;
   final bool isSerialType;
   final bool isInRequiredColumn;
+  final bool jsonbToDynamic;
 
   Column({
     required this.postgresFormat,
@@ -21,6 +22,7 @@ class Column {
     required this.camelColName,
     required this.enumValues,
     required this.isEnum,
+    required this.jsonbToDynamic,
     this.hasDefaultValue,
     this.description,
     this.maxLength,
@@ -41,7 +43,7 @@ class Column {
         return postgresFormat.split(".").last.toUpperCase().replaceAll('"', "");
       }
     }
-    return postgresFormatToDartType(postgresFormat);
+    return postgresFormatToDartType(postgresFormat, jsonbToDynamic);
   }
 
   bool get isRequiredInInsert {
@@ -60,11 +62,11 @@ class Column {
   }
 
   factory Column.fromJson(
-    String colName,
-    Map<String, dynamic> json,
-    List<String> parentTableRequiredFields,
-    Map<String, List<String>> mapOfEnums,
-  ) {
+      String colName,
+      Map<String, dynamic> json,
+      List<String> parentTableRequiredFields,
+      Map<String, List<String>> mapOfEnums,
+      {bool jsonbToDynamic = false}) {
     List<String> enumValues =
         json['enum'] != null ? List<String>.from(json['enum']) : <String>[];
     if (json['format'].toString().contains("public.")) {
@@ -89,6 +91,7 @@ class Column {
       isSerialType: json['description']?.contains('[supadart:serial]') ?? false,
       isInRequiredColumn: parentTableRequiredFields.contains(colName),
       isEnum: json['enum'] != null || enumValues.isNotEmpty,
+      jsonbToDynamic: jsonbToDynamic,
     );
   }
 }
