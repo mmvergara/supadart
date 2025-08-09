@@ -64,6 +64,9 @@ ArgParser setupArgParser() {
     ..addOption('key',
         abbr: "k",
         help: 'Supabase ANON KEY                       (if not set in yaml)')
+    ..addOption('schema',
+        abbr: "s",
+        help: 'Specify the schema to generate classes for (default: public)')
     ..addFlag('version', abbr: 'v', negatable: false, help: version);
 }
 
@@ -125,6 +128,7 @@ Map<String, dynamic> extractOptions(ArgResults results, YamlMap config) {
     'mapOfEnums': enums,
     'isPostGIS': config['postGIS'] ?? false,
     'jsonbToDynamic': config['jsonbToDynamic'] ?? false,
+    'schema': results['schema'] ?? 'public',
   };
 }
 
@@ -153,6 +157,7 @@ void printConfiguration(Map<String, dynamic> options) {
   print('Enums:          ${options['mapOfEnums']}');
   print('PostGIS:        ${options['isPostGIS']}');
   print('JsonbToDynamic: ${options['jsonbToDynamic']}');
+  print('Schema:         ${options['schema']}');
   print('==============================');
 }
 
@@ -163,6 +168,7 @@ Future<void> generateModels(Map<String, dynamic> options) async {
     options['anonKey'],
     options['mapOfEnums'],
     options['jsonbToDynamic'],
+    schema: options['schema'],
   );
 
   if (databaseSwagger == null) {
