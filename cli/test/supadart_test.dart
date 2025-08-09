@@ -38,6 +38,7 @@ void main() async {
     anonKey,
     mapOfEnums,
     false,
+    schema: 'public',
   );
   if (databaseSwagger == null) {
     print("Failed to fetch database swagger");
