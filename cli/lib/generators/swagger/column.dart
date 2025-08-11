@@ -37,6 +37,10 @@ class Column {
           postgresFormat.contains("VECTOR")) {
         return "String";
       }
+      if (postgresFormat.contains("geometry") ||
+          postgresFormat.contains("geography")) {
+        return postgresFormatToDartType(postgresFormat, jsonbToDynamic);
+      }
       if (postgresFormat.contains("[]")) {
         return "List<${postgresFormat.split(".").last.toUpperCase().replaceAll('"', "").replaceAll("[]", "")}>";
       } else {
