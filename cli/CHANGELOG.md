@@ -1,3 +1,9 @@
+
+## 1.8.5
+
+- Fix geometry type handling in PostgreSQL format conversion
+- Added name type support
+
 ## 1.8.4
 
 - Add jsonbToDynamic option to override the default jsonb mapping to dynamic
