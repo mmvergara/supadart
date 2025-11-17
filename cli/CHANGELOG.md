@@ -1,8 +1,7 @@
+## 1.9.0
 
-## 1.8.5
-
-- Fix geometry type handling in PostgreSQL format conversion
-- Added name type support
+- Support with new supabase api keys
+- Thanks to @renesass
 
 ## 1.8.4
 

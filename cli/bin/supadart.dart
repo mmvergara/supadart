@@ -8,7 +8,7 @@ import 'package:supadart/generators/storage/fetch_storage.dart';
 import 'package:supadart/generators/utils/fetch_swagger.dart';
 import 'package:yaml/yaml.dart';
 
-const String version = 'v1.8.4';
+const String version = 'v1.9.0';
 const String red = '\x1B[31m';
 const String green = '\x1B[32m';
 const String blue = '\x1B[34m';
@@ -48,22 +48,34 @@ void main(List<String> arguments) async {
 
 ArgParser setupArgParser() {
   return ArgParser()
-    ..addFlag('help',
-        abbr: 'h', negatable: false, help: 'Show usage information')
-    ..addFlag('init',
-        abbr: 'i',
-        negatable: false,
-        help: 'Initialize config file supadart.yaml')
-    ..addOption('config',
-        abbr: 'c',
-        help:
-            'Specify a path to config file of yaml   (default: ./supadart.yaml)')
-    ..addOption('url',
-        abbr: "u",
-        help: 'Supabase URL                            (if not set in yaml)')
-    ..addOption('key',
-        abbr: "k",
-        help: 'Supabase ANON KEY                       (if not set in yaml)')
+    ..addFlag(
+      'help',
+      abbr: 'h',
+      negatable: false,
+      help: 'Show usage information',
+    )
+    ..addFlag(
+      'init',
+      abbr: 'i',
+      negatable: false,
+      help: 'Initialize config file supadart.yaml',
+    )
+    ..addOption(
+      'config',
+      abbr: 'c',
+      help:
+          'Specify a path to config file of yaml   (default: ./supadart.yaml)',
+    )
+    ..addOption(
+      'url',
+      abbr: "u",
+      help: 'Supabase URL                            (if not set in yaml)',
+    )
+    ..addOption(
+      'key',
+      abbr: "k",
+      help: 'Supabase API KEY                        (if not set in yaml)',
+    )
     ..addFlag('version', abbr: 'v', negatable: false, help: version);
 }
 
@@ -86,16 +98,17 @@ Future<YamlMap?> loadYamlConfig(ArgResults results) async {
     return loadYaml(configContent);
   } catch (e) {
     print(
-        "${red}You need to create a config file use --init command to generate one$reset");
+      "${red}You need to create a config file use --init command to generate one$reset",
+    );
     return null;
   }
 }
 
 Map<String, dynamic> extractOptions(ArgResults results, YamlMap config) {
-  // check if env values are set for SUPABASE_URL and SUPABASE_ANON_KEY
+  // check if env values are set for SUPABASE_URL and SUPABASE_API_KEY
   var env = DotEnv(includePlatformEnvironment: true)..load();
-  if (env['SUPABASE_URL'] != null && env['SUPABASE_ANON_KEY'] != null) {
-    print("Using .env file for SUPABASE_URL and SUPABASE_ANON_KEY");
+  if (env['SUPABASE_URL'] != null && env['SUPABASE_API_KEY'] != null) {
+    print("Using .env file for SUPABASE_URL and SUPABASE_API_KEY");
   }
 
   // Extract enums as a Map<String, List<String>> from config['enums']
@@ -113,7 +126,11 @@ Map<String, dynamic> extractOptions(ArgResults results, YamlMap config) {
   return {
     'url':
         results['url'] ?? env['SUPABASE_URL'] ?? config['SUPABASE_URL'] ?? '',
-    'anonKey': results['key'] ??
+    'apiKey':
+        results['key'] ??
+        env['SUPABASE_API_KEY'] ??
+        config['SUPABASE_API_KEY'] ??
+        // Fallback to old key names for backward compatibility
         env['SUPABASE_ANON_KEY'] ??
         config['SUPABASE_ANON_KEY'] ??
         '',
@@ -129,13 +146,15 @@ Map<String, dynamic> extractOptions(ArgResults results, YamlMap config) {
 }
 
 bool validateOptions(Map<String, dynamic> options) {
-  if (options['url'].isEmpty || options['anonKey'].isEmpty) {
+  if (options['url'].isEmpty || options['apiKey'].isEmpty) {
     print(
-        "${red}Please Provide the url and key for your supabase instance... You can");
-    print("1. Use a .env file to specify SUPABASE_URL and SUPABASE_ANON_KEY");
-    print("2. Set SUPABASE_URL and SUPABASE_ANON_KEY in .yaml config file");
+      "${red}Please Provide the url and key for your supabase instance... You can",
+    );
+    print("1. Use a .env file to specify SUPABASE_URL and SUPABASE_API_KEY");
+    print("2. Set SUPABASE_URL and SUPABASE_API_KEY in .yaml config file");
     print(
-        "3. Specificy --url and --key in the cli (ex. supadart -u <url> -k <key>) $reset");
+      "3. Specificy --url and --key in the cli (ex. supadart -u <url> -k <key>) $reset",
+    );
     return false;
   }
   return true;
@@ -144,7 +163,7 @@ bool validateOptions(Map<String, dynamic> options) {
 void printConfiguration(Map<String, dynamic> options) {
   print('==============================');
   print('URL:            ${options['url']}');
-  print('ANON KEY:       ${options['anonKey'].substring(0, 25)}...');
+  print('API KEY:        ${options['apiKey'].substring(0, 25)}...');
   print('Output:         ${options['output']}');
   print('Separated:      ${options['isSeparated']}');
   print('Dart:           ${options['isDart']}');
@@ -160,7 +179,7 @@ Future<void> generateModels(Map<String, dynamic> options) async {
   print("Fetching database schema...");
   final databaseSwagger = await fetchDatabaseSwagger(
     options['url'],
-    options['anonKey'],
+    options['apiKey'],
     options['mapOfEnums'],
     options['jsonbToDynamic'],
   );
@@ -170,10 +189,7 @@ Future<void> generateModels(Map<String, dynamic> options) async {
     exit(1);
   }
 
-  final storageList = await fetchStorageList(
-    options['url'],
-    options['anonKey'],
-  );
+  final storageList = await fetchStorageList(options['url'], options['apiKey']);
   if (storageList == null) {
     print('Failed to fetch storage');
     exit(1);
@@ -202,14 +218,14 @@ Future<void> generateModels(Map<String, dynamic> options) async {
 
 class Config {
   final String url;
-  final String anonKey;
+  final String apiKey;
   final bool isSeparated;
   final bool isDart;
   final String output;
 
   Config({
     required this.url,
-    required this.anonKey,
+    required this.apiKey,
     required this.isSeparated,
     required this.isDart,
     required this.output,
@@ -226,22 +242,28 @@ class Config {
       print("Config file found and loaded");
     } catch (e) {
       print(
-          "Config file not found or couldn't be read. Using CLI arguments only.");
+        "Config file not found or couldn't be read. Using CLI arguments only.",
+      );
     }
 
     String url = cliArgs['url'] ?? yamlConfig['supabase_url'] ?? '';
-    String anonKey = cliArgs['key'] ?? yamlConfig['supabase_anon_key'] ?? '';
+    String apiKey =
+        cliArgs['key'] ??
+        yamlConfig['supabase_api_key'] ??
+        yamlConfig['supabase_anon_key'] ??
+        '';
 
-    if (url.isEmpty || anonKey.isEmpty) {
+    if (url.isEmpty || apiKey.isEmpty) {
       print(
-          "Please provide --url and --key or set supabase_url and supabase_anon_key in the YAML file");
+        "Please provide --url and --key or set supabase_url and supabase_api_key in the YAML file",
+      );
       print('Use -h or --help for help');
       exit(1);
     }
 
     return Config(
       url: url,
-      anonKey: anonKey,
+      apiKey: apiKey,
       isSeparated: cliArgs['separated'] ?? yamlConfig['separated'] ?? false,
       isDart: cliArgs['dart'] ?? yamlConfig['dart'] ?? false,
       output: cliArgs['output'] ?? yamlConfig['output'] ?? './lib/models/',
@@ -250,20 +272,24 @@ class Config {
 }
 
 Future<void> generateAndFormatFiles(
-    List<GeneratedFile> files, String folderPath) async {
-  await Future.wait(files.map((file) async {
-    // file.fileName includes .dart extension
-    final filePath = folderPath + file.fileName;
-    final fileToGenerate = File(filePath);
+  List<GeneratedFile> files,
+  String folderPath,
+) async {
+  await Future.wait(
+    files.map((file) async {
+      // file.fileName includes .dart extension
+      final filePath = folderPath + file.fileName;
+      final fileToGenerate = File(filePath);
 
-    // Create file if it doesn't exist else overwrite it
-    await fileToGenerate.create(recursive: true);
-    await fileToGenerate.writeAsString(file.fileContent);
+      // Create file if it doesn't exist else overwrite it
+      await fileToGenerate.create(recursive: true);
+      await fileToGenerate.writeAsString(file.fileContent);
 
-    // Format the file
-    await formatCode(filePath);
-    print('$green🎯 Generated: $filePath $reset');
-  }));
+      // Format the file
+      await formatCode(filePath);
+      print('$green🎯 Generated: $filePath $reset');
+    }),
+  );
 }
 
 Future<void> formatCode(String filePath) async {

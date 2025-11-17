@@ -22,10 +22,10 @@ configFileInit(String path) async {
   file.writeAsStringSync('''
 
 # Don't want to expose your supabase credentials? you have two options
-# 1. Use a .env file to specify SUPABASE_URL and SUPABASE_ANON_KEY
+# 1. Use a .env file to specify SUPABASE_URL and SUPABASE_API_KEY
 # 2. Specify --url and --key in the CLI (ex. supadart -u <url> -k <key>)
 SUPABASE_URL: 
-SUPABASE_ANON_KEY:
+SUPABASE_API_KEY:
 
 
 # Enums in your database? map them here (Case Sensitive)
