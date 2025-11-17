@@ -1,3 +1,8 @@
+## 1.9.0
+
+- Support with new supabase api keys
+- Thanks to @renesass
+
 ## 1.8.4
 
 - Add jsonbToDynamic option to override the default jsonb mapping to dynamic
