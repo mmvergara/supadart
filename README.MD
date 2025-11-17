@@ -138,10 +138,10 @@ dart pub global run supadart
 supadart --init
 
 # Generate classes
-supadart --url <supabase_url> --key <supabase_anon_key>
+supadart --url <supabase_url> --key <supabase_api_key>
 
-# if SUPABASE_URL and SUPABASE_ANON_KEY are set in the environment variables
-# if SUPABASE_URL and SUPABASE_ANON_KEY are set in supadart.yaml
+# if SUPABASE_URL and SUPABASE_API_KEY are set in the environment variables
+# if SUPABASE_URL and SUPABASE_API_KEY are set in supadart.yaml
 supadart
 ```
 
@@ -155,7 +155,7 @@ supadart
 -i, --init       Initialize config file supadart.yaml
 -c, --config     Specify a path to config file of yaml   (default: ./supadart.yaml)
 -u, --url        Supabase URL                            (if not set in yaml)
--k, --key        Supabase ANON KEY                       (if not set in yaml)
+-k, --key        Supabase API KEY                        (if not set in yaml)
 -v, --version
 ````
 

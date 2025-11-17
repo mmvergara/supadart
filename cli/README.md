@@ -19,7 +19,7 @@ dart pub global run supadart
 -i, --init       Initialize config file supadart.yaml
 -c, --config     Path to config file of yaml   (default: ./supadart.yaml)
 -u, --url        Supabase URL                  (if not set in yaml)
--k, --key        Supabase ANON KEY             (if not set in yaml)
+-k, --key        Supabase API KEY              (if not set in yaml)
 -v, --version    v1.6.6
 ```
 
