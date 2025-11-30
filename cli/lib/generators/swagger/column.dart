@@ -9,6 +9,7 @@ class JsonbModelConfig {
   final String columnName;
   final String dartType;
   final String importPath;
+  final bool isArray;
 
   JsonbModelConfig({
     required this.schema,
@@ -16,6 +17,7 @@ class JsonbModelConfig {
     required this.columnName,
     required this.dartType,
     required this.importPath,
+    this.isArray = false,
   });
 
   /// Returns the lookup key for this config (schema.table.column)
@@ -59,7 +61,9 @@ class Column {
   String get dartType {
     // Check for typed JSONB model first
     if (isTypedJsonb) {
-      if (postgresFormat.contains('[]')) {
+      final isArrayType =
+          jsonbModelConfig!.isArray || postgresFormat.contains('[]');
+      if (isArrayType) {
         return 'List<${jsonbModelConfig!.dartType}>';
       }
       return jsonbModelConfig!.dartType;

@@ -150,6 +150,7 @@ Map<String, dynamic> extractOptions(ArgResults results, YamlMap config) {
           columnName: columnName,
           dartType: value['type'],
           importPath: value['import'],
+          isArray: value['isArray'] ?? false,
         );
       });
     }

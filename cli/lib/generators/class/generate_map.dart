@@ -37,7 +37,8 @@ String encodeToJson(
 
   // Handle typed JSONB models first
   if (columnDetails.isTypedJsonb) {
-    if (isArray) {
+    final isArrayType = columnDetails.jsonbModelConfig!.isArray || isArray;
+    if (isArrayType) {
       return '$columnName.map((e) => e.toJson()).toList()';
     } else {
       return '$columnName.toJson()';

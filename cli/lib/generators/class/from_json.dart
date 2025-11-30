@@ -29,7 +29,9 @@ String decodeFromJson(Column columnDetails, bool jsonbToDynamic) {
   // Handle typed JSONB models first
   if (columnDetails.isTypedJsonb) {
     final config = columnDetails.jsonbModelConfig!;
-    if (postgresFormat == 'jsonb[]' || postgresFormat == 'json[]') {
+    final isArrayType =
+        config.isArray || postgresFormat == 'jsonb[]' || postgresFormat == 'json[]';
+    if (isArrayType) {
       // Array of typed models
       jsonDecode =
           '($jsonValue as List<dynamic>).map((v) => ${config.dartType}.fromJson(v as Map<String, dynamic>)).toList()';
@@ -42,7 +44,7 @@ String decodeFromJson(Column columnDetails, bool jsonbToDynamic) {
     if (columnDetails.isNullable) {
       return '$jsonValue != null ? $jsonDecode : null';
     }
-    return '$jsonValue != null ? $jsonDecode : ${_typedJsonbDefaultValue(config, postgresFormat.contains('[]'))}';
+    return '$jsonValue != null ? $jsonDecode : ${_typedJsonbDefaultValue(config, isArrayType)}';
   }
 
   if (jsonbToDynamic &&
