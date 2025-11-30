@@ -61,6 +61,18 @@ postGIS: false
 # Set to true to enable (default: false)
 jsonbToDynamic: false
 
+# Optional, map JSONB columns to custom Dart model types
+# Format: schema.table.column (e.g., public.users.profile_data)
+# Each entry requires 'type' (Dart class name) and 'import' (import path)
+# The model must have a fromJson(Map<String, dynamic>) factory and toJson() method
+jsonb:
+  # public.users.profile_data:
+  #   type: UserProfile
+  #   import: 'package:my_app/models/user_profile.dart'
+  # public.orders.metadata:
+  #   type: OrderMetadata
+  #   import: 'package:my_app/models/order_metadata.dart'
+
 ''');
 
   print('Config file created at $path, please fill the fields');

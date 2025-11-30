@@ -1,10 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import '../swagger/column.dart';
 import '../swagger/swagger.dart';
 
-Future<DatabaseSwagger?> fetchDatabaseSwagger(String url, String apiKey,
-    Map<String, List<String>> mapOfEnums, bool jsonbToDynamic) async {
+Future<DatabaseSwagger?> fetchDatabaseSwagger(
+    String url,
+    String apiKey,
+    Map<String, List<String>> mapOfEnums,
+    bool jsonbToDynamic,
+    {Map<String, JsonbModelConfig>? jsonbModels}) async {
   if (!url.startsWith("http://") && !url.startsWith("https://")) {
     url = "https://$url"; // Default to HTTPS if no scheme is provided
   }
@@ -15,7 +20,8 @@ Future<DatabaseSwagger?> fetchDatabaseSwagger(String url, String apiKey,
     final response = await _secureRequest('$url/rest/v1/', apiKey);
     if (response.statusCode == 200) {
       return DatabaseSwagger.fromJson(
-          jsonDecode(response.body), mapOfEnums, jsonbToDynamic);
+          jsonDecode(response.body), mapOfEnums, jsonbToDynamic,
+          jsonbModels: jsonbModels);
     }
 
     // Second attempt without API key (for open/public APIs)
@@ -23,7 +29,8 @@ Future<DatabaseSwagger?> fetchDatabaseSwagger(String url, String apiKey,
     final response2 = await _secureRequestNoAuth('$url/rest/v1/');
     if (response2.statusCode == 200) {
       return DatabaseSwagger.fromJson(
-          jsonDecode(response2.body), mapOfEnums, jsonbToDynamic);
+          jsonDecode(response2.body), mapOfEnums, jsonbToDynamic,
+          jsonbModels: jsonbModels);
     }
 
     print(

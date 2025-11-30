@@ -35,6 +35,15 @@ String encodeToJson(
   String format = columnDetails.postgresFormat;
   bool isArray = format.contains("[]");
 
+  // Handle typed JSONB models first
+  if (columnDetails.isTypedJsonb) {
+    if (isArray) {
+      return '$columnName.map((e) => e.toJson()).toList()';
+    } else {
+      return '$columnName.toJson()';
+    }
+  }
+
   if (jsonbToDynamic && (format == 'jsonb' || format == 'jsonb[]')) {
     return columnName;
   }

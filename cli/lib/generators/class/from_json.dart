@@ -25,6 +25,26 @@ String decodeFromJson(Column columnDetails, bool jsonbToDynamic) {
   final postgresFormat = columnDetails.postgresFormat;
   String jsonValue = 'jsonn[\'${columnDetails.dbColName}\']';
   String jsonDecode = "";
+
+  // Handle typed JSONB models first
+  if (columnDetails.isTypedJsonb) {
+    final config = columnDetails.jsonbModelConfig!;
+    if (postgresFormat == 'jsonb[]' || postgresFormat == 'json[]') {
+      // Array of typed models
+      jsonDecode =
+          '($jsonValue as List<dynamic>).map((v) => ${config.dartType}.fromJson(v as Map<String, dynamic>)).toList()';
+    } else {
+      // Single typed model
+      jsonDecode =
+          '${config.dartType}.fromJson($jsonValue as Map<String, dynamic>)';
+    }
+
+    if (columnDetails.isNullable) {
+      return '$jsonValue != null ? $jsonDecode : null';
+    }
+    return '$jsonValue != null ? $jsonDecode : ${_typedJsonbDefaultValue(config, postgresFormat.contains('[]'))}';
+  }
+
   if (jsonbToDynamic &&
       (postgresFormat == 'jsonb' || postgresFormat == 'jsonb[]')) {
     if (postgresFormat == 'jsonb') {
@@ -295,4 +315,13 @@ String dartTypeDefaultNullValue(Column columnDetails) {
     default:
       return 'Unsupported Dart type: please open an issue';
   }
+}
+
+/// Returns the default value for a typed JSONB model when the value is null
+String _typedJsonbDefaultValue(JsonbModelConfig config, bool isArray) {
+  if (isArray) {
+    return '<${config.dartType}>[]';
+  }
+  // For non-nullable single objects, create from empty map
+  return '${config.dartType}.fromJson(<String, dynamic>{})';
 }

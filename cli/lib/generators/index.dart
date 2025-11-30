@@ -7,6 +7,7 @@ import 'standalone/enums.dart';
 import 'standalone/exports.dart';
 import 'standalone/supadart_abstract_class.dart';
 import 'storage/storage.dart';
+import 'swagger/column.dart';
 import 'swagger/swagger.dart';
 import 'utils/string_formatters.dart';
 
@@ -20,7 +21,16 @@ List<GeneratedFile> supadartRun(
   Map<String, List<String>> mapOfEnums,
   bool isPostGIS,
   bool jsonbToDynamic,
+  {Map<String, JsonbModelConfig>? jsonbModels}
 ) {
+  // Collect unique JSONB model imports
+  Set<String> jsonbImports = {};
+  if (jsonbModels != null) {
+    for (var config in jsonbModels.values) {
+      jsonbImports.add(config.importPath);
+    }
+  }
+
   final dartClasses =
       generateDartClasses(swagger, mappings, exclude, jsonbToDynamic);
 
@@ -61,6 +71,7 @@ List<GeneratedFile> supadartRun(
     needsDurationFromString: needsDurationFromString,
     mappings: mappings,
     isPostGIS: isPostGIS,
+    jsonbImports: jsonbImports,
   );
   return isSeparated
       ? supadartGenerator.generateDartModelFilesSeparated()
@@ -95,6 +106,9 @@ class SupadartGenerator {
 
   final YamlMap? mappings;
 
+  // JSONB model imports
+  final Set<String> jsonbImports;
+
   SupadartGenerator({
     required this.clientExtension,
     required this.storageClientExtension,
@@ -107,6 +121,7 @@ class SupadartGenerator {
     required this.needsDurationFromString,
     required this.mappings,
     required this.isPostGIS,
+    required this.jsonbImports,
   });
 
   List<GeneratedFile> generateClassesSingleFile() {
@@ -176,6 +191,10 @@ import 'supadart_header.dart';
       needsDartConvert
           ? "${isSingleFile ? "import" : "export"} 'dart:convert';"
           : "// No Dart Convert needed",
+      // JSONB model imports
+      jsonbImports.isNotEmpty
+          ? "// JSONB Model Imports\n${jsonbImports.map((imp) => "${isSingleFile ? "import" : "export"} '$imp';").join('\n')}"
+          : "// No JSONB Model imports needed",
       "// Supadart Class",
       supadartAbstractClass,
       "\n",
