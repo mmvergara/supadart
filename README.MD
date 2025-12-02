@@ -30,6 +30,7 @@ final allBooks = await supabase
   - [**Update Data**](#update-data)
   - [**Delete Data**](#delete-data)
 - [**Working with Enums**](#working-with-enums)
+- [**Working with JSONB Custom Types**](#working-with-jsonb-custom-types)
 - [**Column Selection Queries**](#column-selection-queries)
 
 ### Features 🚀
@@ -41,6 +42,7 @@ final allBooks = await supabase
 - 🔢 Supports all Supabase Major datatypes
 - 🗂️ Supports Defined as array types
 - 🗂️ Supports Enums
+- 🎯 Supports Custom Dart Models for JSONB Columns
 
 ### Conversion Table 📊
 
@@ -146,6 +148,8 @@ supadart
 ```
 
 > ENUMS: If you have enums, you need to specify them in the config file
+
+> JSONB CUSTOM TYPES: If you want to map JSONB columns to custom Dart model types, you need to specify them in the config file
 
 ````yaml
 #### CLI Usage
@@ -412,6 +416,62 @@ await supabase.enum_types
 
 // Read
 await supabase.enum_types.select().withConverter(EnumTypes.converter);
+```
+
+# Working with JSONB Custom Types
+
+Maps JSONB columns to custom Dart model types instead of `Map<String, dynamic>` or `dynamic`.
+
+**IMPORTANT:**
+
+- Specify JSONB column mappings in `supadart.yaml` using `schema.table.column` format
+- Custom Dart models must have `fromJson(Map<String, dynamic>)` factory and `toJson()` method
+- Auto-generates `fromJson()` and `toJson()` calls for typed models
+- Use `isArray: true` for JSONB fields containing JSON arrays `[{...}, {...}]`
+
+### Configuration
+
+```yaml
+jsonb:
+  # Single object (default)
+  public.users.profile_data:
+    type: UserProfile
+    import: "package:my_app/models/user_profile.dart"
+
+  # Array of objects (requires isArray: true)
+  public.users.tags:
+    type: Tag
+    import: "package:my_app/models/tag.dart"
+    isArray: true
+```
+
+### Generated Output
+
+```dart
+class Users implements SupadartClass<Users> {
+  final UserProfile profileData;  // single object
+  final List<Tag>? tags;           // array (isArray: true)
+  // ...
+}
+```
+
+The generated code automatically handles conversion:
+
+- `fromJson()` calls `UserProfile.fromJson()` and `Tag.fromJson()` for arrays
+- `toJson()` calls `profileData.toJson()` and `tags.map((e) => e.toJson()).toList()`
+
+### Usage
+
+```dart
+// Insert
+await supabase.users.insert(Users.insert(
+  profileData: UserProfile(name: 'John', age: 30),
+  tags: [Tag(id: 1, name: 'developer')],
+));
+
+// Read
+final users = await supabase.users.select("*").withConverter(Users.converter);
+print(users.first.profileData.name);  // "John"
 ```
 
 # Column Selection Queries
