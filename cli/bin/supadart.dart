@@ -5,6 +5,7 @@ import 'package:dotenv/dotenv.dart';
 import 'package:supadart/config_init.dart';
 import 'package:supadart/generators/index.dart';
 import 'package:supadart/generators/storage/fetch_storage.dart';
+import 'package:supadart/generators/swagger/column.dart';
 import 'package:supadart/generators/utils/fetch_swagger.dart';
 import 'package:yaml/yaml.dart';
 
@@ -123,6 +124,38 @@ Map<String, dynamic> extractOptions(ArgResults results, YamlMap config) {
     }
   }
 
+  // Extract JSONB model configs from config['jsonb']
+  // Format: schema.table.column: { type: DartType, import: 'path' }
+  Map<String, JsonbModelConfig> jsonbModels = {};
+  if (config.containsKey('jsonb')) {
+    if (config['jsonb'] != null) {
+      (config['jsonb'] as Map).forEach((key, value) {
+        final parts = key.toString().split('.');
+        if (parts.length != 3) {
+          print(
+              '${red}Warning: Invalid jsonb key format "$key". Expected format: schema.table.column$reset');
+          return;
+        }
+        if (value['type'] == null || value['import'] == null) {
+          print(
+              '${red}Warning: jsonb config for "$key" missing type or import$reset');
+          return;
+        }
+        final schema = parts[0];
+        final tableName = parts[1];
+        final columnName = parts[2];
+        jsonbModels[key] = JsonbModelConfig(
+          schema: schema,
+          tableName: tableName,
+          columnName: columnName,
+          dartType: value['type'],
+          importPath: value['import'],
+          isArray: value['isArray'] ?? false,
+        );
+      });
+    }
+  }
+
   return {
     'url':
         results['url'] ?? env['SUPABASE_URL'] ?? config['SUPABASE_URL'] ?? '',
@@ -142,6 +175,7 @@ Map<String, dynamic> extractOptions(ArgResults results, YamlMap config) {
     'mapOfEnums': enums,
     'isPostGIS': config['postGIS'] ?? false,
     'jsonbToDynamic': config['jsonbToDynamic'] ?? false,
+    'jsonbModels': jsonbModels,
   };
 }
 
@@ -172,6 +206,7 @@ void printConfiguration(Map<String, dynamic> options) {
   print('Enums:          ${options['mapOfEnums']}');
   print('PostGIS:        ${options['isPostGIS']}');
   print('JsonbToDynamic: ${options['jsonbToDynamic']}');
+  print('JsonbModels:    ${(options['jsonbModels'] as Map).keys.toList()}');
   print('==============================');
 }
 
@@ -182,6 +217,7 @@ Future<void> generateModels(Map<String, dynamic> options) async {
     options['apiKey'],
     options['mapOfEnums'],
     options['jsonbToDynamic'],
+    jsonbModels: options['jsonbModels'],
   );
 
   if (databaseSwagger == null) {
@@ -207,6 +243,7 @@ Future<void> generateModels(Map<String, dynamic> options) async {
     options['mapOfEnums'],
     options['isPostGIS'],
     options['jsonbToDynamic'],
+    jsonbModels: options['jsonbModels'],
   );
 
   await generateAndFormatFiles(files, options['output']);

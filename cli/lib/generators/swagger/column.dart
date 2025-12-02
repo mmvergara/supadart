@@ -2,6 +2,28 @@
 import '../utils/string_formatters.dart';
 import 'utils.dart';
 
+/// Configuration for mapping a JSONB column to a custom Dart model
+class JsonbModelConfig {
+  final String schema;
+  final String tableName;
+  final String columnName;
+  final String dartType;
+  final String importPath;
+  final bool isArray;
+
+  JsonbModelConfig({
+    required this.schema,
+    required this.tableName,
+    required this.columnName,
+    required this.dartType,
+    required this.importPath,
+    this.isArray = false,
+  });
+
+  /// Returns the lookup key for this config (schema.table.column)
+  String get lookupKey => '$schema.$tableName.$columnName';
+}
+
 class Column {
   final String postgresFormat;
   final String dbColName;
@@ -15,6 +37,7 @@ class Column {
   final bool isSerialType;
   final bool isInRequiredColumn;
   final bool jsonbToDynamic;
+  final JsonbModelConfig? jsonbModelConfig;
 
   Column({
     required this.postgresFormat,
@@ -29,9 +52,23 @@ class Column {
     this.isPrimaryKey = false,
     this.isSerialType = false,
     this.isInRequiredColumn = false,
+    this.jsonbModelConfig,
   });
 
+  /// Returns true if this column is a JSONB with a custom typed model
+  bool get isTypedJsonb => jsonbModelConfig != null;
+
   String get dartType {
+    // Check for typed JSONB model first
+    if (isTypedJsonb) {
+      final isArrayType =
+          jsonbModelConfig!.isArray || postgresFormat.contains('[]');
+      if (isArrayType) {
+        return 'List<${jsonbModelConfig!.dartType}>';
+      }
+      return jsonbModelConfig!.dartType;
+    }
+
     if (postgresFormat.contains("public.")) {
       if (postgresFormat.contains("vector") ||
           postgresFormat.contains("VECTOR")) {
@@ -70,7 +107,10 @@ class Column {
       Map<String, dynamic> json,
       List<String> parentTableRequiredFields,
       Map<String, List<String>> mapOfEnums,
-      {bool jsonbToDynamic = false}) {
+      {bool jsonbToDynamic = false,
+      String? schema,
+      String? tableName,
+      Map<String, JsonbModelConfig>? jsonbModels}) {
     List<String> enumValues =
         json['enum'] != null ? List<String>.from(json['enum']) : <String>[];
     if (json['format'].toString().contains("public.")) {
@@ -80,6 +120,13 @@ class Column {
           // print("enumValues set for ${json['format']} to $enumValues");
         }
       }
+    }
+
+    // Look up JSONB model config if available
+    JsonbModelConfig? jsonbConfig;
+    if (jsonbModels != null && schema != null && tableName != null) {
+      final lookupKey = '$schema.$tableName.$colName';
+      jsonbConfig = jsonbModels[lookupKey];
     }
 
     return Column(
@@ -96,6 +143,7 @@ class Column {
       isInRequiredColumn: parentTableRequiredFields.contains(colName),
       isEnum: json['enum'] != null || enumValues.isNotEmpty,
       jsonbToDynamic: jsonbToDynamic,
+      jsonbModelConfig: jsonbConfig,
     );
   }
 }
