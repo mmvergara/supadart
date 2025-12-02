@@ -1,3 +1,8 @@
+## 1.9.2
+
+- New jsonb configuration option in supadart.yaml thanks to @tmillian
+- Bugfix/geospacial thanks to @anasmohammed361
+
 ## 1.9.0
 
 - Support with new supabase api keys
