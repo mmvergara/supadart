@@ -162,6 +162,13 @@ String encodeToJson(
           '$columnName.toBytesHex(format: WKB.geometryExtended)';
       break;
 
+    case "name":
+      jsonEncodableType = columnName;
+      break;
+    case "name[]":
+      jsonEncodableType = "$columnName.map((e) => e).toList()";
+      break;
+
     // NOT YET SUPPORTED TYPES ARE ENCODED TO STRINGS BY DEFAULT
     // NEED CONTRIBUTIONS TO SUPPORT THESE TYPES
 
