@@ -6,14 +6,24 @@ String postgresFormatToDartType(String format, bool jsonbToDynamic) {
   switch (format) {
     // Integer types
     case "bigint":
+    case "int8":
+    case "int64":
       return "BigInt";
     case "integer":
     case "smallint":
+    case "int2":
+    case "int4":
+    case "int32":
       return "int";
     case "bigint[]":
+    case "int8[]":
+    case "int64[]":
       return "List<BigInt>";
     case "integer[]":
     case "smallint[]":
+    case "int2[]":
+    case "int4[]":
+    case "int32[]":
       return "List<int>";
 
     // Floating-point types

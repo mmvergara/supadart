@@ -53,15 +53,25 @@ String encodeToJson(
   switch (format) {
     case 'smallint':
     case 'integer':
+    case 'int2':
+    case 'int4':
+    case 'int32':
     case 'smallint[]':
     case 'integer[]':
+    case 'int2[]':
+    case 'int4[]':
+    case 'int32[]':
       jsonEncodableType = columnName;
       break;
 
     case 'bigint':
+    case 'int8':
+    case 'int64':
       jsonEncodableType = "$columnName.toString()";
       break;
     case 'bigint[]':
+    case 'int8[]':
+    case 'int64[]':
       jsonEncodableType = "$columnName.map((e) => e.toString()).toList()";
       break;
 
