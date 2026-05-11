@@ -58,19 +58,29 @@ String decodeFromJson(Column columnDetails, bool jsonbToDynamic) {
     switch (postgresFormat) {
       case 'smallint':
       case 'integer':
+      case 'int2':
+      case 'int4':
+      case 'int32':
         jsonDecode = 'int.parse($jsonValue.toString())';
 
         break;
       case 'smallint[]':
       case 'integer[]':
+      case 'int2[]':
+      case 'int4[]':
+      case 'int32[]':
         jsonDecode =
             '($jsonValue as List<dynamic>).map((v) => int.parse(v.toString())).toList()';
         break;
 
       case 'bigint':
+      case 'int8':
+      case 'int64':
         jsonDecode = 'BigInt.parse($jsonValue.toString())';
         break;
       case 'bigint[]':
+      case 'int8[]':
+      case 'int64[]':
         jsonDecode =
             '($jsonValue as List<dynamic>).map((v) => BigInt.parse(v.toString())).toList()';
         break;
