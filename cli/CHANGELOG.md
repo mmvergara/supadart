@@ -1,3 +1,8 @@
+## 1.9.3
+
+- Support more integer types thanks to @anasmohammed361
+- Added a user-facing note when Swagger fetch fails with 401: Supabase now requires an API key service/secret key to load the OpenAPI schema at `/rest/v1/`
+
 ## 1.9.2
 
 - New jsonb configuration option in supadart.yaml thanks to @tmillian
