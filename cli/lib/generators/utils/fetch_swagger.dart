@@ -4,11 +4,8 @@ import 'package:http/http.dart' as http;
 import '../swagger/column.dart';
 import '../swagger/swagger.dart';
 
-Future<DatabaseSwagger?> fetchDatabaseSwagger(
-    String url,
-    String apiKey,
-    Map<String, List<String>> mapOfEnums,
-    bool jsonbToDynamic,
+Future<DatabaseSwagger?> fetchDatabaseSwagger(String url, String apiKey,
+    Map<String, List<String>> mapOfEnums, bool jsonbToDynamic,
     {Map<String, JsonbModelConfig>? jsonbModels}) async {
   if (!url.startsWith("http://") && !url.startsWith("https://")) {
     url = "https://$url"; // Default to HTTPS if no scheme is provided
@@ -36,6 +33,10 @@ Future<DatabaseSwagger?> fetchDatabaseSwagger(
     print(
         "Failed to fetch Supabase Swagger. Status code: ${response2.statusCode}");
     print("Response body: ${response2.body}");
+    if (response2.statusCode == 401) {
+      print(
+          'Note: Supabase now requires a (Service/Secret) API key to fetch the Swagger schema, please use that instead');
+    }
   } catch (e) {
     print("Error fetching Supabase Swagger: $e");
   }
@@ -65,12 +66,12 @@ Future<http.Response> _secureRequest(String url, String apiKey,
 
     final uri = Uri.parse(url);
     final request = await httpClient.getUrl(uri);
-    
+
     // Add headers to the request
     headers.forEach((key, value) {
       request.headers.add(key, value);
     });
-    
+
     final response = await request.close();
 
     return http.Response(
@@ -81,7 +82,8 @@ Future<http.Response> _secureRequest(String url, String apiKey,
     print("SocketException occurred: $e");
     if (url.startsWith("https://") && allowHttpFallback) {
       print("Attempting to fallback to HTTP...");
-      return await _secureRequest(url.replaceFirst("https://", "http://"), apiKey,
+      return await _secureRequest(
+          url.replaceFirst("https://", "http://"), apiKey,
           allowHttpFallback: false);
     }
     rethrow;
