@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import '../swagger/column.dart';
 import '../swagger/swagger.dart';
+import '../../key_check.dart';
 
 Future<DatabaseSwagger?> fetchDatabaseSwagger(String url, String apiKey,
     Map<String, List<String>> mapOfEnums, bool jsonbToDynamic,
@@ -33,9 +34,9 @@ Future<DatabaseSwagger?> fetchDatabaseSwagger(String url, String apiKey,
     print(
         "Failed to fetch Supabase Swagger. Status code: ${response2.statusCode}");
     print("Response body: ${response2.body}");
-    if (response2.statusCode == 401) {
-      print(
-          'Note: Supabase now requires a (Service/Secret) API key to fetch the Swagger schema, please use that instead');
+    if ([401, 403].contains(response.statusCode) ||
+        [401, 403].contains(response2.statusCode)) {
+      print(schemaForbiddenMessage());
     }
   } catch (e) {
     print("Error fetching Supabase Swagger: $e");

@@ -21,9 +21,12 @@ configFileInit(String path) async {
   // Write to the file
   file.writeAsStringSync('''
 
-# Don't want to expose your supabase credentials? you have two options
-# 1. Use a .env file to specify SUPABASE_URL and SUPABASE_API_KEY
-# 2. Specify --url and --key in the CLI (ex. supadart -u <url> -k <key>)
+# SUPABASE_API_KEY must be a secret key (sb_secret_...) or the legacy service_role key.
+# Hosted projects no longer expose the schema to anon/publishable keys:
+# https://supabase.com/changelog/42949-breaking-change-removing-access-to-openapi-spec-via-the-anon-key
+# Keep the secret key out of your app and out of git. Prefer one of:
+# 1. A gitignored .env file with SUPABASE_URL and SUPABASE_API_KEY
+# 2. --url and --key in the CLI (ex. supadart -u <url> -k <key>)
 SUPABASE_URL: 
 SUPABASE_API_KEY:
 

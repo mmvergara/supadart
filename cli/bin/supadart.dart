@@ -7,12 +7,14 @@ import 'package:supadart/generators/index.dart';
 import 'package:supadart/generators/storage/fetch_storage.dart';
 import 'package:supadart/generators/swagger/column.dart';
 import 'package:supadart/generators/utils/fetch_swagger.dart';
+import 'package:supadart/key_check.dart';
 import 'package:yaml/yaml.dart';
 
 const String version = 'v1.9.3';
 const String red = '\x1B[31m';
 const String green = '\x1B[32m';
 const String blue = '\x1B[34m';
+const String yellow = '\x1B[33m';
 const String reset = '\x1B[0m';
 
 void main(List<String> arguments) async {
@@ -43,6 +45,10 @@ void main(List<String> arguments) async {
   }
 
   printConfiguration(options);
+
+  if (isPublicApiKey(options['apiKey'])) {
+    print('$yellow${publicKeyWarning()}$reset');
+  }
 
   await generateModels(options);
 }
@@ -75,7 +81,7 @@ ArgParser setupArgParser() {
     ..addOption(
       'key',
       abbr: "k",
-      help: 'Supabase API KEY                        (if not set in yaml)',
+      help: 'Supabase secret key (sb_secret_...)     (if not set in yaml)',
     )
     ..addFlag('version', abbr: 'v', negatable: false, help: version);
 }
@@ -184,7 +190,8 @@ bool validateOptions(Map<String, dynamic> options) {
     print(
       "${red}Please Provide the url and key for your supabase instance... You can",
     );
-    print("1. Use a .env file to specify SUPABASE_URL and SUPABASE_API_KEY");
+    print(
+        "1. Use a gitignored .env file to specify SUPABASE_URL and SUPABASE_API_KEY (secret key)");
     print("2. Set SUPABASE_URL and SUPABASE_API_KEY in .yaml config file");
     print(
       "3. Specificy --url and --key in the cli (ex. supadart -u <url> -k <key>) $reset",

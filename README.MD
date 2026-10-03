@@ -140,12 +140,14 @@ dart pub global run supadart
 supadart --init
 
 # Generate classes
-supadart --url <supabase_url> --key <supabase_api_key>
+supadart --url <supabase_url> --key <supabase_secret_key>
 
 # if SUPABASE_URL and SUPABASE_API_KEY are set in the environment variables
 # if SUPABASE_URL and SUPABASE_API_KEY are set in supadart.yaml
 supadart
 ```
+
+> API KEY: Use a secret key (`sb_secret_...`) or the legacy `service_role` key. Since April 8, 2026, hosted Supabase projects no longer expose the schema to anon/publishable keys ([changelog](https://supabase.com/changelog/42949-breaking-change-removing-access-to-openapi-spec-via-the-anon-key)). Never ship this key in your app or commit it. Keep it in a gitignored `.env`. Local Supabase stacks still accept the anon/publishable key, and `SUPABASE_ANON_KEY` is still read as a fallback.
 
 > ENUMS: If you have enums, you need to specify them in the config file
 
@@ -159,7 +161,7 @@ supadart
 -i, --init       Initialize config file supadart.yaml
 -c, --config     Specify a path to config file of yaml   (default: ./supadart.yaml)
 -u, --url        Supabase URL                            (if not set in yaml)
--k, --key        Supabase API KEY                        (if not set in yaml)
+-k, --key        Supabase secret key (sb_secret_...)     (if not set in yaml)
 -v, --version
 ````
 
