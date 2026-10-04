@@ -28,3 +28,9 @@ include: package:lints/recommended.yaml
 
 # For additional information about configuring this file, see
 # https://dart.dev/guides/language/analysis-options
+
+analyzer:
+  exclude:
+    # Golden outputs are compared as text; the Flutter ones import
+    # supabase_flutter, which this package does not depend on.
+    - test/goldens/**

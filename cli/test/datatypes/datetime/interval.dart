@@ -30,6 +30,35 @@ Future<void> performIntervalTest(SupabaseClient supabase) async {
     expect(readResult[0].colInterval, isA<Duration>());
   });
 
+  test('Testing Interval as Postgres prints days, months and fractions',
+      () async {
+    // Written as text so Postgres normalizes it to its own output format,
+    // e.g. "1 year 2 mons -3 days +04:05:06.5", rather than supadart's.
+    await supabase.datetime_types
+        .update({'col_interval': '1 year 2 months -3 days 04:05:06.5'}).eq(
+            DatetimeTypes.c_id, uuidx);
+    final raw = await supabase.datetime_types
+        .select(DatetimeTypes.c_colInterval)
+        .eq(DatetimeTypes.c_id, uuidx)
+        .single();
+    expect(
+        raw[DatetimeTypes.c_colInterval], '1 year 2 mons -3 days +04:05:06.5');
+
+    final row = (await readInterval(supabase))!.single;
+    expect(
+        row.colInterval,
+        const Duration(
+            days: 365 + 60 - 3,
+            hours: 6 + 4,
+            minutes: 5,
+            seconds: 6,
+            milliseconds: 500));
+
+    await supabase.datetime_types
+        .update(DatetimeTypes.update(colInterval: updatedInterval))
+        .eq(DatetimeTypes.c_id, uuidx);
+  });
+
   test("Testing Interval serialization roundtrip maintains data integrity",
       () async {
     var readResult = await readInterval(supabase);

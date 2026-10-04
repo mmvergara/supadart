@@ -1,18 +1,19 @@
-name: Runtime Test
+name: Tests
 
 on:
   push:
     branches:
       - main
       - "**"
+  pull_request:
 
 jobs:
-  build:
+  unit:
+    name: Unit + golden tests
     runs-on: ubuntu-latest
-
-    env:
-      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+    defaults:
+      run:
+        working-directory: ./cli
 
     steps:
       - name: Checkout repository
@@ -33,8 +34,48 @@ jobs:
 
       - name: Install dependencies
         run: dart pub get
-        working-directory: ./cli
 
-      - name: Run Runtime tests
-        run: dart run test
-        working-directory: ./cli
+      - name: Analyze
+        run: dart analyze --fatal-warnings
+
+      - name: Run unit tests
+        run: dart test --exclude-tags integration
+
+  integration:
+    name: Integration tests (local Supabase)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Cache Dart dependencies
+        uses: actions/cache@v5
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-dart-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-dart-
+
+      - name: Set up Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      # Only the services supadart talks to: Postgres, PostgREST, Storage, Kong.
+      - name: Start Supabase
+        run: >
+          supabase start -x
+          studio,imgproxy,edge-runtime,logflare,vector,mailpit,realtime,postgres-meta,supavisor
+
+      - name: Run all tests
+        run: cli/tool/test_integration.sh
+
+      - name: Stop Supabase
+        if: always()
+        run: supabase stop --no-backup

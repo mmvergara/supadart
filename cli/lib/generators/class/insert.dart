@@ -13,10 +13,12 @@ String generateInsertMethod(Table table) {
     final columnDetails = entry.value;
     final isRequiredInInsert =
         !columnDetails.hasDefaultValue && columnDetails.isRequired;
-    final dartType = columnDetails.dartType;
+    final dartType = isRequiredInInsert
+        ? columnDetails.dartType
+        : columnDetails.nullableDartType;
 
     code.writeln(
-        '  ${isRequiredInInsert ? "required " : ""}$dartType${isRequiredInInsert ? "" : "?"} $columnName,');
+        '  ${isRequiredInInsert ? "required " : ""}$dartType $columnName,');
   }
   code.writeln('}) {');
 

@@ -16,7 +16,7 @@ String generateCopyWithMethod(String className, Table table) {
   code.writeln('return $className(');
   columns.forEach((columnName, columnDetails) {
     code.writeln(
-        '$columnName: $columnName == _unset ? this.$columnName : $columnName as ${columnDetails.dartType}${columnDetails.isNullable ? "?" : ""},');
+        '$columnName: $columnName == _unset ? this.$columnName : $columnName as ${columnDetails.isNullable ? columnDetails.nullableDartType : columnDetails.dartType},');
   });
 
   code.writeln(');');

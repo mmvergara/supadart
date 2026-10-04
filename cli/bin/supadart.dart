@@ -111,9 +111,10 @@ Future<YamlMap?> loadYamlConfig(ArgResults results) async {
   }
 }
 
-Map<String, dynamic> extractOptions(ArgResults results, YamlMap config) {
+Map<String, dynamic> extractOptions(ArgResults results, YamlMap config,
+    {DotEnv? env}) {
   // check if env values are set for SUPABASE_URL and SUPABASE_API_KEY
-  var env = DotEnv(includePlatformEnvironment: true)..load();
+  env ??= DotEnv(includePlatformEnvironment: true)..load();
   if (env['SUPABASE_URL'] != null && env['SUPABASE_API_KEY'] != null) {
     print("Using .env file for SUPABASE_URL and SUPABASE_API_KEY");
   }

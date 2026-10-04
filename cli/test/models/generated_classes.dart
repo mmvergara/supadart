@@ -13,6 +13,7 @@ import 'package:intl/intl.dart';
 
 import 'dart:convert';
 
+// No JSONB Model imports needed
 // Supadart Class
 abstract class SupadartClass<T> {
   static Map<String, dynamic> insert(Map<String, dynamic> data) {
@@ -38,25 +39,26 @@ abstract class SupadartClass<T> {
 
 // Supabase Client Extension
 extension SupadartClient on SupabaseClient {
-  SupabaseQueryBuilder get string_types => from('string_types');
-  SupabaseQueryBuilder get boolean_bit_types => from('boolean_bit_types');
   SupabaseQueryBuilder get combined_types_view => from('combined_types_view');
-  SupabaseQueryBuilder get misc_types => from('misc_types');
-  SupabaseQueryBuilder get profiles => from('profiles');
-  SupabaseQueryBuilder get geometric_types => from('geometric_types');
   SupabaseQueryBuilder get embeddings => from('embeddings');
-  SupabaseQueryBuilder get genres => from('genres');
   SupabaseQueryBuilder get enum_types => from('enum_types');
+  SupabaseQueryBuilder get misc_types => from('misc_types');
+  SupabaseQueryBuilder get string_types => from('string_types');
+  SupabaseQueryBuilder get network_types => from('network_types');
+  SupabaseQueryBuilder get geometric_types => from('geometric_types');
+  SupabaseQueryBuilder get profiles => from('profiles');
+  SupabaseQueryBuilder get boolean_bit_types => from('boolean_bit_types');
   SupabaseQueryBuilder get json_types => from('json_types');
   SupabaseQueryBuilder get binary_xml_types => from('binary_xml_types');
-  SupabaseQueryBuilder get network_types => from('network_types');
   SupabaseQueryBuilder get numeric_types => from('numeric_types');
-  SupabaseQueryBuilder get events => from('events');
   SupabaseQueryBuilder get datetime_types => from('datetime_types');
 }
 
 // Supabase Storage Client Extension
-extension SupadartStorageClient on SupabaseStorageClient {}
+extension SupadartStorageClient on SupabaseStorageClient {
+  StorageFileApi get avatars => from('avatars');
+  StorageFileApi get documents => from('documents');
+}
 
 // Enums
 enum MOOD { happy, sad, neutral, excited, angry }
@@ -65,443 +67,38 @@ enum USERGROUP { USERS, ADMIN, MODERATOR }
 
 // Utils
 extension DurationFromString on Duration {
+  /// Parses an interval in Postgres' default IntervalStyle, such as
+  /// "04:05:06.5", "3 days" or "1 year 2 mons -3 days +04:05:06".
+  ///
+  /// Months and years have no fixed length. As in Postgres' extract(epoch),
+  /// a month counts as 30 days and a year as 365.25 days.
   static Duration fromString(String str) {
-    final parts = str.split(':');
-    final hours = int.parse(parts[0]);
-    final minutes = int.parse(parts[1]);
-    final secondsAndMilliseconds = parts[2].split('.');
-    final seconds = int.parse(secondsAndMilliseconds[0]);
-    final milliseconds = secondsAndMilliseconds.length > 1
-        ? int.parse(secondsAndMilliseconds[1])
-        : 0;
+    final part = RegExp(r'([+-]?\d+) (year|mon|day)s?'
+        r'|([+-]?)(\d+):(\d+):(\d+)(?:\.(\d+))?');
+    if (str.replaceAll(part, '').trim().isNotEmpty) {
+      throw FormatException('Unsupported interval format', str);
+    }
 
-    return Duration(
-      hours: hours,
-      minutes: minutes,
-      seconds: seconds,
-      milliseconds: milliseconds,
-    );
-  }
-}
-
-class StringTypes implements SupadartClass<StringTypes> {
-  final String id;
-  final String? colUuid;
-  final List<String>? colUuidArray;
-  final String? colCharacter;
-  final List<String>? colCharacterArray;
-  final String? colCharactervarying;
-  final List<String>? colCharactervaryingArray;
-  final String? colText;
-  final List<String>? colTextArray;
-
-  const StringTypes({
-    required this.id,
-    this.colUuid,
-    this.colUuidArray,
-    this.colCharacter,
-    this.colCharacterArray,
-    this.colCharactervarying,
-    this.colCharactervaryingArray,
-    this.colText,
-    this.colTextArray,
-  });
-
-  static String get table_name => 'string_types';
-  static String get c_id => 'id';
-  static String get c_colUuid => 'col_uuid';
-  static String get c_colUuidArray => 'col_uuid_array';
-  static String get c_colCharacter => 'col_character';
-  static String get c_colCharacterArray => 'col_character_array';
-  static String get c_colCharactervarying => 'col_charactervarying';
-  static String get c_colCharactervaryingArray => 'col_charactervarying_array';
-  static String get c_colText => 'col_text';
-  static String get c_colTextArray => 'col_text_array';
-
-  static List<StringTypes> converter(List<Map<String, dynamic>> data) {
-    return data.map(StringTypes.fromJson).toList();
-  }
-
-  static StringTypes converterSingle(Map<String, dynamic> data) {
-    return StringTypes.fromJson(data);
-  }
-
-  static Map<String, dynamic> _generateMap({
-    String? id,
-    String? colUuid,
-    List<String>? colUuidArray,
-    String? colCharacter,
-    List<String>? colCharacterArray,
-    String? colCharactervarying,
-    List<String>? colCharactervaryingArray,
-    String? colText,
-    List<String>? colTextArray,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (colUuid != null) 'col_uuid': colUuid,
-      if (colUuidArray != null)
-        'col_uuid_array': colUuidArray.map((e) => e).toList(),
-      if (colCharacter != null) 'col_character': colCharacter,
-      if (colCharacterArray != null)
-        'col_character_array': colCharacterArray.map((e) => e).toList(),
-      if (colCharactervarying != null)
-        'col_charactervarying': colCharactervarying,
-      if (colCharactervaryingArray != null)
-        'col_charactervarying_array':
-            colCharactervaryingArray.map((e) => e).toList(),
-      if (colText != null) 'col_text': colText,
-      if (colTextArray != null)
-        'col_text_array': colTextArray.map((e) => e).toList(),
-    };
-  }
-
-  static Map<String, dynamic> insert({
-    String? id,
-    String? colUuid,
-    List<String>? colUuidArray,
-    String? colCharacter,
-    List<String>? colCharacterArray,
-    String? colCharactervarying,
-    List<String>? colCharactervaryingArray,
-    String? colText,
-    List<String>? colTextArray,
-  }) {
-    return _generateMap(
-      id: id,
-      colUuid: colUuid,
-      colUuidArray: colUuidArray,
-      colCharacter: colCharacter,
-      colCharacterArray: colCharacterArray,
-      colCharactervarying: colCharactervarying,
-      colCharactervaryingArray: colCharactervaryingArray,
-      colText: colText,
-      colTextArray: colTextArray,
-    );
-  }
-
-  static Map<String, dynamic> update({
-    String? id,
-    String? colUuid,
-    List<String>? colUuidArray,
-    String? colCharacter,
-    List<String>? colCharacterArray,
-    String? colCharactervarying,
-    List<String>? colCharactervaryingArray,
-    String? colText,
-    List<String>? colTextArray,
-  }) {
-    return _generateMap(
-      id: id,
-      colUuid: colUuid,
-      colUuidArray: colUuidArray,
-      colCharacter: colCharacter,
-      colCharacterArray: colCharacterArray,
-      colCharactervarying: colCharactervarying,
-      colCharactervaryingArray: colCharactervaryingArray,
-      colText: colText,
-      colTextArray: colTextArray,
-    );
-  }
-
-  factory StringTypes.fromJson(Map<String, dynamic> jsonn) {
-    return StringTypes(
-      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
-      colUuid: jsonn['col_uuid'] != null ? jsonn['col_uuid'].toString() : null,
-      colUuidArray: jsonn['col_uuid_array'] != null
-          ? (jsonn['col_uuid_array'] as List<dynamic>)
-              .map((v) => v.toString())
-              .toList()
-          : null,
-      colCharacter: jsonn['col_character'] != null
-          ? jsonn['col_character'].toString()
-          : null,
-      colCharacterArray: jsonn['col_character_array'] != null
-          ? (jsonn['col_character_array'] as List<dynamic>)
-              .map((v) => v.toString())
-              .toList()
-          : null,
-      colCharactervarying: jsonn['col_charactervarying'] != null
-          ? jsonn['col_charactervarying'].toString()
-          : null,
-      colCharactervaryingArray: jsonn['col_charactervarying_array'] != null
-          ? (jsonn['col_charactervarying_array'] as List<dynamic>)
-              .map((v) => v.toString())
-              .toList()
-          : null,
-      colText: jsonn['col_text'] != null ? jsonn['col_text'].toString() : null,
-      colTextArray: jsonn['col_text_array'] != null
-          ? (jsonn['col_text_array'] as List<dynamic>)
-              .map((v) => v.toString())
-              .toList()
-          : null,
-    );
-  }
-
-  static Object New({
-    String? id,
-    String? colUuid,
-    List<String>? colUuidArray,
-    String? colCharacter,
-    List<String>? colCharacterArray,
-    String? colCharactervarying,
-    List<String>? colCharactervaryingArray,
-    String? colText,
-    List<String>? colTextArray,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (colUuid != null) 'col_uuid': colUuid,
-      if (colUuidArray != null) 'col_uuid_array': colUuidArray,
-      if (colCharacter != null) 'col_character': colCharacter,
-      if (colCharacterArray != null) 'col_character_array': colCharacterArray,
-      if (colCharactervarying != null)
-        'col_charactervarying': colCharactervarying,
-      if (colCharactervaryingArray != null)
-        'col_charactervarying_array': colCharactervaryingArray,
-      if (colText != null) 'col_text': colText,
-      if (colTextArray != null) 'col_text_array': colTextArray,
-    };
-  }
-
-  Map<String, dynamic> toJson() {
-    return _generateMap(
-      id: id,
-      colUuid: colUuid,
-      colUuidArray: colUuidArray,
-      colCharacter: colCharacter,
-      colCharacterArray: colCharacterArray,
-      colCharactervarying: colCharactervarying,
-      colCharactervaryingArray: colCharactervaryingArray,
-      colText: colText,
-      colTextArray: colTextArray,
-    );
-  }
-
-  static const _unset = Object();
-  StringTypes copyWith({
-    Object? id = _unset,
-    Object? colUuid = _unset,
-    Object? colUuidArray = _unset,
-    Object? colCharacter = _unset,
-    Object? colCharacterArray = _unset,
-    Object? colCharactervarying = _unset,
-    Object? colCharactervaryingArray = _unset,
-    Object? colText = _unset,
-    Object? colTextArray = _unset,
-  }) {
-    return StringTypes(
-      id: id == _unset ? this.id : id as String,
-      colUuid: colUuid == _unset ? this.colUuid : colUuid as String?,
-      colUuidArray: colUuidArray == _unset
-          ? this.colUuidArray
-          : colUuidArray as List<String>?,
-      colCharacter:
-          colCharacter == _unset ? this.colCharacter : colCharacter as String?,
-      colCharacterArray: colCharacterArray == _unset
-          ? this.colCharacterArray
-          : colCharacterArray as List<String>?,
-      colCharactervarying: colCharactervarying == _unset
-          ? this.colCharactervarying
-          : colCharactervarying as String?,
-      colCharactervaryingArray: colCharactervaryingArray == _unset
-          ? this.colCharactervaryingArray
-          : colCharactervaryingArray as List<String>?,
-      colText: colText == _unset ? this.colText : colText as String?,
-      colTextArray: colTextArray == _unset
-          ? this.colTextArray
-          : colTextArray as List<String>?,
-    );
-  }
-}
-
-class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
-  final String id;
-  final bool? colBoolean;
-  final List<bool>? colBooleanArray;
-  final String? colBit;
-  final List<String>? colBitArray;
-  final String? colBitvarying;
-  final List<String>? colBitvaryingArray;
-
-  const BooleanBitTypes({
-    required this.id,
-    this.colBoolean,
-    this.colBooleanArray,
-    this.colBit,
-    this.colBitArray,
-    this.colBitvarying,
-    this.colBitvaryingArray,
-  });
-
-  static String get table_name => 'boolean_bit_types';
-  static String get c_id => 'id';
-  static String get c_colBoolean => 'col_boolean';
-  static String get c_colBooleanArray => 'col_boolean_array';
-  static String get c_colBit => 'col_bit';
-  static String get c_colBitArray => 'col_bit_array';
-  static String get c_colBitvarying => 'col_bitvarying';
-  static String get c_colBitvaryingArray => 'col_bitvarying_array';
-
-  static List<BooleanBitTypes> converter(List<Map<String, dynamic>> data) {
-    return data.map(BooleanBitTypes.fromJson).toList();
-  }
-
-  static BooleanBitTypes converterSingle(Map<String, dynamic> data) {
-    return BooleanBitTypes.fromJson(data);
-  }
-
-  static Map<String, dynamic> _generateMap({
-    String? id,
-    bool? colBoolean,
-    List<bool>? colBooleanArray,
-    String? colBit,
-    List<String>? colBitArray,
-    String? colBitvarying,
-    List<String>? colBitvaryingArray,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (colBoolean != null) 'col_boolean': colBoolean,
-      if (colBooleanArray != null)
-        'col_boolean_array': colBooleanArray.map((e) => e).toList(),
-      if (colBit != null) 'col_bit': colBit.toString(),
-      if (colBitArray != null)
-        'col_bit_array': colBitArray.map((e) => e.toString()).toList(),
-      if (colBitvarying != null) 'col_bitvarying': colBitvarying.toString(),
-      if (colBitvaryingArray != null)
-        'col_bitvarying_array':
-            colBitvaryingArray.map((e) => e.toString()).toList(),
-    };
-  }
-
-  static Map<String, dynamic> insert({
-    String? id,
-    bool? colBoolean,
-    List<bool>? colBooleanArray,
-    String? colBit,
-    List<String>? colBitArray,
-    String? colBitvarying,
-    List<String>? colBitvaryingArray,
-  }) {
-    return _generateMap(
-      id: id,
-      colBoolean: colBoolean,
-      colBooleanArray: colBooleanArray,
-      colBit: colBit,
-      colBitArray: colBitArray,
-      colBitvarying: colBitvarying,
-      colBitvaryingArray: colBitvaryingArray,
-    );
-  }
-
-  static Map<String, dynamic> update({
-    String? id,
-    bool? colBoolean,
-    List<bool>? colBooleanArray,
-    String? colBit,
-    List<String>? colBitArray,
-    String? colBitvarying,
-    List<String>? colBitvaryingArray,
-  }) {
-    return _generateMap(
-      id: id,
-      colBoolean: colBoolean,
-      colBooleanArray: colBooleanArray,
-      colBit: colBit,
-      colBitArray: colBitArray,
-      colBitvarying: colBitvarying,
-      colBitvaryingArray: colBitvaryingArray,
-    );
-  }
-
-  factory BooleanBitTypes.fromJson(Map<String, dynamic> jsonn) {
-    return BooleanBitTypes(
-      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
-      colBoolean:
-          jsonn['col_boolean'] != null ? jsonn['col_boolean'] as bool : null,
-      colBooleanArray: jsonn['col_boolean_array'] != null
-          ? (jsonn['col_boolean_array'] as List<dynamic>)
-              .map((v) => v as bool)
-              .toList()
-          : null,
-      colBit: jsonn['col_bit'] != null ? jsonn['col_bit'].toString() : null,
-      colBitArray: jsonn['col_bit_array'] != null
-          ? (jsonn['col_bit_array'] as List<dynamic>)
-              .map((e) => e.toString())
-              .toList()
-          : null,
-      colBitvarying: jsonn['col_bitvarying'] != null
-          ? jsonn['col_bitvarying'].toString()
-          : null,
-      colBitvaryingArray: jsonn['col_bitvarying_array'] != null
-          ? (jsonn['col_bitvarying_array'] as List<dynamic>)
-              .map((e) => e.toString())
-              .toList()
-          : null,
-    );
-  }
-
-  static Object New({
-    String? id,
-    bool? colBoolean,
-    List<bool>? colBooleanArray,
-    String? colBit,
-    List<String>? colBitArray,
-    String? colBitvarying,
-    List<String>? colBitvaryingArray,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (colBoolean != null) 'col_boolean': colBoolean,
-      if (colBooleanArray != null) 'col_boolean_array': colBooleanArray,
-      if (colBit != null) 'col_bit': colBit,
-      if (colBitArray != null) 'col_bit_array': colBitArray,
-      if (colBitvarying != null) 'col_bitvarying': colBitvarying,
-      if (colBitvaryingArray != null)
-        'col_bitvarying_array': colBitvaryingArray,
-    };
-  }
-
-  Map<String, dynamic> toJson() {
-    return _generateMap(
-      id: id,
-      colBoolean: colBoolean,
-      colBooleanArray: colBooleanArray,
-      colBit: colBit,
-      colBitArray: colBitArray,
-      colBitvarying: colBitvarying,
-      colBitvaryingArray: colBitvaryingArray,
-    );
-  }
-
-  static const _unset = Object();
-  BooleanBitTypes copyWith({
-    Object? id = _unset,
-    Object? colBoolean = _unset,
-    Object? colBooleanArray = _unset,
-    Object? colBit = _unset,
-    Object? colBitArray = _unset,
-    Object? colBitvarying = _unset,
-    Object? colBitvaryingArray = _unset,
-  }) {
-    return BooleanBitTypes(
-      id: id == _unset ? this.id : id as String,
-      colBoolean: colBoolean == _unset ? this.colBoolean : colBoolean as bool?,
-      colBooleanArray: colBooleanArray == _unset
-          ? this.colBooleanArray
-          : colBooleanArray as List<bool>?,
-      colBit: colBit == _unset ? this.colBit : colBit as String?,
-      colBitArray: colBitArray == _unset
-          ? this.colBitArray
-          : colBitArray as List<String>?,
-      colBitvarying: colBitvarying == _unset
-          ? this.colBitvarying
-          : colBitvarying as String?,
-      colBitvaryingArray: colBitvaryingArray == _unset
-          ? this.colBitvaryingArray
-          : colBitvaryingArray as List<String>?,
-    );
+    const day = Duration.microsecondsPerDay;
+    var micros = 0;
+    for (final m in part.allMatches(str)) {
+      if (m[1] != null) {
+        final n = int.parse(m[1]!);
+        micros += switch (m[2]) {
+          'year' => n * day * 1461 ~/ 4,
+          'mon' => n * day * 30,
+          _ => n * day,
+        };
+      } else {
+        final fraction = (m[7] ?? '').padRight(6, '0').substring(0, 6);
+        final time = int.parse(m[4]!) * Duration.microsecondsPerHour +
+            int.parse(m[5]!) * Duration.microsecondsPerMinute +
+            int.parse(m[6]!) * Duration.microsecondsPerSecond +
+            int.parse(fraction);
+        micros += m[3] == '-' ? -time : time;
+      }
+    }
+    return Duration(microseconds: micros);
   }
 }
 
@@ -654,6 +251,191 @@ class CombinedTypesView implements SupadartClass<CombinedTypesView> {
       stringId: stringId == _unset ? this.stringId : stringId as String?,
       colText: colText == _unset ? this.colText : colText as String?,
       colUuid: colUuid == _unset ? this.colUuid : colUuid as String?,
+    );
+  }
+}
+
+class Embeddings implements SupadartClass<Embeddings> {
+  final String? embedding;
+
+  const Embeddings({
+    this.embedding,
+  });
+
+  static String get table_name => 'embeddings';
+  static String get c_embedding => 'embedding';
+
+  static List<Embeddings> converter(List<Map<String, dynamic>> data) {
+    return data.map(Embeddings.fromJson).toList();
+  }
+
+  static Embeddings converterSingle(Map<String, dynamic> data) {
+    return Embeddings.fromJson(data);
+  }
+
+  static Map<String, dynamic> _generateMap({
+    String? embedding,
+  }) {
+    return {
+      if (embedding != null) 'embedding': embedding.toString(),
+    };
+  }
+
+  static Map<String, dynamic> insert({
+    String? embedding,
+  }) {
+    return _generateMap(
+      embedding: embedding,
+    );
+  }
+
+  static Map<String, dynamic> update({
+    String? embedding,
+  }) {
+    return _generateMap(
+      embedding: embedding,
+    );
+  }
+
+  factory Embeddings.fromJson(Map<String, dynamic> jsonn) {
+    return Embeddings(
+      embedding:
+          jsonn['embedding'] != null ? jsonn['embedding'].toString() : null,
+    );
+  }
+
+  static Object New({
+    String? embedding,
+  }) {
+    return {
+      if (embedding != null) 'embedding': embedding,
+    };
+  }
+
+  Map<String, dynamic> toJson() {
+    return _generateMap(
+      embedding: embedding,
+    );
+  }
+
+  static const _unset = Object();
+  Embeddings copyWith({
+    Object? embedding = _unset,
+  }) {
+    return Embeddings(
+      embedding: embedding == _unset ? this.embedding : embedding as String?,
+    );
+  }
+}
+
+class EnumTypes implements SupadartClass<EnumTypes> {
+  final String id;
+  final MOOD colMood;
+  final List<MOOD> colMoodArray;
+
+  const EnumTypes({
+    required this.id,
+    required this.colMood,
+    required this.colMoodArray,
+  });
+
+  static String get table_name => 'enum_types';
+  static String get c_id => 'id';
+  static String get c_colMood => 'col_mood';
+  static String get c_colMoodArray => 'col_mood_array';
+
+  static List<EnumTypes> converter(List<Map<String, dynamic>> data) {
+    return data.map(EnumTypes.fromJson).toList();
+  }
+
+  static EnumTypes converterSingle(Map<String, dynamic> data) {
+    return EnumTypes.fromJson(data);
+  }
+
+  static Map<String, dynamic> _generateMap({
+    String? id,
+    MOOD? colMood,
+    List<MOOD>? colMoodArray,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (colMood != null) 'col_mood': colMood.toString().split('.').last,
+      if (colMoodArray != null)
+        'col_mood_array':
+            colMoodArray.map((e) => e.toString().split('.').last).toList(),
+    };
+  }
+
+  static Map<String, dynamic> insert({
+    String? id,
+    required MOOD colMood,
+    required List<MOOD> colMoodArray,
+  }) {
+    return _generateMap(
+      id: id,
+      colMood: colMood,
+      colMoodArray: colMoodArray,
+    );
+  }
+
+  static Map<String, dynamic> update({
+    String? id,
+    MOOD? colMood,
+    List<MOOD>? colMoodArray,
+  }) {
+    return _generateMap(
+      id: id,
+      colMood: colMood,
+      colMoodArray: colMoodArray,
+    );
+  }
+
+  factory EnumTypes.fromJson(Map<String, dynamic> jsonn) {
+    return EnumTypes(
+      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
+      colMood: jsonn['col_mood'] != null
+          ? MOOD.values.byName(jsonn['col_mood'].toString())
+          : MOOD.values.first,
+      colMoodArray: jsonn['col_mood_array'] != null
+          ? List<MOOD>.from(jsonn['col_mood_array']
+              .map((e) => MOOD.values.byName(e.toString()))
+              .toList())
+          : [],
+    );
+  }
+
+  static Object New({
+    String? id,
+    MOOD? colMood,
+    List<MOOD>? colMoodArray,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (colMood != null) 'col_mood': colMood,
+      if (colMoodArray != null) 'col_mood_array': colMoodArray,
+    };
+  }
+
+  Map<String, dynamic> toJson() {
+    return _generateMap(
+      id: id,
+      colMood: colMood,
+      colMoodArray: colMoodArray,
+    );
+  }
+
+  static const _unset = Object();
+  EnumTypes copyWith({
+    Object? id = _unset,
+    Object? colMood = _unset,
+    Object? colMoodArray = _unset,
+  }) {
+    return EnumTypes(
+      id: id == _unset ? this.id : id as String,
+      colMood: colMood == _unset ? this.colMood : colMood as MOOD,
+      colMoodArray: colMoodArray == _unset
+          ? this.colMoodArray
+          : colMoodArray as List<MOOD>,
     );
   }
 }
@@ -973,129 +755,459 @@ class MiscTypes implements SupadartClass<MiscTypes> {
   }
 }
 
-class Profiles implements SupadartClass<Profiles> {
+class StringTypes implements SupadartClass<StringTypes> {
   final String id;
-  final String? firstName;
-  final String? lastName;
-  final List<USERGROUP> userGroups;
+  final String? colUuid;
+  final List<String>? colUuidArray;
+  final String? colCharacter;
+  final List<String>? colCharacterArray;
+  final String? colCharactervarying;
+  final List<String>? colCharactervaryingArray;
+  final String? colText;
+  final List<String>? colTextArray;
 
-  const Profiles({
+  const StringTypes({
     required this.id,
-    this.firstName,
-    this.lastName,
-    required this.userGroups,
+    this.colUuid,
+    this.colUuidArray,
+    this.colCharacter,
+    this.colCharacterArray,
+    this.colCharactervarying,
+    this.colCharactervaryingArray,
+    this.colText,
+    this.colTextArray,
   });
 
-  static String get table_name => 'profiles';
+  static String get table_name => 'string_types';
   static String get c_id => 'id';
-  static String get c_firstName => 'first_name';
-  static String get c_lastName => 'last_name';
-  static String get c_userGroups => 'user_groups';
+  static String get c_colUuid => 'col_uuid';
+  static String get c_colUuidArray => 'col_uuid_array';
+  static String get c_colCharacter => 'col_character';
+  static String get c_colCharacterArray => 'col_character_array';
+  static String get c_colCharactervarying => 'col_charactervarying';
+  static String get c_colCharactervaryingArray => 'col_charactervarying_array';
+  static String get c_colText => 'col_text';
+  static String get c_colTextArray => 'col_text_array';
 
-  static List<Profiles> converter(List<Map<String, dynamic>> data) {
-    return data.map(Profiles.fromJson).toList();
+  static List<StringTypes> converter(List<Map<String, dynamic>> data) {
+    return data.map(StringTypes.fromJson).toList();
   }
 
-  static Profiles converterSingle(Map<String, dynamic> data) {
-    return Profiles.fromJson(data);
+  static StringTypes converterSingle(Map<String, dynamic> data) {
+    return StringTypes.fromJson(data);
   }
 
   static Map<String, dynamic> _generateMap({
     String? id,
-    String? firstName,
-    String? lastName,
-    List<USERGROUP>? userGroups,
+    String? colUuid,
+    List<String>? colUuidArray,
+    String? colCharacter,
+    List<String>? colCharacterArray,
+    String? colCharactervarying,
+    List<String>? colCharactervaryingArray,
+    String? colText,
+    List<String>? colTextArray,
   }) {
     return {
       if (id != null) 'id': id,
-      if (firstName != null) 'first_name': firstName,
-      if (lastName != null) 'last_name': lastName,
-      if (userGroups != null)
-        'user_groups':
-            userGroups.map((e) => e.toString().split('.').last).toList(),
+      if (colUuid != null) 'col_uuid': colUuid,
+      if (colUuidArray != null)
+        'col_uuid_array': colUuidArray.map((e) => e).toList(),
+      if (colCharacter != null) 'col_character': colCharacter,
+      if (colCharacterArray != null)
+        'col_character_array': colCharacterArray.map((e) => e).toList(),
+      if (colCharactervarying != null)
+        'col_charactervarying': colCharactervarying,
+      if (colCharactervaryingArray != null)
+        'col_charactervarying_array':
+            colCharactervaryingArray.map((e) => e).toList(),
+      if (colText != null) 'col_text': colText,
+      if (colTextArray != null)
+        'col_text_array': colTextArray.map((e) => e).toList(),
     };
   }
 
   static Map<String, dynamic> insert({
     String? id,
-    String? firstName,
-    String? lastName,
-    required List<USERGROUP> userGroups,
+    String? colUuid,
+    List<String>? colUuidArray,
+    String? colCharacter,
+    List<String>? colCharacterArray,
+    String? colCharactervarying,
+    List<String>? colCharactervaryingArray,
+    String? colText,
+    List<String>? colTextArray,
   }) {
     return _generateMap(
       id: id,
-      firstName: firstName,
-      lastName: lastName,
-      userGroups: userGroups,
+      colUuid: colUuid,
+      colUuidArray: colUuidArray,
+      colCharacter: colCharacter,
+      colCharacterArray: colCharacterArray,
+      colCharactervarying: colCharactervarying,
+      colCharactervaryingArray: colCharactervaryingArray,
+      colText: colText,
+      colTextArray: colTextArray,
     );
   }
 
   static Map<String, dynamic> update({
     String? id,
-    String? firstName,
-    String? lastName,
-    List<USERGROUP>? userGroups,
+    String? colUuid,
+    List<String>? colUuidArray,
+    String? colCharacter,
+    List<String>? colCharacterArray,
+    String? colCharactervarying,
+    List<String>? colCharactervaryingArray,
+    String? colText,
+    List<String>? colTextArray,
   }) {
     return _generateMap(
       id: id,
-      firstName: firstName,
-      lastName: lastName,
-      userGroups: userGroups,
+      colUuid: colUuid,
+      colUuidArray: colUuidArray,
+      colCharacter: colCharacter,
+      colCharacterArray: colCharacterArray,
+      colCharactervarying: colCharactervarying,
+      colCharactervaryingArray: colCharactervaryingArray,
+      colText: colText,
+      colTextArray: colTextArray,
     );
   }
 
-  factory Profiles.fromJson(Map<String, dynamic> jsonn) {
-    return Profiles(
+  factory StringTypes.fromJson(Map<String, dynamic> jsonn) {
+    return StringTypes(
       id: jsonn['id'] != null ? jsonn['id'].toString() : '',
-      firstName:
-          jsonn['first_name'] != null ? jsonn['first_name'].toString() : null,
-      lastName:
-          jsonn['last_name'] != null ? jsonn['last_name'].toString() : null,
-      userGroups: jsonn['user_groups'] != null
-          ? List<USERGROUP>.from(jsonn['user_groups']
-              .map((e) => USERGROUP.values.byName(e.toString()))
-              .toList())
-          : [],
+      colUuid: jsonn['col_uuid'] != null ? jsonn['col_uuid'].toString() : null,
+      colUuidArray: jsonn['col_uuid_array'] != null
+          ? (jsonn['col_uuid_array'] as List<dynamic>)
+              .map((v) => v.toString())
+              .toList()
+          : null,
+      colCharacter: jsonn['col_character'] != null
+          ? jsonn['col_character'].toString()
+          : null,
+      colCharacterArray: jsonn['col_character_array'] != null
+          ? (jsonn['col_character_array'] as List<dynamic>)
+              .map((v) => v.toString())
+              .toList()
+          : null,
+      colCharactervarying: jsonn['col_charactervarying'] != null
+          ? jsonn['col_charactervarying'].toString()
+          : null,
+      colCharactervaryingArray: jsonn['col_charactervarying_array'] != null
+          ? (jsonn['col_charactervarying_array'] as List<dynamic>)
+              .map((v) => v.toString())
+              .toList()
+          : null,
+      colText: jsonn['col_text'] != null ? jsonn['col_text'].toString() : null,
+      colTextArray: jsonn['col_text_array'] != null
+          ? (jsonn['col_text_array'] as List<dynamic>)
+              .map((v) => v.toString())
+              .toList()
+          : null,
     );
   }
 
   static Object New({
     String? id,
-    String? firstName,
-    String? lastName,
-    List<USERGROUP>? userGroups,
+    String? colUuid,
+    List<String>? colUuidArray,
+    String? colCharacter,
+    List<String>? colCharacterArray,
+    String? colCharactervarying,
+    List<String>? colCharactervaryingArray,
+    String? colText,
+    List<String>? colTextArray,
   }) {
     return {
       if (id != null) 'id': id,
-      if (firstName != null) 'first_name': firstName,
-      if (lastName != null) 'last_name': lastName,
-      if (userGroups != null) 'user_groups': userGroups,
+      if (colUuid != null) 'col_uuid': colUuid,
+      if (colUuidArray != null) 'col_uuid_array': colUuidArray,
+      if (colCharacter != null) 'col_character': colCharacter,
+      if (colCharacterArray != null) 'col_character_array': colCharacterArray,
+      if (colCharactervarying != null)
+        'col_charactervarying': colCharactervarying,
+      if (colCharactervaryingArray != null)
+        'col_charactervarying_array': colCharactervaryingArray,
+      if (colText != null) 'col_text': colText,
+      if (colTextArray != null) 'col_text_array': colTextArray,
     };
   }
 
   Map<String, dynamic> toJson() {
     return _generateMap(
       id: id,
-      firstName: firstName,
-      lastName: lastName,
-      userGroups: userGroups,
+      colUuid: colUuid,
+      colUuidArray: colUuidArray,
+      colCharacter: colCharacter,
+      colCharacterArray: colCharacterArray,
+      colCharactervarying: colCharactervarying,
+      colCharactervaryingArray: colCharactervaryingArray,
+      colText: colText,
+      colTextArray: colTextArray,
     );
   }
 
   static const _unset = Object();
-  Profiles copyWith({
+  StringTypes copyWith({
     Object? id = _unset,
-    Object? firstName = _unset,
-    Object? lastName = _unset,
-    Object? userGroups = _unset,
+    Object? colUuid = _unset,
+    Object? colUuidArray = _unset,
+    Object? colCharacter = _unset,
+    Object? colCharacterArray = _unset,
+    Object? colCharactervarying = _unset,
+    Object? colCharactervaryingArray = _unset,
+    Object? colText = _unset,
+    Object? colTextArray = _unset,
   }) {
-    return Profiles(
+    return StringTypes(
       id: id == _unset ? this.id : id as String,
-      firstName: firstName == _unset ? this.firstName : firstName as String?,
-      lastName: lastName == _unset ? this.lastName : lastName as String?,
-      userGroups: userGroups == _unset
-          ? this.userGroups
-          : userGroups as List<USERGROUP>,
+      colUuid: colUuid == _unset ? this.colUuid : colUuid as String?,
+      colUuidArray: colUuidArray == _unset
+          ? this.colUuidArray
+          : colUuidArray as List<String>?,
+      colCharacter:
+          colCharacter == _unset ? this.colCharacter : colCharacter as String?,
+      colCharacterArray: colCharacterArray == _unset
+          ? this.colCharacterArray
+          : colCharacterArray as List<String>?,
+      colCharactervarying: colCharactervarying == _unset
+          ? this.colCharactervarying
+          : colCharactervarying as String?,
+      colCharactervaryingArray: colCharactervaryingArray == _unset
+          ? this.colCharactervaryingArray
+          : colCharactervaryingArray as List<String>?,
+      colText: colText == _unset ? this.colText : colText as String?,
+      colTextArray: colTextArray == _unset
+          ? this.colTextArray
+          : colTextArray as List<String>?,
+    );
+  }
+}
+
+class NetworkTypes implements SupadartClass<NetworkTypes> {
+  final String id;
+  final String? colCidr;
+  final List<String>? colCidrArray;
+  final String? colInet;
+  final List<String>? colInetArray;
+  final String? colMacaddr;
+  final List<String>? colMacaddrArray;
+  final String? colMacaddr8;
+  final List<String>? colMacaddr8Array;
+
+  const NetworkTypes({
+    required this.id,
+    this.colCidr,
+    this.colCidrArray,
+    this.colInet,
+    this.colInetArray,
+    this.colMacaddr,
+    this.colMacaddrArray,
+    this.colMacaddr8,
+    this.colMacaddr8Array,
+  });
+
+  static String get table_name => 'network_types';
+  static String get c_id => 'id';
+  static String get c_colCidr => 'col_cidr';
+  static String get c_colCidrArray => 'col_cidr_array';
+  static String get c_colInet => 'col_inet';
+  static String get c_colInetArray => 'col_inet_array';
+  static String get c_colMacaddr => 'col_macaddr';
+  static String get c_colMacaddrArray => 'col_macaddr_array';
+  static String get c_colMacaddr8 => 'col_macaddr8';
+  static String get c_colMacaddr8Array => 'col_macaddr8_array';
+
+  static List<NetworkTypes> converter(List<Map<String, dynamic>> data) {
+    return data.map(NetworkTypes.fromJson).toList();
+  }
+
+  static NetworkTypes converterSingle(Map<String, dynamic> data) {
+    return NetworkTypes.fromJson(data);
+  }
+
+  static Map<String, dynamic> _generateMap({
+    String? id,
+    String? colCidr,
+    List<String>? colCidrArray,
+    String? colInet,
+    List<String>? colInetArray,
+    String? colMacaddr,
+    List<String>? colMacaddrArray,
+    String? colMacaddr8,
+    List<String>? colMacaddr8Array,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (colCidr != null) 'col_cidr': colCidr.toString(),
+      if (colCidrArray != null)
+        'col_cidr_array': colCidrArray.map((e) => e.toString()).toList(),
+      if (colInet != null) 'col_inet': colInet.toString(),
+      if (colInetArray != null)
+        'col_inet_array': colInetArray.map((e) => e.toString()).toList(),
+      if (colMacaddr != null) 'col_macaddr': colMacaddr.toString(),
+      if (colMacaddrArray != null)
+        'col_macaddr_array': colMacaddrArray.map((e) => e.toString()).toList(),
+      if (colMacaddr8 != null) 'col_macaddr8': colMacaddr8.toString(),
+      if (colMacaddr8Array != null)
+        'col_macaddr8_array':
+            colMacaddr8Array.map((e) => e.toString()).toList(),
+    };
+  }
+
+  static Map<String, dynamic> insert({
+    String? id,
+    String? colCidr,
+    List<String>? colCidrArray,
+    String? colInet,
+    List<String>? colInetArray,
+    String? colMacaddr,
+    List<String>? colMacaddrArray,
+    String? colMacaddr8,
+    List<String>? colMacaddr8Array,
+  }) {
+    return _generateMap(
+      id: id,
+      colCidr: colCidr,
+      colCidrArray: colCidrArray,
+      colInet: colInet,
+      colInetArray: colInetArray,
+      colMacaddr: colMacaddr,
+      colMacaddrArray: colMacaddrArray,
+      colMacaddr8: colMacaddr8,
+      colMacaddr8Array: colMacaddr8Array,
+    );
+  }
+
+  static Map<String, dynamic> update({
+    String? id,
+    String? colCidr,
+    List<String>? colCidrArray,
+    String? colInet,
+    List<String>? colInetArray,
+    String? colMacaddr,
+    List<String>? colMacaddrArray,
+    String? colMacaddr8,
+    List<String>? colMacaddr8Array,
+  }) {
+    return _generateMap(
+      id: id,
+      colCidr: colCidr,
+      colCidrArray: colCidrArray,
+      colInet: colInet,
+      colInetArray: colInetArray,
+      colMacaddr: colMacaddr,
+      colMacaddrArray: colMacaddrArray,
+      colMacaddr8: colMacaddr8,
+      colMacaddr8Array: colMacaddr8Array,
+    );
+  }
+
+  factory NetworkTypes.fromJson(Map<String, dynamic> jsonn) {
+    return NetworkTypes(
+      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
+      colCidr: jsonn['col_cidr'] != null ? jsonn['col_cidr'].toString() : null,
+      colCidrArray: jsonn['col_cidr_array'] != null
+          ? (jsonn['col_cidr_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
+          : null,
+      colInet: jsonn['col_inet'] != null ? jsonn['col_inet'].toString() : null,
+      colInetArray: jsonn['col_inet_array'] != null
+          ? (jsonn['col_inet_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
+          : null,
+      colMacaddr:
+          jsonn['col_macaddr'] != null ? jsonn['col_macaddr'].toString() : null,
+      colMacaddrArray: jsonn['col_macaddr_array'] != null
+          ? (jsonn['col_macaddr_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
+          : null,
+      colMacaddr8: jsonn['col_macaddr8'] != null
+          ? jsonn['col_macaddr8'].toString()
+          : null,
+      colMacaddr8Array: jsonn['col_macaddr8_array'] != null
+          ? (jsonn['col_macaddr8_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
+          : null,
+    );
+  }
+
+  static Object New({
+    String? id,
+    String? colCidr,
+    List<String>? colCidrArray,
+    String? colInet,
+    List<String>? colInetArray,
+    String? colMacaddr,
+    List<String>? colMacaddrArray,
+    String? colMacaddr8,
+    List<String>? colMacaddr8Array,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (colCidr != null) 'col_cidr': colCidr,
+      if (colCidrArray != null) 'col_cidr_array': colCidrArray,
+      if (colInet != null) 'col_inet': colInet,
+      if (colInetArray != null) 'col_inet_array': colInetArray,
+      if (colMacaddr != null) 'col_macaddr': colMacaddr,
+      if (colMacaddrArray != null) 'col_macaddr_array': colMacaddrArray,
+      if (colMacaddr8 != null) 'col_macaddr8': colMacaddr8,
+      if (colMacaddr8Array != null) 'col_macaddr8_array': colMacaddr8Array,
+    };
+  }
+
+  Map<String, dynamic> toJson() {
+    return _generateMap(
+      id: id,
+      colCidr: colCidr,
+      colCidrArray: colCidrArray,
+      colInet: colInet,
+      colInetArray: colInetArray,
+      colMacaddr: colMacaddr,
+      colMacaddrArray: colMacaddrArray,
+      colMacaddr8: colMacaddr8,
+      colMacaddr8Array: colMacaddr8Array,
+    );
+  }
+
+  static const _unset = Object();
+  NetworkTypes copyWith({
+    Object? id = _unset,
+    Object? colCidr = _unset,
+    Object? colCidrArray = _unset,
+    Object? colInet = _unset,
+    Object? colInetArray = _unset,
+    Object? colMacaddr = _unset,
+    Object? colMacaddrArray = _unset,
+    Object? colMacaddr8 = _unset,
+    Object? colMacaddr8Array = _unset,
+  }) {
+    return NetworkTypes(
+      id: id == _unset ? this.id : id as String,
+      colCidr: colCidr == _unset ? this.colCidr : colCidr as String?,
+      colCidrArray: colCidrArray == _unset
+          ? this.colCidrArray
+          : colCidrArray as List<String>?,
+      colInet: colInet == _unset ? this.colInet : colInet as String?,
+      colInetArray: colInetArray == _unset
+          ? this.colInetArray
+          : colInetArray as List<String>?,
+      colMacaddr:
+          colMacaddr == _unset ? this.colMacaddr : colMacaddr as String?,
+      colMacaddrArray: colMacaddrArray == _unset
+          ? this.colMacaddrArray
+          : colMacaddrArray as List<String>?,
+      colMacaddr8:
+          colMacaddr8 == _unset ? this.colMacaddr8 : colMacaddr8 as String?,
+      colMacaddr8Array: colMacaddr8Array == _unset
+          ? this.colMacaddr8Array
+          : colMacaddr8Array as List<String>?,
     );
   }
 }
@@ -1435,237 +1547,87 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
   }
 }
 
-class Embeddings implements SupadartClass<Embeddings> {
-  final String? embedding;
-
-  const Embeddings({
-    this.embedding,
-  });
-
-  static String get table_name => 'embeddings';
-  static String get c_embedding => 'embedding';
-
-  static List<Embeddings> converter(List<Map<String, dynamic>> data) {
-    return data.map(Embeddings.fromJson).toList();
-  }
-
-  static Embeddings converterSingle(Map<String, dynamic> data) {
-    return Embeddings.fromJson(data);
-  }
-
-  static Map<String, dynamic> _generateMap({
-    String? embedding,
-  }) {
-    return {
-      if (embedding != null) 'embedding': embedding.toString(),
-    };
-  }
-
-  static Map<String, dynamic> insert({
-    String? embedding,
-  }) {
-    return _generateMap(
-      embedding: embedding,
-    );
-  }
-
-  static Map<String, dynamic> update({
-    String? embedding,
-  }) {
-    return _generateMap(
-      embedding: embedding,
-    );
-  }
-
-  factory Embeddings.fromJson(Map<String, dynamic> jsonn) {
-    return Embeddings(
-      embedding:
-          jsonn['embedding'] != null ? jsonn['embedding'].toString() : null,
-    );
-  }
-
-  static Object New({
-    String? embedding,
-  }) {
-    return {
-      if (embedding != null) 'embedding': embedding,
-    };
-  }
-
-  Map<String, dynamic> toJson() {
-    return _generateMap(
-      embedding: embedding,
-    );
-  }
-
-  static const _unset = Object();
-  Embeddings copyWith({
-    Object? embedding = _unset,
-  }) {
-    return Embeddings(
-      embedding: embedding == _unset ? this.embedding : embedding as String?,
-    );
-  }
-}
-
-class Genres implements SupadartClass<Genres> {
+class Profiles implements SupadartClass<Profiles> {
   final String id;
-  final String name;
+  final String? firstName;
+  final String? lastName;
+  final List<USERGROUP> userGroups;
 
-  const Genres({
+  const Profiles({
     required this.id,
-    required this.name,
+    this.firstName,
+    this.lastName,
+    required this.userGroups,
   });
 
-  static String get table_name => 'genres';
+  static String get table_name => 'profiles';
   static String get c_id => 'id';
-  static String get c_name => 'name';
+  static String get c_firstName => 'first_name';
+  static String get c_lastName => 'last_name';
+  static String get c_userGroups => 'user_groups';
 
-  static List<Genres> converter(List<Map<String, dynamic>> data) {
-    return data.map(Genres.fromJson).toList();
+  static List<Profiles> converter(List<Map<String, dynamic>> data) {
+    return data.map(Profiles.fromJson).toList();
   }
 
-  static Genres converterSingle(Map<String, dynamic> data) {
-    return Genres.fromJson(data);
+  static Profiles converterSingle(Map<String, dynamic> data) {
+    return Profiles.fromJson(data);
   }
 
   static Map<String, dynamic> _generateMap({
     String? id,
-    String? name,
+    String? firstName,
+    String? lastName,
+    List<USERGROUP>? userGroups,
   }) {
     return {
       if (id != null) 'id': id,
-      if (name != null) 'name': name,
+      if (firstName != null) 'first_name': firstName,
+      if (lastName != null) 'last_name': lastName,
+      if (userGroups != null)
+        'user_groups':
+            userGroups.map((e) => e.toString().split('.').last).toList(),
     };
   }
 
   static Map<String, dynamic> insert({
     String? id,
-    required String name,
+    String? firstName,
+    String? lastName,
+    required List<USERGROUP> userGroups,
   }) {
     return _generateMap(
       id: id,
-      name: name,
+      firstName: firstName,
+      lastName: lastName,
+      userGroups: userGroups,
     );
   }
 
   static Map<String, dynamic> update({
     String? id,
-    String? name,
+    String? firstName,
+    String? lastName,
+    List<USERGROUP>? userGroups,
   }) {
     return _generateMap(
       id: id,
-      name: name,
+      firstName: firstName,
+      lastName: lastName,
+      userGroups: userGroups,
     );
   }
 
-  factory Genres.fromJson(Map<String, dynamic> jsonn) {
-    return Genres(
+  factory Profiles.fromJson(Map<String, dynamic> jsonn) {
+    return Profiles(
       id: jsonn['id'] != null ? jsonn['id'].toString() : '',
-      name: jsonn['name'] != null ? jsonn['name'].toString() : '',
-    );
-  }
-
-  static Object New({
-    String? id,
-    String? name,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-    };
-  }
-
-  Map<String, dynamic> toJson() {
-    return _generateMap(
-      id: id,
-      name: name,
-    );
-  }
-
-  static const _unset = Object();
-  Genres copyWith({
-    Object? id = _unset,
-    Object? name = _unset,
-  }) {
-    return Genres(
-      id: id == _unset ? this.id : id as String,
-      name: name == _unset ? this.name : name as String,
-    );
-  }
-}
-
-class EnumTypes implements SupadartClass<EnumTypes> {
-  final String id;
-  final MOOD colMood;
-  final List<MOOD> colMoodArray;
-
-  const EnumTypes({
-    required this.id,
-    required this.colMood,
-    required this.colMoodArray,
-  });
-
-  static String get table_name => 'enum_types';
-  static String get c_id => 'id';
-  static String get c_colMood => 'col_mood';
-  static String get c_colMoodArray => 'col_mood_array';
-
-  static List<EnumTypes> converter(List<Map<String, dynamic>> data) {
-    return data.map(EnumTypes.fromJson).toList();
-  }
-
-  static EnumTypes converterSingle(Map<String, dynamic> data) {
-    return EnumTypes.fromJson(data);
-  }
-
-  static Map<String, dynamic> _generateMap({
-    String? id,
-    MOOD? colMood,
-    List<MOOD>? colMoodArray,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (colMood != null) 'col_mood': colMood.toString().split('.').last,
-      if (colMoodArray != null)
-        'col_mood_array':
-            colMoodArray.map((e) => e.toString().split('.').last).toList(),
-    };
-  }
-
-  static Map<String, dynamic> insert({
-    String? id,
-    required MOOD colMood,
-    required List<MOOD> colMoodArray,
-  }) {
-    return _generateMap(
-      id: id,
-      colMood: colMood,
-      colMoodArray: colMoodArray,
-    );
-  }
-
-  static Map<String, dynamic> update({
-    String? id,
-    MOOD? colMood,
-    List<MOOD>? colMoodArray,
-  }) {
-    return _generateMap(
-      id: id,
-      colMood: colMood,
-      colMoodArray: colMoodArray,
-    );
-  }
-
-  factory EnumTypes.fromJson(Map<String, dynamic> jsonn) {
-    return EnumTypes(
-      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
-      colMood: jsonn['col_mood'] != null
-          ? MOOD.values.byName(jsonn['col_mood'].toString())
-          : MOOD.values.first,
-      colMoodArray: jsonn['col_mood_array'] != null
-          ? List<MOOD>.from(jsonn['col_mood_array']
-              .map((e) => MOOD.values.byName(e.toString()))
+      firstName:
+          jsonn['first_name'] != null ? jsonn['first_name'].toString() : null,
+      lastName:
+          jsonn['last_name'] != null ? jsonn['last_name'].toString() : null,
+      userGroups: jsonn['user_groups'] != null
+          ? List<USERGROUP>.from(jsonn['user_groups']
+              .map((e) => USERGROUP.values.byName(e.toString()))
               .toList())
           : [],
     );
@@ -1673,36 +1635,231 @@ class EnumTypes implements SupadartClass<EnumTypes> {
 
   static Object New({
     String? id,
-    MOOD? colMood,
-    List<MOOD>? colMoodArray,
+    String? firstName,
+    String? lastName,
+    List<USERGROUP>? userGroups,
   }) {
     return {
       if (id != null) 'id': id,
-      if (colMood != null) 'col_mood': colMood,
-      if (colMoodArray != null) 'col_mood_array': colMoodArray,
+      if (firstName != null) 'first_name': firstName,
+      if (lastName != null) 'last_name': lastName,
+      if (userGroups != null) 'user_groups': userGroups,
     };
   }
 
   Map<String, dynamic> toJson() {
     return _generateMap(
       id: id,
-      colMood: colMood,
-      colMoodArray: colMoodArray,
+      firstName: firstName,
+      lastName: lastName,
+      userGroups: userGroups,
     );
   }
 
   static const _unset = Object();
-  EnumTypes copyWith({
+  Profiles copyWith({
     Object? id = _unset,
-    Object? colMood = _unset,
-    Object? colMoodArray = _unset,
+    Object? firstName = _unset,
+    Object? lastName = _unset,
+    Object? userGroups = _unset,
   }) {
-    return EnumTypes(
+    return Profiles(
       id: id == _unset ? this.id : id as String,
-      colMood: colMood == _unset ? this.colMood : colMood as MOOD,
-      colMoodArray: colMoodArray == _unset
-          ? this.colMoodArray
-          : colMoodArray as List<MOOD>,
+      firstName: firstName == _unset ? this.firstName : firstName as String?,
+      lastName: lastName == _unset ? this.lastName : lastName as String?,
+      userGroups: userGroups == _unset
+          ? this.userGroups
+          : userGroups as List<USERGROUP>,
+    );
+  }
+}
+
+class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
+  final String id;
+  final bool? colBoolean;
+  final List<bool>? colBooleanArray;
+  final String? colBit;
+  final List<String>? colBitArray;
+  final String? colBitvarying;
+  final List<String>? colBitvaryingArray;
+
+  const BooleanBitTypes({
+    required this.id,
+    this.colBoolean,
+    this.colBooleanArray,
+    this.colBit,
+    this.colBitArray,
+    this.colBitvarying,
+    this.colBitvaryingArray,
+  });
+
+  static String get table_name => 'boolean_bit_types';
+  static String get c_id => 'id';
+  static String get c_colBoolean => 'col_boolean';
+  static String get c_colBooleanArray => 'col_boolean_array';
+  static String get c_colBit => 'col_bit';
+  static String get c_colBitArray => 'col_bit_array';
+  static String get c_colBitvarying => 'col_bitvarying';
+  static String get c_colBitvaryingArray => 'col_bitvarying_array';
+
+  static List<BooleanBitTypes> converter(List<Map<String, dynamic>> data) {
+    return data.map(BooleanBitTypes.fromJson).toList();
+  }
+
+  static BooleanBitTypes converterSingle(Map<String, dynamic> data) {
+    return BooleanBitTypes.fromJson(data);
+  }
+
+  static Map<String, dynamic> _generateMap({
+    String? id,
+    bool? colBoolean,
+    List<bool>? colBooleanArray,
+    String? colBit,
+    List<String>? colBitArray,
+    String? colBitvarying,
+    List<String>? colBitvaryingArray,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (colBoolean != null) 'col_boolean': colBoolean,
+      if (colBooleanArray != null)
+        'col_boolean_array': colBooleanArray.map((e) => e).toList(),
+      if (colBit != null) 'col_bit': colBit.toString(),
+      if (colBitArray != null)
+        'col_bit_array': colBitArray.map((e) => e.toString()).toList(),
+      if (colBitvarying != null) 'col_bitvarying': colBitvarying.toString(),
+      if (colBitvaryingArray != null)
+        'col_bitvarying_array':
+            colBitvaryingArray.map((e) => e.toString()).toList(),
+    };
+  }
+
+  static Map<String, dynamic> insert({
+    String? id,
+    bool? colBoolean,
+    List<bool>? colBooleanArray,
+    String? colBit,
+    List<String>? colBitArray,
+    String? colBitvarying,
+    List<String>? colBitvaryingArray,
+  }) {
+    return _generateMap(
+      id: id,
+      colBoolean: colBoolean,
+      colBooleanArray: colBooleanArray,
+      colBit: colBit,
+      colBitArray: colBitArray,
+      colBitvarying: colBitvarying,
+      colBitvaryingArray: colBitvaryingArray,
+    );
+  }
+
+  static Map<String, dynamic> update({
+    String? id,
+    bool? colBoolean,
+    List<bool>? colBooleanArray,
+    String? colBit,
+    List<String>? colBitArray,
+    String? colBitvarying,
+    List<String>? colBitvaryingArray,
+  }) {
+    return _generateMap(
+      id: id,
+      colBoolean: colBoolean,
+      colBooleanArray: colBooleanArray,
+      colBit: colBit,
+      colBitArray: colBitArray,
+      colBitvarying: colBitvarying,
+      colBitvaryingArray: colBitvaryingArray,
+    );
+  }
+
+  factory BooleanBitTypes.fromJson(Map<String, dynamic> jsonn) {
+    return BooleanBitTypes(
+      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
+      colBoolean:
+          jsonn['col_boolean'] != null ? jsonn['col_boolean'] as bool : null,
+      colBooleanArray: jsonn['col_boolean_array'] != null
+          ? (jsonn['col_boolean_array'] as List<dynamic>)
+              .map((v) => v as bool)
+              .toList()
+          : null,
+      colBit: jsonn['col_bit'] != null ? jsonn['col_bit'].toString() : null,
+      colBitArray: jsonn['col_bit_array'] != null
+          ? (jsonn['col_bit_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
+          : null,
+      colBitvarying: jsonn['col_bitvarying'] != null
+          ? jsonn['col_bitvarying'].toString()
+          : null,
+      colBitvaryingArray: jsonn['col_bitvarying_array'] != null
+          ? (jsonn['col_bitvarying_array'] as List<dynamic>)
+              .map((e) => e.toString())
+              .toList()
+          : null,
+    );
+  }
+
+  static Object New({
+    String? id,
+    bool? colBoolean,
+    List<bool>? colBooleanArray,
+    String? colBit,
+    List<String>? colBitArray,
+    String? colBitvarying,
+    List<String>? colBitvaryingArray,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (colBoolean != null) 'col_boolean': colBoolean,
+      if (colBooleanArray != null) 'col_boolean_array': colBooleanArray,
+      if (colBit != null) 'col_bit': colBit,
+      if (colBitArray != null) 'col_bit_array': colBitArray,
+      if (colBitvarying != null) 'col_bitvarying': colBitvarying,
+      if (colBitvaryingArray != null)
+        'col_bitvarying_array': colBitvaryingArray,
+    };
+  }
+
+  Map<String, dynamic> toJson() {
+    return _generateMap(
+      id: id,
+      colBoolean: colBoolean,
+      colBooleanArray: colBooleanArray,
+      colBit: colBit,
+      colBitArray: colBitArray,
+      colBitvarying: colBitvarying,
+      colBitvaryingArray: colBitvaryingArray,
+    );
+  }
+
+  static const _unset = Object();
+  BooleanBitTypes copyWith({
+    Object? id = _unset,
+    Object? colBoolean = _unset,
+    Object? colBooleanArray = _unset,
+    Object? colBit = _unset,
+    Object? colBitArray = _unset,
+    Object? colBitvarying = _unset,
+    Object? colBitvaryingArray = _unset,
+  }) {
+    return BooleanBitTypes(
+      id: id == _unset ? this.id : id as String,
+      colBoolean: colBoolean == _unset ? this.colBoolean : colBoolean as bool?,
+      colBooleanArray: colBooleanArray == _unset
+          ? this.colBooleanArray
+          : colBooleanArray as List<bool>?,
+      colBit: colBit == _unset ? this.colBit : colBit as String?,
+      colBitArray: colBitArray == _unset
+          ? this.colBitArray
+          : colBitArray as List<String>?,
+      colBitvarying: colBitvarying == _unset
+          ? this.colBitvarying
+          : colBitvarying as String?,
+      colBitvaryingArray: colBitvaryingArray == _unset
+          ? this.colBitvaryingArray
+          : colBitvaryingArray as List<String>?,
     );
   }
 }
@@ -1747,11 +1904,9 @@ class JsonTypes implements SupadartClass<JsonTypes> {
     return {
       if (id != null) 'id': id,
       if (colJson != null) 'col_json': colJson,
-      if (colJsonArray != null)
-        'col_json_array': colJsonArray.map((e) => jsonEncode(e)).toList(),
+      if (colJsonArray != null) 'col_json_array': colJsonArray,
       if (colJsonb != null) 'col_jsonb': colJsonb,
-      if (colJsonbArray != null)
-        'col_jsonb_array': colJsonbArray.map((e) => jsonEncode(e)).toList(),
+      if (colJsonbArray != null) 'col_jsonb_array': colJsonbArray,
     };
   }
 
@@ -1795,7 +1950,8 @@ class JsonTypes implements SupadartClass<JsonTypes> {
           : null,
       colJsonArray: jsonn['col_json_array'] != null
           ? (jsonn['col_json_array'] as List<dynamic>)
-              .map((v) => json.decode(v) as Map<String, dynamic>)
+              .map((v) =>
+                  (v is String ? json.decode(v) : v) as Map<String, dynamic>)
               .toList()
           : null,
       colJsonb: jsonn['col_jsonb'] != null
@@ -1803,7 +1959,8 @@ class JsonTypes implements SupadartClass<JsonTypes> {
           : null,
       colJsonbArray: jsonn['col_jsonb_array'] != null
           ? (jsonn['col_jsonb_array'] as List<dynamic>)
-              .map((v) => json.decode(v) as Map<String, dynamic>)
+              .map((v) =>
+                  (v is String ? json.decode(v) : v) as Map<String, dynamic>)
               .toList()
           : null,
     );
@@ -2003,232 +2160,6 @@ class BinaryXmlTypes implements SupadartClass<BinaryXmlTypes> {
       colXmlArray: colXmlArray == _unset
           ? this.colXmlArray
           : colXmlArray as List<String>?,
-    );
-  }
-}
-
-class NetworkTypes implements SupadartClass<NetworkTypes> {
-  final String id;
-  final String? colCidr;
-  final List<String>? colCidrArray;
-  final String? colInet;
-  final List<String>? colInetArray;
-  final String? colMacaddr;
-  final List<String>? colMacaddrArray;
-  final String? colMacaddr8;
-  final List<String>? colMacaddr8Array;
-
-  const NetworkTypes({
-    required this.id,
-    this.colCidr,
-    this.colCidrArray,
-    this.colInet,
-    this.colInetArray,
-    this.colMacaddr,
-    this.colMacaddrArray,
-    this.colMacaddr8,
-    this.colMacaddr8Array,
-  });
-
-  static String get table_name => 'network_types';
-  static String get c_id => 'id';
-  static String get c_colCidr => 'col_cidr';
-  static String get c_colCidrArray => 'col_cidr_array';
-  static String get c_colInet => 'col_inet';
-  static String get c_colInetArray => 'col_inet_array';
-  static String get c_colMacaddr => 'col_macaddr';
-  static String get c_colMacaddrArray => 'col_macaddr_array';
-  static String get c_colMacaddr8 => 'col_macaddr8';
-  static String get c_colMacaddr8Array => 'col_macaddr8_array';
-
-  static List<NetworkTypes> converter(List<Map<String, dynamic>> data) {
-    return data.map(NetworkTypes.fromJson).toList();
-  }
-
-  static NetworkTypes converterSingle(Map<String, dynamic> data) {
-    return NetworkTypes.fromJson(data);
-  }
-
-  static Map<String, dynamic> _generateMap({
-    String? id,
-    String? colCidr,
-    List<String>? colCidrArray,
-    String? colInet,
-    List<String>? colInetArray,
-    String? colMacaddr,
-    List<String>? colMacaddrArray,
-    String? colMacaddr8,
-    List<String>? colMacaddr8Array,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (colCidr != null) 'col_cidr': colCidr.toString(),
-      if (colCidrArray != null)
-        'col_cidr_array': colCidrArray.map((e) => e.toString()).toList(),
-      if (colInet != null) 'col_inet': colInet.toString(),
-      if (colInetArray != null)
-        'col_inet_array': colInetArray.map((e) => e.toString()).toList(),
-      if (colMacaddr != null) 'col_macaddr': colMacaddr.toString(),
-      if (colMacaddrArray != null)
-        'col_macaddr_array': colMacaddrArray.map((e) => e.toString()).toList(),
-      if (colMacaddr8 != null) 'col_macaddr8': colMacaddr8.toString(),
-      if (colMacaddr8Array != null)
-        'col_macaddr8_array':
-            colMacaddr8Array.map((e) => e.toString()).toList(),
-    };
-  }
-
-  static Map<String, dynamic> insert({
-    String? id,
-    String? colCidr,
-    List<String>? colCidrArray,
-    String? colInet,
-    List<String>? colInetArray,
-    String? colMacaddr,
-    List<String>? colMacaddrArray,
-    String? colMacaddr8,
-    List<String>? colMacaddr8Array,
-  }) {
-    return _generateMap(
-      id: id,
-      colCidr: colCidr,
-      colCidrArray: colCidrArray,
-      colInet: colInet,
-      colInetArray: colInetArray,
-      colMacaddr: colMacaddr,
-      colMacaddrArray: colMacaddrArray,
-      colMacaddr8: colMacaddr8,
-      colMacaddr8Array: colMacaddr8Array,
-    );
-  }
-
-  static Map<String, dynamic> update({
-    String? id,
-    String? colCidr,
-    List<String>? colCidrArray,
-    String? colInet,
-    List<String>? colInetArray,
-    String? colMacaddr,
-    List<String>? colMacaddrArray,
-    String? colMacaddr8,
-    List<String>? colMacaddr8Array,
-  }) {
-    return _generateMap(
-      id: id,
-      colCidr: colCidr,
-      colCidrArray: colCidrArray,
-      colInet: colInet,
-      colInetArray: colInetArray,
-      colMacaddr: colMacaddr,
-      colMacaddrArray: colMacaddrArray,
-      colMacaddr8: colMacaddr8,
-      colMacaddr8Array: colMacaddr8Array,
-    );
-  }
-
-  factory NetworkTypes.fromJson(Map<String, dynamic> jsonn) {
-    return NetworkTypes(
-      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
-      colCidr: jsonn['col_cidr'] != null ? jsonn['col_cidr'].toString() : null,
-      colCidrArray: jsonn['col_cidr_array'] != null
-          ? (jsonn['col_cidr_array'] as List<dynamic>)
-              .map((e) => e.toString())
-              .toList()
-          : null,
-      colInet: jsonn['col_inet'] != null ? jsonn['col_inet'].toString() : null,
-      colInetArray: jsonn['col_inet_array'] != null
-          ? (jsonn['col_inet_array'] as List<dynamic>)
-              .map((e) => e.toString())
-              .toList()
-          : null,
-      colMacaddr:
-          jsonn['col_macaddr'] != null ? jsonn['col_macaddr'].toString() : null,
-      colMacaddrArray: jsonn['col_macaddr_array'] != null
-          ? (jsonn['col_macaddr_array'] as List<dynamic>)
-              .map((e) => e.toString())
-              .toList()
-          : null,
-      colMacaddr8: jsonn['col_macaddr8'] != null
-          ? jsonn['col_macaddr8'].toString()
-          : null,
-      colMacaddr8Array: jsonn['col_macaddr8_array'] != null
-          ? (jsonn['col_macaddr8_array'] as List<dynamic>)
-              .map((e) => e.toString())
-              .toList()
-          : null,
-    );
-  }
-
-  static Object New({
-    String? id,
-    String? colCidr,
-    List<String>? colCidrArray,
-    String? colInet,
-    List<String>? colInetArray,
-    String? colMacaddr,
-    List<String>? colMacaddrArray,
-    String? colMacaddr8,
-    List<String>? colMacaddr8Array,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (colCidr != null) 'col_cidr': colCidr,
-      if (colCidrArray != null) 'col_cidr_array': colCidrArray,
-      if (colInet != null) 'col_inet': colInet,
-      if (colInetArray != null) 'col_inet_array': colInetArray,
-      if (colMacaddr != null) 'col_macaddr': colMacaddr,
-      if (colMacaddrArray != null) 'col_macaddr_array': colMacaddrArray,
-      if (colMacaddr8 != null) 'col_macaddr8': colMacaddr8,
-      if (colMacaddr8Array != null) 'col_macaddr8_array': colMacaddr8Array,
-    };
-  }
-
-  Map<String, dynamic> toJson() {
-    return _generateMap(
-      id: id,
-      colCidr: colCidr,
-      colCidrArray: colCidrArray,
-      colInet: colInet,
-      colInetArray: colInetArray,
-      colMacaddr: colMacaddr,
-      colMacaddrArray: colMacaddrArray,
-      colMacaddr8: colMacaddr8,
-      colMacaddr8Array: colMacaddr8Array,
-    );
-  }
-
-  static const _unset = Object();
-  NetworkTypes copyWith({
-    Object? id = _unset,
-    Object? colCidr = _unset,
-    Object? colCidrArray = _unset,
-    Object? colInet = _unset,
-    Object? colInetArray = _unset,
-    Object? colMacaddr = _unset,
-    Object? colMacaddrArray = _unset,
-    Object? colMacaddr8 = _unset,
-    Object? colMacaddr8Array = _unset,
-  }) {
-    return NetworkTypes(
-      id: id == _unset ? this.id : id as String,
-      colCidr: colCidr == _unset ? this.colCidr : colCidr as String?,
-      colCidrArray: colCidrArray == _unset
-          ? this.colCidrArray
-          : colCidrArray as List<String>?,
-      colInet: colInet == _unset ? this.colInet : colInet as String?,
-      colInetArray: colInetArray == _unset
-          ? this.colInetArray
-          : colInetArray as List<String>?,
-      colMacaddr:
-          colMacaddr == _unset ? this.colMacaddr : colMacaddr as String?,
-      colMacaddrArray: colMacaddrArray == _unset
-          ? this.colMacaddrArray
-          : colMacaddrArray as List<String>?,
-      colMacaddr8:
-          colMacaddr8 == _unset ? this.colMacaddr8 : colMacaddr8 as String?,
-      colMacaddr8Array: colMacaddr8Array == _unset
-          ? this.colMacaddr8Array
-          : colMacaddr8Array as List<String>?,
     );
   }
 }
@@ -2533,112 +2464,6 @@ class NumericTypes implements SupadartClass<NumericTypes> {
       colNumericArray: colNumericArray == _unset
           ? this.colNumericArray
           : colNumericArray as List<num>?,
-    );
-  }
-}
-
-class Events implements SupadartClass<Events> {
-  final String id;
-  final String title;
-  final List<String> category;
-
-  const Events({
-    required this.id,
-    required this.title,
-    required this.category,
-  });
-
-  static String get table_name => 'events';
-  static String get c_id => 'id';
-  static String get c_title => 'title';
-  static String get c_category => 'category';
-
-  static List<Events> converter(List<Map<String, dynamic>> data) {
-    return data.map(Events.fromJson).toList();
-  }
-
-  static Events converterSingle(Map<String, dynamic> data) {
-    return Events.fromJson(data);
-  }
-
-  static Map<String, dynamic> _generateMap({
-    String? id,
-    String? title,
-    List<String>? category,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (title != null) 'title': title,
-      if (category != null) 'category': category.map((e) => e).toList(),
-    };
-  }
-
-  static Map<String, dynamic> insert({
-    String? id,
-    required String title,
-    required List<String> category,
-  }) {
-    return _generateMap(
-      id: id,
-      title: title,
-      category: category,
-    );
-  }
-
-  static Map<String, dynamic> update({
-    String? id,
-    String? title,
-    List<String>? category,
-  }) {
-    return _generateMap(
-      id: id,
-      title: title,
-      category: category,
-    );
-  }
-
-  factory Events.fromJson(Map<String, dynamic> jsonn) {
-    return Events(
-      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
-      title: jsonn['title'] != null ? jsonn['title'].toString() : '',
-      category: jsonn['category'] != null
-          ? (jsonn['category'] as List<dynamic>)
-              .map((v) => v.toString())
-              .toList()
-          : <String>[],
-    );
-  }
-
-  static Object New({
-    String? id,
-    String? title,
-    List<String>? category,
-  }) {
-    return {
-      if (id != null) 'id': id,
-      if (title != null) 'title': title,
-      if (category != null) 'category': category,
-    };
-  }
-
-  Map<String, dynamic> toJson() {
-    return _generateMap(
-      id: id,
-      title: title,
-      category: category,
-    );
-  }
-
-  static const _unset = Object();
-  Events copyWith({
-    Object? id = _unset,
-    Object? title = _unset,
-    Object? category = _unset,
-  }) {
-    return Events(
-      id: id == _unset ? this.id : id as String,
-      title: title == _unset ? this.title : title as String,
-      category: category == _unset ? this.category : category as List<String>,
     );
   }
 }

@@ -3,13 +3,15 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'storage.dart';
 
-Future<Storage?> fetchStorageList(String url, String apiKey) async {
+Future<Storage?> fetchStorageList(String url, String apiKey,
+    {http.Client? client}) async {
   if (!url.startsWith("http://") && !url.startsWith("https://")) {
     url = "https://$url"; // Default to HTTPS if no scheme is provided
   }
   try {
     // First attempt with API key
-    final response = await _secureRequest('$url/storage/v1/bucket/', apiKey);
+    final response =
+        await _secureRequest('$url/storage/v1/bucket/', apiKey, client: client);
     if (response.statusCode == 200) {
       return Storage.fromJson(jsonDecode(response.body));
     }
@@ -23,7 +25,7 @@ Future<Storage?> fetchStorageList(String url, String apiKey) async {
 }
 
 Future<http.Response> _secureRequest(String url, String apiKey,
-    {bool allowHttpFallback = true}) async {
+    {bool allowHttpFallback = true, http.Client? client}) async {
   // New publishable/secret keys use 'apikey' header
   // Old JWT-based anon/service_role keys use 'Authorization: Bearer' header
   // For compatibility, send both
@@ -33,7 +35,7 @@ Future<http.Response> _secureRequest(String url, String apiKey,
   };
 
   try {
-    return await http.get(
+    return await (client?.get ?? http.get)(
       Uri.parse(url),
       headers: headers,
     );
@@ -59,7 +61,7 @@ Future<http.Response> _secureRequest(String url, String apiKey,
       print("Attempting to fallback to HTTP...");
       return await _secureRequest(
           url.replaceFirst("https://", "http://"), apiKey,
-          allowHttpFallback: false);
+          allowHttpFallback: false, client: client);
     }
     rethrow;
   }

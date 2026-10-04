@@ -110,8 +110,9 @@ String decodeFromJson(Column columnDetails, bool jsonbToDynamic) {
         break;
       case 'json[]':
       case 'jsonb[]':
+        // Older supadart versions stored each element as a JSON string.
         jsonDecode =
-            '($jsonValue as List<dynamic>).map((v) => json.decode(v) as Map<String, dynamic>).toList()';
+            '($jsonValue as List<dynamic>).map((v) => (v is String ? json.decode(v) : v) as Map<String, dynamic>).toList()';
         break;
       case 'text':
       case 'character varying':

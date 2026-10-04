@@ -8,7 +8,7 @@ String generateMapStaticMethod(Table table, {bool jsonbToDynamic = false}) {
   buffer.writeln('static Map<String, dynamic> _generateMap({');
 
   columns.forEach((columnName, columnDetails) {
-    buffer.writeln('${columnDetails.dartType}? $columnName,');
+    buffer.writeln('${columnDetails.nullableDartType} $columnName,');
   });
 
   buffer.writeln('}) {');
@@ -95,7 +95,7 @@ String encodeToJson(
 
     case 'json[]':
     case 'jsonb[]':
-      jsonEncodableType = '$columnName.map((e) => jsonEncode(e)).toList()';
+      jsonEncodableType = columnName;
       break;
 
     case 'text':

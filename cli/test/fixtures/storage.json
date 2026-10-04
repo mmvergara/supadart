@@ -1,0 +1,24 @@
+[
+  {
+    "id": "avatars",
+    "name": "avatars",
+    "owner": "",
+    "public": true,
+    "type": "STANDARD",
+    "file_size_limit": null,
+    "allowed_mime_types": null,
+    "created_at": "1970-01-01T00:00:00.000Z",
+    "updated_at": "1970-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "documents",
+    "name": "documents",
+    "owner": "",
+    "public": false,
+    "type": "STANDARD",
+    "file_size_limit": null,
+    "allowed_mime_types": null,
+    "created_at": "1970-01-01T00:00:00.000Z",
+    "updated_at": "1970-01-01T00:00:00.000Z"
+  }
+]

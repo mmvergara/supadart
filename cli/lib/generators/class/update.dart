@@ -7,7 +7,7 @@ String generateUpdateMethod(Table table) {
   buffer.writeln('static Map<String, dynamic> update({');
 
   columns.forEach((columnName, columnDetails) {
-    buffer.writeln('${columnDetails.dartType}? $columnName,');
+    buffer.writeln('${columnDetails.nullableDartType} $columnName,');
   });
   buffer.writeln('}) {');
   // Method body

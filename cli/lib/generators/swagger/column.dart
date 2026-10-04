@@ -87,6 +87,11 @@ class Column {
     return postgresFormatToDartType(postgresFormat, jsonbToDynamic);
   }
 
+  /// [dartType] made nullable. `dynamic` already admits null, so it is left
+  /// as is rather than emitting the redundant `dynamic?`.
+  String get nullableDartType =>
+      dartType == 'dynamic' ? dartType : '$dartType?';
+
   bool get isRequiredInInsert {
     return isInRequiredColumn && !hasDefaultValue;
   }

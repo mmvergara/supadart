@@ -192,7 +192,7 @@ create table
     id uuid not null default extensions.uuid_generate_v4(),
     first_name character varying(100) null,
     last_name character varying(100) null,
-    user_groups usergroup[] not null default '{{USERS}}'::usergroup[]
+    user_groups usergroup[] not null default '{USERS}'::usergroup[]
   );
 
 

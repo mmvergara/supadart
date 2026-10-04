@@ -1,0 +1,3658 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "",
+    "title": "standard public schema",
+    "version": "16.4"
+  },
+  "host": "0.0.0.0:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json",
+    "application/vnd.pgrst.object+json;nulls=stripped",
+    "application/vnd.pgrst.object+json",
+    "text/csv"
+  ],
+  "produces": [
+    "application/json",
+    "application/vnd.pgrst.object+json;nulls=stripped",
+    "application/vnd.pgrst.object+json",
+    "text/csv"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "produces": [
+          "application/openapi+json",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "summary": "OpenAPI description (this document)",
+        "tags": [
+          "Introspection"
+        ]
+      }
+    },
+    "/combined_types_view": {
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.combined_types_view.numeric_id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.combined_types_view.col_integer"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.combined_types_view.col_double"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.combined_types_view.string_id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.combined_types_view.col_text"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.combined_types_view.col_uuid"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/order"
+          },
+          {
+            "$ref": "#/parameters/range"
+          },
+          {
+            "$ref": "#/parameters/rangeUnit"
+          },
+          {
+            "$ref": "#/parameters/offset"
+          },
+          {
+            "$ref": "#/parameters/limit"
+          },
+          {
+            "$ref": "#/parameters/preferCount"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/combined_types_view"
+              },
+              "type": "array"
+            }
+          },
+          "206": {
+            "description": "Partial Content"
+          }
+        },
+        "tags": [
+          "combined_types_view"
+        ]
+      }
+    },
+    "/embeddings": {
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.embeddings.embedding"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/order"
+          },
+          {
+            "$ref": "#/parameters/range"
+          },
+          {
+            "$ref": "#/parameters/rangeUnit"
+          },
+          {
+            "$ref": "#/parameters/offset"
+          },
+          {
+            "$ref": "#/parameters/limit"
+          },
+          {
+            "$ref": "#/parameters/preferCount"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/embeddings"
+              },
+              "type": "array"
+            }
+          },
+          "206": {
+            "description": "Partial Content"
+          }
+        },
+        "tags": [
+          "embeddings"
+        ]
+      },
+      "post": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/body.embeddings"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/preferPost"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "tags": [
+          "embeddings"
+        ]
+      },
+      "delete": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.embeddings.embedding"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "embeddings"
+        ]
+      },
+      "patch": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.embeddings.embedding"
+          },
+          {
+            "$ref": "#/parameters/body.embeddings"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "embeddings"
+        ]
+      }
+    },
+    "/enum_types": {
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.enum_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.enum_types.col_mood"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.enum_types.col_mood_array"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/order"
+          },
+          {
+            "$ref": "#/parameters/range"
+          },
+          {
+            "$ref": "#/parameters/rangeUnit"
+          },
+          {
+            "$ref": "#/parameters/offset"
+          },
+          {
+            "$ref": "#/parameters/limit"
+          },
+          {
+            "$ref": "#/parameters/preferCount"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/enum_types"
+              },
+              "type": "array"
+            }
+          },
+          "206": {
+            "description": "Partial Content"
+          }
+        },
+        "tags": [
+          "enum_types"
+        ]
+      },
+      "post": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/body.enum_types"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/preferPost"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "tags": [
+          "enum_types"
+        ]
+      },
+      "delete": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.enum_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.enum_types.col_mood"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.enum_types.col_mood_array"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "enum_types"
+        ]
+      },
+      "patch": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.enum_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.enum_types.col_mood"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.enum_types.col_mood_array"
+          },
+          {
+            "$ref": "#/parameters/body.enum_types"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "enum_types"
+        ]
+      }
+    },
+    "/misc_types": {
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_money"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_money_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_pg_lsn"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_pg_lsn_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_pg_snapshot"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_pg_snapshot_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_tsquery"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_tsquery_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_tsvector"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_tsvector_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_txid_snapshot"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_txid_snapshot_array"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/order"
+          },
+          {
+            "$ref": "#/parameters/range"
+          },
+          {
+            "$ref": "#/parameters/rangeUnit"
+          },
+          {
+            "$ref": "#/parameters/offset"
+          },
+          {
+            "$ref": "#/parameters/limit"
+          },
+          {
+            "$ref": "#/parameters/preferCount"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/misc_types"
+              },
+              "type": "array"
+            }
+          },
+          "206": {
+            "description": "Partial Content"
+          }
+        },
+        "tags": [
+          "misc_types"
+        ]
+      },
+      "post": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/body.misc_types"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/preferPost"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "tags": [
+          "misc_types"
+        ]
+      },
+      "delete": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_money"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_money_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_pg_lsn"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_pg_lsn_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_pg_snapshot"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_pg_snapshot_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_tsquery"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_tsquery_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_tsvector"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_tsvector_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_txid_snapshot"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_txid_snapshot_array"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "misc_types"
+        ]
+      },
+      "patch": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_money"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_money_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_pg_lsn"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_pg_lsn_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_pg_snapshot"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_pg_snapshot_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_tsquery"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_tsquery_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_tsvector"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_tsvector_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_txid_snapshot"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.misc_types.col_txid_snapshot_array"
+          },
+          {
+            "$ref": "#/parameters/body.misc_types"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "misc_types"
+        ]
+      }
+    },
+    "/string_types": {
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.string_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.string_types.col_uuid"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.string_types.col_uuid_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.string_types.col_character"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.string_types.col_character_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.string_types.col_charactervarying"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.string_types.col_charactervarying_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.string_types.col_text"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.string_types.col_text_array"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/order"
+          },
+          {
+            "$ref": "#/parameters/range"
+          },
+          {
+            "$ref": "#/parameters/rangeUnit"
+          },
+          {
+            "$ref": "#/parameters/offset"
+          },
+          {
+            "$ref": "#/parameters/limit"
+          },
+          {
+            "$ref": "#/parameters/preferCount"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/string_types"
+              },
+              "type": "array"
+            }
+          },
+          "206": {
+            "description": "Partial Content"
+          }
+        },
+        "tags": [
+          "string_types"
+        ]
+      },
+      "post": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/body.string_types"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/preferPost"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "tags": [
+          "string_types"
+        ]
+      },
+      "delete": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.string_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.string_types.col_uuid"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.string_types.col_uuid_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.string_types.col_character"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.string_types.col_character_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.string_types.col_charactervarying"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.string_types.col_charactervarying_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.string_types.col_text"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.string_types.col_text_array"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "string_types"
+        ]
+      },
+      "patch": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.string_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.string_types.col_uuid"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.string_types.col_uuid_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.string_types.col_character"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.string_types.col_character_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.string_types.col_charactervarying"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.string_types.col_charactervarying_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.string_types.col_text"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.string_types.col_text_array"
+          },
+          {
+            "$ref": "#/parameters/body.string_types"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "string_types"
+        ]
+      }
+    },
+    "/network_types": {
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.network_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.network_types.col_cidr"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.network_types.col_cidr_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.network_types.col_inet"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.network_types.col_inet_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.network_types.col_macaddr"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.network_types.col_macaddr_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.network_types.col_macaddr8"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.network_types.col_macaddr8_array"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/order"
+          },
+          {
+            "$ref": "#/parameters/range"
+          },
+          {
+            "$ref": "#/parameters/rangeUnit"
+          },
+          {
+            "$ref": "#/parameters/offset"
+          },
+          {
+            "$ref": "#/parameters/limit"
+          },
+          {
+            "$ref": "#/parameters/preferCount"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/network_types"
+              },
+              "type": "array"
+            }
+          },
+          "206": {
+            "description": "Partial Content"
+          }
+        },
+        "tags": [
+          "network_types"
+        ]
+      },
+      "post": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/body.network_types"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/preferPost"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "tags": [
+          "network_types"
+        ]
+      },
+      "delete": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.network_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.network_types.col_cidr"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.network_types.col_cidr_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.network_types.col_inet"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.network_types.col_inet_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.network_types.col_macaddr"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.network_types.col_macaddr_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.network_types.col_macaddr8"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.network_types.col_macaddr8_array"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "network_types"
+        ]
+      },
+      "patch": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.network_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.network_types.col_cidr"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.network_types.col_cidr_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.network_types.col_inet"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.network_types.col_inet_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.network_types.col_macaddr"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.network_types.col_macaddr_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.network_types.col_macaddr8"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.network_types.col_macaddr8_array"
+          },
+          {
+            "$ref": "#/parameters/body.network_types"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "network_types"
+        ]
+      }
+    },
+    "/geometric_types": {
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_point"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_point_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_line"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_line_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_lseg"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_lseg_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_box"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_box_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_path"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_path_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_polygon"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_polygon_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_circle"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_circle_array"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/order"
+          },
+          {
+            "$ref": "#/parameters/range"
+          },
+          {
+            "$ref": "#/parameters/rangeUnit"
+          },
+          {
+            "$ref": "#/parameters/offset"
+          },
+          {
+            "$ref": "#/parameters/limit"
+          },
+          {
+            "$ref": "#/parameters/preferCount"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/geometric_types"
+              },
+              "type": "array"
+            }
+          },
+          "206": {
+            "description": "Partial Content"
+          }
+        },
+        "tags": [
+          "geometric_types"
+        ]
+      },
+      "post": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/body.geometric_types"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/preferPost"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "tags": [
+          "geometric_types"
+        ]
+      },
+      "delete": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_point"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_point_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_line"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_line_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_lseg"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_lseg_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_box"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_box_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_path"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_path_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_polygon"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_polygon_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_circle"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_circle_array"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "geometric_types"
+        ]
+      },
+      "patch": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_point"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_point_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_line"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_line_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_lseg"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_lseg_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_box"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_box_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_path"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_path_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_polygon"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_polygon_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_circle"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.geometric_types.col_circle_array"
+          },
+          {
+            "$ref": "#/parameters/body.geometric_types"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "geometric_types"
+        ]
+      }
+    },
+    "/profiles": {
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.profiles.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.profiles.first_name"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.profiles.last_name"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.profiles.user_groups"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/order"
+          },
+          {
+            "$ref": "#/parameters/range"
+          },
+          {
+            "$ref": "#/parameters/rangeUnit"
+          },
+          {
+            "$ref": "#/parameters/offset"
+          },
+          {
+            "$ref": "#/parameters/limit"
+          },
+          {
+            "$ref": "#/parameters/preferCount"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/profiles"
+              },
+              "type": "array"
+            }
+          },
+          "206": {
+            "description": "Partial Content"
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      },
+      "post": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/body.profiles"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/preferPost"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      },
+      "delete": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.profiles.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.profiles.first_name"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.profiles.last_name"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.profiles.user_groups"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      },
+      "patch": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.profiles.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.profiles.first_name"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.profiles.last_name"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.profiles.user_groups"
+          },
+          {
+            "$ref": "#/parameters/body.profiles"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      }
+    },
+    "/boolean_bit_types": {
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.boolean_bit_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.boolean_bit_types.col_boolean"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.boolean_bit_types.col_boolean_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.boolean_bit_types.col_bit"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.boolean_bit_types.col_bit_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.boolean_bit_types.col_bitvarying"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.boolean_bit_types.col_bitvarying_array"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/order"
+          },
+          {
+            "$ref": "#/parameters/range"
+          },
+          {
+            "$ref": "#/parameters/rangeUnit"
+          },
+          {
+            "$ref": "#/parameters/offset"
+          },
+          {
+            "$ref": "#/parameters/limit"
+          },
+          {
+            "$ref": "#/parameters/preferCount"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/boolean_bit_types"
+              },
+              "type": "array"
+            }
+          },
+          "206": {
+            "description": "Partial Content"
+          }
+        },
+        "tags": [
+          "boolean_bit_types"
+        ]
+      },
+      "post": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/body.boolean_bit_types"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/preferPost"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "tags": [
+          "boolean_bit_types"
+        ]
+      },
+      "delete": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.boolean_bit_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.boolean_bit_types.col_boolean"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.boolean_bit_types.col_boolean_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.boolean_bit_types.col_bit"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.boolean_bit_types.col_bit_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.boolean_bit_types.col_bitvarying"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.boolean_bit_types.col_bitvarying_array"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "boolean_bit_types"
+        ]
+      },
+      "patch": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.boolean_bit_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.boolean_bit_types.col_boolean"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.boolean_bit_types.col_boolean_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.boolean_bit_types.col_bit"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.boolean_bit_types.col_bit_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.boolean_bit_types.col_bitvarying"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.boolean_bit_types.col_bitvarying_array"
+          },
+          {
+            "$ref": "#/parameters/body.boolean_bit_types"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "boolean_bit_types"
+        ]
+      }
+    },
+    "/json_types": {
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.json_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.json_types.col_json"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.json_types.col_json_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.json_types.col_jsonb"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.json_types.col_jsonb_array"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/order"
+          },
+          {
+            "$ref": "#/parameters/range"
+          },
+          {
+            "$ref": "#/parameters/rangeUnit"
+          },
+          {
+            "$ref": "#/parameters/offset"
+          },
+          {
+            "$ref": "#/parameters/limit"
+          },
+          {
+            "$ref": "#/parameters/preferCount"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/json_types"
+              },
+              "type": "array"
+            }
+          },
+          "206": {
+            "description": "Partial Content"
+          }
+        },
+        "tags": [
+          "json_types"
+        ]
+      },
+      "post": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/body.json_types"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/preferPost"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "tags": [
+          "json_types"
+        ]
+      },
+      "delete": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.json_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.json_types.col_json"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.json_types.col_json_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.json_types.col_jsonb"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.json_types.col_jsonb_array"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "json_types"
+        ]
+      },
+      "patch": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.json_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.json_types.col_json"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.json_types.col_json_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.json_types.col_jsonb"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.json_types.col_jsonb_array"
+          },
+          {
+            "$ref": "#/parameters/body.json_types"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "json_types"
+        ]
+      }
+    },
+    "/binary_xml_types": {
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.binary_xml_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.binary_xml_types.col_bytea"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.binary_xml_types.col_bytea_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.binary_xml_types.col_xml"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.binary_xml_types.col_xml_array"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/order"
+          },
+          {
+            "$ref": "#/parameters/range"
+          },
+          {
+            "$ref": "#/parameters/rangeUnit"
+          },
+          {
+            "$ref": "#/parameters/offset"
+          },
+          {
+            "$ref": "#/parameters/limit"
+          },
+          {
+            "$ref": "#/parameters/preferCount"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/binary_xml_types"
+              },
+              "type": "array"
+            }
+          },
+          "206": {
+            "description": "Partial Content"
+          }
+        },
+        "tags": [
+          "binary_xml_types"
+        ]
+      },
+      "post": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/body.binary_xml_types"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/preferPost"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "tags": [
+          "binary_xml_types"
+        ]
+      },
+      "delete": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.binary_xml_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.binary_xml_types.col_bytea"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.binary_xml_types.col_bytea_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.binary_xml_types.col_xml"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.binary_xml_types.col_xml_array"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "binary_xml_types"
+        ]
+      },
+      "patch": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.binary_xml_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.binary_xml_types.col_bytea"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.binary_xml_types.col_bytea_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.binary_xml_types.col_xml"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.binary_xml_types.col_xml_array"
+          },
+          {
+            "$ref": "#/parameters/body.binary_xml_types"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "binary_xml_types"
+        ]
+      }
+    },
+    "/numeric_types": {
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_bigint"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_bigint_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_integer"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_integer_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_smallint"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_smallint_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_double"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_double_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_real"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_real_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_numeric"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_numeric_array"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/order"
+          },
+          {
+            "$ref": "#/parameters/range"
+          },
+          {
+            "$ref": "#/parameters/rangeUnit"
+          },
+          {
+            "$ref": "#/parameters/offset"
+          },
+          {
+            "$ref": "#/parameters/limit"
+          },
+          {
+            "$ref": "#/parameters/preferCount"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/numeric_types"
+              },
+              "type": "array"
+            }
+          },
+          "206": {
+            "description": "Partial Content"
+          }
+        },
+        "tags": [
+          "numeric_types"
+        ]
+      },
+      "post": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/body.numeric_types"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/preferPost"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "tags": [
+          "numeric_types"
+        ]
+      },
+      "delete": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_bigint"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_bigint_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_integer"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_integer_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_smallint"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_smallint_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_double"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_double_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_real"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_real_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_numeric"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_numeric_array"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "numeric_types"
+        ]
+      },
+      "patch": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_bigint"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_bigint_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_integer"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_integer_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_smallint"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_smallint_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_double"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_double_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_real"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_real_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_numeric"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.numeric_types.col_numeric_array"
+          },
+          {
+            "$ref": "#/parameters/body.numeric_types"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "numeric_types"
+        ]
+      }
+    },
+    "/datetime_types": {
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_date"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_date_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_time"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_time_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_timetz"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_timetz_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_timestamp"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_timestamp_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_timestamptz"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_timestamptz_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_interval"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_interval_array"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/order"
+          },
+          {
+            "$ref": "#/parameters/range"
+          },
+          {
+            "$ref": "#/parameters/rangeUnit"
+          },
+          {
+            "$ref": "#/parameters/offset"
+          },
+          {
+            "$ref": "#/parameters/limit"
+          },
+          {
+            "$ref": "#/parameters/preferCount"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/datetime_types"
+              },
+              "type": "array"
+            }
+          },
+          "206": {
+            "description": "Partial Content"
+          }
+        },
+        "tags": [
+          "datetime_types"
+        ]
+      },
+      "post": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/body.datetime_types"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/preferPost"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "tags": [
+          "datetime_types"
+        ]
+      },
+      "delete": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_date"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_date_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_time"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_time_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_timetz"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_timetz_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_timestamp"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_timestamp_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_timestamptz"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_timestamptz_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_interval"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_interval_array"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "datetime_types"
+        ]
+      },
+      "patch": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_date"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_date_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_time"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_time_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_timetz"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_timetz_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_timestamp"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_timestamp_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_timestamptz"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_timestamptz_array"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_interval"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.datetime_types.col_interval_array"
+          },
+          {
+            "$ref": "#/parameters/body.datetime_types"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "datetime_types"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "combined_types_view": {
+      "properties": {
+        "numeric_id": {
+          "description": "Note:\nThis is a Primary Key.<pk/>",
+          "format": "uuid",
+          "type": "string"
+        },
+        "col_integer": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "col_double": {
+          "format": "double precision",
+          "type": "number"
+        },
+        "string_id": {
+          "description": "Note:\nThis is a Primary Key.<pk/>",
+          "format": "uuid",
+          "type": "string"
+        },
+        "col_text": {
+          "format": "text",
+          "type": "string"
+        },
+        "col_uuid": {
+          "format": "uuid",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "embeddings": {
+      "properties": {
+        "embedding": {
+          "format": "public.vector(1536)",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "enum_types": {
+      "required": [
+        "id",
+        "col_mood",
+        "col_mood_array"
+      ],
+      "properties": {
+        "id": {
+          "default": "gen_random_uuid()",
+          "description": "Note:\nThis is a Primary Key.<pk/>",
+          "format": "uuid",
+          "type": "string"
+        },
+        "col_mood": {
+          "enum": [
+            "happy",
+            "sad",
+            "neutral",
+            "excited",
+            "angry"
+          ],
+          "format": "public.mood",
+          "type": "string"
+        },
+        "col_mood_array": {
+          "format": "public.mood[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "misc_types": {
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "default": "gen_random_uuid()",
+          "description": "Note:\nThis is a Primary Key.<pk/>",
+          "format": "uuid",
+          "type": "string"
+        },
+        "col_money": {
+          "format": "money",
+          "type": "string"
+        },
+        "col_money_array": {
+          "format": "money[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "col_pg_lsn": {
+          "format": "pg_lsn",
+          "type": "string"
+        },
+        "col_pg_lsn_array": {
+          "format": "pg_lsn[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "col_pg_snapshot": {
+          "format": "pg_snapshot",
+          "type": "string"
+        },
+        "col_pg_snapshot_array": {
+          "format": "pg_snapshot[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "col_tsquery": {
+          "format": "tsquery",
+          "type": "string"
+        },
+        "col_tsquery_array": {
+          "format": "tsquery[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "col_tsvector": {
+          "format": "tsvector",
+          "type": "string"
+        },
+        "col_tsvector_array": {
+          "format": "tsvector[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "col_txid_snapshot": {
+          "format": "txid_snapshot",
+          "type": "string"
+        },
+        "col_txid_snapshot_array": {
+          "format": "txid_snapshot[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "string_types": {
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "default": "gen_random_uuid()",
+          "description": "Note:\nThis is a Primary Key.<pk/>",
+          "format": "uuid",
+          "type": "string"
+        },
+        "col_uuid": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "col_uuid_array": {
+          "format": "uuid[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "col_character": {
+          "format": "character",
+          "maxLength": 1,
+          "type": "string"
+        },
+        "col_character_array": {
+          "format": "character[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "col_charactervarying": {
+          "format": "character varying",
+          "type": "string"
+        },
+        "col_charactervarying_array": {
+          "format": "character varying[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "col_text": {
+          "format": "text",
+          "type": "string"
+        },
+        "col_text_array": {
+          "format": "text[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "network_types": {
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "default": "gen_random_uuid()",
+          "description": "Note:\nThis is a Primary Key.<pk/>",
+          "format": "uuid",
+          "type": "string"
+        },
+        "col_cidr": {
+          "format": "cidr",
+          "type": "string"
+        },
+        "col_cidr_array": {
+          "format": "cidr[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "col_inet": {
+          "format": "inet",
+          "type": "string"
+        },
+        "col_inet_array": {
+          "format": "inet[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "col_macaddr": {
+          "format": "macaddr",
+          "type": "string"
+        },
+        "col_macaddr_array": {
+          "format": "macaddr[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "col_macaddr8": {
+          "format": "macaddr8",
+          "type": "string"
+        },
+        "col_macaddr8_array": {
+          "format": "macaddr8[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "geometric_types": {
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "default": "gen_random_uuid()",
+          "description": "Note:\nThis is a Primary Key.<pk/>",
+          "format": "uuid",
+          "type": "string"
+        },
+        "col_point": {
+          "format": "point",
+          "type": "string"
+        },
+        "col_point_array": {
+          "format": "point[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "col_line": {
+          "format": "line",
+          "type": "string"
+        },
+        "col_line_array": {
+          "format": "line[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "col_lseg": {
+          "format": "lseg",
+          "type": "string"
+        },
+        "col_lseg_array": {
+          "format": "lseg[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "col_box": {
+          "format": "box",
+          "type": "string"
+        },
+        "col_box_array": {
+          "format": "box[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "col_path": {
+          "format": "path",
+          "type": "string"
+        },
+        "col_path_array": {
+          "format": "path[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "col_polygon": {
+          "format": "polygon",
+          "type": "string"
+        },
+        "col_polygon_array": {
+          "format": "polygon[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "col_circle": {
+          "format": "circle",
+          "type": "string"
+        },
+        "col_circle_array": {
+          "format": "circle[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "profiles": {
+      "required": [
+        "id",
+        "user_groups"
+      ],
+      "properties": {
+        "id": {
+          "default": "extensions.uuid_generate_v4()",
+          "format": "uuid",
+          "type": "string"
+        },
+        "first_name": {
+          "format": "character varying",
+          "maxLength": 100,
+          "type": "string"
+        },
+        "last_name": {
+          "format": "character varying",
+          "maxLength": 100,
+          "type": "string"
+        },
+        "user_groups": {
+          "format": "public.usergroup[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "boolean_bit_types": {
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "default": "gen_random_uuid()",
+          "description": "Note:\nThis is a Primary Key.<pk/>",
+          "format": "uuid",
+          "type": "string"
+        },
+        "col_boolean": {
+          "format": "boolean",
+          "type": "boolean"
+        },
+        "col_boolean_array": {
+          "format": "boolean[]",
+          "items": {
+            "type": "boolean"
+          },
+          "type": "array"
+        },
+        "col_bit": {
+          "format": "bit",
+          "maxLength": 1,
+          "type": "string"
+        },
+        "col_bit_array": {
+          "format": "bit[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "col_bitvarying": {
+          "format": "bit varying",
+          "type": "string"
+        },
+        "col_bitvarying_array": {
+          "format": "bit varying[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "json_types": {
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "default": "gen_random_uuid()",
+          "description": "Note:\nThis is a Primary Key.<pk/>",
+          "format": "uuid",
+          "type": "string"
+        },
+        "col_json": {
+          "format": "json"
+        },
+        "col_json_array": {
+          "format": "json[]",
+          "items": {},
+          "type": "array"
+        },
+        "col_jsonb": {
+          "format": "jsonb"
+        },
+        "col_jsonb_array": {
+          "format": "jsonb[]",
+          "items": {},
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "binary_xml_types": {
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "default": "gen_random_uuid()",
+          "description": "Note:\nThis is a Primary Key.<pk/>",
+          "format": "uuid",
+          "type": "string"
+        },
+        "col_bytea": {
+          "format": "bytea",
+          "type": "string"
+        },
+        "col_bytea_array": {
+          "format": "bytea[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "col_xml": {
+          "format": "xml",
+          "type": "string"
+        },
+        "col_xml_array": {
+          "format": "xml[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "numeric_types": {
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "default": "gen_random_uuid()",
+          "description": "Note:\nThis is a Primary Key.<pk/>",
+          "format": "uuid",
+          "type": "string"
+        },
+        "col_bigint": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "col_bigint_array": {
+          "format": "bigint[]",
+          "items": {
+            "type": "integer"
+          },
+          "type": "array"
+        },
+        "col_integer": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "col_integer_array": {
+          "format": "integer[]",
+          "items": {
+            "type": "integer"
+          },
+          "type": "array"
+        },
+        "col_smallint": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "col_smallint_array": {
+          "format": "smallint[]",
+          "items": {
+            "type": "integer"
+          },
+          "type": "array"
+        },
+        "col_double": {
+          "format": "double precision",
+          "type": "number"
+        },
+        "col_double_array": {
+          "format": "double precision[]",
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "col_real": {
+          "format": "real",
+          "type": "number"
+        },
+        "col_real_array": {
+          "format": "real[]",
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "col_numeric": {
+          "format": "numeric",
+          "type": "number"
+        },
+        "col_numeric_array": {
+          "format": "numeric[]",
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "datetime_types": {
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "default": "gen_random_uuid()",
+          "description": "Note:\nThis is a Primary Key.<pk/>",
+          "format": "uuid",
+          "type": "string"
+        },
+        "col_date": {
+          "format": "date",
+          "type": "string"
+        },
+        "col_date_array": {
+          "format": "date[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "col_time": {
+          "format": "time without time zone",
+          "type": "string"
+        },
+        "col_time_array": {
+          "format": "time without time zone[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "col_timetz": {
+          "format": "time with time zone",
+          "type": "string"
+        },
+        "col_timetz_array": {
+          "format": "time with time zone[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "col_timestamp": {
+          "format": "timestamp without time zone",
+          "type": "string"
+        },
+        "col_timestamp_array": {
+          "format": "timestamp without time zone[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "col_timestamptz": {
+          "format": "timestamp with time zone",
+          "type": "string"
+        },
+        "col_timestamptz_array": {
+          "format": "timestamp with time zone[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "col_interval": {
+          "format": "interval",
+          "type": "string"
+        },
+        "col_interval_array": {
+          "format": "interval[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "parameters": {
+    "preferParams": {
+      "name": "Prefer",
+      "description": "Preference",
+      "required": false,
+      "in": "header",
+      "type": "string"
+    },
+    "preferReturn": {
+      "name": "Prefer",
+      "description": "Preference",
+      "required": false,
+      "enum": [
+        "return=representation",
+        "return=minimal",
+        "return=none"
+      ],
+      "in": "header",
+      "type": "string"
+    },
+    "preferCount": {
+      "name": "Prefer",
+      "description": "Preference",
+      "required": false,
+      "enum": [
+        "count=none"
+      ],
+      "in": "header",
+      "type": "string"
+    },
+    "preferPost": {
+      "name": "Prefer",
+      "description": "Preference",
+      "required": false,
+      "enum": [
+        "return=representation",
+        "return=minimal",
+        "return=none",
+        "resolution=ignore-duplicates",
+        "resolution=merge-duplicates"
+      ],
+      "in": "header",
+      "type": "string"
+    },
+    "select": {
+      "name": "select",
+      "description": "Filtering Columns",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "on_conflict": {
+      "name": "on_conflict",
+      "description": "On Conflict",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "order": {
+      "name": "order",
+      "description": "Ordering",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "range": {
+      "name": "Range",
+      "description": "Limiting and Pagination",
+      "required": false,
+      "in": "header",
+      "type": "string"
+    },
+    "rangeUnit": {
+      "name": "Range-Unit",
+      "description": "Limiting and Pagination",
+      "required": false,
+      "default": "items",
+      "in": "header",
+      "type": "string"
+    },
+    "offset": {
+      "name": "offset",
+      "description": "Limiting and Pagination",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "limit": {
+      "name": "limit",
+      "description": "Limiting and Pagination",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "body.combined_types_view": {
+      "name": "combined_types_view",
+      "description": "combined_types_view",
+      "required": false,
+      "in": "body",
+      "schema": {
+        "$ref": "#/definitions/combined_types_view"
+      }
+    },
+    "rowFilter.combined_types_view.numeric_id": {
+      "name": "numeric_id",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.combined_types_view.col_integer": {
+      "name": "col_integer",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.combined_types_view.col_double": {
+      "name": "col_double",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.combined_types_view.string_id": {
+      "name": "string_id",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.combined_types_view.col_text": {
+      "name": "col_text",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.combined_types_view.col_uuid": {
+      "name": "col_uuid",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "body.embeddings": {
+      "name": "embeddings",
+      "description": "embeddings",
+      "required": false,
+      "in": "body",
+      "schema": {
+        "$ref": "#/definitions/embeddings"
+      }
+    },
+    "rowFilter.embeddings.embedding": {
+      "name": "embedding",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "body.enum_types": {
+      "name": "enum_types",
+      "description": "enum_types",
+      "required": false,
+      "in": "body",
+      "schema": {
+        "$ref": "#/definitions/enum_types"
+      }
+    },
+    "rowFilter.enum_types.id": {
+      "name": "id",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.enum_types.col_mood": {
+      "name": "col_mood",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.enum_types.col_mood_array": {
+      "name": "col_mood_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "body.misc_types": {
+      "name": "misc_types",
+      "description": "misc_types",
+      "required": false,
+      "in": "body",
+      "schema": {
+        "$ref": "#/definitions/misc_types"
+      }
+    },
+    "rowFilter.misc_types.id": {
+      "name": "id",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.misc_types.col_money": {
+      "name": "col_money",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.misc_types.col_money_array": {
+      "name": "col_money_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.misc_types.col_pg_lsn": {
+      "name": "col_pg_lsn",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.misc_types.col_pg_lsn_array": {
+      "name": "col_pg_lsn_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.misc_types.col_pg_snapshot": {
+      "name": "col_pg_snapshot",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.misc_types.col_pg_snapshot_array": {
+      "name": "col_pg_snapshot_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.misc_types.col_tsquery": {
+      "name": "col_tsquery",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.misc_types.col_tsquery_array": {
+      "name": "col_tsquery_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.misc_types.col_tsvector": {
+      "name": "col_tsvector",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.misc_types.col_tsvector_array": {
+      "name": "col_tsvector_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.misc_types.col_txid_snapshot": {
+      "name": "col_txid_snapshot",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.misc_types.col_txid_snapshot_array": {
+      "name": "col_txid_snapshot_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "body.string_types": {
+      "name": "string_types",
+      "description": "string_types",
+      "required": false,
+      "in": "body",
+      "schema": {
+        "$ref": "#/definitions/string_types"
+      }
+    },
+    "rowFilter.string_types.id": {
+      "name": "id",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.string_types.col_uuid": {
+      "name": "col_uuid",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.string_types.col_uuid_array": {
+      "name": "col_uuid_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.string_types.col_character": {
+      "name": "col_character",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.string_types.col_character_array": {
+      "name": "col_character_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.string_types.col_charactervarying": {
+      "name": "col_charactervarying",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.string_types.col_charactervarying_array": {
+      "name": "col_charactervarying_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.string_types.col_text": {
+      "name": "col_text",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.string_types.col_text_array": {
+      "name": "col_text_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "body.network_types": {
+      "name": "network_types",
+      "description": "network_types",
+      "required": false,
+      "in": "body",
+      "schema": {
+        "$ref": "#/definitions/network_types"
+      }
+    },
+    "rowFilter.network_types.id": {
+      "name": "id",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.network_types.col_cidr": {
+      "name": "col_cidr",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.network_types.col_cidr_array": {
+      "name": "col_cidr_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.network_types.col_inet": {
+      "name": "col_inet",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.network_types.col_inet_array": {
+      "name": "col_inet_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.network_types.col_macaddr": {
+      "name": "col_macaddr",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.network_types.col_macaddr_array": {
+      "name": "col_macaddr_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.network_types.col_macaddr8": {
+      "name": "col_macaddr8",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.network_types.col_macaddr8_array": {
+      "name": "col_macaddr8_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "body.geometric_types": {
+      "name": "geometric_types",
+      "description": "geometric_types",
+      "required": false,
+      "in": "body",
+      "schema": {
+        "$ref": "#/definitions/geometric_types"
+      }
+    },
+    "rowFilter.geometric_types.id": {
+      "name": "id",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.geometric_types.col_point": {
+      "name": "col_point",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.geometric_types.col_point_array": {
+      "name": "col_point_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.geometric_types.col_line": {
+      "name": "col_line",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.geometric_types.col_line_array": {
+      "name": "col_line_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.geometric_types.col_lseg": {
+      "name": "col_lseg",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.geometric_types.col_lseg_array": {
+      "name": "col_lseg_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.geometric_types.col_box": {
+      "name": "col_box",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.geometric_types.col_box_array": {
+      "name": "col_box_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.geometric_types.col_path": {
+      "name": "col_path",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.geometric_types.col_path_array": {
+      "name": "col_path_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.geometric_types.col_polygon": {
+      "name": "col_polygon",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.geometric_types.col_polygon_array": {
+      "name": "col_polygon_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.geometric_types.col_circle": {
+      "name": "col_circle",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.geometric_types.col_circle_array": {
+      "name": "col_circle_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "body.profiles": {
+      "name": "profiles",
+      "description": "profiles",
+      "required": false,
+      "in": "body",
+      "schema": {
+        "$ref": "#/definitions/profiles"
+      }
+    },
+    "rowFilter.profiles.id": {
+      "name": "id",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.profiles.first_name": {
+      "name": "first_name",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.profiles.last_name": {
+      "name": "last_name",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.profiles.user_groups": {
+      "name": "user_groups",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "body.boolean_bit_types": {
+      "name": "boolean_bit_types",
+      "description": "boolean_bit_types",
+      "required": false,
+      "in": "body",
+      "schema": {
+        "$ref": "#/definitions/boolean_bit_types"
+      }
+    },
+    "rowFilter.boolean_bit_types.id": {
+      "name": "id",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.boolean_bit_types.col_boolean": {
+      "name": "col_boolean",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.boolean_bit_types.col_boolean_array": {
+      "name": "col_boolean_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.boolean_bit_types.col_bit": {
+      "name": "col_bit",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.boolean_bit_types.col_bit_array": {
+      "name": "col_bit_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.boolean_bit_types.col_bitvarying": {
+      "name": "col_bitvarying",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.boolean_bit_types.col_bitvarying_array": {
+      "name": "col_bitvarying_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "body.json_types": {
+      "name": "json_types",
+      "description": "json_types",
+      "required": false,
+      "in": "body",
+      "schema": {
+        "$ref": "#/definitions/json_types"
+      }
+    },
+    "rowFilter.json_types.id": {
+      "name": "id",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.json_types.col_json": {
+      "name": "col_json",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.json_types.col_json_array": {
+      "name": "col_json_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.json_types.col_jsonb": {
+      "name": "col_jsonb",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.json_types.col_jsonb_array": {
+      "name": "col_jsonb_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "body.binary_xml_types": {
+      "name": "binary_xml_types",
+      "description": "binary_xml_types",
+      "required": false,
+      "in": "body",
+      "schema": {
+        "$ref": "#/definitions/binary_xml_types"
+      }
+    },
+    "rowFilter.binary_xml_types.id": {
+      "name": "id",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.binary_xml_types.col_bytea": {
+      "name": "col_bytea",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.binary_xml_types.col_bytea_array": {
+      "name": "col_bytea_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.binary_xml_types.col_xml": {
+      "name": "col_xml",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.binary_xml_types.col_xml_array": {
+      "name": "col_xml_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "body.numeric_types": {
+      "name": "numeric_types",
+      "description": "numeric_types",
+      "required": false,
+      "in": "body",
+      "schema": {
+        "$ref": "#/definitions/numeric_types"
+      }
+    },
+    "rowFilter.numeric_types.id": {
+      "name": "id",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.numeric_types.col_bigint": {
+      "name": "col_bigint",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.numeric_types.col_bigint_array": {
+      "name": "col_bigint_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.numeric_types.col_integer": {
+      "name": "col_integer",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.numeric_types.col_integer_array": {
+      "name": "col_integer_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.numeric_types.col_smallint": {
+      "name": "col_smallint",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.numeric_types.col_smallint_array": {
+      "name": "col_smallint_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.numeric_types.col_double": {
+      "name": "col_double",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.numeric_types.col_double_array": {
+      "name": "col_double_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.numeric_types.col_real": {
+      "name": "col_real",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.numeric_types.col_real_array": {
+      "name": "col_real_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.numeric_types.col_numeric": {
+      "name": "col_numeric",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.numeric_types.col_numeric_array": {
+      "name": "col_numeric_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "body.datetime_types": {
+      "name": "datetime_types",
+      "description": "datetime_types",
+      "required": false,
+      "in": "body",
+      "schema": {
+        "$ref": "#/definitions/datetime_types"
+      }
+    },
+    "rowFilter.datetime_types.id": {
+      "name": "id",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.datetime_types.col_date": {
+      "name": "col_date",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.datetime_types.col_date_array": {
+      "name": "col_date_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.datetime_types.col_time": {
+      "name": "col_time",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.datetime_types.col_time_array": {
+      "name": "col_time_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.datetime_types.col_timetz": {
+      "name": "col_timetz",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.datetime_types.col_timetz_array": {
+      "name": "col_timetz_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.datetime_types.col_timestamp": {
+      "name": "col_timestamp",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.datetime_types.col_timestamp_array": {
+      "name": "col_timestamp_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.datetime_types.col_timestamptz": {
+      "name": "col_timestamptz",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.datetime_types.col_timestamptz_array": {
+      "name": "col_timestamptz_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.datetime_types.col_interval": {
+      "name": "col_interval",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.datetime_types.col_interval_array": {
+      "name": "col_interval_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    }
+  },
+  "externalDocs": {
+    "description": "PostgREST Documentation",
+    "url": "https://postgrest.org/en/v16/references/api.html"
+  }
+}

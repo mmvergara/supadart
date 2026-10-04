@@ -7,7 +7,7 @@ String generateNewStaticMethod(Table table) {
   buffer.writeln('static Object New({');
 
   columns.forEach((columnName, columnDetails) {
-    buffer.writeln('${columnDetails.dartType}? $columnName,');
+    buffer.writeln('${columnDetails.nullableDartType} $columnName,');
   });
 
   buffer.writeln('}) {');

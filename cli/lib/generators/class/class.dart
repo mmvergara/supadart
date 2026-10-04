@@ -68,9 +68,10 @@ String generateAttributes(Table table) {
   final columns = table.columns;
   final code = StringBuffer();
   columns.forEach((columnName, columnDetails) {
-    final isOptional = !columnDetails.isInRequiredColumn;
-    code.writeln(
-        'final ${columnDetails.dartType}${isOptional ? "?" : ""} $columnName;');
+    final type = columnDetails.isInRequiredColumn
+        ? columnDetails.dartType
+        : columnDetails.nullableDartType;
+    code.writeln('final $type $columnName;');
   });
   return code.toString();
 }

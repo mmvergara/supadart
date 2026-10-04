@@ -54,6 +54,14 @@ Future<void> performJsonBArrayTest(SupabaseClient supabase) async {
     expect(readResult[0].colJsonbArray, isA<List<Map<String, dynamic>>>());
   });
 
+  test('Testing JsonB Array is stored as objects, not JSON strings', () async {
+    final raw = await supabase.json_types
+        .select(JsonTypes.c_colJsonbArray)
+        .eq(JsonTypes.c_id, uuidx)
+        .single();
+    expect(raw[JsonTypes.c_colJsonbArray], updatedJsonArray);
+  });
+
   test(
       "Testing JsonB Array serialization roundtrip maintains data integrity and object equivalence",
       () async {

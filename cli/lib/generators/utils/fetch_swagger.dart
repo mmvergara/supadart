@@ -7,7 +7,7 @@ import '../../key_check.dart';
 
 Future<DatabaseSwagger?> fetchDatabaseSwagger(String url, String apiKey,
     Map<String, List<String>> mapOfEnums, bool jsonbToDynamic,
-    {Map<String, JsonbModelConfig>? jsonbModels}) async {
+    {Map<String, JsonbModelConfig>? jsonbModels, http.Client? client}) async {
   if (!url.startsWith("http://") && !url.startsWith("https://")) {
     url = "https://$url"; // Default to HTTPS if no scheme is provided
   }
@@ -15,7 +15,8 @@ Future<DatabaseSwagger?> fetchDatabaseSwagger(String url, String apiKey,
   try {
     // First attempt with API key
     // Use both query param (for compatibility) and headers (new standard)
-    final response = await _secureRequest('$url/rest/v1/', apiKey);
+    final response =
+        await _secureRequest('$url/rest/v1/', apiKey, client: client);
     if (response.statusCode == 200) {
       return DatabaseSwagger.fromJson(
           jsonDecode(response.body), mapOfEnums, jsonbToDynamic,
@@ -24,7 +25,8 @@ Future<DatabaseSwagger?> fetchDatabaseSwagger(String url, String apiKey,
 
     // Second attempt without API key (for open/public APIs)
     print("Trying without the API key...");
-    final response2 = await _secureRequestNoAuth('$url/rest/v1/');
+    final response2 =
+        await _secureRequestNoAuth('$url/rest/v1/', client: client);
     if (response2.statusCode == 200) {
       return DatabaseSwagger.fromJson(
           jsonDecode(response2.body), mapOfEnums, jsonbToDynamic,
@@ -46,7 +48,7 @@ Future<DatabaseSwagger?> fetchDatabaseSwagger(String url, String apiKey,
 }
 
 Future<http.Response> _secureRequest(String url, String apiKey,
-    {bool allowHttpFallback = true}) async {
+    {bool allowHttpFallback = true, http.Client? client}) async {
   // New publishable/secret keys use 'apikey' header
   // Old JWT-based anon/service_role keys use 'Authorization: Bearer' header
   // For compatibility, send both
@@ -56,7 +58,7 @@ Future<http.Response> _secureRequest(String url, String apiKey,
   };
 
   try {
-    return await http.get(Uri.parse(url), headers: headers);
+    return await (client?.get ?? http.get)(Uri.parse(url), headers: headers);
   } on HandshakeException catch (e) {
     print("HandshakeException occurred: $e");
     print("Attempting with a custom HTTP client...");
@@ -85,16 +87,16 @@ Future<http.Response> _secureRequest(String url, String apiKey,
       print("Attempting to fallback to HTTP...");
       return await _secureRequest(
           url.replaceFirst("https://", "http://"), apiKey,
-          allowHttpFallback: false);
+          allowHttpFallback: false, client: client);
     }
     rethrow;
   }
 }
 
 Future<http.Response> _secureRequestNoAuth(String url,
-    {bool allowHttpFallback = true}) async {
+    {bool allowHttpFallback = true, http.Client? client}) async {
   try {
-    return await http.get(Uri.parse(url));
+    return await (client?.get ?? http.get)(Uri.parse(url));
   } on HandshakeException catch (e) {
     print("HandshakeException occurred: $e");
     print("Attempting with a custom HTTP client...");
@@ -116,7 +118,7 @@ Future<http.Response> _secureRequestNoAuth(String url,
     if (url.startsWith("https://") && allowHttpFallback) {
       print("Attempting to fallback to HTTP...");
       return await _secureRequestNoAuth(url.replaceFirst("https://", "http://"),
-          allowHttpFallback: false);
+          allowHttpFallback: false, client: client);
     }
     rethrow;
   }
