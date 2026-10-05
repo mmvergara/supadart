@@ -16,6 +16,7 @@ class Profiles implements SupadartClass<Profiles> {
     required this.userGroups,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'profiles';
   static String get c_id => 'id';
   static String get c_firstName => 'first_name';

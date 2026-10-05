@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dotenv/dotenv.dart';
+import 'package:supadart/generators/index.dart';
 import 'package:supadart/generators/standalone/enums.dart';
 import 'package:supadart/generators/swagger/column.dart';
 import 'package:supadart/generators/swagger/swagger.dart';
@@ -90,7 +91,8 @@ void main() {
       final swagger = parse({
         'public.usergroup': ['USERS', 'ADMIN', 'MODERATOR']
       });
-      expect(swagger.enums.keys, ['mood', 'task_status', 'usergroup']);
+      expect(swagger.enums.keys,
+          ['public.mood', 'public.task_status', 'public.usergroup']);
       expect(swagger.warnings, isEmpty);
     });
 
@@ -116,7 +118,7 @@ void main() {
         ...testEnums,
         'mood': ['happy', 'sad'],
       });
-      expect(swagger.enums['mood'],
+      expect(swagger.enums['public.mood'],
           ['happy', 'sad', 'neutral', 'excited', 'angry']);
       expect(swagger.warnings, hasLength(1));
       expect(swagger.warnings.single, contains('mood'));
@@ -138,6 +140,102 @@ void main() {
           ['inProgress', 'inProgress2', 'inProgress3']);
       expect(enumConstantNames(['_hidden', '!!', 'index']),
           ['hidden', 'value1', 'index_']);
+    });
+  });
+
+  group('schemas', () {
+    const both = ['public', 'inventory'];
+
+    test('prefixes names outside the primary schema', () {
+      final code = generateWith(schemas: both)['generated_classes.dart']!;
+      expect(code, contains('class Profiles implements'));
+      expect(code, contains('class InventoryProfiles implements'));
+      expect(code, contains('class InventoryItems implements'));
+      expect(code, contains('enum MOOD {'));
+      expect(code, contains('enum INVENTORY_MOOD {'));
+      expect(code, contains("calm('calm'),"));
+      expect(code, contains('final MOOD? ownerMood;'));
+      expect(code, contains('final INVENTORY_MOOD? warehouseMood;'));
+      expect(
+          code, contains('final List<INVENTORY_ITEM_STATUS>? statusHistory;'));
+    });
+
+    test('client getters select the schema', () {
+      final code = generateWith(schemas: both)['generated_classes.dart']!;
+      expect(code, contains("get profiles => from('profiles');"));
+      expect(
+          code,
+          contains(
+              "get inventory_profiles => schema('inventory').from('profiles');"));
+      expect(code, contains("static String get schema_name => 'inventory';"));
+      expect(code, contains("static String get table_name => 'items';"));
+    });
+
+    test('a single non-public schema keeps plain names', () {
+      final code =
+          generateWith(schemas: ['inventory'])['generated_classes.dart']!;
+      expect(code, contains('class Items implements'));
+      expect(code, contains("get items => schema('inventory').from('items');"));
+      expect(code, contains('enum MOOD {'));
+      expect(code, contains("busy('busy');"));
+      // Types from public are still resolved, but prefixed.
+      expect(code, contains('final PUBLIC_MOOD? ownerMood;'));
+      expect(code, isNot(contains('class NumericTypes')));
+    });
+
+    test('separated mode writes a file per schema-prefixed class', () {
+      final files = generateWith(schemas: both, isSeparated: true);
+      expect(files.keys,
+          containsAll(['profiles.dart', 'inventory_profiles.dart']));
+      expect(files['supadart_exports.dart'],
+          contains("export 'inventory_items.dart';"));
+    });
+
+    test('mappings take schema.table keys, plain keys for the primary', () {
+      final code = generateWith(
+          schemas: both,
+          mappings: 'inventory.items: stock_item\n'
+              'profiles: user_profile\n'
+              'items: ignored')['generated_classes.dart']!;
+      expect(code, contains('class StockItem implements'));
+      expect(code, contains('class UserProfile implements'));
+      expect(code, contains('class InventoryProfiles implements'));
+      expect(code, isNot(contains('class Ignored')));
+    });
+
+    test('rejects tables that would share a class name', () {
+      expect(
+          () => generateWith(
+              schemas: both, mappings: 'inventory.profiles: profiles'),
+          throwsA(isA<NameClashException>().having((e) => e.message, 'message',
+              contains('public.profiles, inventory.profiles'))));
+    });
+
+    test('config enums are in the primary schema unless qualified', () {
+      final inventory = readJsonFixture(swaggerFixturePaths['inventory']!);
+      final items = (inventory['definitions'] as Map)['items'] as Map;
+      // Without the status column, item_status is only used in an array.
+      (items['properties'] as Map).remove('status');
+      DatabaseSwagger parse(Map<String, List<String>> enums) =>
+          DatabaseSwagger.fromSchemas({
+            'public': readJsonFixture(swaggerFixturePath),
+            'inventory': inventory,
+          }, enums, false);
+
+      final warning = parse(testEnums).warnings.single;
+      expect(warning, contains('inventory.item_status'));
+      expect(warning, contains('inventory.items.status_history'));
+      expect(warning, contains('    inventory.item_status: [...]'));
+      expect(warning,
+          contains('SELECT unnest(enum_range(NULL::inventory."item_status"))'));
+
+      final swagger = parse({
+        ...testEnums,
+        'inventory.item_status': ['a', 'b'],
+      });
+      expect(swagger.warnings, isEmpty);
+      expect(swagger.enums['inventory.item_status'], ['a', 'b']);
+      expect(swagger.enums['public.usergroup'], isNotNull);
     });
   });
 
@@ -330,6 +428,19 @@ void main() {
       expect(o['exclude'], isEmpty);
       expect(o['isPostGIS'], false);
       expect(o['jsonbToDynamic'], false);
+      expect(o['schemas'], ['public']);
+    });
+
+    test('schemas come from the CLI, else the yaml', () {
+      expect(options([], yaml: 'schemas: [public, inventory]')['schemas'],
+          ['public', 'inventory']);
+      expect(options([], yaml: 'schemas: inventory')['schemas'], ['inventory']);
+      expect(
+          options(['-s', 'inventory, public,inventory'],
+              yaml: 'schemas: [public]')['schemas'],
+          ['inventory', 'public']);
+      expect(
+          options(['--schema', 'a', '--schema', 'b'])['schemas'], ['a', 'b']);
     });
 
     test('reads every yaml option', () {
@@ -357,7 +468,7 @@ enums:
       expect(o['exclude'], ['New', 'copyWith']);
       expect((o['mappings'] as YamlMap)['profiles'], 'user_profile');
       expect(o['mapOfEnums'], {
-        'public.mood': ['happy', 'sad']
+        'mood': ['happy', 'sad']
       });
     });
 

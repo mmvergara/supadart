@@ -38,6 +38,7 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
     this.colCircleArray,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'geometric_types';
   static String get c_id => 'id';
   static String get c_colPoint => 'col_point';

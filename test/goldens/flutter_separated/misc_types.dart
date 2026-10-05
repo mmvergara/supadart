@@ -34,6 +34,7 @@ class MiscTypes implements SupadartClass<MiscTypes> {
     this.colTxidSnapshotArray,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'misc_types';
   static String get c_id => 'id';
   static String get c_colMoney => 'col_money';

@@ -1,10 +1,14 @@
 import 'package:yaml/yaml.dart';
 
-String tableNameToClassName(String name, YamlMap? mappings) {
-  if (mappings != null && mappings[name] != null) {
-    return snakeCasingToPascalCasing(mappings[name]);
-  }
-  return snakeCasingToPascalCasing(name);
+import '../swagger/schemas.dart';
+
+/// The class name for table [name] in [schema]. [mappings] keys are
+/// `schema.table`, or just `table` for the primary schema.
+String tableNameToClassName(String schema, String name, YamlMap? mappings,
+    [Schemas schemas = Schemas.defaults]) {
+  final mapped = mappings?['$schema.$name'] ??
+      (schema == schemas.primary ? (mappings?[name]) : null);
+  return snakeCasingToPascalCasing(mapped ?? schemas.localName(schema, name));
 }
 
 String snakeCasingToCamelCasing(String input) {

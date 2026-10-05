@@ -8,20 +8,22 @@ String withScheme(String url) {
   return "https://$url"; // Default to HTTPS if no scheme is provided
 }
 
-/// GETs [url], authenticating with [apiKey] when given.
+/// GETs [url] with [headers], authenticating with [apiKey] when given.
 ///
 /// Retries with a lenient TLS client on a handshake failure, and over plain
 /// HTTP once on a socket failure.
 Future<http.Response> supabaseGet(String url,
     {String? apiKey,
+    Map<String, String> headers = const {},
     bool allowHttpFallback = true,
     http.Client? client}) async {
   // New publishable/secret keys use 'apikey' header
   // Old JWT-based anon/service_role keys use 'Authorization: Bearer' header
   // For compatibility, send both
-  final headers = apiKey == null
-      ? <String, String>{}
-      : {'apikey': apiKey, 'Authorization': 'Bearer $apiKey'};
+  headers = {
+    ...headers,
+    if (apiKey != null) ...{'apikey': apiKey, 'Authorization': 'Bearer $apiKey'}
+  };
 
   try {
     return await (client?.get ?? http.get)(Uri.parse(url), headers: headers);
@@ -46,7 +48,7 @@ Future<http.Response> supabaseGet(String url,
     if (url.startsWith("https://") && allowHttpFallback) {
       print("Attempting to fallback to HTTP...");
       return await supabaseGet(url.replaceFirst("https://", "http://"),
-          apiKey: apiKey, allowHttpFallback: false, client: client);
+          headers: headers, allowHttpFallback: false, client: client);
     }
     rethrow;
   }

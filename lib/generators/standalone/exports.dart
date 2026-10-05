@@ -4,10 +4,10 @@ import '../swagger/swagger.dart';
 
 String generateExports(DatabaseSwagger swagger, YamlMap? mappings) {
   final code = StringBuffer('library models;\n');
-  swagger.definitions.forEach((tableName, _) {
-    final className = tableNameToClassName(tableName, mappings);
-    final fileName = classNameToFileName(className);
-    code.write("export '$fileName';\n");
-  });
+  for (final table in swagger.tables) {
+    final className = tableNameToClassName(
+        table.schema, table.name, mappings, swagger.schemas);
+    code.write("export '${classNameToFileName(className)}';\n");
+  }
   return code.toString();
 }

@@ -3,10 +3,14 @@ import '../swagger/swagger.dart';
 
 String generateClientExtension(DatabaseSwagger swagger) {
   final code = StringBuffer('extension SupadartClient on SupabaseClient {\n');
-  swagger.definitions.forEach((tableName, _) {
+  for (final table in swagger.tables) {
+    final getter =
+        swagger.schemas.localName(table.schema, table.name).toLowerCase();
+    // The client queries public unless told otherwise.
+    final client = table.schema == 'public' ? '' : "schema('${table.schema}').";
     code.write(
-        "SupabaseQueryBuilder get ${tableName.toLowerCase()} => from('$tableName');\n");
-  });
+        "SupabaseQueryBuilder get $getter => ${client}from('${table.name}');\n");
+  }
   code.write('}\n');
   return code.toString();
 }

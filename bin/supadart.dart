@@ -10,7 +10,7 @@ import 'package:supadart/generators/utils/fetch_swagger.dart';
 import 'package:supadart/key_check.dart';
 import 'package:yaml/yaml.dart';
 
-const String version = 'v2.0.1';
+const String version = 'v2.1.0';
 const String red = '\x1B[31m';
 const String green = '\x1B[32m';
 const String blue = '\x1B[34m';
@@ -93,6 +93,11 @@ ArgParser setupArgParser() {
       abbr: "k",
       help: 'Supabase secret key (sb_secret_...)     (if not set in yaml)',
     )
+    ..addMultiOption(
+      'schema',
+      abbr: "s",
+      help: 'Schemas to generate, comma separated     (if not set in yaml)',
+    )
     ..addFlag('version', abbr: 'v', negatable: false, help: version);
 }
 
@@ -129,17 +134,25 @@ Map<String, dynamic> extractOptions(ArgResults results, YamlMap config,
     print("Using .env file for SUPABASE_URL and SUPABASE_API_KEY");
   }
 
-  // Extract enums as a Map<String, List<String>> from config['enums']
+  // Extract enums as a Map<String, List<String>> from config['enums'].
+  // Names without a schema are in the primary schema.
   Map<String, List<String>> enums = {};
   if (config.containsKey('enums')) {
     if (config['enums'] != null) {
       (config['enums'] as Map).forEach((enumName, value) {
         if (value is List) {
-          enums["public.$enumName"] = List<String>.from(value);
+          enums["$enumName"] = List<String>.from(value);
         }
       });
     }
   }
+
+  final configSchemas = config['schemas'];
+  final List<String> schemas = (results['schema'] as List<String>).isNotEmpty
+      ? results['schema']
+      : configSchemas is String
+          ? [configSchemas]
+          : List<String>.from(configSchemas ?? ['public']);
 
   // Extract JSONB model configs from config['jsonb']
   // Format: schema.table.column: { type: DartType, import: 'path' }
@@ -186,6 +199,11 @@ Map<String, dynamic> extractOptions(ArgResults results, YamlMap config,
     'isSeparated': config['separated'] ?? false,
     'isDart': config['dart'] ?? false,
     'output': config['output'] ?? './lib/models/',
+    'schemas': schemas
+        .map((s) => s.trim())
+        .where((s) => s.isNotEmpty)
+        .toSet()
+        .toList(),
     'mappings': config['mappings'],
     'exclude': List<String>.from(config['exclude'] ?? []),
     'mapOfEnums': enums,
@@ -209,6 +227,10 @@ bool validateOptions(Map<String, dynamic> options) {
     );
     return false;
   }
+  if (options['schemas'].isEmpty) {
+    stderr.writeln("${red}schemas must name at least one schema$reset");
+    return false;
+  }
   return true;
 }
 
@@ -216,6 +238,7 @@ void printConfiguration(Map<String, dynamic> options) {
   print('==============================');
   print('URL:            ${options['url']}');
   print('API KEY:        ${maskApiKey(options['apiKey'])}');
+  print('Schemas:        ${options['schemas']}');
   print('Output:         ${options['output']}');
   print('Separated:      ${options['isSeparated']}');
   print('Dart:           ${options['isDart']}');
@@ -235,6 +258,7 @@ Future<void> generateModels(Map<String, dynamic> options) async {
     options['apiKey'],
     options['mapOfEnums'],
     options['jsonbToDynamic'],
+    schemas: options['schemas'],
     jsonbModels: options['jsonbModels'],
   );
 
@@ -258,17 +282,23 @@ Future<void> generateModels(Map<String, dynamic> options) async {
 
   print('Generating models...');
   final stopwatch = Stopwatch()..start();
-  final files = supadartRun(
-    databaseSwagger,
-    storageList,
-    options['isDart'],
-    options['isSeparated'],
-    options['mappings'],
-    options['exclude'],
-    options['isPostGIS'],
-    options['jsonbToDynamic'],
-    jsonbModels: options['jsonbModels'],
-  );
+  final List<GeneratedFile> files;
+  try {
+    files = supadartRun(
+      databaseSwagger,
+      storageList,
+      options['isDart'],
+      options['isSeparated'],
+      options['mappings'],
+      options['exclude'],
+      options['isPostGIS'],
+      options['jsonbToDynamic'],
+      jsonbModels: options['jsonbModels'],
+    );
+  } on NameClashException catch (e) {
+    stderr.writeln('$red$e$reset');
+    exit(exitUsage);
+  }
 
   await generateAndFormatFiles(files, options['output']);
 

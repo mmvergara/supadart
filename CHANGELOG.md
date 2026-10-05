@@ -1,3 +1,11 @@
+## 2.1.0
+
+- Generate models from schemas other than `public` ([#88](https://github.com/mmvergara/supadart/issues/88)). Set `schemas: [public, inventory]` in `supadart.yaml` or pass `--schema public,inventory`. Each schema is fetched through PostgREST's `Accept-Profile` header and must be exposed through the Data API; supadart explains when one is not. The first schema keeps plain names, the others are prefixed (`InventoryItems`, `INVENTORY_MOOD`, `supabase.inventory_items`), and generation stops with a list of clashes if two tables or enums would still share a name.
+- Generated client getters for tables outside `public` query their schema (`schema('inventory').from('items')`).
+- Every generated class now has a `schema_name` alongside `table_name`.
+- `mappings` accept `schema.table` keys, and `enums` accept `schema.type` keys. Unqualified keys refer to the first schema, which is `public` by default, so existing configs are unchanged.
+- **Library API:** `DatabaseSwagger.definitions` is replaced by `tables` (each `Table` has a `schema`), and `DatabaseSwagger.enums` is keyed by `schema.type`. Use `DatabaseSwagger.fromSchemas` to parse several schemas.
+
 ## 2.0.1
 
 - Fixed PostGIS `geometry` columns failing to decode. PostgREST returns `geometry` as a GeoJSON object (PostGIS casts it to json) and `geography` as a hex EWKB string; generated `fromJson` now handles both through a `GeometryFromJson.fromJson` helper. Geometry arrays now decode each element instead of the whole list.

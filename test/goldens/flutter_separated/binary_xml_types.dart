@@ -18,6 +18,7 @@ class BinaryXmlTypes implements SupadartClass<BinaryXmlTypes> {
     this.colXmlArray,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'binary_xml_types';
   static String get c_id => 'id';
   static String get c_colBytea => 'col_bytea';

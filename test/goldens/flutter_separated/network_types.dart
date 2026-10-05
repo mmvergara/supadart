@@ -26,6 +26,7 @@ class NetworkTypes implements SupadartClass<NetworkTypes> {
     this.colMacaddr8Array,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'network_types';
   static String get c_id => 'id';
   static String get c_colCidr => 'col_cidr';

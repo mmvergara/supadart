@@ -31,9 +31,16 @@ SUPABASE_URL:
 SUPABASE_API_KEY:
 
 
+# Optional, the schemas to generate from (default: public). Each must be
+# exposed through the Data API. The first keeps plain names; tables and enums of
+# the others are prefixed with their schema (inventory.items -> InventoryItems).
+schemas:
+  - public
+
 # Optional, enums are read from your database automatically.
 # Only enums used solely in array columns (e.g. mood[]) need listing here;
 # supadart warns about any it cannot find. Values are case sensitive.
+# Names without a schema are in the first schema (e.g. inventory.status).
 enums:
   # mood: [happy, sad, neutral, excited, angry]
 
@@ -45,11 +52,13 @@ separated: false
 dart: false
 
 # Optional, used to map table names to class names(case-sensitive)
+# Use schema.table keys for tables outside the first schema
 mappings:
   # books: book
   # categories: category
   # children: child
   # people: person
+  # inventory.items: item
 
 # Optional, used to exclude methods from generated classes, comment out to include them
 exclude:

@@ -12,6 +12,12 @@ import '../../bin/supadart.dart' show generateAndFormatFiles;
 const swaggerFixturePath = 'test/fixtures/swagger.json';
 const storageFixturePath = 'test/fixtures/storage.json';
 
+/// The swagger fixture of each schema in supabase/migrations.
+const swaggerFixturePaths = {
+  'public': swaggerFixturePath,
+  'inventory': 'test/fixtures/swagger_inventory.json',
+};
+
 /// Enums the schema does not list values for: those used only in arrays.
 /// Every other enum is read from the schema.
 const testEnums = {
@@ -24,21 +30,28 @@ class GoldenConfig {
   final String goldenDir;
   final bool isDart;
   final bool isSeparated;
+  final List<String> schemas;
 
   const GoldenConfig(this.name, this.goldenDir,
-      {required this.isDart, required this.isSeparated});
+      {required this.isDart,
+      required this.isSeparated,
+      this.schemas = const ['public']});
 }
 
 const goldenConfigs = [
   // Also the models the integration round-trip tests compile against.
   GoldenConfig('dart single file', 'test/models/',
-      isDart: true, isSeparated: false),
+      isDart: true, isSeparated: false, schemas: ['public', 'inventory']),
   GoldenConfig('flutter separated', 'test/goldens/flutter_separated/',
       isDart: false, isSeparated: true),
 ];
 
 Map<String, dynamic> readJsonFixture(String path) =>
     jsonDecode(File(path).readAsStringSync()) as Map<String, dynamic>;
+
+/// The swagger fixtures of [schemas], keyed by schema.
+Map<String, Map<String, dynamic>> readSchemaFixtures(List<String> schemas) =>
+    {for (final s in schemas) s: readJsonFixture(swaggerFixturePaths[s]!)};
 
 Storage readStorageFixture() => Storage.fromJson(
     jsonDecode(File(storageFixturePath).readAsStringSync()) as List<dynamic>);
@@ -62,10 +75,12 @@ Map<String, dynamic> swaggerWithPostGIS() {
   return json;
 }
 
-/// Runs the generator on [swaggerJson] (the swagger fixture by default) with
-/// the given options, keyed by file name. Output is not formatted.
+/// Runs the generator on [swaggerJson] (by default the fixtures of
+/// [schemas]) with the given options, keyed by file name. Output is not
+/// formatted.
 Map<String, String> generateWith({
   Map<String, dynamic>? swaggerJson,
+  List<String> schemas = const ['public'],
   bool isDart = true,
   bool isSeparated = false,
   String? mappings,
@@ -75,8 +90,12 @@ Map<String, String> generateWith({
   Map<String, JsonbModelConfig>? jsonbModels,
   Map<String, List<String>> enums = testEnums,
 }) {
-  final swagger = DatabaseSwagger.fromJson(
-      swaggerJson ?? readJsonFixture(swaggerFixturePath), enums, jsonbToDynamic,
+  final swagger = DatabaseSwagger.fromSchemas(
+      swaggerJson == null
+          ? readSchemaFixtures(schemas)
+          : {'public': swaggerJson},
+      enums,
+      jsonbToDynamic,
       jsonbModels: jsonbModels);
   final files = supadartRun(
       swagger,
@@ -95,8 +114,8 @@ Map<String, String> generateWith({
 /// file name. Output is written under .dart_tool so `dart format` uses this
 /// package's language version, matching the checked-in goldens.
 Future<Map<String, String>> generateFromFixtures(GoldenConfig config) async {
-  final swagger = DatabaseSwagger.fromJson(
-      readJsonFixture(swaggerFixturePath), testEnums, false);
+  final swagger = DatabaseSwagger.fromSchemas(
+      readSchemaFixtures(config.schemas), testEnums, false);
   final files = supadartRun(swagger, readStorageFixture(), config.isDart,
       config.isSeparated, null, [], false, false);
 

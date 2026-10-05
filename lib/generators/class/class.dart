@@ -28,15 +28,16 @@ List<DartClass> generateDartClasses(
   List<String> exclude,
   bool jsonbToDynamic,
 ) {
-  return swagger.definitions.entries.map((entry) {
-    final tableName = entry.key;
-    final table = entry.value;
-    final className = tableNameToClassName(tableName, mappings);
+  return swagger.tables.map((table) {
+    final tableName = table.name;
+    final className = tableNameToClassName(
+        table.schema, tableName, mappings, swagger.schemas);
 
     final code = StringBuffer()
       ..writeln('class $className implements SupadartClass<$className> {')
       ..write(generateAttributes(table))
       ..write(generateConstructor(className, table))
+      ..writeln("static String get schema_name => '${table.schema}';")
       ..writeln("static String get table_name => '$tableName';")
       ..write(generateStaticColumnNames(table))
       ..write(generateConverterMethod(className))

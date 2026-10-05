@@ -14,6 +14,7 @@ class EnumTypes implements SupadartClass<EnumTypes> {
     required this.colMoodArray,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'enum_types';
   static String get c_id => 'id';
   static String get c_colMood => 'col_mood';

@@ -18,6 +18,7 @@ class JsonTypes implements SupadartClass<JsonTypes> {
     this.colJsonbArray,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'json_types';
   static String get c_id => 'id';
   static String get c_colJson => 'col_json';

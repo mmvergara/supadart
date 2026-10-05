@@ -43,6 +43,46 @@ void main() {
       expect(seen.headers['Authorization'], 'Bearer $_key');
     });
 
+    test('fetches each schema with Accept-Profile', () async {
+      final inventoryBody =
+          File(swaggerFixturePaths['inventory']!).readAsStringSync();
+      final profiles = <String?>[];
+      final client = MockClient((req) async {
+        profiles.add(req.headers['Accept-Profile']);
+        return http.Response(
+            req.headers['Accept-Profile'] == 'inventory'
+                ? inventoryBody
+                : swaggerBody,
+            200);
+      });
+
+      final swagger = await fetchDatabaseSwagger(_url, _key, testEnums, false,
+          schemas: ['public', 'inventory'], client: client);
+
+      expect(profiles, ['public', 'inventory']);
+      expect(swagger!.schemas.names, ['public', 'inventory']);
+      expect(swagger.tables.map((t) => t.qualifiedName),
+          containsAll(['public.profiles', 'inventory.profiles']));
+    });
+
+    test('explains a schema that is not exposed, without retrying', () async {
+      final requests = <http.Request>[];
+      final client = MockClient((req) async {
+        requests.add(req);
+        return http.Response(
+            '{"code":"PGRST106","message":"Invalid schema: nope"}', 406);
+      });
+
+      final (result, output) = await _capturePrints(() => fetchDatabaseSwagger(
+          _url, _key, testEnums, false,
+          schemas: ['nope'], client: client));
+
+      expect(result, isNull);
+      expect(requests, hasLength(1));
+      expect(output, contains(schemaNotExposedMessage('nope')));
+      expect(output, isNot(contains(openApiChangelogUrl)));
+    });
+
     test('defaults to https when the scheme is missing', () async {
       late Uri seen;
       final client = MockClient((req) async {

@@ -34,6 +34,7 @@ class NumericTypes implements SupadartClass<NumericTypes> {
     this.colNumericArray,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'numeric_types';
   static String get c_id => 'id';
   static String get c_colBigint => 'col_bigint';
