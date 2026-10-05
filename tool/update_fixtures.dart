@@ -1,6 +1,6 @@
 // Refreshes the test fixtures and goldens from a running Supabase instance.
 //
-// Usage (from cli/): tool/test_integration.sh --update
+// Usage (from the repo root): tool/test_integration.sh --update
 // or with SUPABASE_URL / SUPABASE_API_KEY set: dart run tool/update_fixtures.dart
 import 'dart:convert';
 import 'dart:io';

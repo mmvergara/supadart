@@ -97,8 +97,6 @@ The per-type test bodies are in `test/datatypes/` (e.g. `numeric/int4_int.dart`,
 ## Running the tests
 
 ```bash
-cd cli
-
 # Unit + golden + compile tests only (fast, offline). Integration tests are skipped.
 dart test
 
@@ -119,8 +117,8 @@ Lines like `🎯 Generated: …`, `Trying without the API key...` and `Warning: 
 
 CI runs two jobs on every push and PR:
 
-- **unit:** `dart analyze --fatal-warnings`, then `dart test --exclude-tags integration`.
-- **integration:** starts a slimmed-down local Supabase (Postgres, PostgREST, Storage and Kong only), then runs `cli/tool/test_integration.sh`.
+- **unit:** `dart format` check, `dart analyze --fatal-warnings`, then `dart test --exclude-tags integration`.
+- **integration:** starts a slimmed-down local Supabase (Postgres, PostgREST, Storage and Kong only), then runs `tool/test_integration.sh`.
 
 ## Typical workflows
 

@@ -18,7 +18,7 @@ dart compile exe bin/supadart.dart ; ./bin/supadart.exe --url <supabase_url> --k
 
 ### Testing
 
-Tests need Docker and the [Supabase CLI](https://supabase.com/docs/guides/local-development/cli/getting-started) (or `npx`). They run against a local Supabase project defined in `../supabase/`. That project has its own `project_id` and uses ports 56420-56429, so it can run next to other local Supabase instances.
+Tests need Docker and the [Supabase CLI](https://supabase.com/docs/guides/local-development/cli/getting-started) (or `npx`). They run against a local Supabase project defined in `supabase/`. That project has its own `project_id` and uses ports 56420-56429, so it can run next to other local Supabase instances.
 
 | Layer | Location | Needs Supabase | What it checks |
 | --- | --- | --- | --- |
@@ -35,8 +35,8 @@ tool/test_integration.sh
 
 #### Test schema
 
-- `../supabase/migrations/` holds the tables, views and enums the tests cover.
-- `../supabase/seed.sql` holds the storage buckets.
+- `supabase/migrations/` holds the tables, views and enums the tests cover.
+- `supabase/seed.sql` holds the storage buckets.
 
 `supabase db reset` rebuilds both.
 
@@ -55,3 +55,10 @@ tool/test_integration.sh --update
 #### Running against another instance
 
 To run the integration tests against a different instance, set `SUPABASE_URL` and `SUPABASE_API_KEY` in the environment or in a `.env` file. Use a secret key: hosted projects reject anon/publishable keys for the schema endpoint.
+
+### Releasing
+
+1. Bump `version` in `pubspec.yaml` and `version` in `bin/supadart.dart`, and add a `## x.y.z` entry at the top of `CHANGELOG.md` (a unit test checks all three agree).
+2. Run `dart pub publish --dry-run` and fix any warnings.
+3. Merge to `main`, then tag and push: `git tag vX.Y.Z && git push origin vX.Y.Z`.
+4. `.github/workflows/publish.yml` publishes the tag to pub.dev.

@@ -1,40 +1,19 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-.yarn/install-state.gz
-
-# testing
-/coverage
-.vscode
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
+# https://dart.dev/guides/libraries/private-files
+.dart_tool/
+build/
+coverage/
+.idea/
+.vscode/
 .DS_Store
-*.pem
 
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Compiled executables
+*.exe
 
-# local env files
-.env*.local
+# Local secrets / config from running the CLI in this repo
+.env
+.env.*
+supadart.yaml
+config.yaml
 
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-
-# Cli
-cli.exe
+# Output when running the CLI in this repo (not the package's lib/)
+lib/models/

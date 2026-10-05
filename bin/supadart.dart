@@ -10,7 +10,7 @@ import 'package:supadart/generators/utils/fetch_swagger.dart';
 import 'package:supadart/key_check.dart';
 import 'package:yaml/yaml.dart';
 
-const String version = 'v1.9.3';
+const String version = 'v2.0.0';
 const String red = '\x1B[31m';
 const String green = '\x1B[32m';
 const String blue = '\x1B[34m';

@@ -1,3 +1,14 @@
+## 2.0.0
+
+- **Breaking:** errors and warnings are now written to stderr, and usage/config errors exit with code 64 (was 1).
+- **Breaking:** removed the automatic fallback that retried failed TLS handshakes with certificate checks disabled, and the fallback from HTTPS to HTTP. Connections must now succeed over the URL you give.
+- Generated `interval` parsing now handles Postgres' full default format (e.g. `1 year 2 mons -3 days +04:05:06.5`) instead of only `HH:MM:SS`.
+- Generated `converter` / `converterSingle` now have explicit return types; generated files no longer trigger `constant_identifier_names` lints.
+- Columns mapped to `dynamic` are no longer emitted as the redundant `dynamic?`.
+- Warns when a publishable/anon key is used, and explains 401/403 responses from the schema endpoint (a secret key is required).
+- Invalid CLI flags now print a clear message instead of a stack trace.
+- Package moved to the repository root; added a full test suite (unit, golden, compile and integration tests against a local Supabase).
+
 ## 1.9.3
 
 - Support more integer types thanks to @anasmohammed361
