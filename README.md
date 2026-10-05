@@ -30,6 +30,7 @@ final allBooks = await supabase
   - [**Update Data**](#update-data)
   - [**Delete Data**](#delete-data)
 - [**Working with Enums**](#working-with-enums)
+- [**Working with Multiple Schemas**](#working-with-multiple-schemas)
 - [**Working with JSONB Custom Types**](#working-with-jsonb-custom-types)
 - [**Column Selection Queries**](#column-selection-queries)
 
@@ -145,6 +146,9 @@ supadart --url <supabase_url> --key <supabase_secret_key>
 # if SUPABASE_URL and SUPABASE_API_KEY are set in the environment variables
 # if SUPABASE_URL and SUPABASE_API_KEY are set in supadart.yaml
 supadart
+
+# Generate from schemas other than public (the first keeps plain names)
+supadart --schema public,inventory
 ```
 
 > API KEY: Use a secret key (`sb_secret_...`) or the legacy `service_role` key. Since April 8, 2026, hosted Supabase projects no longer expose the schema to anon/publishable keys ([changelog](https://supabase.com/changelog/42949-breaking-change-removing-access-to-openapi-spec-via-the-anon-key)). Never ship this key in your app or commit it. Keep it in a gitignored `.env`. Local Supabase stacks still accept the anon/publishable key, and `SUPABASE_ANON_KEY` is still read as a fallback.
@@ -153,7 +157,8 @@ supadart
 
 > JSONB CUSTOM TYPES: If you want to map JSONB columns to custom Dart model types, you need to specify them in the config file
 
-````yaml
+> SCHEMAS: Classes are generated from `public` by default. Other schemas must be exposed through the Data API ([details](#working-with-multiple-schemas))
+
 #### CLI Usage
 
 ```bash
@@ -162,8 +167,9 @@ supadart
 -c, --config     Specify a path to config file of yaml   (default: ./supadart.yaml)
 -u, --url        Supabase URL                            (if not set in yaml)
 -k, --key        Supabase secret key (sb_secret_...)     (if not set in yaml)
+-s, --schema     Schemas to generate, comma separated     (if not set in yaml)
 -v, --version
-````
+```
 
 > Using the [Web App (deprecated)](https://supadart.vercel.app/)
 
@@ -435,6 +441,39 @@ await supabase.enum_types
 
 // Read
 await supabase.enum_types.select().withConverter(EnumTypes.converter);
+```
+
+# Working with Multiple Schemas
+
+supadart generates from `public` unless told otherwise. List the schemas in `supadart.yaml`, or pass `--schema` (which overrides the yaml):
+
+```yaml
+schemas:
+  - public
+  - inventory
+```
+
+**IMPORTANT:**
+
+- Each schema must be exposed through the Data API: **Project Settings > Data API > Exposed schemas** on hosted projects, or `schemas` under `[api]` in `supabase/config.toml` locally. supadart tells you when one is not.
+- The **first** schema keeps plain names. Tables and enums of the others are prefixed with their schema, so names never clash: `inventory.items` → `InventoryItems`, `inventory.mood` → `INVENTORY_MOOD`, client getter `inventory_items`.
+- Generate from a single non-public schema with `schemas: [inventory]` to get plain names (`Items`) for it.
+- `mappings` take `schema.table` keys. Plain keys only apply to the first schema. If two tables would still get the same name, supadart stops and lists them.
+- `enums` keys without a schema refer to the first schema: `mood: [...]` or `inventory.status: [...]`.
+
+The generated client getters select the schema for you, and every class has a `schema_name`:
+
+```dart
+// SELECT * FROM inventory.items
+final items = await supabase.inventory_items
+    .select()
+    .withConverter(InventoryItems.converter);
+
+// Equivalent, without the extension
+await supabase
+    .schema(InventoryItems.schema_name)
+    .from(InventoryItems.table_name)
+    .select();
 ```
 
 # Working with JSONB Custom Types

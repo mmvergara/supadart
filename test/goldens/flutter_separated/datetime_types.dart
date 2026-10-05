@@ -34,6 +34,7 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
     this.colIntervalArray,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'datetime_types';
   static String get c_id => 'id';
   static String get c_colDate => 'col_date';

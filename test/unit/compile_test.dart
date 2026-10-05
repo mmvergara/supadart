@@ -51,6 +51,9 @@ final _variants = <String, Map<String, String> Function()>{
       },
   'postgis': () =>
       generateWith(swaggerJson: swaggerWithPostGIS(), isPostGIS: true),
+  'multi_schema_separated': () => generateWith(
+      schemas: ['public', 'inventory'], isDart: false, isSeparated: true),
+  'inventory_primary': () => generateWith(schemas: ['inventory', 'public']),
 };
 
 void main() {

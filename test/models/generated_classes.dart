@@ -53,6 +53,9 @@ extension SupadartClient on SupabaseClient {
   SupabaseQueryBuilder get binary_xml_types => from('binary_xml_types');
   SupabaseQueryBuilder get numeric_types => from('numeric_types');
   SupabaseQueryBuilder get datetime_types => from('datetime_types');
+  SupabaseQueryBuilder get inventory_profiles =>
+      schema('inventory').from('profiles');
+  SupabaseQueryBuilder get inventory_items => schema('inventory').from('items');
 }
 
 // Supabase Storage Client Extension
@@ -62,6 +65,33 @@ extension SupadartStorageClient on SupabaseStorageClient {
 }
 
 // Enums
+enum INVENTORY_ITEM_STATUS {
+  in_stock('in_stock'),
+  backordered('backordered'),
+  discontinued('discontinued');
+
+  const INVENTORY_ITEM_STATUS(this.value);
+
+  /// The label as stored in the database.
+  final String value;
+
+  static INVENTORY_ITEM_STATUS fromValue(String value) =>
+      values.firstWhere((e) => e.value == value);
+}
+
+enum INVENTORY_MOOD {
+  calm('calm'),
+  busy('busy');
+
+  const INVENTORY_MOOD(this.value);
+
+  /// The label as stored in the database.
+  final String value;
+
+  static INVENTORY_MOOD fromValue(String value) =>
+      values.firstWhere((e) => e.value == value);
+}
+
 enum MOOD {
   happy('happy'),
   sad('sad'),
@@ -164,6 +194,7 @@ class CombinedTypesView implements SupadartClass<CombinedTypesView> {
     this.colUuid,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'combined_types_view';
   static String get c_numericId => 'numeric_id';
   static String get c_colInteger => 'col_integer';
@@ -307,6 +338,7 @@ class Embeddings implements SupadartClass<Embeddings> {
     this.embedding,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'embeddings';
   static String get c_embedding => 'embedding';
 
@@ -384,6 +416,7 @@ class EnumTypes implements SupadartClass<EnumTypes> {
     required this.colMoodArray,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'enum_types';
   static String get c_id => 'id';
   static String get c_colMood => 'col_mood';
@@ -497,6 +530,7 @@ class EnumLabelTypes implements SupadartClass<EnumLabelTypes> {
     this.colStatusArray,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'enum_label_types';
   static String get c_id => 'id';
   static String get c_colStatus => 'col_status';
@@ -647,6 +681,7 @@ class MiscTypes implements SupadartClass<MiscTypes> {
     this.colTxidSnapshotArray,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'misc_types';
   static String get c_id => 'id';
   static String get c_colMoney => 'col_money';
@@ -954,6 +989,7 @@ class StringTypes implements SupadartClass<StringTypes> {
     this.colTextArray,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'string_types';
   static String get c_id => 'id';
   static String get c_colUuid => 'col_uuid';
@@ -1185,6 +1221,7 @@ class NetworkTypes implements SupadartClass<NetworkTypes> {
     this.colMacaddr8Array,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'network_types';
   static String get c_id => 'id';
   static String get c_colCidr => 'col_cidr';
@@ -1423,6 +1460,7 @@ class GeometricTypes implements SupadartClass<GeometricTypes> {
     this.colCircleArray,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'geometric_types';
   static String get c_id => 'id';
   static String get c_colPoint => 'col_point';
@@ -1736,6 +1774,7 @@ class Profiles implements SupadartClass<Profiles> {
     required this.userGroups,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'profiles';
   static String get c_id => 'id';
   static String get c_firstName => 'first_name';
@@ -1868,6 +1907,7 @@ class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
     this.colBitvaryingArray,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'boolean_bit_types';
   static String get c_id => 'id';
   static String get c_colBoolean => 'col_boolean';
@@ -2054,6 +2094,7 @@ class JsonTypes implements SupadartClass<JsonTypes> {
     this.colJsonbArray,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'json_types';
   static String get c_id => 'id';
   static String get c_colJson => 'col_json';
@@ -2207,6 +2248,7 @@ class BinaryXmlTypes implements SupadartClass<BinaryXmlTypes> {
     this.colXmlArray,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'binary_xml_types';
   static String get c_id => 'id';
   static String get c_colBytea => 'col_bytea';
@@ -2370,6 +2412,7 @@ class NumericTypes implements SupadartClass<NumericTypes> {
     this.colNumericArray,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'numeric_types';
   static String get c_id => 'id';
   static String get c_colBigint => 'col_bigint';
@@ -2674,6 +2717,7 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
     this.colIntervalArray,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'datetime_types';
   static String get c_id => 'id';
   static String get c_colDate => 'col_date';
@@ -2962,6 +3006,280 @@ class DatetimeTypes implements SupadartClass<DatetimeTypes> {
       colIntervalArray: colIntervalArray == _unset
           ? this.colIntervalArray
           : colIntervalArray as List<Duration>?,
+    );
+  }
+}
+
+class InventoryProfiles implements SupadartClass<InventoryProfiles> {
+  final String id;
+  final String displayName;
+
+  const InventoryProfiles({
+    required this.id,
+    required this.displayName,
+  });
+
+  static String get schema_name => 'inventory';
+  static String get table_name => 'profiles';
+  static String get c_id => 'id';
+  static String get c_displayName => 'display_name';
+
+  static List<InventoryProfiles> converter(List<Map<String, dynamic>> data) {
+    return data.map(InventoryProfiles.fromJson).toList();
+  }
+
+  static InventoryProfiles converterSingle(Map<String, dynamic> data) {
+    return InventoryProfiles.fromJson(data);
+  }
+
+  static Map<String, dynamic> _generateMap({
+    String? id,
+    String? displayName,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (displayName != null) 'display_name': displayName,
+    };
+  }
+
+  static Map<String, dynamic> insert({
+    String? id,
+    required String displayName,
+  }) {
+    return _generateMap(
+      id: id,
+      displayName: displayName,
+    );
+  }
+
+  static Map<String, dynamic> update({
+    String? id,
+    String? displayName,
+  }) {
+    return _generateMap(
+      id: id,
+      displayName: displayName,
+    );
+  }
+
+  factory InventoryProfiles.fromJson(Map<String, dynamic> jsonn) {
+    return InventoryProfiles(
+      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
+      displayName:
+          jsonn['display_name'] != null ? jsonn['display_name'].toString() : '',
+    );
+  }
+
+  static Object New({
+    String? id,
+    String? displayName,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (displayName != null) 'display_name': displayName,
+    };
+  }
+
+  Map<String, dynamic> toJson() {
+    return _generateMap(
+      id: id,
+      displayName: displayName,
+    );
+  }
+
+  static const _unset = Object();
+  InventoryProfiles copyWith({
+    Object? id = _unset,
+    Object? displayName = _unset,
+  }) {
+    return InventoryProfiles(
+      id: id == _unset ? this.id : id as String,
+      displayName:
+          displayName == _unset ? this.displayName : displayName as String,
+    );
+  }
+}
+
+class InventoryItems implements SupadartClass<InventoryItems> {
+  final BigInt id;
+  final String name;
+  final INVENTORY_ITEM_STATUS status;
+  final List<INVENTORY_ITEM_STATUS>? statusHistory;
+  final MOOD? ownerMood;
+  final INVENTORY_MOOD? warehouseMood;
+  final Map<String, dynamic>? attributes;
+
+  const InventoryItems({
+    required this.id,
+    required this.name,
+    required this.status,
+    this.statusHistory,
+    this.ownerMood,
+    this.warehouseMood,
+    this.attributes,
+  });
+
+  static String get schema_name => 'inventory';
+  static String get table_name => 'items';
+  static String get c_id => 'id';
+  static String get c_name => 'name';
+  static String get c_status => 'status';
+  static String get c_statusHistory => 'status_history';
+  static String get c_ownerMood => 'owner_mood';
+  static String get c_warehouseMood => 'warehouse_mood';
+  static String get c_attributes => 'attributes';
+
+  static List<InventoryItems> converter(List<Map<String, dynamic>> data) {
+    return data.map(InventoryItems.fromJson).toList();
+  }
+
+  static InventoryItems converterSingle(Map<String, dynamic> data) {
+    return InventoryItems.fromJson(data);
+  }
+
+  static Map<String, dynamic> _generateMap({
+    BigInt? id,
+    String? name,
+    INVENTORY_ITEM_STATUS? status,
+    List<INVENTORY_ITEM_STATUS>? statusHistory,
+    MOOD? ownerMood,
+    INVENTORY_MOOD? warehouseMood,
+    Map<String, dynamic>? attributes,
+  }) {
+    return {
+      if (id != null) 'id': id.toString(),
+      if (name != null) 'name': name,
+      if (status != null) 'status': status.value,
+      if (statusHistory != null)
+        'status_history': statusHistory.map((e) => e.value).toList(),
+      if (ownerMood != null) 'owner_mood': ownerMood.value,
+      if (warehouseMood != null) 'warehouse_mood': warehouseMood.value,
+      if (attributes != null) 'attributes': attributes,
+    };
+  }
+
+  static Map<String, dynamic> insert({
+    BigInt? id,
+    required String name,
+    INVENTORY_ITEM_STATUS? status,
+    List<INVENTORY_ITEM_STATUS>? statusHistory,
+    MOOD? ownerMood,
+    INVENTORY_MOOD? warehouseMood,
+    Map<String, dynamic>? attributes,
+  }) {
+    return _generateMap(
+      id: id,
+      name: name,
+      status: status,
+      statusHistory: statusHistory,
+      ownerMood: ownerMood,
+      warehouseMood: warehouseMood,
+      attributes: attributes,
+    );
+  }
+
+  static Map<String, dynamic> update({
+    BigInt? id,
+    String? name,
+    INVENTORY_ITEM_STATUS? status,
+    List<INVENTORY_ITEM_STATUS>? statusHistory,
+    MOOD? ownerMood,
+    INVENTORY_MOOD? warehouseMood,
+    Map<String, dynamic>? attributes,
+  }) {
+    return _generateMap(
+      id: id,
+      name: name,
+      status: status,
+      statusHistory: statusHistory,
+      ownerMood: ownerMood,
+      warehouseMood: warehouseMood,
+      attributes: attributes,
+    );
+  }
+
+  factory InventoryItems.fromJson(Map<String, dynamic> jsonn) {
+    return InventoryItems(
+      id: jsonn['id'] != null
+          ? BigInt.parse(jsonn['id'].toString())
+          : BigInt.from(0),
+      name: jsonn['name'] != null ? jsonn['name'].toString() : '',
+      status: jsonn['status'] != null
+          ? INVENTORY_ITEM_STATUS.fromValue(jsonn['status'].toString())
+          : INVENTORY_ITEM_STATUS.values.first,
+      statusHistory: jsonn['status_history'] != null
+          ? (jsonn['status_history'] as List<dynamic>)
+              .map((e) => INVENTORY_ITEM_STATUS.fromValue(e.toString()))
+              .toList()
+          : null,
+      ownerMood: jsonn['owner_mood'] != null
+          ? MOOD.fromValue(jsonn['owner_mood'].toString())
+          : null,
+      warehouseMood: jsonn['warehouse_mood'] != null
+          ? INVENTORY_MOOD.fromValue(jsonn['warehouse_mood'].toString())
+          : null,
+      attributes: jsonn['attributes'] != null
+          ? jsonn['attributes'] as Map<String, dynamic>
+          : null,
+    );
+  }
+
+  static Object New({
+    BigInt? id,
+    String? name,
+    INVENTORY_ITEM_STATUS? status,
+    List<INVENTORY_ITEM_STATUS>? statusHistory,
+    MOOD? ownerMood,
+    INVENTORY_MOOD? warehouseMood,
+    Map<String, dynamic>? attributes,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (status != null) 'status': status,
+      if (statusHistory != null) 'status_history': statusHistory,
+      if (ownerMood != null) 'owner_mood': ownerMood,
+      if (warehouseMood != null) 'warehouse_mood': warehouseMood,
+      if (attributes != null) 'attributes': attributes,
+    };
+  }
+
+  Map<String, dynamic> toJson() {
+    return _generateMap(
+      id: id,
+      name: name,
+      status: status,
+      statusHistory: statusHistory,
+      ownerMood: ownerMood,
+      warehouseMood: warehouseMood,
+      attributes: attributes,
+    );
+  }
+
+  static const _unset = Object();
+  InventoryItems copyWith({
+    Object? id = _unset,
+    Object? name = _unset,
+    Object? status = _unset,
+    Object? statusHistory = _unset,
+    Object? ownerMood = _unset,
+    Object? warehouseMood = _unset,
+    Object? attributes = _unset,
+  }) {
+    return InventoryItems(
+      id: id == _unset ? this.id : id as BigInt,
+      name: name == _unset ? this.name : name as String,
+      status: status == _unset ? this.status : status as INVENTORY_ITEM_STATUS,
+      statusHistory: statusHistory == _unset
+          ? this.statusHistory
+          : statusHistory as List<INVENTORY_ITEM_STATUS>?,
+      ownerMood: ownerMood == _unset ? this.ownerMood : ownerMood as MOOD?,
+      warehouseMood: warehouseMood == _unset
+          ? this.warehouseMood
+          : warehouseMood as INVENTORY_MOOD?,
+      attributes: attributes == _unset
+          ? this.attributes
+          : attributes as Map<String, dynamic>?,
     );
   }
 }

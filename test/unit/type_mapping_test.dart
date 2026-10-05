@@ -1,4 +1,5 @@
 import 'package:supadart/generators/swagger/column.dart';
+import 'package:supadart/generators/swagger/schemas.dart';
 import 'package:supadart/generators/swagger/utils.dart';
 import 'package:test/test.dart';
 
@@ -62,16 +63,41 @@ void main() {
 
     test('maps user-defined enums to the uppercased type name', () {
       final enums = {
-        'mood': ['happy']
+        'public.mood': ['happy']
       };
       expect(column('public.mood', enums: enums).dartType, 'MOOD');
       expect(column('public.mood', enums: enums).isEnum, isTrue);
       expect(column('public.mood[]', enums: enums).dartType, 'List<MOOD>');
       expect(
           column('public."Order-Status"', enums: {
-            'Order-Status': ['a']
+            'public.Order-Status': ['a']
           }).dartType,
           'ORDER_STATUS');
+    });
+
+    test('prefixes types outside the primary schema with their schema', () {
+      Column inSchemas(String format, List<String> schemas) => Column.fromJson(
+          'c',
+          {'format': format},
+          [],
+          {
+            'public.mood': ['happy'],
+            'inventory.mood': ['calm'],
+          },
+          schemas: Schemas(schemas));
+
+      expect(inSchemas('inventory.mood', ['public', 'inventory']).dartType,
+          'INVENTORY_MOOD');
+      expect(inSchemas('inventory.mood[]', ['public', 'inventory']).dartType,
+          'List<INVENTORY_MOOD>');
+      expect(
+          inSchemas('public.mood', ['public', 'inventory']).dartType, 'MOOD');
+      expect(inSchemas('inventory.mood', ['inventory']).dartType, 'MOOD');
+      expect(inSchemas('public.mood', ['inventory']).dartType, 'PUBLIC_MOOD');
+      // Types in schemas that are not generated stay unresolved.
+      expect(inSchemas('inventory.mood', ['public']).dartType, 'String');
+      expect(inSchemas('inventory.mood', ['public']).isUnresolvedUserType,
+          isFalse);
     });
 
     test('maps user-defined types without enum values to String', () {

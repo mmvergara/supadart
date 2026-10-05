@@ -22,6 +22,7 @@ class BooleanBitTypes implements SupadartClass<BooleanBitTypes> {
     this.colBitvaryingArray,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'boolean_bit_types';
   static String get c_id => 'id';
   static String get c_colBoolean => 'col_boolean';

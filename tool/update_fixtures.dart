@@ -19,8 +19,12 @@ Future<void> main() async {
     exit(1);
   }
 
-  final swagger = await _getJson('${env.url}/rest/v1/', env.apiKey);
-  File(swaggerFixturePath).writeAsStringSync('${_encoder.convert(swagger)}\n');
+  for (final MapEntry(key: schema, value: path)
+      in swaggerFixturePaths.entries) {
+    final swagger =
+        await _getJson('${env.url}/rest/v1/', env.apiKey, schema: schema);
+    File(path).writeAsStringSync('${_encoder.convert(swagger)}\n');
+  }
 
   // Timestamps change on every reset; pin them so the fixture stays stable.
   final buckets = (await _getJson('${env.url}/storage/v1/bucket/', env.apiKey)
@@ -34,7 +38,8 @@ Future<void> main() async {
       .toList()
     ..sort((a, b) => (a['name'] as String).compareTo(b['name'] as String));
   File(storageFixturePath).writeAsStringSync('${_encoder.convert(buckets)}\n');
-  print('Updated $swaggerFixturePath and $storageFixturePath');
+  print('Updated ${swaggerFixturePaths.values.join(', ')} and '
+      '$storageFixturePath');
 
   for (final config in goldenConfigs) {
     final dir = Directory(config.goldenDir);
@@ -49,9 +54,12 @@ Future<void> main() async {
   }
 }
 
-Future<Object?> _getJson(String url, String apiKey) async {
-  final response = await http.get(Uri.parse(url),
-      headers: {'apikey': apiKey, 'Authorization': 'Bearer $apiKey'});
+Future<Object?> _getJson(String url, String apiKey, {String? schema}) async {
+  final response = await http.get(Uri.parse(url), headers: {
+    'apikey': apiKey,
+    'Authorization': 'Bearer $apiKey',
+    if (schema != null) 'Accept-Profile': schema,
+  });
   if (response.statusCode != 200) {
     stderr.writeln('GET $url failed: ${response.statusCode} ${response.body}');
     exit(1);

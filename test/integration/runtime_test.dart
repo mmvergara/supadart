@@ -8,6 +8,7 @@ import '../boolean_bit_types.dart';
 import '../datatypes/enums.dart';
 import '../datetime_types.dart';
 import '../default_values.dart';
+import '../inventory_tables.dart';
 import '../json_types.dart';
 import '../numeric_types.dart';
 import '../other_tables.dart';
@@ -37,4 +38,5 @@ void main() async {
   await performTextTypesTest(supabase);
   await performOtherTablesTest(supabase);
   await performDefaultValuesTest(supabase);
+  await performInventoryTablesTest(supabase);
 }

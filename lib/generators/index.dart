@@ -22,6 +22,8 @@ List<GeneratedFile> supadartRun(
     bool isPostGIS,
     bool jsonbToDynamic,
     {Map<String, JsonbModelConfig>? jsonbModels}) {
+  _checkNameClashes(swagger, mappings);
+
   // Collect unique JSONB model imports
   Set<String> jsonbImports = {};
   if (jsonbModels != null) {
@@ -36,7 +38,10 @@ List<GeneratedFile> supadartRun(
   final clientExtension = generateClientExtension(swagger);
   final storageClientExtension = generateStorageClientExtension(storageList);
   final modelExports = generateExports(swagger, mappings);
-  final enums = generateEnums(swagger.enums);
+  final enums = generateEnums({
+    for (final e in swagger.enums.entries)
+      swagger.schemas.localNameOf(e.key): e.value
+  });
 
   bool needsIntl = false;
   bool needsDartConvert = false;
@@ -86,6 +91,52 @@ List<GeneratedFile> supadartRun(
   return isSeparated
       ? supadartGenerator.generateDartModelFilesSeparated()
       : supadartGenerator.generateClassesSingleFile();
+}
+
+/// Thrown when two tables or enums would get the same Dart name.
+class NameClashException implements Exception {
+  final String message;
+
+  NameClashException(this.message);
+
+  @override
+  String toString() => message;
+}
+
+void _checkNameClashes(DatabaseSwagger swagger, YamlMap? mappings) {
+  final schemas = swagger.schemas;
+  final clashes = <String>[];
+  // Groups each source (`schema.name`) by the Dart name it would get.
+  void check(String kind, Map<String, String> dartNames) {
+    final sources = <String, List<String>>{};
+    dartNames.forEach((source, name) {
+      sources.putIfAbsent(name, () => []).add(source);
+    });
+    sources.forEach((name, from) {
+      if (from.length > 1) clashes.add('$kind $name: ${from.join(', ')}');
+    });
+  }
+
+  check('class', {
+    for (final t in swagger.tables)
+      t.qualifiedName: tableNameToClassName(t.schema, t.name, mappings, schemas)
+  });
+  check('client getter', {
+    for (final t in swagger.tables)
+      t.qualifiedName: schemas.localName(t.schema, t.name).toLowerCase()
+  });
+  check('enum', {
+    for (final name in swagger.enums.keys)
+      name: enumDartName(schemas.localNameOf(name))
+  });
+
+  if (clashes.isNotEmpty) {
+    throw NameClashException(
+        'These would get the same Dart name:\n  ${clashes.join('\n  ')}\n'
+        'Rename a table with mappings in supadart.yaml '
+        '(e.g. inventory.items: inventory_item), or change the order of '
+        'schemas: only the first keeps unprefixed names.');
+  }
 }
 
 class GeneratedFile {

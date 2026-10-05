@@ -20,6 +20,7 @@ class CombinedTypesView implements SupadartClass<CombinedTypesView> {
     this.colUuid,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'combined_types_view';
   static String get c_numericId => 'numeric_id';
   static String get c_colInteger => 'col_integer';

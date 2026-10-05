@@ -16,20 +16,24 @@ void main() {
   final env = TestEnv.load();
 
   group('live schema', () {
-    test('matches the swagger fixture', () async {
-      final response = await http.get(Uri.parse('${env!.url}/rest/v1/'),
-          headers: {
-            'apikey': env.apiKey,
-            'Authorization': 'Bearer ${env.apiKey}'
-          });
-      expect(response.statusCode, 200, reason: response.body);
+    for (final MapEntry(key: schema, value: path)
+        in swaggerFixturePaths.entries) {
+      test('matches the $schema swagger fixture', () async {
+        final response =
+            await http.get(Uri.parse('${env!.url}/rest/v1/'), headers: {
+          'apikey': env.apiKey,
+          'Authorization': 'Bearer ${env.apiKey}',
+          'Accept-Profile': schema,
+        });
+        expect(response.statusCode, 200, reason: response.body);
 
-      final live = jsonDecode(response.body) as Map<String, dynamic>;
-      final fixture = readJsonFixture(swaggerFixturePath);
-      expect(live['definitions'], equals(fixture['definitions']),
-          reason: 'schema drifted from $swaggerFixturePath; '
-              'run tool/test_integration.sh --update and review the diff');
-    });
+        final live = jsonDecode(response.body) as Map<String, dynamic>;
+        final fixture = readJsonFixture(path);
+        expect(live['definitions'], equals(fixture['definitions']),
+            reason: 'schema drifted from $path; '
+                'run tool/test_integration.sh --update and review the diff');
+      });
+    }
 
     test('matches the storage fixture', () async {
       final live = await fetchStorageList(env!.url, env.apiKey);

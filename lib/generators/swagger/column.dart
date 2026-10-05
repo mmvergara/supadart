@@ -1,17 +1,8 @@
 // Class to represent a database column
 import '../standalone/enums.dart';
 import '../utils/string_formatters.dart';
+import 'schemas.dart';
 import 'utils.dart';
-
-/// The type name of a user-defined type in the public schema
-/// (`public.mood[]` → `mood`), or null for any other format.
-String? publicTypeName(String? format) {
-  if (format == null || !format.startsWith('public.')) return null;
-  return format
-      .substring('public.'.length)
-      .replaceAll('[]', '')
-      .replaceAll('"', '');
-}
 
 /// Configuration for mapping a JSONB column to a custom Dart model
 class JsonbModelConfig {
@@ -40,6 +31,12 @@ class Column {
   final String dbColName;
   final String camelColName;
   final List<String> enumValues;
+
+  /// `schema.type` when the column holds a user-defined type, else null.
+  final String? userType;
+
+  /// The Dart name of [userType], e.g. `MOOD` or `INVENTORY_MOOD`.
+  final String? userTypeDartName;
   final dynamic hasDefaultValue;
   final String? description;
   final int? maxLength;
@@ -55,6 +52,8 @@ class Column {
     required this.camelColName,
     required this.enumValues,
     required this.jsonbToDynamic,
+    this.userType,
+    this.userTypeDartName,
     this.hasDefaultValue,
     this.description,
     this.maxLength,
@@ -72,7 +71,7 @@ class Column {
   bool get isArray => postgresFormat.endsWith('[]');
 
   /// The Dart enum this column holds, or its element type for an array.
-  String get enumDartType => enumDartName(publicTypeName(postgresFormat)!);
+  String get enumDartType => userTypeDartName!;
 
   bool get _isVector =>
       postgresFormat.contains("vector") || postgresFormat.contains("VECTOR");
@@ -81,14 +80,11 @@ class Column {
       postgresFormat.contains("geometry") ||
       postgresFormat.contains("geography");
 
-  /// True for a user-defined type in the public schema with no known enum
+  /// True for a user-defined type in a generated schema with no known enum
   /// values (an enum used only in array columns, a domain, a composite type,
   /// or an extension type such as citext). These are mapped to String.
   bool get isUnresolvedUserType =>
-      publicTypeName(postgresFormat) != null &&
-      !isEnum &&
-      !_isVector &&
-      !_isPostGIS;
+      userType != null && !isEnum && !_isVector && !_isPostGIS;
 
   String get dartType {
     // Check for typed JSONB model first
@@ -133,12 +129,13 @@ class Column {
   factory Column.fromJson(String colName, Map<String, dynamic> json,
       List<String> parentTableRequiredFields, Map<String, List<String>> enums,
       {bool jsonbToDynamic = false,
+      Schemas schemas = Schemas.defaults,
       String? schema,
       String? tableName,
       Map<String, JsonbModelConfig>? jsonbModels}) {
     // PostgREST lists enum values on single-value columns only; array
-    // columns rely on [enums], keyed by type name.
-    final typeName = publicTypeName(json['format']);
+    // columns rely on [enums], keyed by `schema.type`.
+    final typeName = schemas.userTypeName(json['format']);
     final enumValues = typeName == null
         ? <String>[]
         : json['enum'] != null
@@ -157,6 +154,9 @@ class Column {
       dbColName: colName,
       camelColName: snakeCasingToCamelCasing(colName),
       enumValues: enumValues,
+      userType: typeName,
+      userTypeDartName:
+          typeName == null ? null : enumDartName(schemas.localNameOf(typeName)),
       hasDefaultValue: json['description']?.contains('[supadart:serial]') ??
           json['default'] != null,
       description: json['description'],

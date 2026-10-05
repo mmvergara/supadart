@@ -16,6 +16,7 @@ class EnumLabelTypes implements SupadartClass<EnumLabelTypes> {
     this.colStatusArray,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'enum_label_types';
   static String get c_id => 'id';
   static String get c_colStatus => 'col_status';

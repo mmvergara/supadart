@@ -26,6 +26,7 @@ class StringTypes implements SupadartClass<StringTypes> {
     this.colTextArray,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'string_types';
   static String get c_id => 'id';
   static String get c_colUuid => 'col_uuid';

@@ -10,6 +10,7 @@ class Embeddings implements SupadartClass<Embeddings> {
     this.embedding,
   });
 
+  static String get schema_name => 'public';
   static String get table_name => 'embeddings';
   static String get c_embedding => 'embedding';
 
