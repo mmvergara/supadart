@@ -14,10 +14,10 @@ String generateClientExtension(DatabaseSwagger swagger) {
 String generateStorageClientExtension(Storage storageList) {
   final code = StringBuffer(
       'extension SupadartStorageClient on SupabaseStorageClient {\n');
-  storageList.buckets.forEach((bucket) {
+  for (final bucket in storageList.buckets) {
     code.write(
         "StorageFileApi get ${bucket.name} => from('${bucket.name}');\n");
-  });
+  }
   code.write('}\n');
   return code.toString();
 }

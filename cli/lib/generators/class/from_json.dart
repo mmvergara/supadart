@@ -29,8 +29,9 @@ String decodeFromJson(Column columnDetails, bool jsonbToDynamic) {
   // Handle typed JSONB models first
   if (columnDetails.isTypedJsonb) {
     final config = columnDetails.jsonbModelConfig!;
-    final isArrayType =
-        config.isArray || postgresFormat == 'jsonb[]' || postgresFormat == 'json[]';
+    final isArrayType = config.isArray ||
+        postgresFormat == 'jsonb[]' ||
+        postgresFormat == 'json[]';
     if (isArrayType) {
       // Array of typed models
       jsonDecode =

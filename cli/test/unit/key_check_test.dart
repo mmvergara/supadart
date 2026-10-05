@@ -40,6 +40,25 @@ void main() {
     });
   });
 
+  group('maskApiKey', () {
+    test('keeps the sb_ prefix and last 4 characters', () {
+      expect(maskApiKey('sb_secret_abcdefghijklWXYZ'), 'sb_secret_…WXYZ');
+      expect(maskApiKey('sb_publishable_abcdefghijklWXYZ'),
+          'sb_publishable_…WXYZ');
+    });
+
+    test('shows only the last 4 characters of legacy JWTs', () {
+      final jwt = _jwt({'role': 'service_role'});
+      expect(maskApiKey(jwt), '…${jwt.substring(jwt.length - 4)}');
+    });
+
+    test('hides short keys entirely instead of throwing', () {
+      expect(maskApiKey('short'), '…');
+      expect(maskApiKey('sb_secret_abc'), 'sb_secret_…');
+      expect(maskApiKey(''), '…');
+    });
+  });
+
   test('messages link to the Supabase changelog', () {
     expect(publicKeyWarning(), contains(openApiChangelogUrl));
     expect(schemaForbiddenMessage(), contains(openApiChangelogUrl));

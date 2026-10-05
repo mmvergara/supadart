@@ -6,10 +6,8 @@ class DatabaseSwagger {
 
   DatabaseSwagger(this.definitions);
 
-  factory DatabaseSwagger.fromJson(
-      Map<String, dynamic> json,
-      Map<String, List<String>> mapOfEnums,
-      bool jsonbToDynamic,
+  factory DatabaseSwagger.fromJson(Map<String, dynamic> json,
+      Map<String, List<String>> mapOfEnums, bool jsonbToDynamic,
       {Map<String, JsonbModelConfig>? jsonbModels}) {
     final definitions = json['definitions'] as Map<String, dynamic>;
     return DatabaseSwagger(

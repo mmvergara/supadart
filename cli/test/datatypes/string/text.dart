@@ -31,7 +31,6 @@ Future<void> performTextTest(SupabaseClient supabase) async {
     expect(readResult[0].colText, updatedText);
   });
 
-
   test("Testing Text serialization roundtrip maintains data integrity",
       () async {
     var readResult = await readText(supabase);

@@ -17,9 +17,19 @@ const String blue = '\x1B[34m';
 const String yellow = '\x1B[33m';
 const String reset = '\x1B[0m';
 
+/// Exit code for bad usage or configuration (sysexits.h `EX_USAGE`).
+const int exitUsage = 64;
+
 void main(List<String> arguments) async {
   final parser = setupArgParser();
-  final results = parser.parse(arguments);
+  final ArgResults results;
+  try {
+    results = parser.parse(arguments);
+  } on FormatException catch (e) {
+    stderr.writeln('$red${e.message}$reset');
+    stderr.writeln('use -h or --help for help');
+    exit(exitUsage);
+  }
 
   if (results['help'] || results['version']) {
     handleHelpAndVersion(parser, results);
@@ -34,20 +44,20 @@ void main(List<String> arguments) async {
   print("🚀 Supadart $version");
   final yamlConfig = await loadYamlConfig(results);
   if (yamlConfig == null) {
-    print('Failed to load yaml config');
-    exit(1);
+    stderr.writeln('Failed to load yaml config');
+    exit(exitUsage);
   }
   final options = extractOptions(results, yamlConfig);
 
   if (!validateOptions(options)) {
-    print('use -h or --help for help');
-    exit(1);
+    stderr.writeln('use -h or --help for help');
+    exit(exitUsage);
   }
 
   printConfiguration(options);
 
   if (isPublicApiKey(options['apiKey'])) {
-    print('$yellow${publicKeyWarning()}$reset');
+    stderr.writeln('$yellow${publicKeyWarning()}$reset');
   }
 
   await generateModels(options);
@@ -88,7 +98,7 @@ ArgParser setupArgParser() {
 
 void handleHelpAndVersion(ArgParser parser, ArgResults results) {
   if (results['help']) {
-    print('Usage: dart script.dart [options]');
+    print('Usage: supadart [options]');
     print(parser.usage);
   } else if (results['version']) {
     print(version);
@@ -104,7 +114,7 @@ Future<YamlMap?> loadYamlConfig(ArgResults results) async {
     print("Config file found");
     return loadYaml(configContent);
   } catch (e) {
-    print(
+    stderr.writeln(
       "${red}You need to create a config file use --init command to generate one$reset",
     );
     return null;
@@ -139,12 +149,12 @@ Map<String, dynamic> extractOptions(ArgResults results, YamlMap config,
       (config['jsonb'] as Map).forEach((key, value) {
         final parts = key.toString().split('.');
         if (parts.length != 3) {
-          print(
+          stderr.writeln(
               '${red}Warning: Invalid jsonb key format "$key". Expected format: schema.table.column$reset');
           return;
         }
         if (value['type'] == null || value['import'] == null) {
-          print(
+          stderr.writeln(
               '${red}Warning: jsonb config for "$key" missing type or import$reset');
           return;
         }
@@ -166,8 +176,7 @@ Map<String, dynamic> extractOptions(ArgResults results, YamlMap config,
   return {
     'url':
         results['url'] ?? env['SUPABASE_URL'] ?? config['SUPABASE_URL'] ?? '',
-    'apiKey':
-        results['key'] ??
+    'apiKey': results['key'] ??
         env['SUPABASE_API_KEY'] ??
         config['SUPABASE_API_KEY'] ??
         // Fallback to old key names for backward compatibility
@@ -188,14 +197,15 @@ Map<String, dynamic> extractOptions(ArgResults results, YamlMap config,
 
 bool validateOptions(Map<String, dynamic> options) {
   if (options['url'].isEmpty || options['apiKey'].isEmpty) {
-    print(
+    stderr.writeln(
       "${red}Please Provide the url and key for your supabase instance... You can",
     );
-    print(
+    stderr.writeln(
         "1. Use a gitignored .env file to specify SUPABASE_URL and SUPABASE_API_KEY (secret key)");
-    print("2. Set SUPABASE_URL and SUPABASE_API_KEY in .yaml config file");
-    print(
-      "3. Specificy --url and --key in the cli (ex. supadart -u <url> -k <key>) $reset",
+    stderr.writeln(
+        "2. Set SUPABASE_URL and SUPABASE_API_KEY in .yaml config file");
+    stderr.writeln(
+      "3. Specify --url and --key in the cli (ex. supadart -u <url> -k <key>) $reset",
     );
     return false;
   }
@@ -205,7 +215,7 @@ bool validateOptions(Map<String, dynamic> options) {
 void printConfiguration(Map<String, dynamic> options) {
   print('==============================');
   print('URL:            ${options['url']}');
-  print('API KEY:        ${options['apiKey'].substring(0, 25)}...');
+  print('API KEY:        ${maskApiKey(options['apiKey'])}');
   print('Output:         ${options['output']}');
   print('Separated:      ${options['isSeparated']}');
   print('Dart:           ${options['isDart']}');
@@ -229,13 +239,13 @@ Future<void> generateModels(Map<String, dynamic> options) async {
   );
 
   if (databaseSwagger == null) {
-    print('Failed to fetch database');
+    stderr.writeln('${red}Failed to fetch database$reset');
     exit(1);
   }
 
   final storageList = await fetchStorageList(options['url'], options['apiKey']);
   if (storageList == null) {
-    print('Failed to fetch storage');
+    stderr.writeln('${red}Failed to fetch storage$reset');
     exit(1);
   }
 
@@ -292,8 +302,7 @@ class Config {
     }
 
     String url = cliArgs['url'] ?? yamlConfig['supabase_url'] ?? '';
-    String apiKey =
-        cliArgs['key'] ??
+    String apiKey = cliArgs['key'] ??
         yamlConfig['supabase_api_key'] ??
         yamlConfig['supabase_anon_key'] ??
         '';
@@ -341,6 +350,6 @@ Future<void> formatCode(String filePath) async {
   try {
     await Process.run('dart', ['format', filePath]);
   } catch (e) {
-    print('Failed to format code: $e');
+    stderr.writeln('Failed to format code: $e');
   }
 }

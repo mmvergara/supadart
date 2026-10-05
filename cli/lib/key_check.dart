@@ -33,3 +33,13 @@ publishable keys on hosted projects (since April 8, 2026).
 Use a secret key (sb_secret_...) or the legacy service_role key, and keep it
 out of your app and out of git, e.g. in a gitignored .env.
 See: $openApiChangelogUrl''';
+
+/// Masks [apiKey] for display, keeping only a known `sb_*_` prefix and the
+/// last 4 characters, e.g. `sb_secret_…AbCd`.
+String maskApiKey(String apiKey) {
+  final prefix =
+      RegExp(r'^sb_(secret|publishable)_').firstMatch(apiKey)?.group(0) ?? '';
+  final rest = apiKey.substring(prefix.length);
+  if (rest.length <= 8) return '$prefix…';
+  return '$prefix…${rest.substring(rest.length - 4)}';
+}

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-configFileInit(String path) async {
+Future<void> configFileInit(String path) async {
   // Create a new file
   File file = File(path);
 

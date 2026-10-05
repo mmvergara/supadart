@@ -5,7 +5,7 @@ String generateCopyWithMethod(String className, Table table) {
   final StringBuffer code = StringBuffer();
   //  static const _unset = Object();
   code.writeln('static const _unset = Object();');
-  code.writeln('${className} copyWith({');
+  code.writeln('$className copyWith({');
 
   columns.forEach((columnName, columnDetails) {
     code.writeln('Object? $columnName = _unset,');

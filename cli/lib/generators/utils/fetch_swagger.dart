@@ -1,22 +1,19 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 import '../swagger/column.dart';
 import '../swagger/swagger.dart';
 import '../../key_check.dart';
+import 'supabase_request.dart';
 
 Future<DatabaseSwagger?> fetchDatabaseSwagger(String url, String apiKey,
     Map<String, List<String>> mapOfEnums, bool jsonbToDynamic,
     {Map<String, JsonbModelConfig>? jsonbModels, http.Client? client}) async {
-  if (!url.startsWith("http://") && !url.startsWith("https://")) {
-    url = "https://$url"; // Default to HTTPS if no scheme is provided
-  }
+  url = withScheme(url);
 
   try {
     // First attempt with API key
-    // Use both query param (for compatibility) and headers (new standard)
     final response =
-        await _secureRequest('$url/rest/v1/', apiKey, client: client);
+        await supabaseGet('$url/rest/v1/', apiKey: apiKey, client: client);
     if (response.statusCode == 200) {
       return DatabaseSwagger.fromJson(
           jsonDecode(response.body), mapOfEnums, jsonbToDynamic,
@@ -25,8 +22,7 @@ Future<DatabaseSwagger?> fetchDatabaseSwagger(String url, String apiKey,
 
     // Second attempt without API key (for open/public APIs)
     print("Trying without the API key...");
-    final response2 =
-        await _secureRequestNoAuth('$url/rest/v1/', client: client);
+    final response2 = await supabaseGet('$url/rest/v1/', client: client);
     if (response2.statusCode == 200) {
       return DatabaseSwagger.fromJson(
           jsonDecode(response2.body), mapOfEnums, jsonbToDynamic,
@@ -45,81 +41,4 @@ Future<DatabaseSwagger?> fetchDatabaseSwagger(String url, String apiKey,
   }
 
   return null;
-}
-
-Future<http.Response> _secureRequest(String url, String apiKey,
-    {bool allowHttpFallback = true, http.Client? client}) async {
-  // New publishable/secret keys use 'apikey' header
-  // Old JWT-based anon/service_role keys use 'Authorization: Bearer' header
-  // For compatibility, send both
-  var headers = {
-    'apikey': apiKey,
-    'Authorization': 'Bearer $apiKey',
-  };
-
-  try {
-    return await (client?.get ?? http.get)(Uri.parse(url), headers: headers);
-  } on HandshakeException catch (e) {
-    print("HandshakeException occurred: $e");
-    print("Attempting with a custom HTTP client...");
-
-    final httpClient = HttpClient()
-      ..badCertificateCallback =
-          ((X509Certificate cert, String host, int port) => true);
-
-    final uri = Uri.parse(url);
-    final request = await httpClient.getUrl(uri);
-
-    // Add headers to the request
-    headers.forEach((key, value) {
-      request.headers.add(key, value);
-    });
-
-    final response = await request.close();
-
-    return http.Response(
-      await response.transform(utf8.decoder).join(),
-      response.statusCode,
-    );
-  } on SocketException catch (e) {
-    print("SocketException occurred: $e");
-    if (url.startsWith("https://") && allowHttpFallback) {
-      print("Attempting to fallback to HTTP...");
-      return await _secureRequest(
-          url.replaceFirst("https://", "http://"), apiKey,
-          allowHttpFallback: false, client: client);
-    }
-    rethrow;
-  }
-}
-
-Future<http.Response> _secureRequestNoAuth(String url,
-    {bool allowHttpFallback = true, http.Client? client}) async {
-  try {
-    return await (client?.get ?? http.get)(Uri.parse(url));
-  } on HandshakeException catch (e) {
-    print("HandshakeException occurred: $e");
-    print("Attempting with a custom HTTP client...");
-
-    final httpClient = HttpClient()
-      ..badCertificateCallback =
-          ((X509Certificate cert, String host, int port) => true);
-
-    final uri = Uri.parse(url);
-    final request = await httpClient.getUrl(uri);
-    final response = await request.close();
-
-    return http.Response(
-      await response.transform(utf8.decoder).join(),
-      response.statusCode,
-    );
-  } on SocketException catch (e) {
-    print("SocketException occurred: $e");
-    if (url.startsWith("https://") && allowHttpFallback) {
-      print("Attempting to fallback to HTTP...");
-      return await _secureRequestNoAuth(url.replaceFirst("https://", "http://"),
-          allowHttpFallback: false, client: client);
-    }
-    rethrow;
-  }
 }

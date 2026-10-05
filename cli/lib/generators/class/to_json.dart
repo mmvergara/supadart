@@ -1,6 +1,7 @@
 import '../swagger/table.dart';
 
-String generateToJsonMethod(String className, Table table, bool jsonbToDynamic) {
+String generateToJsonMethod(
+    String className, Table table, bool jsonbToDynamic) {
   final columns = table.columns;
   final code = StringBuffer();
 
