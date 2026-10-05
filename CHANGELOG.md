@@ -1,9 +1,12 @@
 ## 2.0.0
 
+> **Getting a 401 or 403 when fetching the schema? Use a secret key.**
+> Since April 8, 2026, hosted Supabase projects no longer serve the schema (`/rest/v1/`) to anon or publishable keys ([Supabase changelog](https://supabase.com/changelog/42949-breaking-change-removing-access-to-openapi-spec-via-the-anon-key)). This is a Supabase change and affects every supadart version, 1.x included. Pass a secret key (`sb_secret_...`) or the legacy `service_role` key as `SUPABASE_API_KEY`, ideally from a gitignored `.env`, and never ship it in your app. Local Supabase stacks still accept the anon/publishable key. See [#185](https://github.com/mmvergara/supadart/issues/185).
+
 - Enums are now read from the database schema; `enums:` in `supadart.yaml` is only needed for enums used solely in array columns. Schema values take precedence over the config, with a warning when they differ.
 - **Breaking:** generated enums are now enhanced enums that keep each database label in `.value` (with `fromValue` to parse one). Labels that are not valid Dart identifiers (`in-progress`, `2fa`, `default`) now generate compiling code. Use `.value` instead of `toString().split('.').last` in filters.
 - User-defined types without known values (enum arrays missing from the config, domains, composite or extension types in `public`) are now generated as `String` with a warning, instead of code that does not compile.
-- Nullable enum columns now read a missing value as `null` instead of the first enum value (#164).
+- Nullable enum columns now read a missing value as `null` instead of the first enum value ([#164](https://github.com/mmvergara/supadart/issues/164)).
 - **Breaking (library API):** `supadartRun` no longer takes the enum map; it uses `DatabaseSwagger.enums`.
 - **Breaking:** errors and warnings are now written to stderr, and usage/config errors exit with code 64 (was 1).
 - **Breaking:** removed the automatic fallback that retried failed TLS handshakes with certificate checks disabled, and the fallback from HTTPS to HTTP. Connections must now succeed over the URL you give.
