@@ -1,0 +1,29 @@
+# When this file exists, pub ignores .gitignore, so secrets and build
+# output must be listed here too.
+
+# Tooling / build output
+.dart_tool/
+build/
+coverage/
+.idea/
+.vscode/
+.DS_Store
+*.exe
+*.log
+*.swp
+
+# Secrets and local config
+.env
+.env.*
+supadart.yaml
+config.yaml
+lib/models/
+
+# Repo-only: CI, tests, the local Supabase test project, dev docs
+.github/
+test/
+tool/
+supabase/
+dart_test.yaml
+DEV_SETUP.MD
+TESTING.md

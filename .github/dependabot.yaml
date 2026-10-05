@@ -5,10 +5,6 @@ updates:
     schedule:
       interval: weekly
   - package-ecosystem: pub
-    directory: "/cli"
-    schedule:
-      interval: weekly
-  - package-ecosystem: pub
-    directory: "/web"
+    directory: "/"
     schedule:
       interval: weekly

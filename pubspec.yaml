@@ -1,0 +1,37 @@
+name: supadart
+description: >-
+  CLI that generates typesafe Dart and Flutter classes from your Supabase
+  database schema, with converters, insert/update helpers, enums and storage buckets.
+version: 2.0.0
+
+repository: https://github.com/mmvergara/supadart
+homepage: https://github.com/mmvergara/supadart
+issue_tracker: https://github.com/mmvergara/supadart/issues
+documentation: https://github.com/mmvergara/supadart
+topics: [cli, generator, supabase, schema, class]
+
+environment:
+  sdk: ^3.3.0
+
+# Add regular dependencies here.
+dependencies:
+  args: ^2.5.0
+  http: ^1.2.1
+  yaml: ^3.1.2
+  dotenv: ^4.2.0
+  # path: ^1.8.0
+
+dev_dependencies:
+  intl: ">=0.19.0 <0.21.0"
+  lints: ">=3.0.0 <7.0.0"
+  supabase: ^2.16.2
+  test: ^1.31.2
+  geobase: ^1.5.0
+
+executables:
+  supadart:
+
+analyzer:
+  language:
+    strict-casts: true
+    strict-raw-types: true

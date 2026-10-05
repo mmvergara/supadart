@@ -1,0 +1,361 @@
+import 'dart:io';
+
+import 'package:args/args.dart';
+import 'package:dotenv/dotenv.dart';
+import 'package:supadart/config_init.dart';
+import 'package:supadart/generators/index.dart';
+import 'package:supadart/generators/storage/fetch_storage.dart';
+import 'package:supadart/generators/swagger/column.dart';
+import 'package:supadart/generators/utils/fetch_swagger.dart';
+import 'package:supadart/key_check.dart';
+import 'package:yaml/yaml.dart';
+
+const String version = 'v2.0.0';
+const String red = '\x1B[31m';
+const String green = '\x1B[32m';
+const String blue = '\x1B[34m';
+const String yellow = '\x1B[33m';
+const String reset = '\x1B[0m';
+
+/// Exit code for bad usage or configuration (sysexits.h `EX_USAGE`).
+const int exitUsage = 64;
+
+void main(List<String> arguments) async {
+  final parser = setupArgParser();
+  final ArgResults results;
+  try {
+    results = parser.parse(arguments);
+  } on FormatException catch (e) {
+    stderr.writeln('$red${e.message}$reset');
+    stderr.writeln('use -h or --help for help');
+    exit(exitUsage);
+  }
+
+  if (results['help'] || results['version']) {
+    handleHelpAndVersion(parser, results);
+    return;
+  }
+
+  if (results['init']) {
+    await configFileInit('supadart.yaml');
+    return;
+  }
+
+  print("🚀 Supadart $version");
+  final yamlConfig = await loadYamlConfig(results);
+  if (yamlConfig == null) {
+    stderr.writeln('Failed to load yaml config');
+    exit(exitUsage);
+  }
+  final options = extractOptions(results, yamlConfig);
+
+  if (!validateOptions(options)) {
+    stderr.writeln('use -h or --help for help');
+    exit(exitUsage);
+  }
+
+  printConfiguration(options);
+
+  if (isPublicApiKey(options['apiKey'])) {
+    stderr.writeln('$yellow${publicKeyWarning()}$reset');
+  }
+
+  await generateModels(options);
+}
+
+ArgParser setupArgParser() {
+  return ArgParser()
+    ..addFlag(
+      'help',
+      abbr: 'h',
+      negatable: false,
+      help: 'Show usage information',
+    )
+    ..addFlag(
+      'init',
+      abbr: 'i',
+      negatable: false,
+      help: 'Initialize config file supadart.yaml',
+    )
+    ..addOption(
+      'config',
+      abbr: 'c',
+      help:
+          'Specify a path to config file of yaml   (default: ./supadart.yaml)',
+    )
+    ..addOption(
+      'url',
+      abbr: "u",
+      help: 'Supabase URL                            (if not set in yaml)',
+    )
+    ..addOption(
+      'key',
+      abbr: "k",
+      help: 'Supabase secret key (sb_secret_...)     (if not set in yaml)',
+    )
+    ..addFlag('version', abbr: 'v', negatable: false, help: version);
+}
+
+void handleHelpAndVersion(ArgParser parser, ArgResults results) {
+  if (results['help']) {
+    print('Usage: supadart [options]');
+    print(parser.usage);
+  } else if (results['version']) {
+    print(version);
+  }
+  exit(0);
+}
+
+Future<YamlMap?> loadYamlConfig(ArgResults results) async {
+  final configPath = results['config'] ?? 'supadart.yaml';
+  final configFile = File(configPath);
+  try {
+    final configContent = await configFile.readAsString();
+    print("Config file found");
+    return loadYaml(configContent);
+  } catch (e) {
+    stderr.writeln(
+      "${red}You need to create a config file use --init command to generate one$reset",
+    );
+    return null;
+  }
+}
+
+Map<String, dynamic> extractOptions(ArgResults results, YamlMap config,
+    {DotEnv? env}) {
+  // check if env values are set for SUPABASE_URL and SUPABASE_API_KEY
+  env ??= DotEnv(includePlatformEnvironment: true)..load();
+  if (env['SUPABASE_URL'] != null && env['SUPABASE_API_KEY'] != null) {
+    print("Using .env file for SUPABASE_URL and SUPABASE_API_KEY");
+  }
+
+  // Extract enums as a Map<String, List<String>> from config['enums']
+  Map<String, List<String>> enums = {};
+  if (config.containsKey('enums')) {
+    if (config['enums'] != null) {
+      (config['enums'] as Map).forEach((enumName, value) {
+        if (value is List) {
+          enums["public.$enumName"] = List<String>.from(value);
+        }
+      });
+    }
+  }
+
+  // Extract JSONB model configs from config['jsonb']
+  // Format: schema.table.column: { type: DartType, import: 'path' }
+  Map<String, JsonbModelConfig> jsonbModels = {};
+  if (config.containsKey('jsonb')) {
+    if (config['jsonb'] != null) {
+      (config['jsonb'] as Map).forEach((key, value) {
+        final parts = key.toString().split('.');
+        if (parts.length != 3) {
+          stderr.writeln(
+              '${red}Warning: Invalid jsonb key format "$key". Expected format: schema.table.column$reset');
+          return;
+        }
+        if (value['type'] == null || value['import'] == null) {
+          stderr.writeln(
+              '${red}Warning: jsonb config for "$key" missing type or import$reset');
+          return;
+        }
+        final schema = parts[0];
+        final tableName = parts[1];
+        final columnName = parts[2];
+        jsonbModels[key] = JsonbModelConfig(
+          schema: schema,
+          tableName: tableName,
+          columnName: columnName,
+          dartType: value['type'],
+          importPath: value['import'],
+          isArray: value['isArray'] ?? false,
+        );
+      });
+    }
+  }
+
+  return {
+    'url':
+        results['url'] ?? env['SUPABASE_URL'] ?? config['SUPABASE_URL'] ?? '',
+    'apiKey': results['key'] ??
+        env['SUPABASE_API_KEY'] ??
+        config['SUPABASE_API_KEY'] ??
+        // Fallback to old key names for backward compatibility
+        env['SUPABASE_ANON_KEY'] ??
+        config['SUPABASE_ANON_KEY'] ??
+        '',
+    'isSeparated': config['separated'] ?? false,
+    'isDart': config['dart'] ?? false,
+    'output': config['output'] ?? './lib/models/',
+    'mappings': config['mappings'],
+    'exclude': List<String>.from(config['exclude'] ?? []),
+    'mapOfEnums': enums,
+    'isPostGIS': config['postGIS'] ?? false,
+    'jsonbToDynamic': config['jsonbToDynamic'] ?? false,
+    'jsonbModels': jsonbModels,
+  };
+}
+
+bool validateOptions(Map<String, dynamic> options) {
+  if (options['url'].isEmpty || options['apiKey'].isEmpty) {
+    stderr.writeln(
+      "${red}Please Provide the url and key for your supabase instance... You can",
+    );
+    stderr.writeln(
+        "1. Use a gitignored .env file to specify SUPABASE_URL and SUPABASE_API_KEY (secret key)");
+    stderr.writeln(
+        "2. Set SUPABASE_URL and SUPABASE_API_KEY in .yaml config file");
+    stderr.writeln(
+      "3. Specify --url and --key in the cli (ex. supadart -u <url> -k <key>) $reset",
+    );
+    return false;
+  }
+  return true;
+}
+
+void printConfiguration(Map<String, dynamic> options) {
+  print('==============================');
+  print('URL:            ${options['url']}');
+  print('API KEY:        ${maskApiKey(options['apiKey'])}');
+  print('Output:         ${options['output']}');
+  print('Separated:      ${options['isSeparated']}');
+  print('Dart:           ${options['isDart']}');
+  print('Mappings:       ${options['mappings']}');
+  print('Excluded:       ${options['exclude']}');
+  print('Config enums:   ${options['mapOfEnums']}');
+  print('PostGIS:        ${options['isPostGIS']}');
+  print('JsonbToDynamic: ${options['jsonbToDynamic']}');
+  print('JsonbModels:    ${(options['jsonbModels'] as Map).keys.toList()}');
+  print('==============================');
+}
+
+Future<void> generateModels(Map<String, dynamic> options) async {
+  print("Fetching database schema...");
+  final databaseSwagger = await fetchDatabaseSwagger(
+    options['url'],
+    options['apiKey'],
+    options['mapOfEnums'],
+    options['jsonbToDynamic'],
+    jsonbModels: options['jsonbModels'],
+  );
+
+  if (databaseSwagger == null) {
+    stderr.writeln('${red}Failed to fetch database$reset');
+    exit(1);
+  }
+
+  if (databaseSwagger.enums.isNotEmpty) {
+    print('Enums found:    ${databaseSwagger.enums.keys.join(', ')}');
+  }
+  for (final warning in databaseSwagger.warnings) {
+    stderr.writeln('${yellow}Warning: $warning$reset');
+  }
+
+  final storageList = await fetchStorageList(options['url'], options['apiKey']);
+  if (storageList == null) {
+    stderr.writeln('${red}Failed to fetch storage$reset');
+    exit(1);
+  }
+
+  print('Generating models...');
+  final stopwatch = Stopwatch()..start();
+  final files = supadartRun(
+    databaseSwagger,
+    storageList,
+    options['isDart'],
+    options['isSeparated'],
+    options['mappings'],
+    options['exclude'],
+    options['isPostGIS'],
+    options['jsonbToDynamic'],
+    jsonbModels: options['jsonbModels'],
+  );
+
+  await generateAndFormatFiles(files, options['output']);
+
+  stopwatch.stop();
+  final elapsed = stopwatch.elapsedMilliseconds;
+  print('$green🎉 Done! ${elapsed}ms $reset');
+}
+
+class Config {
+  final String url;
+  final String apiKey;
+  final bool isSeparated;
+  final bool isDart;
+  final String output;
+
+  Config({
+    required this.url,
+    required this.apiKey,
+    required this.isSeparated,
+    required this.isDart,
+    required this.output,
+  });
+
+  static Future<Config> load(Map<String, dynamic> cliArgs) async {
+    final configPath = cliArgs['config'] ?? 'config.yaml';
+    final configFile = File(configPath);
+
+    Map<String, dynamic> yamlConfig = {};
+    try {
+      final configContent = await configFile.readAsString();
+      yamlConfig = loadYaml(configContent) as Map<String, dynamic>;
+      print("Config file found and loaded");
+    } catch (e) {
+      print(
+        "Config file not found or couldn't be read. Using CLI arguments only.",
+      );
+    }
+
+    String url = cliArgs['url'] ?? yamlConfig['supabase_url'] ?? '';
+    String apiKey = cliArgs['key'] ??
+        yamlConfig['supabase_api_key'] ??
+        yamlConfig['supabase_anon_key'] ??
+        '';
+
+    if (url.isEmpty || apiKey.isEmpty) {
+      print(
+        "Please provide --url and --key or set supabase_url and supabase_api_key in the YAML file",
+      );
+      print('Use -h or --help for help');
+      exit(1);
+    }
+
+    return Config(
+      url: url,
+      apiKey: apiKey,
+      isSeparated: cliArgs['separated'] ?? yamlConfig['separated'] ?? false,
+      isDart: cliArgs['dart'] ?? yamlConfig['dart'] ?? false,
+      output: cliArgs['output'] ?? yamlConfig['output'] ?? './lib/models/',
+    );
+  }
+}
+
+Future<void> generateAndFormatFiles(
+  List<GeneratedFile> files,
+  String folderPath,
+) async {
+  await Future.wait(
+    files.map((file) async {
+      // file.fileName includes .dart extension
+      final filePath = folderPath + file.fileName;
+      final fileToGenerate = File(filePath);
+
+      // Create file if it doesn't exist else overwrite it
+      await fileToGenerate.create(recursive: true);
+      await fileToGenerate.writeAsString(file.fileContent);
+
+      // Format the file
+      await formatCode(filePath);
+      print('$green🎯 Generated: $filePath $reset');
+    }),
+  );
+}
+
+Future<void> formatCode(String filePath) async {
+  try {
+    await Process.run('dart', ['format', filePath]);
+  } catch (e) {
+    stderr.writeln('Failed to format code: $e');
+  }
+}
