@@ -1,3 +1,7 @@
+## 2.0.1
+
+- Fixed PostGIS `geometry` columns failing to decode. PostgREST returns `geometry` as a GeoJSON object (PostGIS casts it to json) and `geography` as a hex EWKB string; generated `fromJson` now handles both through a `GeometryFromJson.fromJson` helper. Geometry arrays now decode each element instead of the whole list.
+
 ## 2.0.0
 
 > **Getting a 401 or 403 when fetching the schema? Use a secret key.**

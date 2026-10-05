@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dotenv/dotenv.dart';
 import 'package:supadart/generators/standalone/enums.dart';
 import 'package:supadart/generators/swagger/column.dart';
@@ -258,10 +260,44 @@ void main() {
       expect(code, contains('final Geometry location;'));
       expect(code, contains('final Geometry? area;'));
       expect(code, contains('final List<Geometry>? route;'));
-      expect(code, contains('GeometryBuilder.decodeHex('));
+      expect(code, contains('GeometryFromJson.fromJson('));
+      expect(code, contains('extension GeometryFromJson on Geometry'));
+      expect(code, contains("import 'dart:convert';"));
       expect(
           code, contains('location.toBytesHex(format: WKB.geometryExtended)'));
     });
+
+    // PostGIS casts geometry to json as GeoJSON, geography arrives as hex
+    // EWKB. Captured from PostgREST against PostGIS 3.3.
+    test('fromJson decodes GeoJSON geometry and hex geography', () async {
+      const dir = '.dart_tool/supadart_postgis_runtime';
+      final files =
+          generateWith(swaggerJson: swaggerWithPostGIS(), isPostGIS: true)
+            ..['main.dart'] = r'''
+import 'dart:convert';
+import 'package:geobase/geobase.dart';
+import 'generated_classes.dart';
+
+void main() {
+  final row = jsonDecode('{"id":"a","location":{"type":"Point","crs":{"type":"name","properties":{"name":"EPSG:4326"}},"coordinates":[-85.9,32.85]},"area":"0101000020E61000009A999999997955C0CDCCCCCCCC6C4040","route":[{"type":"LineString","coordinates":[[0,0],[1,2]]}]}') as Map<String, dynamic>;
+  final p = Places.fromJson(row);
+  final location = p.location as Point;
+  final area = p.area as Point;
+  print([location.position.x, location.position.y, area.position.x,
+      area.position.y, p.route!.single.runtimeType].join(' '));
+}
+''';
+      for (final MapEntry(key: name, value: code) in files.entries) {
+        File('$dir/$name')
+          ..createSync(recursive: true)
+          ..writeAsStringSync(code);
+      }
+      final result = await Process.run(
+          Platform.resolvedExecutable, ['run', '$dir/main.dart']);
+      Directory(dir).deleteSync(recursive: true);
+      expect(result.exitCode, 0, reason: '${result.stdout}${result.stderr}');
+      expect('${result.stdout}'.trim(), '-85.9 32.85 -85.9 32.85 LineString');
+    }, timeout: const Timeout(Duration(minutes: 1)));
 
     test('does not import geobase when off', () {
       expect(generateWith()['generated_classes.dart'],

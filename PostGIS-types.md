@@ -1,5 +1,5 @@
 # PostGIS Type Support
-[PostGIS](https://postgis.net/) `geometry` and `geography` types are currently supported via the [geobase](https://geospatial.navibyte.dev/v1/geobase/) package. Both types are stored in hex-encoded [Well Known Binary](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Well-known_binary) (WKB) format in Postgres. The WKB is read as a raw string from the db without using any of the PostGIS functions to decode it. The geobase package decodes the WKB to a Dart object to interface with the data. It encodes the data back to WKB when writing to the db.
+[PostGIS](https://postgis.net/) `geometry` and `geography` types are currently supported via the [geobase](https://geospatial.navibyte.dev/v1/geobase/) package. PostgREST returns `geometry` columns as GeoJSON objects (PostGIS casts `geometry` to json) and `geography` columns as hex-encoded [Well Known Binary](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Well-known_binary) (EWKB) strings. The generated `fromJson` decodes either form to a geobase `Geometry` object, and writes are sent back as hex EWKB, which Postgres accepts for both types.
 
 ## Getting Started
 Add the `geobase` package to your app's `pubspec.yaml`:
