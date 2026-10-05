@@ -41,8 +41,7 @@ class Profiles implements SupadartClass<Profiles> {
       if (firstName != null) 'first_name': firstName,
       if (lastName != null) 'last_name': lastName,
       if (userGroups != null)
-        'user_groups':
-            userGroups.map((e) => e.toString().split('.').last).toList(),
+        'user_groups': userGroups.map((e) => e.value).toList(),
     };
   }
 
@@ -82,10 +81,10 @@ class Profiles implements SupadartClass<Profiles> {
       lastName:
           jsonn['last_name'] != null ? jsonn['last_name'].toString() : null,
       userGroups: jsonn['user_groups'] != null
-          ? List<USERGROUP>.from(jsonn['user_groups']
-              .map((e) => USERGROUP.values.byName(e.toString()))
-              .toList())
-          : [],
+          ? (jsonn['user_groups'] as List<dynamic>)
+              .map((e) => USERGROUP.fromValue(e.toString()))
+              .toList()
+          : <USERGROUP>[],
     );
   }
 

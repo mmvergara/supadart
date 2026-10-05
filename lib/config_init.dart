@@ -31,8 +31,9 @@ SUPABASE_URL:
 SUPABASE_API_KEY:
 
 
-# Enums in your database? map them here (Case Sensitive)
-# Please take a look at the documentation to see how to work with enums
+# Optional, enums are read from your database automatically.
+# Only enums used solely in array columns (e.g. mood[]) need listing here;
+# supadart warns about any it cannot find. Values are case sensitive.
 enums:
   # mood: [happy, sad, neutral, excited, angry]
 

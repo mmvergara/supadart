@@ -30,6 +30,8 @@ final _variants = <String, Map<String, String> Function()>{
       isSeparated: true,
       mappings: 'profiles: user_profile\nnumeric_types: numbers',
       exclude: ['New', 'toJson', 'copyWith']),
+  // Enum arrays without config fall back to List<String>.
+  'no_config_enums': () => generateWith(enums: {}),
   'jsonb_to_dynamic': () => generateWith(jsonbToDynamic: true),
   'jsonb_models': () => {
         'meta.dart': _meta,

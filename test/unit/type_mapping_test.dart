@@ -62,11 +62,23 @@ void main() {
 
     test('maps user-defined enums to the uppercased type name', () {
       final enums = {
-        'public.mood': ['happy']
+        'mood': ['happy']
       };
       expect(column('public.mood', enums: enums).dartType, 'MOOD');
       expect(column('public.mood', enums: enums).isEnum, isTrue);
       expect(column('public.mood[]', enums: enums).dartType, 'List<MOOD>');
+      expect(
+          column('public."Order-Status"', enums: {
+            'Order-Status': ['a']
+          }).dartType,
+          'ORDER_STATUS');
+    });
+
+    test('maps user-defined types without enum values to String', () {
+      expect(column('public.citext').dartType, 'String');
+      expect(column('public.mood[]').dartType, 'List<String>');
+      expect(column('public.mood[]').isUnresolvedUserType, isTrue);
+      expect(column('public.vector(3)').isUnresolvedUserType, isFalse);
     });
 
     test('maps pgvector to String', () {
@@ -329,6 +341,19 @@ void main() {
       expect(row.colMoodArray, [MOOD.happy, MOOD.angry]);
     });
 
+    test('enum labels that are not Dart identifiers', () {
+      final row = EnumLabelTypes.fromJson({
+        'id': _uuid,
+        'col_status': 'in-progress',
+        'col_status_array': [r"it's $1", '2fa', 'default'],
+      });
+      expect(row.colStatus, TASK_STATUS.inProgress);
+      expect(row.colStatusNullable, isNull);
+      expect(row.colStatusArray,
+          [TASK_STATUS.itS1, TASK_STATUS.v2fa, TASK_STATUS.default_]);
+      expect(() => TASK_STATUS.fromValue('unknown'), throwsStateError);
+    });
+
     test('vector', () {
       final row = Embeddings.fromJson({'embedding': '[0.5,0.25]'});
       expect(row.embedding, '[0.5,0.25]');
@@ -391,6 +416,15 @@ void main() {
           colMoodArray: [MOOD.sad, MOOD.happy]).toJson();
       expect(json['col_mood'], 'excited');
       expect(json['col_mood_array'], ['sad', 'happy']);
+    });
+
+    test('enums are sent by their database label', () {
+      final json = EnumLabelTypes(
+          id: _uuid,
+          colStatus: TASK_STATUS.onHold,
+          colStatusArray: [TASK_STATUS.value_, TASK_STATUS.itS1]).toJson();
+      expect(json['col_status'], 'on hold');
+      expect(json['col_status_array'], ['value', r"it's $1"]);
     });
 
     test('json[] elements are sent as JSON values, not strings', () {

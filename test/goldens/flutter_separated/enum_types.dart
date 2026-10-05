@@ -34,10 +34,9 @@ class EnumTypes implements SupadartClass<EnumTypes> {
   }) {
     return {
       if (id != null) 'id': id,
-      if (colMood != null) 'col_mood': colMood.toString().split('.').last,
+      if (colMood != null) 'col_mood': colMood.value,
       if (colMoodArray != null)
-        'col_mood_array':
-            colMoodArray.map((e) => e.toString().split('.').last).toList(),
+        'col_mood_array': colMoodArray.map((e) => e.value).toList(),
     };
   }
 
@@ -69,13 +68,13 @@ class EnumTypes implements SupadartClass<EnumTypes> {
     return EnumTypes(
       id: jsonn['id'] != null ? jsonn['id'].toString() : '',
       colMood: jsonn['col_mood'] != null
-          ? MOOD.values.byName(jsonn['col_mood'].toString())
+          ? MOOD.fromValue(jsonn['col_mood'].toString())
           : MOOD.values.first,
       colMoodArray: jsonn['col_mood_array'] != null
-          ? List<MOOD>.from(jsonn['col_mood_array']
-              .map((e) => MOOD.values.byName(e.toString()))
-              .toList())
-          : [],
+          ? (jsonn['col_mood_array'] as List<dynamic>)
+              .map((e) => MOOD.fromValue(e.toString()))
+              .toList()
+          : <MOOD>[],
     );
   }
 

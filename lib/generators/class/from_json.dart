@@ -48,6 +48,19 @@ String decodeFromJson(Column columnDetails, bool jsonbToDynamic) {
     return '$jsonValue != null ? $jsonDecode : ${_typedJsonbDefaultValue(config, isArrayType)}';
   }
 
+  if (columnDetails.isEnum) {
+    final enumName = columnDetails.enumDartType;
+    final jsonDecode = columnDetails.isArray
+        ? '($jsonValue as List<dynamic>).map((e) => $enumName.fromValue(e.toString())).toList()'
+        : '$enumName.fromValue($jsonValue.toString())';
+    final fallback = columnDetails.isNullable
+        ? 'null'
+        : columnDetails.isArray
+            ? '<$enumName>[]'
+            : '$enumName.values.first';
+    return '$jsonValue != null ? $jsonDecode : $fallback';
+  }
+
   if (jsonbToDynamic &&
       (postgresFormat == 'jsonb' || postgresFormat == 'jsonb[]')) {
     if (postgresFormat == 'jsonb') {
@@ -255,16 +268,6 @@ String decodeFromJson(Column columnDetails, bool jsonbToDynamic) {
             postgresFormat.contains("VECTOR")) {
           jsonDecode = '$jsonValue.toString()';
           break;
-        }
-
-        // check if the type is an enum type
-        if (columnDetails.isEnum) {
-          String enumName = columnDetails.dartType;
-          if (postgresFormat.contains("[]")) {
-            return '$jsonValue != null ? $enumName.from($jsonValue.map((e) => ${enumName.replaceAll("List<", "").replaceFirst(">", "")}.values.byName(e.toString())).toList()) : []';
-          } else {
-            return '$jsonValue != null ? $enumName.values.byName($jsonValue.toString()) : $enumName.values.first';
-          }
         }
 
         // If the type is not supported, we will fallback to string type

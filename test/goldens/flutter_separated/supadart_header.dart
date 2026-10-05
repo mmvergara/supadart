@@ -42,6 +42,7 @@ extension SupadartClient on SupabaseClient {
   SupabaseQueryBuilder get combined_types_view => from('combined_types_view');
   SupabaseQueryBuilder get embeddings => from('embeddings');
   SupabaseQueryBuilder get enum_types => from('enum_types');
+  SupabaseQueryBuilder get enum_label_types => from('enum_label_types');
   SupabaseQueryBuilder get misc_types => from('misc_types');
   SupabaseQueryBuilder get string_types => from('string_types');
   SupabaseQueryBuilder get network_types => from('network_types');
@@ -61,9 +62,53 @@ extension SupadartStorageClient on SupabaseStorageClient {
 }
 
 // Enums
-enum MOOD { happy, sad, neutral, excited, angry }
+enum MOOD {
+  happy('happy'),
+  sad('sad'),
+  neutral('neutral'),
+  excited('excited'),
+  angry('angry');
 
-enum USERGROUP { USERS, ADMIN, MODERATOR }
+  const MOOD(this.value);
+
+  /// The label as stored in the database.
+  final String value;
+
+  static MOOD fromValue(String value) =>
+      values.firstWhere((e) => e.value == value);
+}
+
+enum TASK_STATUS {
+  inProgress('in-progress'),
+  onHold('on hold'),
+  Done('Done'),
+  default_('default'),
+  v2fa('2fa'),
+  value_('value'),
+  itS1('it\'s \$1');
+
+  const TASK_STATUS(this.value);
+
+  /// The label as stored in the database.
+  final String value;
+
+  static TASK_STATUS fromValue(String value) =>
+      values.firstWhere((e) => e.value == value);
+}
+
+enum USERGROUP {
+  USERS('USERS'),
+  ADMIN('ADMIN'),
+  MODERATOR('MODERATOR');
+
+  const USERGROUP(this.value);
+
+  /// The label as stored in the database.
+  final String value;
+
+  static USERGROUP fromValue(String value) =>
+      values.firstWhere((e) => e.value == value);
+}
 
 // Utils
 extension DurationFromString on Duration {

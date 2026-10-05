@@ -61,6 +61,41 @@ Future<void> performEnumTypesTest(SupabaseClient supabase) async {
   });
 }
 
+/// Labels that are not Dart identifiers must round-trip through the database.
+Future<void> performEnumLabelTypesTest(SupabaseClient supabase) async {
+  final row = EnumLabelTypes.insert(
+    colStatus: TASK_STATUS.inProgress,
+    colStatusArray: TASK_STATUS.values,
+  );
+
+  test('Testing Enum labels round-trip', () async {
+    await cleanup(supabase, supabase.enum_label_types);
+    await supabase.enum_label_types.insert(row);
+
+    final read = await supabase.enum_label_types
+        .select()
+        .eq(EnumLabelTypes.c_colStatus, TASK_STATUS.inProgress.value)
+        .withConverter(EnumLabelTypes.converter);
+    expect(read, hasLength(1));
+    expect(read.single.colStatus, TASK_STATUS.inProgress);
+    expect(read.single.colStatusNullable, isNull);
+    expect(read.single.colStatusArray, TASK_STATUS.values);
+  });
+
+  test('Testing Enum labels update', () async {
+    await supabase.enum_label_types
+        .update(EnumLabelTypes.update(
+            colStatus: TASK_STATUS.itS1, colStatusNullable: TASK_STATUS.v2fa))
+        .eq(EnumLabelTypes.c_colStatus, TASK_STATUS.inProgress.value);
+
+    final read = await supabase.enum_label_types
+        .select()
+        .withConverter(EnumLabelTypes.converter);
+    expect(read.single.colStatus, TASK_STATUS.itS1);
+    expect(read.single.colStatusNullable, TASK_STATUS.v2fa);
+  });
+}
+
 Future<Object?> createEnum(
     SupabaseClient supabase, MOOD insertVal, List<MOOD> insertArray) async {
   try {
@@ -77,7 +112,7 @@ Future<Object?> updateEnum(SupabaseClient supabase, MOOD oldValue,
   try {
     await supabase.enum_types
         .update(EnumTypes.update(colMood: newValue, colMoodArray: newArray))
-        .eq(EnumTypes.c_colMood, oldValue.toString().split(".").last);
+        .eq(EnumTypes.c_colMood, oldValue.value);
     return null;
   } catch (error) {
     print("updateEnum error");

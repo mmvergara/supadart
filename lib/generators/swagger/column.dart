@@ -1,6 +1,17 @@
 // Class to represent a database column
+import '../standalone/enums.dart';
 import '../utils/string_formatters.dart';
 import 'utils.dart';
+
+/// The type name of a user-defined type in the public schema
+/// (`public.mood[]` → `mood`), or null for any other format.
+String? publicTypeName(String? format) {
+  if (format == null || !format.startsWith('public.')) return null;
+  return format
+      .substring('public.'.length)
+      .replaceAll('[]', '')
+      .replaceAll('"', '');
+}
 
 /// Configuration for mapping a JSONB column to a custom Dart model
 class JsonbModelConfig {
@@ -29,7 +40,6 @@ class Column {
   final String dbColName;
   final String camelColName;
   final List<String> enumValues;
-  final bool isEnum;
   final dynamic hasDefaultValue;
   final String? description;
   final int? maxLength;
@@ -44,7 +54,6 @@ class Column {
     required this.dbColName,
     required this.camelColName,
     required this.enumValues,
-    required this.isEnum,
     required this.jsonbToDynamic,
     this.hasDefaultValue,
     this.description,
@@ -58,6 +67,29 @@ class Column {
   /// Returns true if this column is a JSONB with a custom typed model
   bool get isTypedJsonb => jsonbModelConfig != null;
 
+  bool get isEnum => enumValues.isNotEmpty;
+
+  bool get isArray => postgresFormat.endsWith('[]');
+
+  /// The Dart enum this column holds, or its element type for an array.
+  String get enumDartType => enumDartName(publicTypeName(postgresFormat)!);
+
+  bool get _isVector =>
+      postgresFormat.contains("vector") || postgresFormat.contains("VECTOR");
+
+  bool get _isPostGIS =>
+      postgresFormat.contains("geometry") ||
+      postgresFormat.contains("geography");
+
+  /// True for a user-defined type in the public schema with no known enum
+  /// values (an enum used only in array columns, a domain, a composite type,
+  /// or an extension type such as citext). These are mapped to String.
+  bool get isUnresolvedUserType =>
+      publicTypeName(postgresFormat) != null &&
+      !isEnum &&
+      !_isVector &&
+      !_isPostGIS;
+
   String get dartType {
     // Check for typed JSONB model first
     if (isTypedJsonb) {
@@ -69,20 +101,11 @@ class Column {
       return jsonbModelConfig!.dartType;
     }
 
-    if (postgresFormat.contains("public.")) {
-      if (postgresFormat.contains("vector") ||
-          postgresFormat.contains("VECTOR")) {
-        return "String";
-      }
-      if (postgresFormat.contains("geometry") ||
-          postgresFormat.contains("geography")) {
-        return postgresFormatToDartType(postgresFormat, jsonbToDynamic);
-      }
-      if (postgresFormat.contains("[]")) {
-        return "List<${postgresFormat.split(".").last.toUpperCase().replaceAll('"', "").replaceAll("[]", "")}>";
-      } else {
-        return postgresFormat.split(".").last.toUpperCase().replaceAll('"', "");
-      }
+    if (isEnum) {
+      return isArray ? 'List<$enumDartType>' : enumDartType;
+    }
+    if (postgresFormat.contains("public.") && _isVector) {
+      return "String";
     }
     return postgresFormatToDartType(postgresFormat, jsonbToDynamic);
   }
@@ -107,25 +130,20 @@ class Column {
     return !isInRequiredColumn;
   }
 
-  factory Column.fromJson(
-      String colName,
-      Map<String, dynamic> json,
-      List<String> parentTableRequiredFields,
-      Map<String, List<String>> mapOfEnums,
+  factory Column.fromJson(String colName, Map<String, dynamic> json,
+      List<String> parentTableRequiredFields, Map<String, List<String>> enums,
       {bool jsonbToDynamic = false,
       String? schema,
       String? tableName,
       Map<String, JsonbModelConfig>? jsonbModels}) {
-    List<String> enumValues =
-        json['enum'] != null ? List<String>.from(json['enum']) : <String>[];
-    if (json['format'].toString().contains("public.")) {
-      for (var enumName in mapOfEnums.keys) {
-        if (json['format'].toString().contains(enumName)) {
-          enumValues = mapOfEnums[enumName]!;
-          // print("enumValues set for ${json['format']} to $enumValues");
-        }
-      }
-    }
+    // PostgREST lists enum values on single-value columns only; array
+    // columns rely on [enums], keyed by type name.
+    final typeName = publicTypeName(json['format']);
+    final enumValues = typeName == null
+        ? <String>[]
+        : json['enum'] != null
+            ? List<String>.from(json['enum'])
+            : enums[typeName] ?? <String>[];
 
     // Look up JSONB model config if available
     JsonbModelConfig? jsonbConfig;
@@ -146,7 +164,6 @@ class Column {
       isPrimaryKey: json['description']?.contains('<pk/>') ?? false,
       isSerialType: json['description']?.contains('[supadart:serial]') ?? false,
       isInRequiredColumn: parentTableRequiredFields.contains(colName),
-      isEnum: json['enum'] != null || enumValues.isNotEmpty,
       jsonbToDynamic: jsonbToDynamic,
       jsonbModelConfig: jsonbConfig,
     );

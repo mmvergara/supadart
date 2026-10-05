@@ -49,6 +49,12 @@ String encodeToJson(
     return columnName;
   }
 
+  if (columnDetails.isEnum) {
+    return isArray
+        ? '$columnName.map((e) => e.value).toList()'
+        : '$columnName.value';
+  }
+
   String jsonEncodableType = '';
   switch (format) {
     case 'smallint':
@@ -244,17 +250,10 @@ String encodeToJson(
         jsonEncodableType = '$columnName.toString()';
         break;
       }
-      // print(columnName);
-      // print(columnDetails.enumValues);
-      if (columnDetails.enumValues.isNotEmpty) {
-        jsonEncodableType = isArray
-            ? "$columnName.map((e) => e.toString().split('.').last).toList()"
-            : "$columnName.toString().split('.').last";
-        break;
-      } else {
-        print(
-            "No enum values found for $columnName, if you have enum values, please add them to the yaml file");
-      }
+      // Unknown types are read as String (see postgresFormatToDartType).
+      jsonEncodableType = isArray
+          ? "$columnName.map((e) => e.toString()).toList()"
+          : columnName;
   }
   return jsonEncodableType;
 }

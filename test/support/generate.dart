@@ -12,8 +12,9 @@ import '../../bin/supadart.dart' show generateAndFormatFiles;
 const swaggerFixturePath = 'test/fixtures/swagger.json';
 const storageFixturePath = 'test/fixtures/storage.json';
 
+/// Enums the schema does not list values for: those used only in arrays.
+/// Every other enum is read from the schema.
 const testEnums = {
-  'mood': ['happy', 'sad', 'neutral', 'excited', 'angry'],
   'usergroup': ['USERS', 'ADMIN', 'MODERATOR'],
 };
 
@@ -72,11 +73,10 @@ Map<String, String> generateWith({
   bool isPostGIS = false,
   bool jsonbToDynamic = false,
   Map<String, JsonbModelConfig>? jsonbModels,
+  Map<String, List<String>> enums = testEnums,
 }) {
   final swagger = DatabaseSwagger.fromJson(
-      swaggerJson ?? readJsonFixture(swaggerFixturePath),
-      testEnums,
-      jsonbToDynamic,
+      swaggerJson ?? readJsonFixture(swaggerFixturePath), enums, jsonbToDynamic,
       jsonbModels: jsonbModels);
   final files = supadartRun(
       swagger,
@@ -85,7 +85,6 @@ Map<String, String> generateWith({
       isSeparated,
       mappings == null ? null : loadYaml(mappings) as YamlMap,
       exclude,
-      testEnums,
       isPostGIS,
       jsonbToDynamic,
       jsonbModels: jsonbModels);
@@ -99,7 +98,7 @@ Future<Map<String, String>> generateFromFixtures(GoldenConfig config) async {
   final swagger = DatabaseSwagger.fromJson(
       readJsonFixture(swaggerFixturePath), testEnums, false);
   final files = supadartRun(swagger, readStorageFixture(), config.isDart,
-      config.isSeparated, null, [], testEnums, false, false);
+      config.isSeparated, null, [], false, false);
 
   final outDir = (Directory('.dart_tool/supadart_golden/')
         ..createSync(recursive: true))

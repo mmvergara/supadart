@@ -221,7 +221,7 @@ void printConfiguration(Map<String, dynamic> options) {
   print('Dart:           ${options['isDart']}');
   print('Mappings:       ${options['mappings']}');
   print('Excluded:       ${options['exclude']}');
-  print('Enums:          ${options['mapOfEnums']}');
+  print('Config enums:   ${options['mapOfEnums']}');
   print('PostGIS:        ${options['isPostGIS']}');
   print('JsonbToDynamic: ${options['jsonbToDynamic']}');
   print('JsonbModels:    ${(options['jsonbModels'] as Map).keys.toList()}');
@@ -243,6 +243,13 @@ Future<void> generateModels(Map<String, dynamic> options) async {
     exit(1);
   }
 
+  if (databaseSwagger.enums.isNotEmpty) {
+    print('Enums found:    ${databaseSwagger.enums.keys.join(', ')}');
+  }
+  for (final warning in databaseSwagger.warnings) {
+    stderr.writeln('${yellow}Warning: $warning$reset');
+  }
+
   final storageList = await fetchStorageList(options['url'], options['apiKey']);
   if (storageList == null) {
     stderr.writeln('${red}Failed to fetch storage$reset');
@@ -258,7 +265,6 @@ Future<void> generateModels(Map<String, dynamic> options) async {
     options['isSeparated'],
     options['mappings'],
     options['exclude'],
-    options['mapOfEnums'],
     options['isPostGIS'],
     options['jsonbToDynamic'],
     jsonbModels: options['jsonbModels'],

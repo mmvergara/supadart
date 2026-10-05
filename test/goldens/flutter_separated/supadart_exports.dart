@@ -3,6 +3,7 @@ library models;
 export 'combined_types_view.dart';
 export 'embeddings.dart';
 export 'enum_types.dart';
+export 'enum_label_types.dart';
 export 'misc_types.dart';
 export 'string_types.dart';
 export 'network_types.dart';

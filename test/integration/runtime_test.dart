@@ -33,6 +33,7 @@ void main() async {
   await performDatetimeTypesTest(supabase);
   await performBooleanBitTypesTest(supabase);
   await performEnumTypesTest(supabase);
+  await performEnumLabelTypesTest(supabase);
   await performTextTypesTest(supabase);
   await performOtherTablesTest(supabase);
   await performDefaultValuesTest(supabase);

@@ -1,5 +1,10 @@
 ## 2.0.0
 
+- Enums are now read from the database schema; `enums:` in `supadart.yaml` is only needed for enums used solely in array columns. Schema values take precedence over the config, with a warning when they differ.
+- **Breaking:** generated enums are now enhanced enums that keep each database label in `.value` (with `fromValue` to parse one). Labels that are not valid Dart identifiers (`in-progress`, `2fa`, `default`) now generate compiling code. Use `.value` instead of `toString().split('.').last` in filters.
+- User-defined types without known values (enum arrays missing from the config, domains, composite or extension types in `public`) are now generated as `String` with a warning, instead of code that does not compile.
+- Nullable enum columns now read a missing value as `null` instead of the first enum value (#164).
+- **Breaking (library API):** `supadartRun` no longer takes the enum map; it uses `DatabaseSwagger.enums`.
 - **Breaking:** errors and warnings are now written to stderr, and usage/config errors exit with code 64 (was 1).
 - **Breaking:** removed the automatic fallback that retried failed TLS handshakes with certificate checks disabled, and the fallback from HTTPS to HTTP. Connections must now succeed over the URL you give.
 - Generated `interval` parsing now handles Postgres' full default format (e.g. `1 year 2 mons -3 days +04:05:06.5`) instead of only `HH:MM:SS`.

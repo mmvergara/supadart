@@ -18,7 +18,6 @@ List<GeneratedFile> supadartRun(
     bool isSeparated,
     YamlMap? mappings,
     List<String> exclude,
-    Map<String, List<String>> mapOfEnums,
     bool isPostGIS,
     bool jsonbToDynamic,
     {Map<String, JsonbModelConfig>? jsonbModels}) {
@@ -36,7 +35,7 @@ List<GeneratedFile> supadartRun(
   final clientExtension = generateClientExtension(swagger);
   final storageClientExtension = generateStorageClientExtension(storageList);
   final modelExports = generateExports(swagger, mappings);
-  final enums = generateEnums(mapOfEnums);
+  final enums = generateEnums(swagger.enums);
 
   bool needsIntl = false;
   bool needsDartConvert = false;

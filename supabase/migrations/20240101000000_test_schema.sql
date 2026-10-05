@@ -15,6 +15,8 @@ DROP TABLE IF EXISTS public.profiles;
 
 DROP TABLE IF EXISTS public.enum_types;
 DROP TYPE IF EXISTS public.mood;
+DROP TABLE IF EXISTS public.enum_label_types;
+DROP TYPE IF EXISTS public.task_status;
 
 CREATE TABLE public.numeric_types (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -180,6 +182,21 @@ CREATE TABLE enum_types (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     col_mood mood NOT NULL,
     col_mood_array mood[] NOT NULL
+);
+
+
+-- Labels that are not valid Dart identifiers, or clash with Dart keywords or
+-- enum members. supadart must still generate a compiling enum that
+-- round-trips each label.
+CREATE TYPE task_status AS ENUM (
+    'in-progress', 'on hold', 'Done', 'default', '2fa', 'value', 'it''s $1'
+);
+
+CREATE TABLE enum_label_types (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    col_status task_status NOT NULL,
+    col_status_nullable task_status NULL,
+    col_status_array task_status[] NULL
 );
 
 

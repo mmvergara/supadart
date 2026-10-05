@@ -42,6 +42,7 @@ extension SupadartClient on SupabaseClient {
   SupabaseQueryBuilder get combined_types_view => from('combined_types_view');
   SupabaseQueryBuilder get embeddings => from('embeddings');
   SupabaseQueryBuilder get enum_types => from('enum_types');
+  SupabaseQueryBuilder get enum_label_types => from('enum_label_types');
   SupabaseQueryBuilder get misc_types => from('misc_types');
   SupabaseQueryBuilder get string_types => from('string_types');
   SupabaseQueryBuilder get network_types => from('network_types');
@@ -61,9 +62,53 @@ extension SupadartStorageClient on SupabaseStorageClient {
 }
 
 // Enums
-enum MOOD { happy, sad, neutral, excited, angry }
+enum MOOD {
+  happy('happy'),
+  sad('sad'),
+  neutral('neutral'),
+  excited('excited'),
+  angry('angry');
 
-enum USERGROUP { USERS, ADMIN, MODERATOR }
+  const MOOD(this.value);
+
+  /// The label as stored in the database.
+  final String value;
+
+  static MOOD fromValue(String value) =>
+      values.firstWhere((e) => e.value == value);
+}
+
+enum TASK_STATUS {
+  inProgress('in-progress'),
+  onHold('on hold'),
+  Done('Done'),
+  default_('default'),
+  v2fa('2fa'),
+  value_('value'),
+  itS1('it\'s \$1');
+
+  const TASK_STATUS(this.value);
+
+  /// The label as stored in the database.
+  final String value;
+
+  static TASK_STATUS fromValue(String value) =>
+      values.firstWhere((e) => e.value == value);
+}
+
+enum USERGROUP {
+  USERS('USERS'),
+  ADMIN('ADMIN'),
+  MODERATOR('MODERATOR');
+
+  const USERGROUP(this.value);
+
+  /// The label as stored in the database.
+  final String value;
+
+  static USERGROUP fromValue(String value) =>
+      values.firstWhere((e) => e.value == value);
+}
 
 // Utils
 extension DurationFromString on Duration {
@@ -359,10 +404,9 @@ class EnumTypes implements SupadartClass<EnumTypes> {
   }) {
     return {
       if (id != null) 'id': id,
-      if (colMood != null) 'col_mood': colMood.toString().split('.').last,
+      if (colMood != null) 'col_mood': colMood.value,
       if (colMoodArray != null)
-        'col_mood_array':
-            colMoodArray.map((e) => e.toString().split('.').last).toList(),
+        'col_mood_array': colMoodArray.map((e) => e.value).toList(),
     };
   }
 
@@ -394,13 +438,13 @@ class EnumTypes implements SupadartClass<EnumTypes> {
     return EnumTypes(
       id: jsonn['id'] != null ? jsonn['id'].toString() : '',
       colMood: jsonn['col_mood'] != null
-          ? MOOD.values.byName(jsonn['col_mood'].toString())
+          ? MOOD.fromValue(jsonn['col_mood'].toString())
           : MOOD.values.first,
       colMoodArray: jsonn['col_mood_array'] != null
-          ? List<MOOD>.from(jsonn['col_mood_array']
-              .map((e) => MOOD.values.byName(e.toString()))
-              .toList())
-          : [],
+          ? (jsonn['col_mood_array'] as List<dynamic>)
+              .map((e) => MOOD.fromValue(e.toString()))
+              .toList()
+          : <MOOD>[],
     );
   }
 
@@ -436,6 +480,138 @@ class EnumTypes implements SupadartClass<EnumTypes> {
       colMoodArray: colMoodArray == _unset
           ? this.colMoodArray
           : colMoodArray as List<MOOD>,
+    );
+  }
+}
+
+class EnumLabelTypes implements SupadartClass<EnumLabelTypes> {
+  final String id;
+  final TASK_STATUS colStatus;
+  final TASK_STATUS? colStatusNullable;
+  final List<TASK_STATUS>? colStatusArray;
+
+  const EnumLabelTypes({
+    required this.id,
+    required this.colStatus,
+    this.colStatusNullable,
+    this.colStatusArray,
+  });
+
+  static String get table_name => 'enum_label_types';
+  static String get c_id => 'id';
+  static String get c_colStatus => 'col_status';
+  static String get c_colStatusNullable => 'col_status_nullable';
+  static String get c_colStatusArray => 'col_status_array';
+
+  static List<EnumLabelTypes> converter(List<Map<String, dynamic>> data) {
+    return data.map(EnumLabelTypes.fromJson).toList();
+  }
+
+  static EnumLabelTypes converterSingle(Map<String, dynamic> data) {
+    return EnumLabelTypes.fromJson(data);
+  }
+
+  static Map<String, dynamic> _generateMap({
+    String? id,
+    TASK_STATUS? colStatus,
+    TASK_STATUS? colStatusNullable,
+    List<TASK_STATUS>? colStatusArray,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (colStatus != null) 'col_status': colStatus.value,
+      if (colStatusNullable != null)
+        'col_status_nullable': colStatusNullable.value,
+      if (colStatusArray != null)
+        'col_status_array': colStatusArray.map((e) => e.value).toList(),
+    };
+  }
+
+  static Map<String, dynamic> insert({
+    String? id,
+    required TASK_STATUS colStatus,
+    TASK_STATUS? colStatusNullable,
+    List<TASK_STATUS>? colStatusArray,
+  }) {
+    return _generateMap(
+      id: id,
+      colStatus: colStatus,
+      colStatusNullable: colStatusNullable,
+      colStatusArray: colStatusArray,
+    );
+  }
+
+  static Map<String, dynamic> update({
+    String? id,
+    TASK_STATUS? colStatus,
+    TASK_STATUS? colStatusNullable,
+    List<TASK_STATUS>? colStatusArray,
+  }) {
+    return _generateMap(
+      id: id,
+      colStatus: colStatus,
+      colStatusNullable: colStatusNullable,
+      colStatusArray: colStatusArray,
+    );
+  }
+
+  factory EnumLabelTypes.fromJson(Map<String, dynamic> jsonn) {
+    return EnumLabelTypes(
+      id: jsonn['id'] != null ? jsonn['id'].toString() : '',
+      colStatus: jsonn['col_status'] != null
+          ? TASK_STATUS.fromValue(jsonn['col_status'].toString())
+          : TASK_STATUS.values.first,
+      colStatusNullable: jsonn['col_status_nullable'] != null
+          ? TASK_STATUS.fromValue(jsonn['col_status_nullable'].toString())
+          : null,
+      colStatusArray: jsonn['col_status_array'] != null
+          ? (jsonn['col_status_array'] as List<dynamic>)
+              .map((e) => TASK_STATUS.fromValue(e.toString()))
+              .toList()
+          : null,
+    );
+  }
+
+  static Object New({
+    String? id,
+    TASK_STATUS? colStatus,
+    TASK_STATUS? colStatusNullable,
+    List<TASK_STATUS>? colStatusArray,
+  }) {
+    return {
+      if (id != null) 'id': id,
+      if (colStatus != null) 'col_status': colStatus,
+      if (colStatusNullable != null) 'col_status_nullable': colStatusNullable,
+      if (colStatusArray != null) 'col_status_array': colStatusArray,
+    };
+  }
+
+  Map<String, dynamic> toJson() {
+    return _generateMap(
+      id: id,
+      colStatus: colStatus,
+      colStatusNullable: colStatusNullable,
+      colStatusArray: colStatusArray,
+    );
+  }
+
+  static const _unset = Object();
+  EnumLabelTypes copyWith({
+    Object? id = _unset,
+    Object? colStatus = _unset,
+    Object? colStatusNullable = _unset,
+    Object? colStatusArray = _unset,
+  }) {
+    return EnumLabelTypes(
+      id: id == _unset ? this.id : id as String,
+      colStatus:
+          colStatus == _unset ? this.colStatus : colStatus as TASK_STATUS,
+      colStatusNullable: colStatusNullable == _unset
+          ? this.colStatusNullable
+          : colStatusNullable as TASK_STATUS?,
+      colStatusArray: colStatusArray == _unset
+          ? this.colStatusArray
+          : colStatusArray as List<TASK_STATUS>?,
     );
   }
 }
@@ -1585,8 +1761,7 @@ class Profiles implements SupadartClass<Profiles> {
       if (firstName != null) 'first_name': firstName,
       if (lastName != null) 'last_name': lastName,
       if (userGroups != null)
-        'user_groups':
-            userGroups.map((e) => e.toString().split('.').last).toList(),
+        'user_groups': userGroups.map((e) => e.value).toList(),
     };
   }
 
@@ -1626,10 +1801,10 @@ class Profiles implements SupadartClass<Profiles> {
       lastName:
           jsonn['last_name'] != null ? jsonn['last_name'].toString() : null,
       userGroups: jsonn['user_groups'] != null
-          ? List<USERGROUP>.from(jsonn['user_groups']
-              .map((e) => USERGROUP.values.byName(e.toString()))
-              .toList())
-          : [],
+          ? (jsonn['user_groups'] as List<dynamic>)
+              .map((e) => USERGROUP.fromValue(e.toString()))
+              .toList()
+          : <USERGROUP>[],
     );
   }
 

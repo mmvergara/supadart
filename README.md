@@ -149,7 +149,7 @@ supadart
 
 > API KEY: Use a secret key (`sb_secret_...`) or the legacy `service_role` key. Since April 8, 2026, hosted Supabase projects no longer expose the schema to anon/publishable keys ([changelog](https://supabase.com/changelog/42949-breaking-change-removing-access-to-openapi-spec-via-the-anon-key)). Never ship this key in your app or commit it. Keep it in a gitignored `.env`. Local Supabase stacks still accept the anon/publishable key, and `SUPABASE_ANON_KEY` is still read as a fallback.
 
-> ENUMS: If you have enums, you need to specify them in the config file
+> ENUMS: Enums are read from your database. Only enums used solely in array columns need to be listed in the config file ([details](#working-with-enums))
 
 > JSONB CUSTOM TYPES: If you want to map JSONB columns to custom Dart model types, you need to specify them in the config file
 
@@ -367,36 +367,53 @@ await supabase.books.delete().eq(Books.c_id, 1);
 
 # Working with Enums
 
+Enums are read from your database, so most need no configuration.
+
 **IMPORTANT:**
 
-- You need to specify your enums on supadart.yaml config file
-- Enum `names` are converted to `UPPERCASE` to follow dart enum naming conventions
-- Enum `values` are case-sensitive in postgres, so you need to specify them as they are in the database
-- Optional: We recommend defining the enum values as lowercase to follow dart enum naming conventions
+- PostgREST's schema only lists enum values for non-array columns. An enum used **only** in array columns (e.g. `mood[]`) must be listed in `supadart.yaml`. Until it is, supadart maps it to `String` / `List<String>` and prints a warning with the query to list its values.
+- Enum type `names` are converted to `UPPERCASE` (`mood` → `MOOD`)
+- Each enum keeps its database label in `.value`. Labels that are not valid Dart identifiers get a converted name: `'in-progress'` → `inProgress`, `'2fa'` → `v2fa`, `'default'` → `default_`
+- If `supadart.yaml` and the database disagree on an enum's values, the database wins and supadart warns
 
 Assuming the following schema
 
 ```sql
--- We recommend defining the enum values as lowercase to follow dart enum naming conventions
 CREATE TYPE mood AS ENUM ('happy', 'sad', 'neutral', 'excited', 'angry');
 CREATE TABLE enum_types (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    mood mood NOT NULL
+    mood mood NOT NULL,
+    past_moods mood[] NULL
 );
 ```
 
-In your supadart.yaml config file
+`mood` is found automatically through the `mood` column. If it were only used in `past_moods`, you would list it in your supadart.yaml:
 
 ```yaml
 enums:
   # Case sensitive, define them as they are in the database
+  # Get them with: SELECT unnest(enum_range(NULL::public.mood));
   mood: [happy, sad, neutral, excited, angry]
 ```
 
 ### Generated Enum
 
 ```dart
-enum MOOD { happy, sad, neutral, excited, angry }
+enum MOOD {
+  happy('happy'),
+  sad('sad'),
+  neutral('neutral'),
+  excited('excited'),
+  angry('angry');
+
+  const MOOD(this.value);
+
+  /// The label as stored in the database.
+  final String value;
+
+  static MOOD fromValue(String value) =>
+      values.firstWhere((e) => e.value == value);
+}
 ```
 
 ### Create / Read / Update with Enums
@@ -413,8 +430,8 @@ await supabase.enum_types.insert(EnumTypes.insert(
 await supabase.enum_types
         // Update
         .update(EnumTypes.update(mood: newEnumVal))
-        // Equality ⚠️ you need to do manual ⬇️ enum to string conversion
-        .eq(EnumTypes.c_mood, firstEnumVal.toString().split(".").last);
+        // Filters take the database label
+        .eq(EnumTypes.c_mood, firstEnumVal.value);
 
 // Read
 await supabase.enum_types.select().withConverter(EnumTypes.converter);

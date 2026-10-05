@@ -1,5 +1,7 @@
 import 'package:dotenv/dotenv.dart';
+import 'package:supadart/generators/standalone/enums.dart';
 import 'package:supadart/generators/swagger/column.dart';
+import 'package:supadart/generators/swagger/swagger.dart';
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
@@ -62,13 +64,78 @@ void main() {
   });
 
   group('enums', () {
-    test('declares a Dart enum per configured Postgres enum', () {
+    DatabaseSwagger parse(Map<String, List<String>> enums) =>
+        DatabaseSwagger.fromJson(
+            readJsonFixture(swaggerFixturePath), enums, false);
+
+    test('reads enum values from the schema', () {
       final code = generateWith()['generated_classes.dart']!;
-      expect(
-          code, contains('enum MOOD { happy, sad, neutral, excited, angry }'));
-      expect(code, contains('enum USERGROUP { USERS, ADMIN, MODERATOR }'));
+      expect(code, contains('enum MOOD {'));
+      expect(code, contains("happy('happy'),"));
+      expect(code, contains("angry('angry');"));
       expect(code, contains('final MOOD colMood;'));
+      expect(code, contains('final List<MOOD> colMoodArray;'));
+    });
+
+    test('takes enums used only in arrays from the config', () {
+      final code = generateWith()['generated_classes.dart']!;
+      expect(code, contains("USERS('USERS'),"));
       expect(code, contains('final List<USERGROUP> userGroups;'));
+      expect(parse(testEnums).warnings, isEmpty);
+    });
+
+    test('accepts config keys with a public. prefix', () {
+      final swagger = parse({
+        'public.usergroup': ['USERS', 'ADMIN', 'MODERATOR']
+      });
+      expect(swagger.enums.keys, ['mood', 'task_status', 'usergroup']);
+      expect(swagger.warnings, isEmpty);
+    });
+
+    test('maps unconfigured enum arrays to List<String> with a warning', () {
+      final code = generateWith(enums: {})['generated_classes.dart']!;
+      expect(code, isNot(contains('enum USERGROUP')));
+      expect(code, contains('final List<String> userGroups;'));
+      expect(
+          code,
+          contains(
+              "'user_groups': userGroups.map((e) => e.toString()).toList()"));
+
+      final warnings = parse({}).warnings;
+      expect(warnings, hasLength(1));
+      expect(warnings.single, contains('usergroup'));
+      expect(warnings.single, contains('profiles.user_groups'));
+      expect(warnings.single,
+          contains('SELECT unnest(enum_range(NULL::public."usergroup"))'));
+    });
+
+    test('prefers schema values over the config, with a warning', () {
+      final swagger = parse({
+        ...testEnums,
+        'mood': ['happy', 'sad'],
+      });
+      expect(swagger.enums['mood'],
+          ['happy', 'sad', 'neutral', 'excited', 'angry']);
+      expect(swagger.warnings, hasLength(1));
+      expect(swagger.warnings.single, contains('mood'));
+    });
+
+    test('names constants for labels that are not Dart identifiers', () {
+      final code = generateWith()['generated_classes.dart']!;
+      expect(code, contains("inProgress('in-progress'),"));
+      expect(code, contains("onHold('on hold'),"));
+      expect(code, contains("Done('Done'),"));
+      expect(code, contains("default_('default'),"));
+      expect(code, contains("v2fa('2fa'),"));
+      expect(code, contains("value_('value'),"));
+      expect(code, contains(r"itS1('it\'s \$1');"));
+    });
+
+    test('keeps constant names unique', () {
+      expect(enumConstantNames(['in-progress', 'inProgress', 'in progress']),
+          ['inProgress', 'inProgress2', 'inProgress3']);
+      expect(enumConstantNames(['_hidden', '!!', 'index']),
+          ['hidden', 'value1', 'index_']);
     });
   });
 

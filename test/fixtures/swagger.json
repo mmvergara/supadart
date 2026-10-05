@@ -334,6 +334,140 @@
         ]
       }
     },
+    "/enum_label_types": {
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.enum_label_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.enum_label_types.col_status"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.enum_label_types.col_status_nullable"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.enum_label_types.col_status_array"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/order"
+          },
+          {
+            "$ref": "#/parameters/range"
+          },
+          {
+            "$ref": "#/parameters/rangeUnit"
+          },
+          {
+            "$ref": "#/parameters/offset"
+          },
+          {
+            "$ref": "#/parameters/limit"
+          },
+          {
+            "$ref": "#/parameters/preferCount"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/enum_label_types"
+              },
+              "type": "array"
+            }
+          },
+          "206": {
+            "description": "Partial Content"
+          }
+        },
+        "tags": [
+          "enum_label_types"
+        ]
+      },
+      "post": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/body.enum_label_types"
+          },
+          {
+            "$ref": "#/parameters/select"
+          },
+          {
+            "$ref": "#/parameters/preferPost"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "tags": [
+          "enum_label_types"
+        ]
+      },
+      "delete": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.enum_label_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.enum_label_types.col_status"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.enum_label_types.col_status_nullable"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.enum_label_types.col_status_array"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "enum_label_types"
+        ]
+      },
+      "patch": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/rowFilter.enum_label_types.id"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.enum_label_types.col_status"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.enum_label_types.col_status_nullable"
+          },
+          {
+            "$ref": "#/parameters/rowFilter.enum_label_types.col_status_array"
+          },
+          {
+            "$ref": "#/parameters/body.enum_label_types"
+          },
+          {
+            "$ref": "#/parameters/preferReturn"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": [
+          "enum_label_types"
+        ]
+      }
+    },
     "/misc_types": {
       "get": {
         "parameters": [
@@ -2227,6 +2361,54 @@
       },
       "type": "object"
     },
+    "enum_label_types": {
+      "required": [
+        "id",
+        "col_status"
+      ],
+      "properties": {
+        "id": {
+          "default": "gen_random_uuid()",
+          "description": "Note:\nThis is a Primary Key.<pk/>",
+          "format": "uuid",
+          "type": "string"
+        },
+        "col_status": {
+          "enum": [
+            "in-progress",
+            "on hold",
+            "Done",
+            "default",
+            "2fa",
+            "value",
+            "it's $1"
+          ],
+          "format": "public.task_status",
+          "type": "string"
+        },
+        "col_status_nullable": {
+          "enum": [
+            "in-progress",
+            "on hold",
+            "Done",
+            "default",
+            "2fa",
+            "value",
+            "it's $1"
+          ],
+          "format": "public.task_status",
+          "type": "string"
+        },
+        "col_status_array": {
+          "format": "public.task_status[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
     "misc_types": {
       "required": [
         "id"
@@ -2998,6 +3180,39 @@
     },
     "rowFilter.enum_types.col_mood_array": {
       "name": "col_mood_array",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "body.enum_label_types": {
+      "name": "enum_label_types",
+      "description": "enum_label_types",
+      "required": false,
+      "in": "body",
+      "schema": {
+        "$ref": "#/definitions/enum_label_types"
+      }
+    },
+    "rowFilter.enum_label_types.id": {
+      "name": "id",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.enum_label_types.col_status": {
+      "name": "col_status",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.enum_label_types.col_status_nullable": {
+      "name": "col_status_nullable",
+      "required": false,
+      "in": "query",
+      "type": "string"
+    },
+    "rowFilter.enum_label_types.col_status_array": {
+      "name": "col_status_array",
       "required": false,
       "in": "query",
       "type": "string"
