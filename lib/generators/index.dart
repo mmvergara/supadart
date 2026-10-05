@@ -4,6 +4,7 @@ import 'class/class.dart';
 import 'standalone/client_extension.dart';
 import 'standalone/duration_fromstring.dart';
 import 'standalone/enums.dart';
+import 'standalone/geometry_fromjson.dart';
 import 'standalone/exports.dart';
 import 'standalone/supadart_abstract_class.dart';
 import 'storage/storage.dart';
@@ -40,6 +41,7 @@ List<GeneratedFile> supadartRun(
   bool needsIntl = false;
   bool needsDartConvert = false;
   bool needsDurationFromString = false;
+  bool needsGeometryFromJson = false;
   for (var dartClass in dartClasses) {
     final classCode = dartClass.classCode;
     if (classCode.contains("DateFormat")) {
@@ -53,8 +55,17 @@ List<GeneratedFile> supadartRun(
     if (classCode.contains("Duration")) {
       needsDurationFromString = true;
     }
+    if (classCode.contains("GeometryFromJson")) {
+      needsGeometryFromJson = true;
+      needsDartConvert = true;
+    }
     // Exit early if all conditions are met
-    if (needsIntl && needsDartConvert && needsDurationFromString) break;
+    if (needsIntl &&
+        needsDartConvert &&
+        needsDurationFromString &&
+        needsGeometryFromJson) {
+      break;
+    }
   }
 
   final supadartGenerator = SupadartGenerator(
@@ -67,6 +78,7 @@ List<GeneratedFile> supadartRun(
     needsIntl: needsIntl,
     needsDartConvert: needsDartConvert,
     needsDurationFromString: needsDurationFromString,
+    needsGeometryFromJson: needsGeometryFromJson,
     mappings: mappings,
     isPostGIS: isPostGIS,
     jsonbImports: jsonbImports,
@@ -101,6 +113,7 @@ class SupadartGenerator {
 
   // Function Imports
   final bool needsDurationFromString;
+  final bool needsGeometryFromJson;
 
   final YamlMap? mappings;
 
@@ -117,6 +130,7 @@ class SupadartGenerator {
     required this.needsIntl,
     required this.needsDartConvert,
     required this.needsDurationFromString,
+    required this.needsGeometryFromJson,
     required this.mappings,
     required this.isPostGIS,
     required this.jsonbImports,
@@ -206,6 +220,7 @@ import 'supadart_header.dart';
       enums,
       "// Utils",
       needsDurationFromString ? durationFromStringExtension : "",
+      needsGeometryFromJson ? geometryFromJsonExtension : "",
     ];
     return supadartImports.join("\n");
   }

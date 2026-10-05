@@ -204,13 +204,12 @@ String decodeFromJson(Column columnDetails, bool jsonbToDynamic) {
       case final String s when s.contains('geometry') && s.endsWith('[]'):
       case final String s when s.contains('geography') && s.endsWith('[]'):
         jsonDecode =
-            '($jsonValue as List<String>).map((v) => GeometryBuilder.decodeHex($jsonValue.toString(), format: WKB.geometryExtended)).toList()';
+            '($jsonValue as List<dynamic>).map(GeometryFromJson.fromJson).toList()';
         break;
 
       case final String s when s.contains('geometry'):
       case final String s when s.contains('geography'):
-        jsonDecode =
-            'GeometryBuilder.decodeHex($jsonValue.toString(), format: WKB.geometryExtended)';
+        jsonDecode = 'GeometryFromJson.fromJson($jsonValue)';
         break;
 
       // NOT YET SUPPORTED TYPES ARE ENCODED TO STRINGS BY DEFAULT
